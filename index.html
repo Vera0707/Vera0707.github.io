@@ -163,6 +163,68 @@
       <div class="body-wrap">
         
   
+    <article id="post-informationScroll" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/08/informationScroll/">滚动信息条的两种展示方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>无间歇 直接滚动</li>
+<li>间歇式滚动</li>
+</ul>
+<p><strong>HTML</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"recoder_con"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"recoder_ul1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"recoder_ul2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>CSS </strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">.recoder-con&#123;</div><div class="line">    display: inline-block;</div><div class="line">    width: 584px;     //指定宽度</div><div class="line">    height: 280px;    //指定高度</div><div class="line">    overflow: scroll;</div><div class="line">    overflow-x: hidden;</div><div class="line">    overflow-y: hidden;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>无间歇JS </strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span>  <span class="title">prizeScroll</span>(<span class="params">listNum</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> speed = <span class="number">65</span>,</div><div class="line">                wap = <span class="built_in">document</span>.getElementById(<span class="string">"recoder_con"</span>),</div><div class="line">                ul1 = <span class="built_in">document</span>.getElementById(<span class="string">"recoder_ul1"</span>),</div><div class="line">                ul2 = <span class="built_in">document</span>.getElementById(<span class="string">"recoder_ul2"</span>);</div><div class="line"></div><div class="line">        ul2.innerHTML = ul1.innerHTML;</div><div class="line">        <span class="keyword">var</span> leftHeight;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (listNum &gt; <span class="number">4</span>) &#123;</div><div class="line">            leftHeight = <span class="number">0</span>;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (listNum == <span class="number">4</span>) &#123;</div><div class="line">            leftHeight = <span class="number">33</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">Marquee2</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span> (ul2.offsetTop - wap.scrollTop &lt;= leftHeight) &#123;</div><div class="line">                wap.scrollTop -= ul1.offsetHeight;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                wap.scrollTop++;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">var</span> MyMar2 = setInterval(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            Marquee2();</div><div class="line">        &#125;, speed);</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    prizeScroll(<span class="number">4</span>)</div></pre></td></tr></table></figure></p>
+<p><strong>有间歇JS</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> wap = $(<span class="string">'#recoder_con'</span>),</div><div class="line">            ul1Html = $(<span class="string">'#recoder_ul1'</span>).html(),</div><div class="line">            ul2 = $(<span class="string">'#recoder_ul2'</span>);</div><div class="line"></div><div class="line">    <span class="keyword">var</span> speed = <span class="number">50</span>,</div><div class="line">            listNum = <span class="number">4</span>,</div><div class="line">            delay = <span class="number">1000</span>,</div><div class="line">            liHeight = <span class="number">21</span>,</div><div class="line">            time,</div><div class="line">            scrollTop = <span class="number">0</span>;</div><div class="line"></div><div class="line">            ul2.html(ul1Html);</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">startScroll</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        time = setInterval(<span class="string">"scrollUp()"</span>, speed);</div><div class="line">        wap.scrollTop(scrollTop++);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">scrollUp</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(scrollTop % liHeight == <span class="number">0</span>)&#123;</div><div class="line">            clearInterval(time);</div><div class="line">            setTimeout(startScroll,delay);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            wap.scrollTop(scrollTop++);</div><div class="line">            <span class="keyword">if</span>(scrollTop &gt;= (listNum <span class="number">-1</span>) * liHeight)&#123;</div><div class="line">                scrollTop = <span class="number">0</span>;</div><div class="line">                wap.scrollTop(scrollTop);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    setTimeout(<span class="string">'startScroll()'</span>,delay);</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/02/08/informationScroll/" class="archive-article-date">
+  	<time datetime="2017-02-08T03:46:45.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-08</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/滚动信息条间歇性滚动/">滚动信息条间歇性滚动</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-vi" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -808,7 +870,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/linux命令/" style="font-size: 10px;">linux命令</a> <a href="/tags/vi命令/" style="font-size: 10px;">vi命令</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/原创/" style="font-size: 10px;">原创</a>
+    				<a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/linux命令/" style="font-size: 10px;">linux命令</a> <a href="/tags/vi命令/" style="font-size: 10px;">vi命令</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/原创/" style="font-size: 10px;">原创</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a>
     			</div>
     	</section>
     
