@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://xieyuxuan.cc">
+  <title>看完就懂的HTTPS | 谢雨轩的博客 | Vera Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="译注：本文作者酷壳/陈皓&amp;emsp;&amp;emsp;我们先不了聊HTTP，HTTPS，我们先从一个聊天软件说起，我们要实现A能发一个hello消息给B：
+
+&amp;emsp;&amp;emsp;如果我们要实现这个聊天软件，本文只考虑安全性问题，要实现
+
+A发给B的hello消息包，即使被中间人拦截到了，也无法得知消息的内容
+
+如何做到真正的安全？
+&amp;emsp;&amp;emsp;这个问题，很多人马上就想到了各种加密算法，什">
+<meta property="og:type" content="article">
+<meta property="og:title" content="看完就懂的HTTPS">
+<meta property="og:url" content="http://xieyuxuan.cc/2017/03/07/https/index.html">
+<meta property="og:site_name" content="谢雨轩的博客 | Vera Blog">
+<meta property="og:description" content="译注：本文作者酷壳/陈皓&amp;emsp;&amp;emsp;我们先不了聊HTTP，HTTPS，我们先从一个聊天软件说起，我们要实现A能发一个hello消息给B：
+
+&amp;emsp;&amp;emsp;如果我们要实现这个聊天软件，本文只考虑安全性问题，要实现
+
+A发给B的hello消息包，即使被中间人拦截到了，也无法得知消息的内容
+
+如何做到真正的安全？
+&amp;emsp;&amp;emsp;这个问题，很多人马上就想到了各种加密算法，什">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-b93c4670333eb8d9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-9d943956300560f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-528782117a69a5dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-d38dbcf3633a1cc9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-88ce3bd16ac6006d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-ae678fa7d569dac9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-8f0d8228af2f6480.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-f3dd4b7370df950e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-3b7c21b3525c0e64.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-66e00dc26cea3112.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-5bf2c898914e749f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-b2bd3805bc25fd2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-ac2b0d452a4e8b05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-60fd73c3f79e8641.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-4dbf41053fb6fb25.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-6eb448d41e6bc2fb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-323411d0bb2d7232.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-03-07T04:03:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="看完就懂的HTTPS">
+<meta name="twitter:description" content="译注：本文作者酷壳/陈皓&amp;emsp;&amp;emsp;我们先不了聊HTTP，HTTPS，我们先从一个聊天软件说起，我们要实现A能发一个hello消息给B：
+
+&amp;emsp;&amp;emsp;如果我们要实现这个聊天软件，本文只考虑安全性问题，要实现
+
+A发给B的hello消息包，即使被中间人拦截到了，也无法得知消息的内容
+
+如何做到真正的安全？
+&amp;emsp;&amp;emsp;这个问题，很多人马上就想到了各种加密算法，什">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/292372-b93c4670333eb8d9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternative" href="/atom.xml" title="谢雨轩的博客 | Vera Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+
+
+  <!-- Piwik -->
+  <script type="text/javascript">
+    var _paq = _paq || [];
+    // tracker methods like "setCustomDimension" should be called before "trackPageView"
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//piwik.mritd.me/";
+      _paq.push(['setTrackerUrl', u+'piwik.php']);
+      _paq.push(['setSiteId', '3']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Piwik Code -->
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/images/userimg.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">谢雨轩</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Web前端技术宅升级打倒小怪兽</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/web">移动端直通车</a></li>
+	        
+				<li><a href="/css">炫酷CSS3</a></li>
+	        
+				<li><a href="/script">神奇JS</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">我的项目</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/Vera0707/huanhuashuixie" title="github">github</a>
+		        
+					<a class="mail" target="_blank" href="/lishuxia@gozap.com" title="mail">mail</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">谢雨轩</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/images/userimg.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">谢雨轩</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Web前端技术宅升级打倒小怪兽</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/web">移动端直通车</a></li>
+		        
+					<li><a href="/css">炫酷CSS3</a></li>
+		        
+					<li><a href="/script">神奇JS</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/Vera0707/huanhuashuixie" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="/lishuxia@gozap.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-https" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      看完就懂的HTTPS
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h6 id="译注：本文作者酷壳-陈皓"><a href="#译注：本文作者酷壳-陈皓" class="headerlink" title="译注：本文作者酷壳/陈皓"></a>译注：本文作者酷壳/陈皓</h6><p>&emsp;&emsp;我们先不了聊HTTP，HTTPS，我们先从一个聊天软件说起，我们要实现A能发一个hello消息给B：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/292372-b93c4670333eb8d9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>&emsp;&emsp;如果我们要实现这个聊天软件，本文只考虑安全性问题，要实现</p>
+<blockquote>
+<p>A发给B的hello消息包，即使被中间人拦截到了，也无法得知消息的内容</p>
+</blockquote>
+<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">如何做到真正的安全？</abbr></p>
+<p>&emsp;&emsp;这个问题，很多人马上就想到了各种加密算法，什么对称加密、非对称加密、DES、RSA、XX、噼里啪啦~<br>&emsp;&emsp;而我想说，加密算法只是解决方案，我们首先要做的是理解我们的问题域——什么是安全？<br>&emsp;&emsp;我个人的理解是：</p>
+<blockquote>
+<p>A与B通信的内容，有且只有A和B有能力看到通信的真正内容</p>
+</blockquote>
+<p>&emsp;&emsp;好，问题域已经定义好了（现实中当然不止这一种定义）。对于解决方案，很容易就想到了对消息进行加密。<br>&emsp;&emsp;题外话，但是只有这一种方法吗？我看未必，说不定在将来会出现一种物质打破当前世界的通信假设，实现真正意义上的保密。<br>&emsp;&emsp;对于A与B这样的简单通信模型，我们很容易做出选择：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/292372-9d943956300560f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>&emsp;&emsp;这就是对称加密算法，其中图中的密钥S同时扮演加密和解密的角色。具体细节不是本文范畴。<br>&emsp;&emsp;只要这个密钥S不公开给第三者，同时密钥S足够安全，我们就解决了我们一开始所定问题域了。因为世界上有且只有A与B知道如何加密和解密他们之间的消息。<br>&emsp;&emsp;但是，在WWW环境下，我们的Web服务器的通信模型没有这么简单：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/292372-528782117a69a5dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>&emsp;&emsp;如果服务器端对所有的客户端通信都使用同样的对称加密算法，无异于没有加密。那怎么办呢？即能使用对称加密算法，又不公开密钥？请读者思考21秒钟。</p>
+<p>&emsp;&emsp;答案是：Web服务器与每个客户端使用不同的对称加密算法：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/292372-d38dbcf3633a1cc9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">如何确定对称加密算法</abbr></p>
+<p>&emsp;&emsp;慢着，另一个问题来了，我们的服务器端怎么告诉客户端该使用哪种对称加密算法？<br>&emsp;&emsp;当然是通过协商。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/292372-88ce3bd16ac6006d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>&emsp;&emsp;但是，你协商的过程是没有加密的，还是会被中间人拦截。那我们再对这个协商过程进行对称加密就好了，那你对协商过程加密的加密还是没有加密，怎么办？再加密不就好了……好吧，进行鸡生蛋蛋生鸡的问题了。</p>
+<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">如何对协商过程进行加密</abbr></p>
+<p>&emsp;&emsp;新问题来了，如何对协商过程进行加密？密码学领域中，有一种称为“非对称加密”的加密算法，特点是私钥加密后的密文，只要是公钥，都可以解密，但是公钥加密后的密文，只有私钥可以解密。私钥只有一个人有，而公钥可以发给所有的人。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/292372-ae678fa7d569dac9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>&emsp;&emsp;虽然服务器端向A、B……的方向还是不安全的，但是至少A、B向服务器端方向是安全的。<br>&emsp;&emsp;好了，如何协商加密算法的问题，我们解决了：使用非对称加密算法进行对称加密算法协商过程。<br>&emsp;&emsp;这下，你明白为什么HTTPS同时需要对称加密算法和非对称加密算法了吧？</p>
+<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">协商什么加密算法</abbr></p>
+<p>&emsp;&emsp;要达到Web服务器针对每个客户端使用不同的对称加密算法，同时，我们也不能让第三者知道这个对称加密算法是什么，怎么办？<br>&emsp;&emsp;使用随机数，就是使用随机数来生成对称加密算法。这样就可以做到服务器和客户端每次交互都是新的加密算法、只有在交互的那一该才确定加密算法。<br>&emsp;&emsp;这下，你明白为什么HTTPS协议握手阶段会有这么多的随机数了吧。</p>
+<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">如何得到公钥？</abbr></p>
+<p>&emsp;&emsp;细心的人可能已经注意到了如果使用非对称加密算法，我们的客户端A，B需要一开始就持有公钥，要不没法开展加密行为啊。<br>&emsp;&emsp;这下，我们又遇到新问题了，如何让A、B客户端安全地得到公钥？<br>&emsp;&emsp;我能想到的方案只有这些：</p>
+<ul>
+<li>方案1. 服务器端将公钥发送给每一个客户端</li>
+<li>方案2. 服务器端将公钥放到一个远程服务器，客户端可以请求得到</li>
+</ul>
+<p>&emsp;&emsp;我们选择方案1，因为方案2又多了一次请求，还要另外处理公钥的放置问题。<br>&emsp;&emsp;公钥被调包了怎么办？又是一个鸡生蛋蛋生鸡问题？<br>&emsp;&emsp;但是方案1有个问题：如果服务器端发送公钥给客户端时，被中间人调包了，怎么办？</p>
+<p>&emsp;&emsp;我画了张图方便理解：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/292372-8f0d8228af2f6480.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>&emsp;&emsp;显然，让每个客户端的每个浏览器默认保存所有网站的公钥是不现实的。</p>
+<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">使用第三方机构的公钥解决鸡生蛋蛋生鸡问题</abbr></p>
+<p>&emsp;&emsp;公钥被调包的问题出现，是因为我们的客户端无法分辨返回公钥的人到底是中间人，还是真的服务器。这其实就是密码学中提的身份验证问题。<br>&emsp;&emsp;如果让你来解决，你怎么解决？如果你了解过HTTPS，会知道使用数字证书来解决。但是你想过证书的本质是什么么？请放下你对HTTPS已有的知识，自己尝试找到解决方案。<br>&emsp;&emsp;我是这样解决的。既然服务器需要将公钥传给客户端，这个过程本身是不安全，那么我们为什么不对这个过程本身再加密一次？可是，你是使用对称加密，还是非对称加密？这下好了，我感觉又进了鸡生蛋蛋生鸡问题了。<br>&emsp;&emsp;问题的难点是如果我们选择直接将公钥传递给客户端的方案，我们始终无法解决公钥传递被中间人调包的问题。<br>&emsp;&emsp;所以，我们不能直接将服务器的公钥传递给客户端，而是第三方机构使用它的私钥对我们的公钥进行加密后，再传给客户端。客户端再使用第三方机构的公钥进行解密。<br>&emsp;&emsp;下图就是我们设计的第一版“数字证书”，证书中只有服务器交给第三方机构的公钥，而且这个公钥被第三方机构的私钥加密了：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/292372-f3dd4b7370df950e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>&emsp;&emsp;如果能解密，就说明这个公钥没有被中间人调包。因为如果中间人使用自己的私钥加密后的东西传给客户端，客户端是无法使用第三方的公钥进行解密的。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/292372-3b7c21b3525c0e64.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>&emsp;&emsp;话到此，我以为解决问题了。但是现实中HTTPS，还有一个数字签名的概念，我没法理解它的设计理由。<br>&emsp;&emsp;原来，我漏掉了一个场景：第三方机构不可能只给你一家公司制作证书，它也可能会给中间人这样有坏心思的公司发放证书。这样的，中间人就有机会对你的证书进行调包，客户端在这种情况下是无法分辨出是接收的是你的证书，还是中间人的。因为不论中间人，还是你的证书，都能使用第三方机构的公钥进行解密。像下面这样：<br>&emsp;&emsp;第三方机构向多家公司颁发证书的情况：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/292372-66e00dc26cea3112.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>&emsp;&emsp;客户端能解密同一家第三机构颁发的所有证书：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/292372-5bf2c898914e749f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>&emsp;&emsp;最终导致其它持有同一家第三方机构证书的中间人可以进行调包：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/292372-b2bd3805bc25fd2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">数字签名，解决同一机构颁发的不同证书被篡改问题</abbr></p>
+<p>&emsp;&emsp;要解决这个问题，我们首先要想清楚一个问题，辨别同一机构下不同证书的这个职责，我们应该放在哪？<br>&emsp;&emsp;只能放到客户端了。意思是，客户端在拿到证书后，自己就有能力分辨证书是否被篡改了。如何才能有这个能力呢？<br>&emsp;&emsp;我们从现实中找灵感。比如你是HR，你手上拿到候选人的学历证书，证书上写了持证人，颁发机构，颁发时间等等，同时证书上，还写有一个最重要的：证书编号！我们怎么鉴别这张证书是的真伪呢？只要拿着这个证书编号上相关机构去查，如果证书上的持证人与现实的这个候选人一致，同时证书编号也能对应上，那么就说明这个证书是真实的。<br>&emsp;&emsp;我们的客户端能不能采用这个机制呢？像这样：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/292372-ac2b0d452a4e8b05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>&emsp;&emsp;可是，这个“第三方机构”到底是在哪呢？是一个远端服务？不可能吧？如果是个远端服务，整个交互都会慢了。所以，这个第三方机构的验证功能只能放在客户端的本地了。</p>
+<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">客户端本地怎么验证证书呢？</abbr></p>
+<p>&emsp;&emsp;客户端本地怎么验证证书呢？答案是证书本身就已经告诉客户端怎么验证证书的真伪。<br>&emsp;&emsp;也就是证书上写着如何根据证书的内容生成证书编号。客户端拿到证书后根据证书上的方法自己生成一个证书编号，如果生成的证书编号与证书上的证书编号相同，那么说明这个证书是真实的。<br>&emsp;&emsp;同时，为避免证书编号本身又被调包，所以使用第三方的私钥进行加密。<br>&emsp;&emsp;这地方有些抽象，我们来个图帮助理解：<br>&emsp;&emsp;证书的制作如图所示。证书中的“编号生成方法MD5”就是告诉客户端：你使用MD5对证书的内容求值就可以得到一个证书编号。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/292372-60fd73c3f79e8641.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>&emsp;&emsp;当客户端拿到证书后，开始对证书中的内容进行验证，如果客户端计算出来的证书编号与证书中的证书编号相同，则验证通过：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/292372-4dbf41053fb6fb25.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>&emsp;&emsp;但是第三方机构的公钥怎么跑到了客户端的机器中呢？世界上这么多机器。<br>&emsp;&emsp;其实呢，现实中，浏览器和操作系统都会维护一个权威的第三方机构列表（包括它们的公钥）。因为客户端接收到的证书中会写有颁发机构，客户端就根据这个颁发机构的值在本地找相应的公钥。</p>
+<blockquote>
+<p>题外话：如果浏览器和操作系统这道防线被破了，就没办法。想想当年自己装过的非常规XP系统，都害怕。</p>
+</blockquote>
+<p>&emsp;&emsp;说到这里，想必大家已经知道上文所说的，证书就是HTTPS中数字证书，证书编号就是数字签名，而第三方机构就是指数字证书签发机构（CA）。</p>
+<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">CA如何颁发数字证书给服务器端的？</abbr></p>
+<p>&emsp;&emsp;当我听到这个问题时，我误以为，我们的SERVER需要发网络请求到CA部门的服务器来拿这个证书。😭 到底是我理解能力问题，还是。。<br>&emsp;&emsp;其实，问题应该是CA如何颁发给我们的网站管理员，而我们的管理员又如何将这个数字证书放到我们的服务器上。</p>
+<p>&emsp;&emsp;我们如何向CA申请呢？每个CA机构都大同小异，我在网上找了一个：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/292372-6eb448d41e6bc2fb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>&emsp;&emsp;拿到证书后，我们就可以将证书配置到自己的服务器上了。那么如何配置？这是具体细节了，留给大家google了。</p>
+<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">也许我们需要整理一下思路</abbr></p>
+<p>&emsp;&emsp;我们通过推算的方式尝试还原HTTPS的设计过程。这样，我们也就明白了为什么HTTPS比HTTP多那么多次的交互，为什么HTTPS的性能会差，以及找到HTTPS的性能优化点。<br>&emsp;&emsp;而上面一大堆工作都是为了让客户端与服务器端安全地协商出一个对称加密算法。这就是HTTPS中的SSL/TLS协议主要干的活。剩下的就是通信时双方使用这个对称加密算法进行加密解密。<br>&emsp;&emsp;以下是一张HTTPS协议的真实交互图（从网上copy的，忘了从哪了，如果侵权麻烦告知）：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/292372-323411d0bb2d7232.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">能不能用一句话总结HTTPS？</abbr></p>
+<p>&emsp;&emsp;答案是不能，因为HTTPS本身实在太复杂。但是我还是尝试使用一段话来总结HTTPS:<br>&emsp;&emsp;HTTPS要使客户端与服务器端的通信过程得到安全保证，必须使用的对称加密算法，但是协商对称加密算法的过程，需要使用非对称加密算法来保证安全，然而直接使用非对称加密的过程本身也不安全，会有中间人篡改公钥的可能性，所以客户端与服务器不直接使用公钥，而是使用数字证书签发机构颁发的证书来保证非对称加密过程本身的安全。这样通过这些机制协商出一个对称加密算法，就此双方使用该算法进行加密解密。从而解决了客户端与服务器端之间的通信安全问题。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/03/07/https/" class="archive-article-date">
+  	<time datetime="2017-03-07T04:03:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-07</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/理解https/">理解https</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2017/02/20/webDevelopment/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">技术人员的发展之路</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="https" data-title="看完就懂的HTTPS" data-url="http://xieyuxuan.cc/2017/03/07/https/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"xieyuxuan"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 谢雨轩
+    	</div>
+      	<div class="footer-right">虽然生的丑 毕竟想的美</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: true,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/linux命令/" style="font-size: 10px;">linux命令</a> <a href="/tags/vi命令/" style="font-size: 10px;">vi命令</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/原创/" style="font-size: 10px;">原创</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/Vera0707/huanhuashuixie/tree/master/framework">流行框架练习</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">一枚深水前端&lt;br/&gt;&lt;br/&gt;大神带带我&lt;br/&gt;小白我要升级打倒小怪兽</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
