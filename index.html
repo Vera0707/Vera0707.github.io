@@ -163,6 +163,74 @@
       <div class="body-wrap">
         
   
+    <article id="post-imagesLoad" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/23/imagesLoad/">判断单、多张图片加载完成</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;在实际的运用中有这样一种场景，某资源加载完成后再执行某个操作，例如在做导出时，后端通过打开模板页生成PDF，并返回下载地址。这时前后端通常需要约定一个flag，用以标识模板准备就绪，可以生成PDF了。</p>
+<p>&emsp;&emsp;试想，如果模板中有图片，此时如何判断图片是否加载完成？</p>
+<p>&emsp;&emsp;在此之前来了解一下jquery的ready与window.onload的区别，ready只是dom结构加载完毕，便视为加载完成。(此时图片没有加载完毕)，onload是指dom的生成和资源完全加载（比如flash、图片）出来后才执行。接下来回到正题，先从单张图片说起。</p>
+<p>&emsp;&emsp;（1）单张图片（图片在文档中）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">id</span>=<span class="string">'xiu'</span> <span class="attr">src</span>=<span class="string">"http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg"</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//jquery</span></div><div class="line">    $(<span class="string">'#xiu'</span>).load(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="comment">// 加载完成</span></div><div class="line">    &#125;);</div><div class="line"></div><div class="line">   <span class="comment">//原生  onload</span></div><div class="line">    <span class="keyword">var</span> xiu = <span class="built_in">document</span>.getElementById(<span class="string">'xiu'</span>)</div><div class="line">    xiu.onload = xiu.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="keyword">if</span>(!<span class="keyword">this</span>.readyState||<span class="keyword">this</span>.readyState==<span class="string">'loaded'</span>||<span class="keyword">this</span>.readyState==<span class="string">'complete'</span>)&#123;</div><div class="line">           <span class="comment">// 加载完成</span></div><div class="line">       &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>&emsp;&emsp;注：<br>&emsp;&emsp;1、IE8及以下版本不支持onload事件，但支持onreadystatechange事件；<br>&emsp;&emsp;2、readyState是onreadystatechange事件的一个状态，值为loaded或complete的时候，表示已经加载完毕。<br>&emsp;&emsp;3、以下内容省略兼容</p>
+<p>&emsp;&emsp;（2）单张图片（图片动态生成）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xiu = <span class="keyword">new</span> Image()</div><div class="line"> xiu.src = <span class="string">'http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg'</span></div><div class="line"> xiu.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">// 加载完成</span></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>&emsp;&emsp;（3）单张图片（结合ES6 Promise）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</div><div class="line">    <span class="keyword">let</span> xiu = <span class="keyword">new</span> Image()</div><div class="line">    xiu.src = <span class="string">'http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg'</span></div><div class="line">    xiu.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="comment">// 加载完成</span></div><div class="line">       resolve(xiu)</div><div class="line">    &#125;</div><div class="line"> &#125;).then(<span class="function">(<span class="params">xiu</span>)=&gt;</span>&#123;</div><div class="line"> <span class="comment">//code</span></div><div class="line"> &#125;)</div></pre></td></tr></table></figure>
+<p>&emsp;&emsp;（4）多张图片</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> img = [],</div><div class="line">    flag = <span class="number">0</span>,</div><div class="line">    mulitImg = [</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/03/IMG_0119.jpg'</span>,</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/01/1.jpg'</span>,</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/11/jquery.jpg'</span>,</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/10/maid.jpg'</span></div><div class="line"> ];</div><div class="line"> <span class="keyword">var</span> imgTotal = mulitImg.length;</div><div class="line"> <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; imgTotal ; i++)&#123;</div><div class="line">    img[i] = <span class="keyword">new</span> Image()</div><div class="line">    img[i].src = mulitImg[i]</div><div class="line">    img[i].onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="comment">//第i张图片加载完成</span></div><div class="line">       flag++</div><div class="line">       <span class="keyword">if</span>( flag == imgTotal )&#123;</div><div class="line">          <span class="comment">//全部加载完成</span></div><div class="line">       &#125;</div><div class="line">    &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>&emsp;&emsp;（5）多张图片（结合ES6 Promise.all()）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> mulitImg = [</div><div class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/03/IMG_0119.jpg'</span>,</div><div class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/01/1.jpg'</span>,</div><div class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/11/jquery.jpg'</span>,</div><div class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/10/maid.jpg'</span></div><div class="line"> ];</div><div class="line"> <span class="keyword">let</span> promiseAll = [], img = [], imgTotal = mulitImg.length;</div><div class="line"> <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span> ; i &lt; imgTotal ; i++)&#123;</div><div class="line">     promiseAll[i] = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</div><div class="line">         img[i] = <span class="keyword">new</span> Image()</div><div class="line">         img[i].src = mulitImg[i]</div><div class="line">         img[i].onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">              <span class="comment">//第i张加载完成</span></div><div class="line">              resolve(img[i])</div><div class="line">         &#125;</div><div class="line">     &#125;)</div><div class="line"> &#125;</div><div class="line"> <span class="built_in">Promise</span>.all(promiseAll).then(<span class="function">(<span class="params">img</span>)=&gt;</span>&#123;</div><div class="line">     <span class="comment">//全部加载完成</span></div><div class="line"> &#125;)</div></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/05/23/imagesLoad/" class="archive-article-date">
+  	<time datetime="2017-05-23T03:34:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-05-23</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/图片加载/">图片加载</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/图片加载完成事件/">图片加载完成事件</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-https" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1174,7 +1242,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/linux命令/" style="font-size: 10px;">linux命令</a> <a href="/tags/vi命令/" style="font-size: 10px;">vi命令</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/原创/" style="font-size: 10px;">原创</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a>
+    				<a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/linux命令/" style="font-size: 10px;">linux命令</a> <a href="/tags/vi命令/" style="font-size: 10px;">vi命令</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/原创/" style="font-size: 10px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a>
     			</div>
     	</section>
     
