@@ -6,33 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://xieyuxuan.cc">
-  <title>解决IOS滑动不畅问题 | 谢雨轩的博客 | Vera Blog</title>
+  <title>node导出Excel表格方式 | 谢雨轩的博客 | Vera Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="[TOC]@(welcome)[前端菜鸟|掘金中]
-
-在编写移动端页面时,遇到一个很奇怪的问题,IOS向来滑动通畅,体验度明显甩开安卓十条街,但是在添加了上拉刷新下拉加载加载的插件后,IOS瞬间滑动不畅,慢成一坨.
-那赶脚就像,拖着汽车往前走的老哞…
-起初以为是插件底层的滑动事件影响了IOS,去掉插件之后,依然卡顿如初,what?!
-仔细对比之后,终于找到罪魁祸首,竟然是两行熟悉到不行的css">
+  <meta name="description" content="如果雷同,纯属巧合&amp;emsp;&amp;emsp;解析excel文件,并导出为json格式,可使用SheetJS js-xlsx
+&amp;emsp;&amp;emsp;解析json语句 【可以来自于前端页面,也可以后台直接调用】可使用可使用Excel-Export
+使用demo:  
+123456789101112&amp;#123;  &amp;quot;name&amp;quot;: &amp;quot;node-excel-export&amp;quo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="解决IOS滑动不畅问题">
-<meta property="og:url" content="http://xieyuxuan.cc/2016/11/17/iosMoveEvent/index.html">
+<meta property="og:title" content="node导出Excel表格方式">
+<meta property="og:url" content="http://xieyuxuan.cc/2017/09/06/nodeExportExcel/index.html">
 <meta property="og:site_name" content="谢雨轩的博客 | Vera Blog">
-<meta property="og:description" content="[TOC]@(welcome)[前端菜鸟|掘金中]
-
-在编写移动端页面时,遇到一个很奇怪的问题,IOS向来滑动通畅,体验度明显甩开安卓十条街,但是在添加了上拉刷新下拉加载加载的插件后,IOS瞬间滑动不畅,慢成一坨.
-那赶脚就像,拖着汽车往前走的老哞…
-起初以为是插件底层的滑动事件影响了IOS,去掉插件之后,依然卡顿如初,what?!
-仔细对比之后,终于找到罪魁祸首,竟然是两行熟悉到不行的css">
-<meta property="og:updated_time" content="2016-11-17T08:51:45.000Z">
+<meta property="og:description" content="如果雷同,纯属巧合&amp;emsp;&amp;emsp;解析excel文件,并导出为json格式,可使用SheetJS js-xlsx
+&amp;emsp;&amp;emsp;解析json语句 【可以来自于前端页面,也可以后台直接调用】可使用可使用Excel-Export
+使用demo:  
+123456789101112&amp;#123;  &amp;quot;name&amp;quot;: &amp;quot;node-excel-export&amp;quo">
+<meta property="og:updated_time" content="2017-09-06T08:15:59.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="解决IOS滑动不畅问题">
-<meta name="twitter:description" content="[TOC]@(welcome)[前端菜鸟|掘金中]
-
-在编写移动端页面时,遇到一个很奇怪的问题,IOS向来滑动通畅,体验度明显甩开安卓十条街,但是在添加了上拉刷新下拉加载加载的插件后,IOS瞬间滑动不畅,慢成一坨.
-那赶脚就像,拖着汽车往前走的老哞…
-起初以为是插件底层的滑动事件影响了IOS,去掉插件之后,依然卡顿如初,what?!
-仔细对比之后,终于找到罪魁祸首,竟然是两行熟悉到不行的css">
+<meta name="twitter:title" content="node导出Excel表格方式">
+<meta name="twitter:description" content="如果雷同,纯属巧合&amp;emsp;&amp;emsp;解析excel文件,并导出为json格式,可使用SheetJS js-xlsx
+&amp;emsp;&amp;emsp;解析json语句 【可以来自于前端页面,也可以后台直接调用】可使用可使用Excel-Export
+使用demo:  
+123456789101112&amp;#123;  &amp;quot;name&amp;quot;: &amp;quot;node-excel-export&amp;quo">
   
     <link rel="alternative" href="/atom.xml" title="谢雨轩的博客 | Vera Blog" type="application/atom+xml">
   
@@ -177,7 +171,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-iosMoveEvent" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-nodeExportExcel" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -187,7 +181,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      解决IOS滑动不畅问题
+      node导出Excel表格方式
     </h1>
   
 
@@ -195,42 +189,32 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>[TOC]<br>@(welcome)[前端菜鸟|掘金中]</p>
-<ul>
-<li>在编写移动端页面时,遇到一个很奇怪的问题,IOS向来滑动通畅,体验度明显甩开安卓十条街,但是在添加了上拉刷新下拉加载加载的插件后,IOS瞬间滑动不畅,慢成一坨.</li>
-<li>那赶脚就像,拖着汽车往前走的老哞…</li>
-<li>起初以为是插件底层的滑动事件影响了IOS,去掉插件之后,依然卡顿如初,what?!</li>
-<li>仔细对比之后,终于找到罪魁祸首,竟然是两行熟悉到不行的css</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">body,html&#123;</div><div class="line">    height: 100%;</div><div class="line">    overflow: auto;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>通过查找，终于找到了解决问题的方法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">-webkit-overflow-scrolling</span>: <span class="selector-tag">touch</span>;</div></pre></td></tr></table></figure></p>
-<p>这个属性只兼容移动版 Safari  iOS 5.0+，而且它有两个值<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">-webkit-overflow-scrolling</span>: <span class="selector-tag">touch</span>; <span class="comment">/* 当手指从触摸屏上移开，会保持一段时间的滚动 */</span></div><div class="line"><span class="selector-tag">-webkit-overflow-scrolling</span>: <span class="selector-tag">auto</span>; <span class="comment">/* 当手指从触摸屏上移开，滚动会立即停止 */</span></div></pre></td></tr></table></figure></p>
-<p>####auto</p>
-<ul>
-<li>使用普通滚动, 当手指从触摸屏上移开，滚动会立即停止。</li>
-</ul>
-<p>####touch</p>
-<ul>
-<li>使用具有回弹效果的滚动, 当手指从触摸屏上移开，内容会继续保持一段时间的滚动效果。继续滚动的速度和持续的时间和滚动手势的强烈程度成正比。同时也会创建一个新的堆栈上下文。</li>
-</ul>
-<p> ``将这行代码放到我的根标签后，我的小苹果又再次欢快的跑起来了！正当我高兴的时候，又发现了一个问题，我写的固定定位导航条随着苹果的告诉滑动，出现了鬼畜情况！</p>
-<p>``也就是说，我需要将我的固定定位排除在滑动之外！</p>
-<p>``上代码</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span>,<span class="selector-tag">html</span>&#123;</div><div class="line">       <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">       <span class="attribute">overflow</span>: auto;</div><div class="line">   &#125;</div><div class="line">   <span class="selector-class">.scroll</span>&#123;</div><div class="line">       <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">       <span class="attribute">overflow</span>: auto;</div><div class="line">       <span class="attribute">-webkit-overflow-scrolling</span>: touch;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p>要滚动的部分给父元素加上class类scroll,需要注意的是设置的两个overflow形成了两个滚动条，很容易造成滚动问题，建议在苹果浏览器下调试好。</p>
-<p>博主原创文</p>
+        <h6 id="如果雷同-纯属巧合"><a href="#如果雷同-纯属巧合" class="headerlink" title="如果雷同,纯属巧合"></a>如果雷同,纯属巧合</h6><p>&emsp;&emsp;解析excel文件,并导出为json格式,可使用<a href="https://github.com/SheetJS/js-xlsx" target="_blank" rel="external">SheetJS js-xlsx</a></p>
+<p>&emsp;&emsp;解析json语句 【可以来自于前端页面,也可以后台直接调用】可使用可使用<a href="https://github.com/functionscope/Node-Excel-Export" target="_blank" rel="external">Excel-Export</a></p>
+<p><strong>使用demo:  </strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;node-excel-export&quot;,</div><div class="line">  &quot;version&quot;: &quot;0.0.0&quot;,</div><div class="line">  &quot;private&quot;: true,</div><div class="line">  &quot;scripts&quot;: &#123;</div><div class="line">    &quot;start&quot;: &quot;node ./index.js&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;dependencies&quot;: &#123;</div><div class="line">    &quot;excel-export&quot;: &quot;^0.5.1&quot;,</div><div class="line">    &quot;express&quot;: &quot;~4.13.1&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>&emsp;&emsp;express搭建服务器,excel-export到处文件,入口文件为index.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">var express = require(&apos;express&apos;);</div><div class="line">var nodeExcel = require(&apos;excel-export&apos;);  //excel到处插件</div><div class="line">var app = express();</div><div class="line"></div><div class="line">app.get(&apos;/excel&apos;, function(req, res)&#123;</div><div class="line">    //基本excel规则</div><div class="line">    var conf = &#123;&#125;;</div><div class="line">    conf.stylesXmlFile = &quot;styles.xml&quot;;</div><div class="line">    conf.cols = [&#123;</div><div class="line">        caption: &apos;编号&apos;,    //行名称</div><div class="line">        type:&apos;number&apos;,       //类型</div><div class="line">        width: 15,   //宽度</div><div class="line">        beforeCellWrite:function(row, cellData)&#123;  //处理数据</div><div class="line">            return cellData; //数据大写</div><div class="line">        &#125;</div><div class="line">    &#125;,&#123;</div><div class="line">        caption: &apos;姓名&apos;,</div><div class="line">        type:&apos;string&apos;,</div><div class="line">        width: 20,</div><div class="line">        beforeCellWrite:function(row, cellData,eOpt)&#123;  //处理数据</div><div class="line"></div><div class="line">            if(cellData == &quot;&quot;)&#123;</div><div class="line">                return &quot;查无此人&quot;;</div><div class="line">            &#125;</div><div class="line">            return cellData;</div><div class="line">        &#125;</div><div class="line">    &#125;,&#123;</div><div class="line">        caption: &apos;日期&apos;,</div><div class="line">        type:&apos;string&apos;,</div><div class="line">        width: 25</div><div class="line">    &#125;];</div><div class="line">    conf.rows = [</div><div class="line">        [1, &quot;华晨宇&quot;,&quot;2014-04-15 00:00:00&quot;],</div><div class="line">        [2, &quot;&quot;,&quot;2014-04-15 00:00:00&quot;],</div><div class="line">        [3, &quot;汪苏泷&quot;,&quot;2014-04-17 00:00:00&quot;],</div><div class="line">        [4, &quot;罗一笑&quot;,&quot;2014-04-18 00:00:00&quot;]</div><div class="line">    ];</div><div class="line">    var result = nodeExcel.execute(conf);</div><div class="line">    res.setHeader(&apos;Content-Type&apos;, &apos;application/vnd.openxmlformats&apos;);</div><div class="line">    res.setHeader(&quot;Content-Disposition&quot;, &quot;attachment; filename=&quot; + &quot;userDate.xlsx&quot;); //会保存userDate为文件名的excel文件</div><div class="line">    res.end(result, &apos;binary&apos;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.listen(8888);</div><div class="line">console.log(&apos;Listening on port 8888&apos;);</div></pre></td></tr></table></figure>
+<p>&emsp;&emsp; conf是配置项,config.cols中定义了表格行的规则,conf.rows是我们模拟的假数据,对应依次打印在excel表中</p>
+<p>&emsp;&emsp; conf.cols中有beforeCellWrite方法,可做数据处理</p>
+<p>&emsp;&emsp; 我们看到,excel表格的样式规则是一个名叫styles.xml的文件,你可直接复制到自己的项目中</p>
+<p>&emsp;&emsp; <a href="https://github.com/Vera0707/huanhuashuixie/blob/master/node-excel-export/styles.xml" target="_blank" rel="external">styles.xml文件地址</a></p>
+<p>&emsp;&emsp; 服务器端口号为8888.启动服务器后,访问<a href="localhost:8888/excel" target="_blank" rel="external">localhost:8888/excel</a></p>
+<p>&emsp;&emsp; 打开页面后,会自动下载userDate.excel文件,文件名可根据自己情况做更改</p>
+<p>&emsp;&emsp; <a href="https://github.com/Vera0707/huanhuashuixie/tree/master/node-excel-export" target="_blank" rel="external">这个demo项目地址</a></p>
+<p>&emsp;&emsp; 很简单的小demo,希望对你有用</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/11/17/iosMoveEvent/" class="archive-article-date">
-  	<time datetime="2016-11-17T08:51:45.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-17</time>
+      <a href="/2017/09/06/nodeExportExcel/" class="archive-article-date">
+  	<time datetime="2017-09-06T08:15:59.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-09-06</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css-hack/">css hack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原创/">原创</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/excel表格导出/">excel表格导出</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node/">node</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/">nodejs</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
 	</div>
 
       
@@ -248,15 +232,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/01/20/vi/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          vi命令大全
-        
-      </div>
-    </a>
   
+    <a href="/2017/08/30/webStudent/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">前端常用学习网站</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
@@ -288,7 +268,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="iosMoveEvent" data-title="解决IOS滑动不畅问题" data-url="http://xieyuxuan.cc/2016/11/17/iosMoveEvent/"></div>
+	<div class="ds-thread" data-thread-key="nodeExportExcel" data-title="node导出Excel表格方式" data-url="http://xieyuxuan.cc/2017/09/06/nodeExportExcel/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
