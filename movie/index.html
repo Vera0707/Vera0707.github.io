@@ -14,12 +14,11 @@
             padding: 0;
             margin: 0;
         }
-        .f-l {
-            float: left;
-            display: inline;
+        .movie{
+            margin: 50px auto;
         }
-
-        .f-r {">
+        .movie-select{
+            width: 80px;">
 <meta property="og:type" content="website">
 <meta property="og:title" content="谢雨轩的博客 | Vera Blog">
 <meta property="og:url" content="http://xieyuxuan.cc/movie/index.html">
@@ -30,13 +29,12 @@
             padding: 0;
             margin: 0;
         }
-        .f-l {
-            float: left;
-            display: inline;
+        .movie{
+            margin: 50px auto;
         }
-
-        .f-r {">
-<meta property="og:updated_time" content="2017-11-04T08:19:26.000Z">
+        .movie-select{
+            width: 80px;">
+<meta property="og:updated_time" content="2017-11-04T08:51:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="谢雨轩的博客 | Vera Blog">
 <meta name="twitter:description" content="尊享VIP电影
@@ -45,12 +43,11 @@
             padding: 0;
             margin: 0;
         }
-        .f-l {
-            float: left;
-            display: inline;
+        .movie{
+            margin: 50px auto;
         }
-
-        .f-r {">
+        .movie-select{
+            width: 80px;">
   
     <link rel="alternative" href="/atom.xml" title="谢雨轩的博客 | Vera Blog" type="application/atom+xml">
   
@@ -213,29 +210,7 @@
             padding: 0;
             margin: 0;
         }
-        .f-l {
-            float: left;
-            display: inline;
-        }
-
-        .f-r {
-            float: right;
-            display: inline;
-        }
-
-        .clearfloat:after {
-            display: block;
-            clear: both;
-            content: ".";
-            visibility: hidden;
-            height: 0;
-        }
-
-        .clearfloat {
-            zoom: 1;
-        }
         .movie{
-            width: 720px;
             margin: 50px auto;
         }
         .movie-select{
@@ -248,30 +223,40 @@
             color: #666;
         }
         #player-url{
-            width: 500px;
+            display: block;
+            width: 85%;
             height: 45px;
-            margin-left: 20px;
             border: 1px solid #317ff5;
-            -webkit-border-radius: 5px  0 0 5px;
-            -moz-border-radius:5px  0 0 5px;
-            border-radius: 5px  0 0 5px;
-            padding: 0 10px ;
+            -webkit-border-radius: 5px;
+            -moz-border-radius:5px;
+            border-radius: 5px;
+            padding: 0 10px;
+            margin: 20px 0;
         }
         #player_btn{
+            display: block;
             width: 100px;
             height: 45px;
             color: #666;
             border: 1px solid #317ff5;
-            -webkit-border-radius: 0px  5px 5px 0px;
-            -moz-border-radius: 0px  5px 5px 0px;
-            border-radius: 0px  5px 5px 0px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
             background: #fafafa;
             margin-left: -1px;
         }
         #dplayer{
+            width: 100%;
+            height: 550px;
             border: 2px solid gold;
+            margin-bottom: 50px;
         }
-        #dplayer{
+        @media screen and (max-width: 500px) {
+            #dplayer{
+                height: 310px;
+            }
+        }
+        @media screen and (max-width: 980px) {
 
         }
     </style>
@@ -279,7 +264,7 @@
 </head>
 <body>
     <div class="movie clearfloat">
-        <select class="f-l movie-select">
+        <select class="movie-select">
             <option value="http://www.52jiexi.com/tong.php?url=">线路1</option>
             <option value="http://api.baiyug.cn/vip/index.php?url=">线路2</option>
             <option value="http://jx.2012net.com/index.php?url=">线路3</option>
@@ -290,13 +275,13 @@
             <option value="http://2gty.com/apiurl/yun.php?url=">线路8</option>
             <option value="http://api.baiyug.cn/vip/?url=">百域阁</option>
         </select>
-        <div class="f-l clearfloat movie-form">
+        <div class="clearfloat movie-form">
             <input name="url" id="player-url" class="f-l" type="text" value="" placeholder="请输入您要观看的视频网址~">
-            <input name="players" type="button" id="player_btn" class="f-l button" value="立即播放">
+            <input name="players" type="button" id="player_btn" class="button" value="立即播放">
         </div>
     </div>
     <div id="ckplays">
-        <iframe id="dplayer" name="websit" width="100%" height="550px"></iframe>
+        <iframe id="dplayer" name="websit"></iframe>
     </div>
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/dplayer/1.16.0/DPlayer.min.js"></script>
@@ -359,7 +344,7 @@
     <div class="article-info article-info-index">
       
       <a href="/movie/index.html" class="archive-article-date">
-  	<time datetime="2017-11-04T08:19:26.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-11-04</time>
+  	<time datetime="2017-11-04T08:51:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-11-04</time>
 </a>
       
       
