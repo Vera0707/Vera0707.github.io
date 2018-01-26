@@ -341,6 +341,7 @@
 </html>
       
     </div>
+      <div id="remark"></div>
     <div class="article-info article-info-index">
       
       <a href="/movie/index.html" class="archive-article-date">
@@ -381,24 +382,7 @@
 
 
 
-<div class="duoshuo">
-	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="undefined" data-title="" data-url="http://xieyuxuan.cc/movie/index.html"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"xieyuxuan"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-	<!-- 多说公共JS代码 end -->
-</div>
+<!--<div id="remark" class="duoshuo"></div>-->
 
 
 
@@ -555,5 +539,19 @@
 
 </div>
   </div>
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <script>
+      var gitment = new Gitment({
+          id: '', // 可选。默认为 location.href
+          owner: '15856998',
+          repo: 'https://github.com/vera0707/vera0707.github.io',
+          oauth: {
+              client_id: '412dc716eeeb8fa2983f',
+              client_secret: 'e350354961bdca67937a21eed747e23ba1e6f86e',
+          },
+      })
+      gitment.render('remark')
+  </script>
 </body>
 </html>

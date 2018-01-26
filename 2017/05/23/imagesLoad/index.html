@@ -203,6 +203,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> mulitImg = [</div><div class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/03/IMG_0119.jpg'</span>,</div><div class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/01/1.jpg'</span>,</div><div class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/11/jquery.jpg'</span>,</div><div class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/10/maid.jpg'</span></div><div class="line"> ];</div><div class="line"> <span class="keyword">let</span> promiseAll = [], img = [], imgTotal = mulitImg.length;</div><div class="line"> <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span> ; i &lt; imgTotal ; i++)&#123;</div><div class="line">     promiseAll[i] = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</div><div class="line">         img[i] = <span class="keyword">new</span> Image()</div><div class="line">         img[i].src = mulitImg[i]</div><div class="line">         img[i].onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">              <span class="comment">//第i张加载完成</span></div><div class="line">              resolve(img[i])</div><div class="line">         &#125;</div><div class="line">     &#125;)</div><div class="line"> &#125;</div><div class="line"> <span class="built_in">Promise</span>.all(promiseAll).then(<span class="function">(<span class="params">img</span>)=&gt;</span>&#123;</div><div class="line">     <span class="comment">//全部加载完成</span></div><div class="line"> &#125;)</div></pre></td></tr></table></figure>
       
     </div>
+      <div id="remark"></div>
     <div class="article-info article-info-index">
       
       <a href="/2017/05/23/imagesLoad/" class="archive-article-date">
@@ -272,24 +273,7 @@
 
 
 
-<div class="duoshuo">
-	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="imagesLoad" data-title="判断单、多张图片加载完成" data-url="http://xieyuxuan.cc/2017/05/23/imagesLoad/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"xieyuxuan"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-	<!-- 多说公共JS代码 end -->
-</div>
+<!--<div id="remark" class="duoshuo"></div>-->
 
 
 
@@ -446,5 +430,19 @@
 
 </div>
   </div>
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <script>
+      var gitment = new Gitment({
+          id: '', // 可选。默认为 location.href
+          owner: '15856998',
+          repo: 'https://github.com/vera0707/vera0707.github.io',
+          oauth: {
+              client_id: '412dc716eeeb8fa2983f',
+              client_secret: 'e350354961bdca67937a21eed747e23ba1e6f86e',
+          },
+      })
+      gitment.render('remark')
+  </script>
 </body>
 </html>
