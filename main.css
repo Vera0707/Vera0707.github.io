@@ -1136,7 +1136,16 @@ body.archive-inner #page-nav .current {
 
 body.archive-inner .archive-article-date .icon-clock {
   margin: 0 8px 0 0; }
-
+p::selection,div::selection,a::selection{
+  color:#FFFFFF;
+  background-color:#E84893;
+  text-shadow:none;
+}
+p::-moz-selection,div::-moz-selection,a::-moz-selection {
+  color:#FFFFFF;
+  background-color:#E84893;
+  text-shadow:none;
+}
 .archives-wrap {
   position: relative;
   margin: 0 30px;
@@ -1422,13 +1431,13 @@ body.archive-inner .archive-article-date .icon-clock {
 #remark{
     padding: 0 40px;
     margin-top: 130px;
-    border-top: 5px solid #EEE;
+    border-top: 5px solid #FF9966;
 }
 .article {
   margin: 30px;
   position: relative;
   border: 1px solid #ddd;
-  background: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.8);
   -webkit-transition: all 0.2s ease-in;
   transition: all 0.2s ease-in;
   text-shadow: 0 3px 3px rgba(0,0,0,0.2), 0px -2px 1px #fff;
@@ -1456,7 +1465,7 @@ body.archive-inner .archive-article-date .icon-clock {
 
 .article-meta {
   width: 150px;
-  font-size: 14;
+  font-size: 14px;
   text-align: right;
   position: absolute;
   right: 0;
@@ -1494,7 +1503,9 @@ body.archive-inner .archive-article-date .icon-clock {
   padding-top: 20px;
   margin: 30px 7.6923% 0 7.6923%;
   min-height: 72px;
-  border-top: 1px solid #ddd; }
+  border-top: 1px solid #ddd;
+  text-shadow: none;
+}
 
 .article-info-post.article-info {
   padding: 0;
