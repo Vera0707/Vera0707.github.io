@@ -1431,16 +1431,11 @@ body.archive-inner .archive-article-date .icon-clock {
   background: rgba(255,255,255,0.6);
   -webkit-transition: all 0.2s ease-in;
   transition: all 0.2s ease-in;
-    text-shadow: 0 3px 3px rgba(0,0,0,0.2), 0px -2px 1px #fff;
-  /*   &.show{
-    visibility: visible;
-    -webkit-animation: cd-bounce-1 0.6s;
-    -moz-animation: cd-bounce-1 0.6s;
-    animation: cd-bounce-1 0.6s;
-  }
-  &.hidden{
-    visibility: hidden;
-  } */ }
+  text-shadow: 0 3px 3px rgba(0,0,0,0.2), 0px -2px 1px #fff;
+  -webkit-box-shadow: 0px 0px 50px #666 inset;
+  -moz-box-shadow: 0px 0px 50px #666 inset;
+  box-shadow: 0px 0px 50px #666 inset;
+ }
   .article img {
     max-width: 100%; }
 
