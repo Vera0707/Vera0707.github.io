@@ -31,7 +31,7 @@ html {
 body {
   margin: 0;
   font-size: 14px;
-  font-family: "Helvetica Neue", Helvetica, STHeiTi, Arial, sans-serif;
+  font-family: "ibm-plex-sans","Helvetica Neue",Arial,sans-serif,"Helvetica Neue", Helvetica, STHeiTi, Arial, sans-serif;
   line-height: 1.5;
   color: #333;
   background-color: #fff;
@@ -1143,7 +1143,7 @@ p::selection,div::selection,a::selection{
 }
 p::-moz-selection,div::-moz-selection,a::-moz-selection {
   color:#FFFFFF;
-  background-color:#E84893;
+  background-color: #E84893;
   text-shadow:none;
 }
 .archives-wrap {
@@ -1431,7 +1431,7 @@ p::-moz-selection,div::-moz-selection,a::-moz-selection {
 #remark{
     padding: 0 40px;
     margin-top: 130px;
-    border-top: 5px solid #FF9966;
+    border-top: 5px solid #eacda3;
 }
 .article {
   margin: 30px;
