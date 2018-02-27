@@ -333,8 +333,8 @@ A发给B的hello消息包，即使被中间人拦截到了，也无法得知消�
     </a>
   
   
-    <a href="/2017/02/20/webDevelopment/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">技术人员的发展之路</div>
+    <a href="/2017/02/08/webEngineers/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">如何成为一名卓越的前端工程师</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -426,7 +426,7 @@ A发给B的hello消息包，即使被中间人拦截到了，也无法得知消�
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux命令/" style="font-size: 10px;">linux命令</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/vi命令/" style="font-size: 10px;">vi命令</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/原创/" style="font-size: 15px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a>
+    				<a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux命令/" style="font-size: 10px;">linux命令</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/vi命令/" style="font-size: 10px;">vi命令</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/原创/" style="font-size: 15px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a>
     			</div>
     	</section>
     
@@ -522,117 +522,117 @@ A发给B的hello消息包，即使被中间人拦截到了，也无法得知消�
   </div>
   <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
   <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-  <script>
-      var WIDTH = window.innerWidth, HEIGHT = window.innerHeight, POINT = 35;
+  <!--<script>-->
+      <!--var WIDTH = window.innerWidth, HEIGHT = window.innerHeight, POINT = 35;-->
 
-      var canvas = document.getElementById('body-wrap');
-      canvas.width = WIDTH,
-          canvas.height = HEIGHT;
-      var context = canvas.getContext('2d');
-      context.strokeStyle = 'rgba(0,0,0,0.2)',
-          context.strokeWidth = 1,
-          context.fillStyle = 'rgba(0,0,0,0.1)';
-      var circleArr = [];
+      <!--var canvas = document.getElementById('body-wrap');-->
+      <!--canvas.width = WIDTH,-->
+          <!--canvas.height = HEIGHT;-->
+      <!--var context = canvas.getContext('2d');-->
+      <!--context.strokeStyle = 'rgba(0,0,0,0.2)',-->
+          <!--context.strokeWidth = 1,-->
+          <!--context.fillStyle = 'rgba(0,0,0,0.1)';-->
+      <!--var circleArr = [];-->
 
-      //线条：开始xy坐标，结束xy坐标，线条透明度
-      function Line (x, y, _x, _y, o) {
-          this.beginX = x,
-              this.beginY = y,
-              this.closeX = _x,
-              this.closeY = _y,
-              this.o = o;
-      }
-      //点：圆心xy坐标，半径，每帧移动xy的距离
-      function Circle (x, y, r, moveX, moveY) {
-          this.x = x,
-              this.y = y,
-              this.r = r,
-              this.moveX = moveX,
-              this.moveY = moveY;
-      }
-      //生成max和min之间的随机数
-      function num (max, _min) {
-          var min = arguments[1] || 0;
-          return Math.floor(Math.random()*(max-min+1)+min);
-      }
-      // 绘制原点
-      function drawCricle (cxt, x, y, r, moveX, moveY) {
-          var circle = new Circle(x, y, r, moveX, moveY)
-          cxt.beginPath()
-          cxt.arc(circle.x, circle.y, circle.r, 0, 2*Math.PI)
-          cxt.closePath()
-          cxt.fill();
-          return circle;
-      }
-      //绘制线条
-      function drawLine (cxt, x, y, _x, _y, o) {
-          var line = new Line(x, y, _x, _y, o)
-          cxt.beginPath()
-          cxt.strokeStyle = 'rgba(0,0,0,'+ o +')'
-          cxt.moveTo(line.beginX, line.beginY)
-          cxt.lineTo(line.closeX, line.closeY)
-          cxt.closePath()
-          cxt.stroke();
+      <!--//线条：开始xy坐标，结束xy坐标，线条透明度-->
+      <!--function Line (x, y, _x, _y, o) {-->
+          <!--this.beginX = x,-->
+              <!--this.beginY = y,-->
+              <!--this.closeX = _x,-->
+              <!--this.closeY = _y,-->
+              <!--this.o = o;-->
+      <!--}-->
+      <!--//点：圆心xy坐标，半径，每帧移动xy的距离-->
+      <!--function Circle (x, y, r, moveX, moveY) {-->
+          <!--this.x = x,-->
+              <!--this.y = y,-->
+              <!--this.r = r,-->
+              <!--this.moveX = moveX,-->
+              <!--this.moveY = moveY;-->
+      <!--}-->
+      <!--//生成max和min之间的随机数-->
+      <!--function num (max, _min) {-->
+          <!--var min = arguments[1] || 0;-->
+          <!--return Math.floor(Math.random()*(max-min+1)+min);-->
+      <!--}-->
+      <!--// 绘制原点-->
+      <!--function drawCricle (cxt, x, y, r, moveX, moveY) {-->
+          <!--var circle = new Circle(x, y, r, moveX, moveY)-->
+          <!--cxt.beginPath()-->
+          <!--cxt.arc(circle.x, circle.y, circle.r, 0, 2*Math.PI)-->
+          <!--cxt.closePath()-->
+          <!--cxt.fill();-->
+          <!--return circle;-->
+      <!--}-->
+      <!--//绘制线条-->
+      <!--function drawLine (cxt, x, y, _x, _y, o) {-->
+          <!--var line = new Line(x, y, _x, _y, o)-->
+          <!--cxt.beginPath()-->
+          <!--cxt.strokeStyle = 'rgba(0,0,0,'+ o +')'-->
+          <!--cxt.moveTo(line.beginX, line.beginY)-->
+          <!--cxt.lineTo(line.closeX, line.closeY)-->
+          <!--cxt.closePath()-->
+          <!--cxt.stroke();-->
 
-      }
-      //每帧绘制
-      function draw () {
-          context.clearRect(0,0,canvas.width, canvas.height);
-          for (var i = 0; i < POINT; i++) {
-              drawCricle(context, circleArr[i].x, circleArr[i].y, circleArr[i].r);
-          }
-          for (var i = 0; i < POINT; i++) {
-              for (var j = 0; j < POINT; j++) {
-                  if (i + j < POINT) {
-                      var A = Math.abs(circleArr[i+j].x - circleArr[i].x),
-                          B = Math.abs(circleArr[i+j].y - circleArr[i].y);
-                      var lineLength = Math.sqrt(A*A + B*B);
-                      var C = 1/lineLength*7-0.009;
-                      var lineOpacity = C > 0.03 ? 0.03 : C;
-                      if (lineOpacity > 0) {
-                          drawLine(context, circleArr[i].x, circleArr[i].y, circleArr[i+j].x, circleArr[i+j].y, lineOpacity);
-                      }
-                  }
-              }
-          }
-      }
-      //初始化生成原点
-      function init () {
-          circleArr = [];
-          for (var i = 0; i < POINT; i++) {
-              circleArr.push(drawCricle(context, num(WIDTH), num(HEIGHT), num(15, 2), num(10, -10)/40, num(10, -10)/40));
-          }
-          draw();
-      }
-      //调用执行
-      window.onload = function () {
-          init();
-          setInterval(function () {
-              for (var i = 0; i < POINT; i++) {
-                  var cir = circleArr[i];
-                  cir.x += cir.moveX;
-                  cir.y += cir.moveY;
-                  if (cir.x > WIDTH) cir.x = 0;
-                  else if (cir.x < 0) cir.x = WIDTH;
-                  if (cir.y > HEIGHT) cir.y = 0;
-                  else if (cir.y < 0) cir.y = HEIGHT;
-              }
-              draw();
-          }, 10);
-      }
-  </script>
-  <script>
-      var gitment = new Gitment({
-          id: '', // 可选。默认为 location.href
-          owner: 'vera0707',
-          repo: 'https://github.com/vera0707/vera0707.github.io',
-          labels: "gitment-introduction",
-          oauth: {
-              client_id: '412dc716eeeb8fa2983f',
-              client_secret: 'e350354961bdca67937a21eed747e23ba1e6f86e'
-          }
-      })
-      gitment.render('remark')
-  </script>
+      <!--}-->
+      <!--//每帧绘制-->
+      <!--function draw () {-->
+          <!--context.clearRect(0,0,canvas.width, canvas.height);-->
+          <!--for (var i = 0; i < POINT; i++) {-->
+              <!--drawCricle(context, circleArr[i].x, circleArr[i].y, circleArr[i].r);-->
+          <!--}-->
+          <!--for (var i = 0; i < POINT; i++) {-->
+              <!--for (var j = 0; j < POINT; j++) {-->
+                  <!--if (i + j < POINT) {-->
+                      <!--var A = Math.abs(circleArr[i+j].x - circleArr[i].x),-->
+                          <!--B = Math.abs(circleArr[i+j].y - circleArr[i].y);-->
+                      <!--var lineLength = Math.sqrt(A*A + B*B);-->
+                      <!--var C = 1/lineLength*7-0.009;-->
+                      <!--var lineOpacity = C > 0.03 ? 0.03 : C;-->
+                      <!--if (lineOpacity > 0) {-->
+                          <!--drawLine(context, circleArr[i].x, circleArr[i].y, circleArr[i+j].x, circleArr[i+j].y, lineOpacity);-->
+                      <!--}-->
+                  <!--}-->
+              <!--}-->
+          <!--}-->
+      <!--}-->
+      <!--//初始化生成原点-->
+      <!--function init () {-->
+          <!--circleArr = [];-->
+          <!--for (var i = 0; i < POINT; i++) {-->
+              <!--circleArr.push(drawCricle(context, num(WIDTH), num(HEIGHT), num(15, 2), num(10, -10)/40, num(10, -10)/40));-->
+          <!--}-->
+          <!--draw();-->
+      <!--}-->
+      <!--//调用执行-->
+      <!--window.onload = function () {-->
+          <!--init();-->
+          <!--setInterval(function () {-->
+              <!--for (var i = 0; i < POINT; i++) {-->
+                  <!--var cir = circleArr[i];-->
+                  <!--cir.x += cir.moveX;-->
+                  <!--cir.y += cir.moveY;-->
+                  <!--if (cir.x > WIDTH) cir.x = 0;-->
+                  <!--else if (cir.x < 0) cir.x = WIDTH;-->
+                  <!--if (cir.y > HEIGHT) cir.y = 0;-->
+                  <!--else if (cir.y < 0) cir.y = HEIGHT;-->
+              <!--}-->
+              <!--draw();-->
+          <!--}, 10);-->
+      <!--}-->
+  <!--</script>-->
+  <!--<script>-->
+      <!--var gitment = new Gitment({-->
+          <!--id: '', // 可选。默认为 location.href-->
+          <!--owner: 'vera0707',-->
+          <!--repo: 'https://github.com/vera0707/vera0707.github.io',-->
+          <!--labels: "gitment-introduction",-->
+          <!--oauth: {-->
+              <!--client_id: '412dc716eeeb8fa2983f',-->
+              <!--client_secret: 'e350354961bdca67937a21eed747e23ba1e6f86e'-->
+          <!--}-->
+      <!--})-->
+      <!--gitment.render('remark')-->
+  <!--</script>-->
 </body>
 </html>

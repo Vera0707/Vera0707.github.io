@@ -1437,21 +1437,21 @@ p::-moz-selection,div::-moz-selection,a::-moz-selection {
   margin: 30px;
   position: relative;
   border: 1px solid #ddd;
-  background: rgba(255,255,255,0.8);
+  /*background: rgba(255,255,255,0.8);*/
+  background: #FFF;
   -webkit-transition: all 0.2s ease-in;
   transition: all 0.2s ease-in;
-  text-shadow: 0 3px 3px rgba(0,0,0,0.2), 0px -2px 1px #fff;
-  -webkit-box-shadow: 0px 0px 50px #666 inset;
-  -moz-box-shadow: 0px 0px 50px #666 inset;
-  box-shadow: 0px 0px 50px #666 inset;
+  /*text-shadow: 0 3px 3px rgba(0,0,0,0.2), 0px -2px 1px #fff;*/
+  /*-webkit-box-shadow: 0px 0px 50px #666 inset;*/
+  /*-moz-box-shadow: 0px 0px 50px #666 inset;*/
+  /*box-shadow: 0px 0px 50px #666 inset;*/
  }
   .article img {
     max-width: 100%; }
 
 .article-inner h1.article-title, .article-title {
-  color: #696969;
+  color: #333;
   margin-left: 0px;
-  font-weight: 300;
   line-height: 35px;
   margin-bottom: 20px;
   font-size: 26px;
@@ -1459,8 +1459,9 @@ p::-moz-selection,div::-moz-selection,a::-moz-selection {
   transition: color 0.3s; }
 
 .article-header {
+  text-align: center;
   border-left: 5px solid #4d4d4d;
-  padding: 30px 0px 15px 25px;
+  padding: 50px 15px;
   padding-left: 7.6923%; }
 
 .article-meta {
@@ -1797,6 +1798,7 @@ p::-moz-selection,div::-moz-selection,a::-moz-selection {
   .article {
     padding: 10px;
     margin: 10px;
+    background: #fff;
     font-size: 16px;
     color: #555; }
     .article .article-entry {
