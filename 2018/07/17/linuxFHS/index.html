@@ -6,17 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://xieyuxuan.cc">
-  <title>Archives | 谢雨轩的博客 | Vera Blog</title>
+  <title>Linux文件层级结构标准（FHS） | 谢雨轩的博客 | Vera Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前端技术分享,前端个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="谢雨轩的博客 | Vera Blog">
-<meta property="og:url" content="http://xieyuxuan.cc/archives/page/2/index.html">
+  <meta name="description" content="&amp;emsp;&amp;emsp;设计FHS(Filesystem Hierarchy Standard)的目的主要是为了给Unix-like系统的管理员提供一个管理系统以及目录结构的一个参考。
+&amp;emsp;&amp;emsp;由于利用Linux源码开发产品和发行版的企业或组织众多，如果每个组织都按照自己的喜好来组织系统中的文件结构，网络上必然出现各种各样的文件结构。这些产品的用户就不得不为每种不同的文件系统结构花">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux文件层级结构标准（FHS）">
+<meta property="og:url" content="http://xieyuxuan.cc/2018/07/17/linuxFHS/index.html">
 <meta property="og:site_name" content="谢雨轩的博客 | Vera Blog">
-<meta property="og:description" content="前端技术分享,前端个人博客">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;设计FHS(Filesystem Hierarchy Standard)的目的主要是为了给Unix-like系统的管理员提供一个管理系统以及目录结构的一个参考。
+&amp;emsp;&amp;emsp;由于利用Linux源码开发产品和发行版的企业或组织众多，如果每个组织都按照自己的喜好来组织系统中的文件结构，网络上必然出现各种各样的文件结构。这些产品的用户就不得不为每种不同的文件系统结构花">
+<meta property="og:updated_time" content="2018-07-17T11:51:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="谢雨轩的博客 | Vera Blog">
-<meta name="twitter:description" content="前端技术分享,前端个人博客">
+<meta name="twitter:title" content="Linux文件层级结构标准（FHS）">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;设计FHS(Filesystem Hierarchy Standard)的目的主要是为了给Unix-like系统的管理员提供一个管理系统以及目录结构的一个参考。
+&amp;emsp;&amp;emsp;由于利用Linux源码开发产品和发行版的企业或组织众多，如果每个组织都按照自己的喜好来组织系统中的文件结构，网络上必然出现各种各样的文件结构。这些产品的用户就不得不为每种不同的文件系统结构花">
   
     <link rel="alternative" href="/atom.xml" title="谢雨轩的博客 | Vera Blog" type="application/atom+xml">
   
@@ -162,147 +166,150 @@
 
       <canvas id="body-wrap"> </canvas>
       <div class="body-wrap">
-          
-  
-  
+          <article id="post-linuxFHS" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
     
     
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/02/08/informationScroll/" class="archive-article-date">
-  	<time datetime="2017-02-08T03:46:45.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-08</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/02/08/informationScroll/">滚动信息条的两种展示方法</a>
+    <h1 class="article-title" itemprop="name">
+      Linux文件层级结构标准（FHS）
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;设计FHS(Filesystem Hierarchy Standard)的目的主要是为了给Unix-like系统的管理员提供一个管理系统以及目录结构的一个参考。</p>
+<p>&emsp;&emsp;由于利用Linux源码开发产品和发行版的企业或组织众多，如果每个组织都按照自己的喜好来组织系统中的文件结构，网络上必然出现各种各样的文件结构。这些产品的用户就不得不为每种不同的文件系统结构花费时间来学习。有了FHS之后，几乎所有的Unix-like系统的发行商或软件开发者都遵从该建议规范每个特定目录下分别只放哪些文件，方便了文件的组织和查找。</p>
+<p>&emsp;&emsp;FHS也根据实际使用的需求持续更新，完整的FHS可参考（<a href="http://www.pathname.com/fhs/）" target="_blank" rel="external">http://www.pathname.com/fhs/）</a></p>
+<p><abbr title="" style="color:#333;font-weight:bold;background:#fff;text-decoration:none;border-bottom:none;">/, /usr, /var</abbr></p>
+<hr>
+<p>&emsp;&emsp;FHS根据文件的可共享、不可共享、静态和动态等特点，将目录树架构分为/、/usr、/var三部分。</p>
+<blockquote>
+<p> / 根目录是整个系统最重要的一个目录，因为在Linux系统中所有的目录都必须挂载在根目录下，也即所有的目录都是由根目录衍生出来。系统开机是所需要的开机软件、内核文件、函数库等都必须在根目录下。因此FHS也建议根目录不要安装在非常大、数据存取非常活跃的分区上，如此一来就能尽可能地降低系统不必要的错误。建议：根目录越小越好，且应用程序安装目录不要和根目录放置于同一分区。根目录下一般建议由以下耳机子目录：</p>
+</blockquote>
+<ul>
+<li>/bin 供所有用户使用的基本命令程序文件</li>
+<li>/sbin 系统管理员使用的工具程序</li>
+<li>/boot 引导加载器(bootloader)必须用到的静态文件：kernel、initramfs(initrd)、grub等</li>
+<li>/dev 存储特殊文件或设备文件: 字符设备（线性设备）、块设备（随机设备）</li>
+<li>/etc 系统程序的配置文件（只能为静态的，不能是二进制）</li>
+<li>/lib、/lib64 为系统启动或根文件系统上的应用程序（/bin, /sbin）提供共享库（libc.so.<em> ld</em>），以及为内核提供内核模块（modules）</li>
+<li>/media 便携式设备的挂载点，cdrom、floopy等</li>
+<li>/mnt 其他文件系统的临时挂载点</li>
+<li>/opt 第三方程序的安装位置，可选路径；</li>
+<li>/srv 当前主机为服务提供的数据</li>
+<li>/tmp 为那些会产生临时文件的程序提供的用于存储临时文件的目录</li>
+<li>/usr user hierarchy 全局共享只读数据路径</li>
+<li>/var var hierarchy存储常发生变化的文件</li>
+<li>/proc 内核级进程存储其相关信息，多为内核参数，例如net.ipv4.ipforward虚拟为net/ipv4/ipforward，存储于/proc/sys</li>
+<li>/sys sysfs虚拟文件系统提供了一种比proc更为理想的访问内核数据的途径；为管理内核提供了一种统一模型的接口</li>
+</ul>
+<blockquote>
+<p> /usr 根据FHS建议软件安装后将他们的数据合理地分别放置到这个目录下，而不要自行新建该软件自己的独立目录。/usr放置的数据属于可分享的且不可变动的，/usr可分享给局域网内的其他主机来使用。</p>
+</blockquote>
+<ul>
+<li>/usr/bin</li>
+<li>/usr/sbin</li>
+<li>/usr/lib</li>
+<li>/usr/lib64</li>
+<li>/usr/include C程序头文件</li>
+<li>/usr/share 命令手册页和自带文档等</li>
+<li>/usr/local 另一个层级结构，让系统管理员安装本地应用程序，通常用于安装第三方软件</li>
+<li>/usr/src 程序的源码</li>
+</ul>
+<blockquote>
+<p> /var 主要存储常变化的文件，包括缓存(cache)、登录文件(logfile)以及某些软件运行所产生的文件，包括程序文件(lock file, run file)，或者例如MySQL数据库的文件等。</p>
+</blockquote>
+<ul>
+<li>/var/cache 应用程序产生的缓存文件</li>
+<li>/var/lib 程序执行过程中，需要用到的数据文件放置的目录。此目录下各自的软件应该要有各自的目录。</li>
+<li>/var/lib 某些设备或者文件资源一次只能被一个应用程序所使用，如果同时有两个程序使用该设备时，就可能产生一些错误，因此就得要将该设备或文件上锁(lock)，以确保该文件或设备只给一个程序使用。</li>
+<li>/var/log 登录文件 /var/log/messages, /var/log/wtmp</li>
+<li>/var/mail 个人电子邮箱目录，通常与/var/spool/mail/目录互为链接</li>
+<li>/var/run 与运行中的进程相关的数据，PID等</li>
+<li>/var/spool 存放等待其他程序使用的数据</li>
+<li>/var/tmp 下次启动前会被删除的临时数据</li>
+</ul>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/07/17/linuxFHS/" class="archive-article-date">
+  	<time datetime="2018-07-17T11:51:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-17</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/滚动信息条间歇性滚动/">滚动信息条间歇性滚动</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FHS/">FHS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux文件/">linux文件</a></li></ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 	<i class="icon-price-tags"></i>
 	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
 	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/01/20/vi/" class="archive-article-date">
-  	<time datetime="2017-01-20T02:31:12.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/01/20/vi/">vi命令大全</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux命令/">linux命令</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vi命令/">vi命令</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+  
+<nav id="article-nav">
+  
+    <a href="/2018/07/17/linuxFilePath/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          linux环境变量初始化与对应文件的生效顺序
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/02/27/studyWay/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">前端网老姚浅谈：怎么学JavaScript？</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
-
-          
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-      
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/17/iosMoveEvent/" class="archive-article-date">
-  	<time datetime="2016-11-17T08:51:45.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/17/iosMoveEvent/">解决IOS滑动不畅问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css-hack/">css hack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原创/">原创</a></li></ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-    </nav>
-  
+
+
 
 
       </div>
@@ -324,8 +331,8 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,

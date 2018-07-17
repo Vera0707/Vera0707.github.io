@@ -6,17 +6,29 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://xieyuxuan.cc">
-  <title>Archives | 谢雨轩的博客 | Vera Blog</title>
+  <title>linux环境变量初始化与对应文件的生效顺序 | 谢雨轩的博客 | Vera Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前端技术分享,前端个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="谢雨轩的博客 | Vera Blog">
-<meta property="og:url" content="http://xieyuxuan.cc/archives/page/2/index.html">
+  <meta name="description" content="&amp;emsp;&amp;emsp;在登录Linux系统并启动一个bash shell时，默认情况下bash会在若干个文件中查找环境变量的设置。这些文件可统称为系统环境变量。bash检查的环境变量文件的情况取决于系统运行shell的方式。
+&amp;emsp;&amp;emsp;系统运行shell的方式一般有三种：
+&amp;emsp;&amp;emsp;一、通过系统用户登录后默认运行的shell
+&amp;emsp;&amp;emsp;二、非登录交互式运">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux环境变量初始化与对应文件的生效顺序">
+<meta property="og:url" content="http://xieyuxuan.cc/2018/07/17/linuxFilePath/index.html">
 <meta property="og:site_name" content="谢雨轩的博客 | Vera Blog">
-<meta property="og:description" content="前端技术分享,前端个人博客">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;在登录Linux系统并启动一个bash shell时，默认情况下bash会在若干个文件中查找环境变量的设置。这些文件可统称为系统环境变量。bash检查的环境变量文件的情况取决于系统运行shell的方式。
+&amp;emsp;&amp;emsp;系统运行shell的方式一般有三种：
+&amp;emsp;&amp;emsp;一、通过系统用户登录后默认运行的shell
+&amp;emsp;&amp;emsp;二、非登录交互式运">
+<meta property="og:image" content="https://img-blog.csdn.net/20170724085550953?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMzQ4MTAyNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:updated_time" content="2018-07-17T11:56:10.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="谢雨轩的博客 | Vera Blog">
-<meta name="twitter:description" content="前端技术分享,前端个人博客">
+<meta name="twitter:title" content="linux环境变量初始化与对应文件的生效顺序">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;在登录Linux系统并启动一个bash shell时，默认情况下bash会在若干个文件中查找环境变量的设置。这些文件可统称为系统环境变量。bash检查的环境变量文件的情况取决于系统运行shell的方式。
+&amp;emsp;&amp;emsp;系统运行shell的方式一般有三种：
+&amp;emsp;&amp;emsp;一、通过系统用户登录后默认运行的shell
+&amp;emsp;&amp;emsp;二、非登录交互式运">
+<meta name="twitter:image" content="https://img-blog.csdn.net/20170724085550953?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMzQ4MTAyNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
   
     <link rel="alternative" href="/atom.xml" title="谢雨轩的博客 | Vera Blog" type="application/atom+xml">
   
@@ -162,147 +174,100 @@
 
       <canvas id="body-wrap"> </canvas>
       <div class="body-wrap">
-          
-  
-  
+          <article id="post-linuxFilePath" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
     
     
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/02/08/informationScroll/" class="archive-article-date">
-  	<time datetime="2017-02-08T03:46:45.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-08</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/02/08/informationScroll/">滚动信息条的两种展示方法</a>
+    <h1 class="article-title" itemprop="name">
+      linux环境变量初始化与对应文件的生效顺序
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;在登录Linux系统并启动一个bash shell时，默认情况下bash会在若干个文件中查找环境变量的设置。这些文件可统称为系统环境变量。bash检查的环境变量文件的情况取决于系统运行shell的方式。</p>
+<p>&emsp;&emsp;系统运行shell的方式一般有三种：</p>
+<p>&emsp;&emsp;一、通过系统用户登录后默认运行的shell</p>
+<p>&emsp;&emsp;二、非登录交互式运行shell</p>
+<p>&emsp;&emsp;三、执行脚本运行非交互式shell</p>
+<p>&emsp;&emsp;当用户登录Linux系统时，shell会作为登录shell启动。此时的登录shell加载环境变量的顺序如下</p>
+<p><img src="https://img-blog.csdn.net/20170724085550953?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMzQ4MTAyNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>&emsp;&emsp;用户登录系统后首先会加载/etc/profile全局变量文件，这是Linux系统上默认的shell主环境变量文件。系统上每个用户登录都会加载这个文件。</p>
+<p>&emsp;&emsp;当加载完/etc/profile文件后，才会执行/etc/profile.d目录下的脚本文件。</p>
+<p>&emsp;&emsp;之后开始运行$HOME/.bash_profile（用户环境变量文件），在这个文件中，又会去找$HOME/.bashrc（用户环境变量文件），如果有则执行，如果没有则不执行。在$HOME/.bashrc文件中又会去找/etc/bashrc（全局环境变量文件），如果有则执行，如果没有则不执行。</p>
+<p>&emsp;&emsp;如果用户的shell不是登录时启动的，非登录shell只会加载$HOME/.bashrc（用户环境变量文件），并会去找/etc/bashrc（全局环境变量文件）。如果希望在登录shell下也可以读到设置的环境变量等内容，就需要将变量设定等写入$HOME/.bashrc或者/etc/bashrc，而不是$HOME/.bash_profile或/etc/profile。</p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/07/17/linuxFilePath/" class="archive-article-date">
+  	<time datetime="2018-07-17T11:56:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-17</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/滚动信息条间歇性滚动/">滚动信息条间歇性滚动</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FHS/">FHS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux环境变量/">linux环境变量</a></li></ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 	<i class="icon-price-tags"></i>
 	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
 	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/01/20/vi/" class="archive-article-date">
-  	<time datetime="2017-01-20T02:31:12.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-20</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/01/20/vi/">vi命令大全</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux命令/">linux命令</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vi命令/">vi命令</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/07/17/linuxFHS/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux文件层级结构标准（FHS）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
-
-          
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-      
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/17/iosMoveEvent/" class="archive-article-date">
-  	<time datetime="2016-11-17T08:51:45.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/17/iosMoveEvent/">解决IOS滑动不畅问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css-hack/">css hack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原创/">原创</a></li></ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-    </nav>
-  
+
+
 
 
       </div>
@@ -324,8 +289,8 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
