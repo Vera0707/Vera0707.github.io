@@ -6,17 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://xieyuxuan.cc">
-  <title>Tag: linux命令 | 谢雨轩的博客 | Vera Blog</title>
+  <title>前端设计模式之开闭原则(OCP) | 谢雨轩的博客 | Vera Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前端技术分享,前端个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="谢雨轩的博客 | Vera Blog">
-<meta property="og:url" content="http://xieyuxuan.cc/tags/linux命令/index.html">
+  <meta name="description" content="译注：本文作者愤怒的韭菜&amp;emsp;&amp;emsp;定义:&amp;emsp;&amp;emsp;一个软件实体如类、模块和函数应该对扩展开放，对修改关闭。
+&amp;emsp;&amp;emsp;问题由来:&amp;emsp;&amp;emsp;在软件的生命周期内，因为变化、升级和维护等原因需要对软件原有代码进行修改时，可能会给旧代码中引入错误，也可能会使我们不得不对整个功能进行重构，并且需要原有代码经过重新测试。
+&amp;emsp;&amp;emsp;解决方案">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端设计模式之开闭原则(OCP)">
+<meta property="og:url" content="http://xieyuxuan.cc/2018/09/29/designPatternsOCP/index.html">
 <meta property="og:site_name" content="谢雨轩的博客 | Vera Blog">
-<meta property="og:description" content="前端技术分享,前端个人博客">
+<meta property="og:description" content="译注：本文作者愤怒的韭菜&amp;emsp;&amp;emsp;定义:&amp;emsp;&amp;emsp;一个软件实体如类、模块和函数应该对扩展开放，对修改关闭。
+&amp;emsp;&amp;emsp;问题由来:&amp;emsp;&amp;emsp;在软件的生命周期内，因为变化、升级和维护等原因需要对软件原有代码进行修改时，可能会给旧代码中引入错误，也可能会使我们不得不对整个功能进行重构，并且需要原有代码经过重新测试。
+&amp;emsp;&amp;emsp;解决方案">
+<meta property="og:image" content="https://cdn.longdai.com/assets/20180929/0fee8c98bba4190bc1eab1a7321bd52f.gif">
+<meta property="og:image" content="https://cdn.longdai.com/assets/20180929/f0b230fb42289b41ea4b4e3bf7cde9d5.gif">
+<meta property="og:updated_time" content="2018-09-29T09:29:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="谢雨轩的博客 | Vera Blog">
-<meta name="twitter:description" content="前端技术分享,前端个人博客">
+<meta name="twitter:title" content="前端设计模式之开闭原则(OCP)">
+<meta name="twitter:description" content="译注：本文作者愤怒的韭菜&amp;emsp;&amp;emsp;定义:&amp;emsp;&amp;emsp;一个软件实体如类、模块和函数应该对扩展开放，对修改关闭。
+&amp;emsp;&amp;emsp;问题由来:&amp;emsp;&amp;emsp;在软件的生命周期内，因为变化、升级和维护等原因需要对软件原有代码进行修改时，可能会给旧代码中引入错误，也可能会使我们不得不对整个功能进行重构，并且需要原有代码经过重新测试。
+&amp;emsp;&amp;emsp;解决方案">
+<meta name="twitter:image" content="https://cdn.longdai.com/assets/20180929/0fee8c98bba4190bc1eab1a7321bd52f.gif">
   
     <link rel="alternative" href="/atom.xml" title="谢雨轩的博客 | Vera Blog" type="application/atom+xml">
   
@@ -162,59 +172,101 @@
 
       <canvas id="body-wrap"> </canvas>
       <div class="body-wrap">
-          
-  
-  
+          <article id="post-designPatternsOCP" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
     
     
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/01/20/vi/" class="archive-article-date">
-  	<time datetime="2017-01-20T02:31:12.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-01-20</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/01/20/vi/">vi命令大全</a>
+    <h1 class="article-title" itemprop="name">
+      前端设计模式之开闭原则(OCP)
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h6 id="译注：本文作者愤怒的韭菜"><a href="#译注：本文作者愤怒的韭菜" class="headerlink" title="译注：本文作者愤怒的韭菜"></a>译注：本文作者<a href="https://blog.csdn.net/zhengzhb/article/details/7296944" target="_blank" rel="external">愤怒的韭菜</a></h6><p>&emsp;&emsp;<abbr style="font-weight:bold;">定义:</abbr><br>&emsp;&emsp;一个软件实体如类、模块和函数应该对扩展开放，对修改关闭。</p>
+<p>&emsp;&emsp;<abbr style="font-weight:bold;">问题由来:</abbr><br>&emsp;&emsp;在软件的生命周期内，因为变化、升级和维护等原因需要对软件原有代码进行修改时，可能会给旧代码中引入错误，也可能会使我们不得不对整个功能进行重构，并且需要原有代码经过重新测试。</p>
+<p>&emsp;&emsp;<abbr style="font-weight:bold;">解决方案:</abbr><br>&emsp;&emsp;当软件需要变化时，尽量通过扩展软件实体的行为来实现变化，而不是通过修改已有的代码来实现变化。</p>
+<p>&emsp;&emsp;开闭原则是面向对象设计中最基础的设计原则，它指导我们如何建立稳定灵活的系统。开闭原则可能是设计模式六项原则中定义最模糊的一个了，它只告诉我们对扩展开放，对修改关闭，可是到底如何才能做到对扩展开放，对修改关闭，并没有明确的告诉我们。以前，如果有人告诉我“你进行设计的时候一定要遵守开闭原则”，我会觉的他什么都没说，但貌似又什么都说了。因为开闭原则真的太虚了。</p>
+<p>&emsp;&emsp;在仔细思考以及仔细阅读很多设计模式的文章后，终于对开闭原则有了一点认识。其实，我们遵循设计模式前面5大原则，以及使用23种设计模式的目的就是遵循开闭原则。也就是说，只要我们对前面5项原则遵守的好了，设计出的软件自然是符合开闭原则的，这个开闭原则更像是前面五项原则遵守程度的“平均得分”，前面5项原则遵守的好，平均分自然就高，说明软件设计开闭原则遵守的好；如果前面5项原则遵守的不好，则说明开闭原则遵守的不好。</p>
+<p>&emsp;&emsp;其实笔者认为，开闭原则无非就是想表达这样一层意思：用抽象构建框架，用实现扩展细节。因为抽象灵活性好，适应性广，只要抽象的合理，可以基本保持软件架构的稳定。而软件中易变的细节，我们用从抽象派生的实现类来进行扩展，当软件需要发生变化时，我们只需要根据需求重新派生一个实现类来扩展就可以了。当然前提是我们的抽象要合理，要对需求的变更有前瞻性和预见性才行。</p>
+<p>&emsp;&emsp;说到这里，再回想一下前面说的5项原则，恰恰是告诉我们用抽象构建框架，用实现扩展细节的注意事项而已：单一职责原则告诉我们实现类要职责单一；里氏替换原则告诉我们不要破坏继承体系；依赖倒置原则告诉我们要面向接口编程；接口隔离原则告诉我们在设计接口的时候要精简单一；迪米特法则告诉我们要降低耦合。而开闭原则是总纲，他告诉我们要对扩展开放，对修改关闭。</p>
+<p>&emsp;&emsp;最后说明一下如何去遵守这六个原则。对这六个原则的遵守并不是是和否的问题，而是多和少的问题，也就是说，我们一般不会说有没有遵守，而是说遵守程度的多少。任何事都是过犹不及，设计模式的六个设计原则也是一样，制定这六个原则的目的并不是要我们刻板的遵守他们，而需要根据实际情况灵活运用。对他们的遵守程度只要在一个合理的范围内，就算是良好的设计。我们用一幅图来说明一下。</p>
+<p><img src="https://cdn.longdai.com/assets/20180929/0fee8c98bba4190bc1eab1a7321bd52f.gif" alt=""></p>
+<p>&emsp;&emsp;图中的每一条维度各代表一项原则，我们依据对这项原则的遵守程度在维度上画一个点，则如果对这项原则遵守的合理的话，这个点应该落在红色的同心圆内部；如果遵守的差，点将会在小圆内部；如果过度遵守，点将会落在大圆外部。一个良好的设计体现在图中，应该是六个顶点都在同心圆中的六边形。</p>
+<p><img src="https://cdn.longdai.com/assets/20180929/f0b230fb42289b41ea4b4e3bf7cde9d5.gif" alt=""></p>
+<p>&emsp;&emsp;在上图中，设计1、设计2属于良好的设计，他们对六项原则的遵守程度都在合理的范围内；设计3、设计4设计虽然有些不足，但也基本可以接受；设计5则严重不足，对各项原则都没有很好的遵守；而设计6则遵守过渡了，设计5和设计6都是迫切需要重构的设计。</p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/09/29/designPatternsOCP/" class="archive-article-date">
+  	<time datetime="2018-09-29T09:29:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-29</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux命令/">linux命令</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vi命令/">vi命令</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端设计模式/">前端设计模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开闭原则/">开闭原则</a></li></ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 	<i class="icon-price-tags"></i>
 	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
 	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/09/29/designPatternsLOD/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">前端设计模式之迪米特法则(SRP)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
 
 
       </div>
@@ -236,9 +288,9 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: true,
 		root: "/",
@@ -274,7 +326,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/FHS/" style="font-size: 15px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/linux命令/" style="font-size: 10px;">linux命令</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/vi命令/" style="font-size: 10px;">vi命令</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/原创/" style="font-size: 15px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a>
+    				<a href="/tags/FHS/" style="font-size: 13.33px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 13.33px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/依赖倒置原则/" style="font-size: 10px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端设计模式/" style="font-size: 16.67px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 13.33px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
     			</div>
     	</section>
     

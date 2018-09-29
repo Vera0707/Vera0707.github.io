@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://xieyuxuan.cc">
+  <title>Tag: 单一职责原则 | 谢雨轩的博客 | Vera Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前端技术分享,前端个人博客">
+<meta property="og:type" content="website">
+<meta property="og:title" content="谢雨轩的博客 | Vera Blog">
+<meta property="og:url" content="http://xieyuxuan.cc/tags/单一职责原则/index.html">
+<meta property="og:site_name" content="谢雨轩的博客 | Vera Blog">
+<meta property="og:description" content="前端技术分享,前端个人博客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="谢雨轩的博客 | Vera Blog">
+<meta name="twitter:description" content="前端技术分享,前端个人博客">
+  
+    <link rel="alternative" href="/atom.xml" title="谢雨轩的博客 | Vera Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+
+
+  <!-- Piwik -->
+  <script type="text/javascript">
+    var _paq = _paq || [];
+    // tracker methods like "setCustomDimension" should be called before "trackPageView"
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//piwik.mritd.me/";
+      _paq.push(['setTrackerUrl', u+'piwik.php']);
+      _paq.push(['setSiteId', '3']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Piwik Code -->
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/images/userimg.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">谢雨轩</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Web前端技术宅升级打倒小怪兽</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/web">移动端直通车</a></li>
+	        
+				<li><a href="/css">炫酷CSS3</a></li>
+	        
+				<li><a href="/script">神奇JS</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">我的项目</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/Vera0707/huanhuashuixie" title="github">github</a>
+		        
+					<a class="mail" target="_blank" href="/lishuxia@gozap.com" title="mail">mail</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">谢雨轩</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/images/userimg.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">谢雨轩</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Web前端技术宅升级打倒小怪兽</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/web">移动端直通车</a></li>
+		        
+					<li><a href="/css">炫酷CSS3</a></li>
+		        
+					<li><a href="/script">神奇JS</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/Vera0707/huanhuashuixie" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="/lishuxia@gozap.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <canvas id="body-wrap"> </canvas>
+      <div class="body-wrap">
+          
+  
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2018" class="archive-year">2018</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2018/09/29/designPatternsSRP/" class="archive-article-date">
+  	<time datetime="2018-09-29T06:46:46.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-29</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2018/09/29/designPatternsSRP/">前端设计模式之单一职责原则(SRP)</a>
+    </h1>
+  
+
+        <div class="article-info info-on-right">
+          
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端设计模式/">前端设计模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单一职责原则/">单一职责原则</a></li></ul>
+	</div>
+
+          
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+        </div>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+  
+    </div></section>
+  
+
+    
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 谢雨轩
+    	</div>
+      	<div class="footer-right">虽然生的丑 毕竟想的美</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: false,
+		isArchive: false,
+		isTag: true,
+		isCategory: false,
+		open_in_new: true,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/FHS/" style="font-size: 13.33px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 13.33px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/依赖倒置原则/" style="font-size: 10px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端设计模式/" style="font-size: 16.67px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 13.33px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/Vera0707/huanhuashuixie/tree/master/framework">流行框架练习</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">一枚深水前端&lt;br/&gt;&lt;br/&gt;大神带带我&lt;br/&gt;小白我要升级打倒小怪兽</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <!--<script>-->
+      <!--var WIDTH = window.innerWidth, HEIGHT = window.innerHeight, POINT = 35;-->
+
+      <!--var canvas = document.getElementById('body-wrap');-->
+      <!--canvas.width = WIDTH,-->
+          <!--canvas.height = HEIGHT;-->
+      <!--var context = canvas.getContext('2d');-->
+      <!--context.strokeStyle = 'rgba(0,0,0,0.2)',-->
+          <!--context.strokeWidth = 1,-->
+          <!--context.fillStyle = 'rgba(0,0,0,0.1)';-->
+      <!--var circleArr = [];-->
+
+      <!--//线条：开始xy坐标，结束xy坐标，线条透明度-->
+      <!--function Line (x, y, _x, _y, o) {-->
+          <!--this.beginX = x,-->
+              <!--this.beginY = y,-->
+              <!--this.closeX = _x,-->
+              <!--this.closeY = _y,-->
+              <!--this.o = o;-->
+      <!--}-->
+      <!--//点：圆心xy坐标，半径，每帧移动xy的距离-->
+      <!--function Circle (x, y, r, moveX, moveY) {-->
+          <!--this.x = x,-->
+              <!--this.y = y,-->
+              <!--this.r = r,-->
+              <!--this.moveX = moveX,-->
+              <!--this.moveY = moveY;-->
+      <!--}-->
+      <!--//生成max和min之间的随机数-->
+      <!--function num (max, _min) {-->
+          <!--var min = arguments[1] || 0;-->
+          <!--return Math.floor(Math.random()*(max-min+1)+min);-->
+      <!--}-->
+      <!--// 绘制原点-->
+      <!--function drawCricle (cxt, x, y, r, moveX, moveY) {-->
+          <!--var circle = new Circle(x, y, r, moveX, moveY)-->
+          <!--cxt.beginPath()-->
+          <!--cxt.arc(circle.x, circle.y, circle.r, 0, 2*Math.PI)-->
+          <!--cxt.closePath()-->
+          <!--cxt.fill();-->
+          <!--return circle;-->
+      <!--}-->
+      <!--//绘制线条-->
+      <!--function drawLine (cxt, x, y, _x, _y, o) {-->
+          <!--var line = new Line(x, y, _x, _y, o)-->
+          <!--cxt.beginPath()-->
+          <!--cxt.strokeStyle = 'rgba(0,0,0,'+ o +')'-->
+          <!--cxt.moveTo(line.beginX, line.beginY)-->
+          <!--cxt.lineTo(line.closeX, line.closeY)-->
+          <!--cxt.closePath()-->
+          <!--cxt.stroke();-->
+
+      <!--}-->
+      <!--//每帧绘制-->
+      <!--function draw () {-->
+          <!--context.clearRect(0,0,canvas.width, canvas.height);-->
+          <!--for (var i = 0; i < POINT; i++) {-->
+              <!--drawCricle(context, circleArr[i].x, circleArr[i].y, circleArr[i].r);-->
+          <!--}-->
+          <!--for (var i = 0; i < POINT; i++) {-->
+              <!--for (var j = 0; j < POINT; j++) {-->
+                  <!--if (i + j < POINT) {-->
+                      <!--var A = Math.abs(circleArr[i+j].x - circleArr[i].x),-->
+                          <!--B = Math.abs(circleArr[i+j].y - circleArr[i].y);-->
+                      <!--var lineLength = Math.sqrt(A*A + B*B);-->
+                      <!--var C = 1/lineLength*7-0.009;-->
+                      <!--var lineOpacity = C > 0.03 ? 0.03 : C;-->
+                      <!--if (lineOpacity > 0) {-->
+                          <!--drawLine(context, circleArr[i].x, circleArr[i].y, circleArr[i+j].x, circleArr[i+j].y, lineOpacity);-->
+                      <!--}-->
+                  <!--}-->
+              <!--}-->
+          <!--}-->
+      <!--}-->
+      <!--//初始化生成原点-->
+      <!--function init () {-->
+          <!--circleArr = [];-->
+          <!--for (var i = 0; i < POINT; i++) {-->
+              <!--circleArr.push(drawCricle(context, num(WIDTH), num(HEIGHT), num(15, 2), num(10, -10)/40, num(10, -10)/40));-->
+          <!--}-->
+          <!--draw();-->
+      <!--}-->
+      <!--//调用执行-->
+      <!--window.onload = function () {-->
+          <!--init();-->
+          <!--setInterval(function () {-->
+              <!--for (var i = 0; i < POINT; i++) {-->
+                  <!--var cir = circleArr[i];-->
+                  <!--cir.x += cir.moveX;-->
+                  <!--cir.y += cir.moveY;-->
+                  <!--if (cir.x > WIDTH) cir.x = 0;-->
+                  <!--else if (cir.x < 0) cir.x = WIDTH;-->
+                  <!--if (cir.y > HEIGHT) cir.y = 0;-->
+                  <!--else if (cir.y < 0) cir.y = HEIGHT;-->
+              <!--}-->
+              <!--draw();-->
+          <!--}, 10);-->
+      <!--}-->
+  <!--</script>-->
+  <!--<script>-->
+      <!--var gitment = new Gitment({-->
+          <!--id: '', // 可选。默认为 location.href-->
+          <!--owner: 'vera0707',-->
+          <!--repo: 'https://github.com/vera0707/vera0707.github.io',-->
+          <!--labels: "gitment-introduction",-->
+          <!--oauth: {-->
+              <!--client_id: '412dc716eeeb8fa2983f',-->
+              <!--client_secret: 'e350354961bdca67937a21eed747e23ba1e6f86e'-->
+          <!--}-->
+      <!--})-->
+      <!--gitment.render('remark')-->
+  <!--</script>-->
+</body>
+</html>
