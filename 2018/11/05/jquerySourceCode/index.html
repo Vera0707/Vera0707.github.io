@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://xieyuxuan.cc">
+  <title>手写jQuery源码 | 谢雨轩的博客 | Vera Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="&amp;emsp;&amp;emsp;虽然jQuery的时代已经过去，但是jQuery漂亮的源码依然非常值得学习。&amp;emsp;&amp;emsp;jQuery源码中很多方法已经不适用,例如数组相关的：类数组转数组的$.makeArray,数组判断$.isArray…等等，这些ES6都给我们封装到了Array对象中,但这不代表我们不应该去了解源码，去探索造源码的思想；&amp;emsp;&amp;emsp;很长时间,我都对源码敬而远之,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="手写jQuery源码">
+<meta property="og:url" content="http://xieyuxuan.cc/2018/11/05/jquerySourceCode/index.html">
+<meta property="og:site_name" content="谢雨轩的博客 | Vera Blog">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;虽然jQuery的时代已经过去，但是jQuery漂亮的源码依然非常值得学习。&amp;emsp;&amp;emsp;jQuery源码中很多方法已经不适用,例如数组相关的：类数组转数组的$.makeArray,数组判断$.isArray…等等，这些ES6都给我们封装到了Array对象中,但这不代表我们不应该去了解源码，去探索造源码的思想；&amp;emsp;&amp;emsp;很长时间,我都对源码敬而远之,">
+<meta property="og:updated_time" content="2018-11-05T09:21:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="手写jQuery源码">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;虽然jQuery的时代已经过去，但是jQuery漂亮的源码依然非常值得学习。&amp;emsp;&amp;emsp;jQuery源码中很多方法已经不适用,例如数组相关的：类数组转数组的$.makeArray,数组判断$.isArray…等等，这些ES6都给我们封装到了Array对象中,但这不代表我们不应该去了解源码，去探索造源码的思想；&amp;emsp;&amp;emsp;很长时间,我都对源码敬而远之,">
+  
+    <link rel="alternative" href="/atom.xml" title="谢雨轩的博客 | Vera Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+
+
+  <!-- Piwik -->
+  <script type="text/javascript">
+    var _paq = _paq || [];
+    // tracker methods like "setCustomDimension" should be called before "trackPageView"
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//piwik.mritd.me/";
+      _paq.push(['setTrackerUrl', u+'piwik.php']);
+      _paq.push(['setSiteId', '3']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Piwik Code -->
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/images/userimg.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">谢雨轩</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Web前端技术宅升级打倒小怪兽</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/web">移动端直通车</a></li>
+	        
+				<li><a href="/css">炫酷CSS3</a></li>
+	        
+				<li><a href="/script">神奇JS</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">我的项目</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/Vera0707/huanhuashuixie" title="github">github</a>
+		        
+					<a class="mail" target="_blank" href="/lishuxia@gozap.com" title="mail">mail</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">谢雨轩</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/images/userimg.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">谢雨轩</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Web前端技术宅升级打倒小怪兽</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/web">移动端直通车</a></li>
+		        
+					<li><a href="/css">炫酷CSS3</a></li>
+		        
+					<li><a href="/script">神奇JS</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/Vera0707/huanhuashuixie" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="/lishuxia@gozap.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <canvas id="body-wrap"> </canvas>
+      <div class="body-wrap">
+          <article id="post-jquerySourceCode" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      手写jQuery源码
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;虽然jQuery的时代已经过去，但是jQuery漂亮的源码依然非常值得学习。<br>&emsp;&emsp;jQuery源码中很多方法已经不适用,例如数组相关的：类数组转数组的$.makeArray,数组判断$.isArray…等等，这些ES6都给我们封装到了Array对象中,但这不代表我们不应该去了解源码，去探索造源码的思想；<br>&emsp;&emsp;很长时间,我都对源码敬而远之,现在,我终于勇敢对它揭面。<br>&emsp;&emsp;感觉,一个新大陆扑面而来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div></pre></td><td class="code"><pre><div class="line">(function (root) &#123;</div><div class="line">    var testExp= /^(?:\s*(&lt;[\w\W]+&gt;)[^&gt;]*|#([\w-]*))$/,</div><div class="line">        rejectExp = /^&lt;(\w+)\s*\/?&gt;/,</div><div class="line">        rootjQuery;</div><div class="line"></div><div class="line">    var jQuery = function (selector,context) &#123;</div><div class="line">        return new jQuery.prototype.init(selector,context,rootjQuery);</div><div class="line">    &#125;;</div><div class="line"></div><div class="line"></div><div class="line">    jQuery.fn = jQuery.prototype = &#123;</div><div class="line">        length: 0,</div><div class="line">        init: function( selector,context,rootjQuery )&#123;</div><div class="line">            var match,elem;</div><div class="line"></div><div class="line">            if(!selector)&#123;</div><div class="line">                return this;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            if(typeof selector === &quot;string&quot;)&#123;</div><div class="line">                if(selector.charAt(0) === &quot;&lt;&quot; &amp;&amp; selector.charAt(selector.length -1) === &quot;&gt;&quot; &amp;&amp; selector.length &gt;= 3)&#123;</div><div class="line">                    match = [null,selector,null];</div><div class="line">                &#125;else&#123;</div><div class="line">                    match = testExp.exec(selector);</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                if(match[1])&#123;</div><div class="line">                    jQuery.merge(this,jQuery.parseHTML(selector,context &amp;&amp; context.nodeType ? context : document));</div><div class="line">                &#125;else&#123;</div><div class="line">                    elem = document.getElementById(match[2]);</div><div class="line">                    if(elem &amp;&amp; elem.nodeType)&#123;</div><div class="line">                        this.length = 1;</div><div class="line">                        this[0] = elem;</div><div class="line">                    &#125;</div><div class="line">                    this.context =  document;</div><div class="line">                    this.selector = selector;</div><div class="line">                    return this;</div><div class="line">                &#125;</div><div class="line">            &#125;else if(selector.nodeType)&#123;</div><div class="line">                this.context = this[0] = selector;</div><div class="line">                this.length = 1;</div><div class="line">                return this;</div><div class="line">            &#125;else if(jQuery.isFunction(selector)) &#123;</div><div class="line">                rootjQuery.ready(selector)</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125;,</div><div class="line">        ready: function (fn) &#123;</div><div class="line">            document.addEventListener(&quot;DOMContentLoaded&quot;,jQuery.ready);</div><div class="line">            if(jQuery.isReady)&#123;</div><div class="line">                fn.call(document,jQuery);</div><div class="line">            &#125;else&#123;</div><div class="line">                jQuery.readyList.push(fn);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    jQuery.fn.init.prototype = jQuery.fn;</div><div class="line"></div><div class="line">    jQuery.extend = jQuery.fn.extend = function () &#123;</div><div class="line">        var target = arguments[0] || &#123;&#125;,</div><div class="line">            length = arguments.length,</div><div class="line">            copyIsArray = false,</div><div class="line">            deep = false,</div><div class="line">            option,</div><div class="line">            clone,</div><div class="line">            copy,</div><div class="line">            src,</div><div class="line">            name,</div><div class="line">            i = 1;</div><div class="line"></div><div class="line">        if(typeof arguments[0] === &quot;boolean&quot;)&#123;</div><div class="line">            deep = target;</div><div class="line">            target = arguments[i];</div><div class="line">            i++;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        if(typeof target !== &quot;object&quot;)&#123;</div><div class="line">            target = &#123;&#125;;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        if(length === i)&#123;</div><div class="line">            target = this;</div><div class="line">            i--;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        for(;i&lt;length;i++)&#123;</div><div class="line">            if((option = arguments[i]) !== null)&#123;</div><div class="line">                for(name in option)&#123;</div><div class="line">                    src = target[name];</div><div class="line">                    copy = option[name];</div><div class="line">                    if(deep &amp;&amp; (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy))))&#123;</div><div class="line">                        if(copyIsArray)&#123;</div><div class="line">                            copyIsArray = false;</div><div class="line">                            clone = src &amp;&amp; jQuery.isArray(src) ? src : [];</div><div class="line">                        &#125;else&#123;</div><div class="line">                            clone = src &amp;&amp; jQuery.isPlainObject(src) ? src : &#123;&#125;;</div><div class="line">                        &#125;</div><div class="line"></div><div class="line">                        target[name] = jQuery.extend(deep,clone,copy);</div><div class="line"></div><div class="line">                    &#125;else if(copy !== undefined)&#123;</div><div class="line">                        target[name] = copy;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        return target;</div><div class="line"></div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    jQuery.extend(&#123;</div><div class="line">        isPlainObject: function (obj) &#123;</div><div class="line">            return toString.call(obj) === &quot;[object Object]&quot;;</div><div class="line">        &#125;,</div><div class="line">        isArray: function (obj) &#123;</div><div class="line">            return toString.call(obj) === &quot;[object Array]&quot;;</div><div class="line">        &#125;,</div><div class="line">        isFunction: function (seletor) &#123;</div><div class="line">            return typeof seletor === &quot;function&quot;;</div><div class="line">        &#125;,</div><div class="line">        markArray: function (arr) &#123;</div><div class="line">            var result = [];</div><div class="line">            if(arr &amp;&amp; arr.length)&#123;</div><div class="line">                return jQuery.merge(result,arr);</div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line">        merge: function (arg1,arg2) &#123;</div><div class="line">            var i = arg1.length,</div><div class="line">                l = arg2.length,</div><div class="line">                j = 0;</div><div class="line"></div><div class="line">            if(typeof l === &quot;number&quot;)&#123;</div><div class="line">                for(;j&lt;l;)&#123;</div><div class="line">                    arg1[i++] = arg2[j++];</div><div class="line">                &#125;</div><div class="line">            &#125;else&#123;</div><div class="line">                while(arg2[j] !== undefined)&#123;</div><div class="line">                    arg1[i++] = arg2[j++];</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            return arg1;</div><div class="line">        &#125;,</div><div class="line">        parseHTML: function (data,context) &#123;</div><div class="line">            if(!data || typeof data !== &quot;string&quot;)&#123;</div><div class="line">                return null;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            var parse = rejectExp.exec(data);</div><div class="line">            return [context.createElement(parse[1])];</div><div class="line">        &#125;,</div><div class="line">        each: function (object,callback,args) &#123;</div><div class="line">            var length = object.length,</div><div class="line">                name,i = 0;</div><div class="line"></div><div class="line">            if(args)&#123;</div><div class="line">                if(length === undefined)&#123;</div><div class="line">                    for(name in object)&#123;</div><div class="line">                        callback.apply(object,args);</div><div class="line">                    &#125;</div><div class="line">                &#125;else&#123;</div><div class="line">                    for(;i&lt;length;)&#123;</div><div class="line">                        callback.apply(object[i++],args);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;else&#123;</div><div class="line">                if(length === undefined)&#123;</div><div class="line">                    for(name in object)&#123;</div><div class="line">                        callback.call(object,name,object[name]);</div><div class="line">                    &#125;</div><div class="line">                &#125;else&#123;</div><div class="line">                    for(;i&lt;length;i++)&#123;</div><div class="line">                        callback.call(object[i],i,object[i]);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line"></div><div class="line"></div><div class="line">        &#125;,</div><div class="line">        isReady: false,</div><div class="line">        readyList : [],</div><div class="line">        ready: function () &#123;</div><div class="line">            jQuery.isReady = true;</div><div class="line">            jQuery.each(jQuery.readyList,function (key,value) &#123;</div><div class="line">                this.call(document);</div><div class="line">            &#125;);</div><div class="line"></div><div class="line">            jQuery.readyList = [];</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    rootjQuery = jQuery(document);</div><div class="line">    root.$ = root.jQuery = jQuery;</div><div class="line">&#125;)(this);</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/11/05/jquerySourceCode/" class="archive-article-date">
+  	<time datetime="2018-11-05T09:21:13.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-11-05</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery源码/">jQuery源码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原创/">原创</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/09/29/designPatternsOCP/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">前端设计模式之开闭原则(OCP)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 谢雨轩
+    	</div>
+      	<div class="footer-right">虽然生的丑 毕竟想的美</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: true,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/FHS/" style="font-size: 12.5px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/jQuery源码/" style="font-size: 10px;">jQuery源码</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 12.5px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/依赖倒置原则/" style="font-size: 10px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端设计模式/" style="font-size: 17.5px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 15px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/Vera0707/huanhuashuixie/tree/master/framework">流行框架练习</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">一枚深水前端&lt;br/&gt;&lt;br/&gt;大神带带我&lt;br/&gt;小白我要升级打倒小怪兽</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <!--<script>-->
+      <!--var WIDTH = window.innerWidth, HEIGHT = window.innerHeight, POINT = 35;-->
+
+      <!--var canvas = document.getElementById('body-wrap');-->
+      <!--canvas.width = WIDTH,-->
+          <!--canvas.height = HEIGHT;-->
+      <!--var context = canvas.getContext('2d');-->
+      <!--context.strokeStyle = 'rgba(0,0,0,0.2)',-->
+          <!--context.strokeWidth = 1,-->
+          <!--context.fillStyle = 'rgba(0,0,0,0.1)';-->
+      <!--var circleArr = [];-->
+
+      <!--//线条：开始xy坐标，结束xy坐标，线条透明度-->
+      <!--function Line (x, y, _x, _y, o) {-->
+          <!--this.beginX = x,-->
+              <!--this.beginY = y,-->
+              <!--this.closeX = _x,-->
+              <!--this.closeY = _y,-->
+              <!--this.o = o;-->
+      <!--}-->
+      <!--//点：圆心xy坐标，半径，每帧移动xy的距离-->
+      <!--function Circle (x, y, r, moveX, moveY) {-->
+          <!--this.x = x,-->
+              <!--this.y = y,-->
+              <!--this.r = r,-->
+              <!--this.moveX = moveX,-->
+              <!--this.moveY = moveY;-->
+      <!--}-->
+      <!--//生成max和min之间的随机数-->
+      <!--function num (max, _min) {-->
+          <!--var min = arguments[1] || 0;-->
+          <!--return Math.floor(Math.random()*(max-min+1)+min);-->
+      <!--}-->
+      <!--// 绘制原点-->
+      <!--function drawCricle (cxt, x, y, r, moveX, moveY) {-->
+          <!--var circle = new Circle(x, y, r, moveX, moveY)-->
+          <!--cxt.beginPath()-->
+          <!--cxt.arc(circle.x, circle.y, circle.r, 0, 2*Math.PI)-->
+          <!--cxt.closePath()-->
+          <!--cxt.fill();-->
+          <!--return circle;-->
+      <!--}-->
+      <!--//绘制线条-->
+      <!--function drawLine (cxt, x, y, _x, _y, o) {-->
+          <!--var line = new Line(x, y, _x, _y, o)-->
+          <!--cxt.beginPath()-->
+          <!--cxt.strokeStyle = 'rgba(0,0,0,'+ o +')'-->
+          <!--cxt.moveTo(line.beginX, line.beginY)-->
+          <!--cxt.lineTo(line.closeX, line.closeY)-->
+          <!--cxt.closePath()-->
+          <!--cxt.stroke();-->
+
+      <!--}-->
+      <!--//每帧绘制-->
+      <!--function draw () {-->
+          <!--context.clearRect(0,0,canvas.width, canvas.height);-->
+          <!--for (var i = 0; i < POINT; i++) {-->
+              <!--drawCricle(context, circleArr[i].x, circleArr[i].y, circleArr[i].r);-->
+          <!--}-->
+          <!--for (var i = 0; i < POINT; i++) {-->
+              <!--for (var j = 0; j < POINT; j++) {-->
+                  <!--if (i + j < POINT) {-->
+                      <!--var A = Math.abs(circleArr[i+j].x - circleArr[i].x),-->
+                          <!--B = Math.abs(circleArr[i+j].y - circleArr[i].y);-->
+                      <!--var lineLength = Math.sqrt(A*A + B*B);-->
+                      <!--var C = 1/lineLength*7-0.009;-->
+                      <!--var lineOpacity = C > 0.03 ? 0.03 : C;-->
+                      <!--if (lineOpacity > 0) {-->
+                          <!--drawLine(context, circleArr[i].x, circleArr[i].y, circleArr[i+j].x, circleArr[i+j].y, lineOpacity);-->
+                      <!--}-->
+                  <!--}-->
+              <!--}-->
+          <!--}-->
+      <!--}-->
+      <!--//初始化生成原点-->
+      <!--function init () {-->
+          <!--circleArr = [];-->
+          <!--for (var i = 0; i < POINT; i++) {-->
+              <!--circleArr.push(drawCricle(context, num(WIDTH), num(HEIGHT), num(15, 2), num(10, -10)/40, num(10, -10)/40));-->
+          <!--}-->
+          <!--draw();-->
+      <!--}-->
+      <!--//调用执行-->
+      <!--window.onload = function () {-->
+          <!--init();-->
+          <!--setInterval(function () {-->
+              <!--for (var i = 0; i < POINT; i++) {-->
+                  <!--var cir = circleArr[i];-->
+                  <!--cir.x += cir.moveX;-->
+                  <!--cir.y += cir.moveY;-->
+                  <!--if (cir.x > WIDTH) cir.x = 0;-->
+                  <!--else if (cir.x < 0) cir.x = WIDTH;-->
+                  <!--if (cir.y > HEIGHT) cir.y = 0;-->
+                  <!--else if (cir.y < 0) cir.y = HEIGHT;-->
+              <!--}-->
+              <!--draw();-->
+          <!--}, 10);-->
+      <!--}-->
+  <!--</script>-->
+  <!--<script>-->
+      <!--var gitment = new Gitment({-->
+          <!--id: '', // 可选。默认为 location.href-->
+          <!--owner: 'vera0707',-->
+          <!--repo: 'https://github.com/vera0707/vera0707.github.io',-->
+          <!--labels: "gitment-introduction",-->
+          <!--oauth: {-->
+              <!--client_id: '412dc716eeeb8fa2983f',-->
+              <!--client_secret: 'e350354961bdca67937a21eed747e23ba1e6f86e'-->
+          <!--}-->
+      <!--})-->
+      <!--gitment.render('remark')-->
+  <!--</script>-->
+</body>
+</html>
