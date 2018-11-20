@@ -1,33 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://xieyuxuan.cc">
   <title>看完就懂的HTTPS | 谢雨轩的博客 | Vera Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="译注：本文作者酷壳/陈皓&amp;emsp;&amp;emsp;我们先不了聊HTTP，HTTPS，我们先从一个聊天软件说起，我们要实现A能发一个hello消息给B：
-
-&amp;emsp;&amp;emsp;如果我们要实现这个聊天软件，本文只考虑安全性问题，要实现
-
-A发给B的hello消息包，即使被中间人拦截到了，也无法得知消息的内容
-
-如何做到真正的安全？
-&amp;emsp;&amp;emsp;这个问题，很多人马上就想到了各种加密算法，什">
+  <meta name="description" content="译注：本文作者酷壳/陈皓&amp;emsp;&amp;emsp;我们先不了聊HTTP，HTTPS，我们先从一个聊天软件说起，我们要实现A能发一个hello消息给B：  &amp;emsp;&amp;emsp;如果我们要实现这个聊天软件，本文只考虑安全性问题，要实现  A发给B的hello消息包，即使被中间人拦截到了，也无法得知消息的内容  如何做到真正的安全？ &amp;emsp;&amp;emsp;这个问题，很多人马上就想到了各种加密算法，什">
+<meta name="keywords" content="前端,理解https">
 <meta property="og:type" content="article">
 <meta property="og:title" content="看完就懂的HTTPS">
 <meta property="og:url" content="http://xieyuxuan.cc/2017/03/07/https/index.html">
 <meta property="og:site_name" content="谢雨轩的博客 | Vera Blog">
-<meta property="og:description" content="译注：本文作者酷壳/陈皓&amp;emsp;&amp;emsp;我们先不了聊HTTP，HTTPS，我们先从一个聊天软件说起，我们要实现A能发一个hello消息给B：
-
-&amp;emsp;&amp;emsp;如果我们要实现这个聊天软件，本文只考虑安全性问题，要实现
-
-A发给B的hello消息包，即使被中间人拦截到了，也无法得知消息的内容
-
-如何做到真正的安全？
-&amp;emsp;&amp;emsp;这个问题，很多人马上就想到了各种加密算法，什">
+<meta property="og:description" content="译注：本文作者酷壳/陈皓&amp;emsp;&amp;emsp;我们先不了聊HTTP，HTTPS，我们先从一个聊天软件说起，我们要实现A能发一个hello消息给B：  &amp;emsp;&amp;emsp;如果我们要实现这个聊天软件，本文只考虑安全性问题，要实现  A发给B的hello消息包，即使被中间人拦截到了，也无法得知消息的内容  如何做到真正的安全？ &amp;emsp;&amp;emsp;这个问题，很多人马上就想到了各种加密算法，什">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-b93c4670333eb8d9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-9d943956300560f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/292372-528782117a69a5dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -48,14 +36,7 @@ A发给B的hello消息包，即使被中间人拦截到了，也无法得知消�
 <meta property="og:updated_time" content="2017-03-07T04:03:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="看完就懂的HTTPS">
-<meta name="twitter:description" content="译注：本文作者酷壳/陈皓&amp;emsp;&amp;emsp;我们先不了聊HTTP，HTTPS，我们先从一个聊天软件说起，我们要实现A能发一个hello消息给B：
-
-&amp;emsp;&amp;emsp;如果我们要实现这个聊天软件，本文只考虑安全性问题，要实现
-
-A发给B的hello消息包，即使被中间人拦截到了，也无法得知消息的内容
-
-如何做到真正的安全？
-&amp;emsp;&amp;emsp;这个问题，很多人马上就想到了各种加密算法，什">
+<meta name="twitter:description" content="译注：本文作者酷壳/陈皓&amp;emsp;&amp;emsp;我们先不了聊HTTP，HTTPS，我们先从一个聊天软件说起，我们要实现A能发一个hello消息给B：  &amp;emsp;&amp;emsp;如果我们要实现这个聊天软件，本文只考虑安全性问题，要实现  A发给B的hello消息包，即使被中间人拦截到了，也无法得知消息的内容  如何做到真正的安全？ &amp;emsp;&amp;emsp;这个问题，很多人马上就想到了各种加密算法，什">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/292372-b93c4670333eb8d9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
     <link rel="alternative" href="/atom.xml" title="谢雨轩的博客 | Vera Blog" type="application/atom+xml">
@@ -84,7 +65,7 @@ A发给B的hello消息包，即使被中间人拦截到了，也无法得知消�
   </script>
   <!-- End Piwik Code -->
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -202,10 +183,10 @@ A发给B的hello消息包，即使被中间人拦截到了，也无法得知消�
 
       <canvas id="body-wrap"> </canvas>
       <div class="body-wrap">
-          <article id="post-https" class="article article-type-post" itemscope itemprop="blogPost">
+          <article id="post-https" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -426,7 +407,7 @@ A发给B的hello消息包，即使被中间人拦截到了，也无法得知消�
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/FHS/" style="font-size: 12.5px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/jQuery源码/" style="font-size: 10px;">jQuery源码</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 12.5px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/依赖倒置原则/" style="font-size: 10px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端设计模式/" style="font-size: 17.5px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 15px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
+    				<a href="/tags/FHS/" style="font-size: 12.5px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/jQuery源码/" style="font-size: 10px;">jQuery源码</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 12.5px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/underscore/" style="font-size: 10px;">underscore</a> <a href="/tags/underscore源码/" style="font-size: 10px;">underscore源码</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/依赖倒置原则/" style="font-size: 10px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端设计模式/" style="font-size: 17.5px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 15px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/源码/" style="font-size: 10px;">源码</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
     			</div>
     	</section>
     

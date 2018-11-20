@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://xieyuxuan.cc">
   <title>谢雨轩的博客 | Vera Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,6 +14,7 @@
 <meta property="og:url" content="http://xieyuxuan.cc/page/2/index.html">
 <meta property="og:site_name" content="谢雨轩的博客 | Vera Blog">
 <meta property="og:description" content="前端技术分享,前端个人博客">
+<meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="谢雨轩的博客 | Vera Blog">
 <meta name="twitter:description" content="前端技术分享,前端个人博客">
@@ -44,7 +45,7 @@
   </script>
   <!-- End Piwik Code -->
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -164,10 +165,117 @@
       <div class="body-wrap">
           
   
-    <article id="post-studyWay" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-linuxFHS" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/17/linuxFHS/">Linux文件层级结构标准（FHS）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;设计FHS(Filesystem Hierarchy Standard)的目的主要是为了给Unix-like系统的管理员提供一个管理系统以及目录结构的一个参考。</p>
+<p>&emsp;&emsp;由于利用Linux源码开发产品和发行版的企业或组织众多，如果每个组织都按照自己的喜好来组织系统中的文件结构，网络上必然出现各种各样的文件结构。这些产品的用户就不得不为每种不同的文件系统结构花费时间来学习。有了FHS之后，几乎所有的Unix-like系统的发行商或软件开发者都遵从该建议规范每个特定目录下分别只放哪些文件，方便了文件的组织和查找。</p>
+<p>&emsp;&emsp;FHS也根据实际使用的需求持续更新，完整的FHS可参考（<a href="http://www.pathname.com/fhs/）" target="_blank" rel="noopener">http://www.pathname.com/fhs/）</a></p>
+<p><abbr title="" style="color:#333;font-weight:bold;background:#fff;text-decoration:none;border-bottom:none;">/, /usr, /var</abbr></p>
+<hr>
+<p>&emsp;&emsp;FHS根据文件的可共享、不可共享、静态和动态等特点，将目录树架构分为/、/usr、/var三部分。</p>
+<blockquote>
+<p> / 根目录是整个系统最重要的一个目录，因为在Linux系统中所有的目录都必须挂载在根目录下，也即所有的目录都是由根目录衍生出来。系统开机是所需要的开机软件、内核文件、函数库等都必须在根目录下。因此FHS也建议根目录不要安装在非常大、数据存取非常活跃的分区上，如此一来就能尽可能地降低系统不必要的错误。建议：根目录越小越好，且应用程序安装目录不要和根目录放置于同一分区。根目录下一般建议由以下耳机子目录：</p>
+</blockquote>
+<ul>
+<li>/bin 供所有用户使用的基本命令程序文件</li>
+<li>/sbin 系统管理员使用的工具程序</li>
+<li>/boot 引导加载器(bootloader)必须用到的静态文件：kernel、initramfs(initrd)、grub等</li>
+<li>/dev 存储特殊文件或设备文件: 字符设备（线性设备）、块设备（随机设备）</li>
+<li>/etc 系统程序的配置文件（只能为静态的，不能是二进制）</li>
+<li>/lib、/lib64 为系统启动或根文件系统上的应用程序（/bin, /sbin）提供共享库（libc.so.<em> ld</em>），以及为内核提供内核模块（modules）</li>
+<li>/media 便携式设备的挂载点，cdrom、floopy等</li>
+<li>/mnt 其他文件系统的临时挂载点</li>
+<li>/opt 第三方程序的安装位置，可选路径；</li>
+<li>/srv 当前主机为服务提供的数据</li>
+<li>/tmp 为那些会产生临时文件的程序提供的用于存储临时文件的目录</li>
+<li>/usr user hierarchy 全局共享只读数据路径</li>
+<li>/var var hierarchy存储常发生变化的文件</li>
+<li>/proc 内核级进程存储其相关信息，多为内核参数，例如net.ipv4.ipforward虚拟为net/ipv4/ipforward，存储于/proc/sys</li>
+<li>/sys sysfs虚拟文件系统提供了一种比proc更为理想的访问内核数据的途径；为管理内核提供了一种统一模型的接口</li>
+</ul>
+<blockquote>
+<p> /usr 根据FHS建议软件安装后将他们的数据合理地分别放置到这个目录下，而不要自行新建该软件自己的独立目录。/usr放置的数据属于可分享的且不可变动的，/usr可分享给局域网内的其他主机来使用。</p>
+</blockquote>
+<ul>
+<li>/usr/bin</li>
+<li>/usr/sbin</li>
+<li>/usr/lib</li>
+<li>/usr/lib64</li>
+<li>/usr/include C程序头文件</li>
+<li>/usr/share 命令手册页和自带文档等</li>
+<li>/usr/local 另一个层级结构，让系统管理员安装本地应用程序，通常用于安装第三方软件</li>
+<li>/usr/src 程序的源码</li>
+</ul>
+<blockquote>
+<p> /var 主要存储常变化的文件，包括缓存(cache)、登录文件(logfile)以及某些软件运行所产生的文件，包括程序文件(lock file, run file)，或者例如MySQL数据库的文件等。</p>
+</blockquote>
+<ul>
+<li>/var/cache 应用程序产生的缓存文件</li>
+<li>/var/lib 程序执行过程中，需要用到的数据文件放置的目录。此目录下各自的软件应该要有各自的目录。</li>
+<li>/var/lib 某些设备或者文件资源一次只能被一个应用程序所使用，如果同时有两个程序使用该设备时，就可能产生一些错误，因此就得要将该设备或文件上锁(lock)，以确保该文件或设备只给一个程序使用。</li>
+<li>/var/log 登录文件 /var/log/messages, /var/log/wtmp</li>
+<li>/var/mail 个人电子邮箱目录，通常与/var/spool/mail/目录互为链接</li>
+<li>/var/run 与运行中的进程相关的数据，PID等</li>
+<li>/var/spool 存放等待其他程序使用的数据</li>
+<li>/var/tmp 下次启动前会被删除的临时数据</li>
+</ul>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/07/17/linuxFHS/" class="archive-article-date">
+  	<time datetime="2018-07-17T11:51:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-17</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FHS/">FHS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux文件/">linux文件</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-studyWay" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -277,10 +385,10 @@
 
 
   
-    <article id="post-webDevelopment" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-webDevelopment" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -380,10 +488,10 @@
 
 
   
-    <article id="post-webStudent" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-webStudent" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -401,370 +509,370 @@
         <p>@(welcome)[前端菜鸟|掘金中]</p>
 <p>###技术网站</p>
 <ul>
-<li><a href="http://chuangzaoshi.com/index" target="_blank" rel="external">创造狮导航</a></li>
-<li><a href="https://leetcode.com/problemset/all/" target="_blank" rel="external">leetcode刷题</a></li>
-<li><a href="http://www.cnblogs.com/" target="_blank" rel="external">博客园</a></li>
-<li><a href="https://www.qianduan.net/" target="_blank" rel="external">前端观察</a></li>
-<li><a href="http://www.w3cfuns.com/" target="_blank" rel="external">前端网</a></li>
-<li><a href="http://www.tuicool.com/" target="_blank" rel="external">推酷</a></li>
-<li><a href="http://www.daqianduan.com/" target="_blank" rel="external">大前端</a></li>
-<li><a href="http://www.css88.com/" target="_blank" rel="external">web前端开发</a></li>
-<li><a href="http://www.webhek.com/" target="_blank" rel="external">web骇客</a></li>
-<li><a href="http://gold.xitu.io/explore/frontend" target="_blank" rel="external">掘金</a></li>
-<li><a href="http://fex.baidu.com/" target="_blank" rel="external">百度FEX</a></li>
-<li><a href="http://taobaofed.org/" target="_blank" rel="external">淘宝前端团队</a></li>
-<li><a href="https://segmentfault.com/" target="_blank" rel="external">segmentfault</a></li>
-<li><a href="http://www.uisdc.com/" target="_blank" rel="external">优设</a></li>
-<li><a href="http://javascript.ruanyifeng.com/" target="_blank" rel="external">阮一峰javascript教程</a></li>
-<li><a href="https://mritd.me/" target="_blank" rel="external">漠然Github</a></li>
-<li><a href="https://github.com/IORI20091101/" target="_blank" rel="external">芝哥Github</a></li>
-<li><a href="http://devdocs.io/" target="_blank" rel="external">程序猿宝典</a></li>
-<li><a href="http://qianduan.guru/" target="_blank" rel="external">前端外刊评论</a></li>
-<li><a href="http://q.ibeifeng.com/" target="_blank" rel="external">北风网</a></li>
-<li><a href="http://www.jqsite.com/main/plug" target="_blank" rel="external">前端社区</a></li>
-<li><a href="https://www.v2ex.com/" target="_blank" rel="external">v2ex</a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/" target="_blank" rel="external">MDN-分享知识</a></li>
+<li><a href="http://chuangzaoshi.com/index" target="_blank" rel="noopener">创造狮导航</a></li>
+<li><a href="https://leetcode.com/problemset/all/" target="_blank" rel="noopener">leetcode刷题</a></li>
+<li><a href="http://www.cnblogs.com/" target="_blank" rel="noopener">博客园</a></li>
+<li><a href="https://www.qianduan.net/" target="_blank" rel="noopener">前端观察</a></li>
+<li><a href="http://www.w3cfuns.com/" target="_blank" rel="noopener">前端网</a></li>
+<li><a href="http://www.tuicool.com/" target="_blank" rel="noopener">推酷</a></li>
+<li><a href="http://www.daqianduan.com/" target="_blank" rel="noopener">大前端</a></li>
+<li><a href="http://www.css88.com/" target="_blank" rel="noopener">web前端开发</a></li>
+<li><a href="http://www.webhek.com/" target="_blank" rel="noopener">web骇客</a></li>
+<li><a href="http://gold.xitu.io/explore/frontend" target="_blank" rel="noopener">掘金</a></li>
+<li><a href="http://fex.baidu.com/" target="_blank" rel="noopener">百度FEX</a></li>
+<li><a href="http://taobaofed.org/" target="_blank" rel="noopener">淘宝前端团队</a></li>
+<li><a href="https://segmentfault.com/" target="_blank" rel="noopener">segmentfault</a></li>
+<li><a href="http://www.uisdc.com/" target="_blank" rel="noopener">优设</a></li>
+<li><a href="http://javascript.ruanyifeng.com/" target="_blank" rel="noopener">阮一峰javascript教程</a></li>
+<li><a href="https://mritd.me/" target="_blank" rel="noopener">漠然Github</a></li>
+<li><a href="https://github.com/IORI20091101/" target="_blank" rel="noopener">芝哥Github</a></li>
+<li><a href="http://devdocs.io/" target="_blank" rel="noopener">程序猿宝典</a></li>
+<li><a href="http://qianduan.guru/" target="_blank" rel="noopener">前端外刊评论</a></li>
+<li><a href="http://q.ibeifeng.com/" target="_blank" rel="noopener">北风网</a></li>
+<li><a href="http://www.jqsite.com/main/plug" target="_blank" rel="noopener">前端社区</a></li>
+<li><a href="https://www.v2ex.com/" target="_blank" rel="noopener">v2ex</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/" target="_blank" rel="noopener">MDN-分享知识</a></li>
 </ul>
 <p>###资源整合</p>
 <ul>
-<li><a href="https://segmentfault.com/a/1190000004978770" target="_blank" rel="external">前端资源汇集</a></li>
-<li><a href="http://www.cnblogs.com/sb19871023/p/3894452.html" target="_blank" rel="external">前端总结</a></li>
-<li><a href="http://www.w3cfuns.com/notes/18186/714fccfb15f26c9858a163918b39a944.html" target="_blank" rel="external">前端知识大全</a></li>
-<li><a href="http://www.daqianduan.com/6281.html" target="_blank" rel="external">移动端WEB资源整合</a></li>
+<li><a href="https://segmentfault.com/a/1190000004978770" target="_blank" rel="noopener">前端资源汇集</a></li>
+<li><a href="http://www.cnblogs.com/sb19871023/p/3894452.html" target="_blank" rel="noopener">前端总结</a></li>
+<li><a href="http://www.w3cfuns.com/notes/18186/714fccfb15f26c9858a163918b39a944.html" target="_blank" rel="noopener">前端知识大全</a></li>
+<li><a href="http://www.daqianduan.com/6281.html" target="_blank" rel="noopener">移动端WEB资源整合</a></li>
 </ul>
 <p>###美工集锦</p>
 <ul>
-<li><a href="http://www.iconfont.cn/collections/" target="_blank" rel="external">图标库</a></li>
-<li><a href="http://w3schools.bootcss.com/colors/colors_picker.html" target="_blank" rel="external">取色卡</a></li>
-<li><a href="http://www.bootcss.com/p/websafecolors/" target="_blank" rel="external">网站安全色</a></li>
-<li><a href="http://sucai.zcool.com.cn/" target="_blank" rel="external">站酷</a></li>
-<li><a href="http://www.google.com/webfonts" target="_blank" rel="external">简单好用的谷歌字体库</a></li>
-<li><a href="http://fontawesome.dashgame.com/" target="_blank" rel="external">font字体库</a></li>
-<li><a href="https://www.ico.la/" target="_blank" rel="external">ico图片在线制作</a></li>
-<li><a href="http://www.quanjing.com/" target="_blank" rel="external">全景素材图片网</a></li>
-<li><a href="http://www.ui.cn/" target="_blank" rel="external">UI中国</a></li>
-<li><a href="http://so.uigreat.com/" target="_blank" rel="external">UI设计师导航</a></li>
-<li><a href="http://huaban.com/" target="_blank" rel="external">素材集锦-花瓣网</a></li>
-<li><a href="https://www.google.com/doodles" target="_blank" rel="external">谷歌每日动画</a></li>
-<li><a href="http://www.sketchcn.com/" target="_blank" rel="external">开发APP的设计利器SKETCH</a></li>
+<li><a href="http://www.iconfont.cn/collections/" target="_blank" rel="noopener">图标库</a></li>
+<li><a href="http://w3schools.bootcss.com/colors/colors_picker.html" target="_blank" rel="noopener">取色卡</a></li>
+<li><a href="http://www.bootcss.com/p/websafecolors/" target="_blank" rel="noopener">网站安全色</a></li>
+<li><a href="http://sucai.zcool.com.cn/" target="_blank" rel="noopener">站酷</a></li>
+<li><a href="http://www.google.com/webfonts" target="_blank" rel="noopener">简单好用的谷歌字体库</a></li>
+<li><a href="http://fontawesome.dashgame.com/" target="_blank" rel="noopener">font字体库</a></li>
+<li><a href="https://www.ico.la/" target="_blank" rel="noopener">ico图片在线制作</a></li>
+<li><a href="http://www.quanjing.com/" target="_blank" rel="noopener">全景素材图片网</a></li>
+<li><a href="http://www.ui.cn/" target="_blank" rel="noopener">UI中国</a></li>
+<li><a href="http://so.uigreat.com/" target="_blank" rel="noopener">UI设计师导航</a></li>
+<li><a href="http://huaban.com/" target="_blank" rel="noopener">素材集锦-花瓣网</a></li>
+<li><a href="https://www.google.com/doodles" target="_blank" rel="noopener">谷歌每日动画</a></li>
+<li><a href="http://www.sketchcn.com/" target="_blank" rel="noopener">开发APP的设计利器SKETCH</a></li>
 </ul>
 <p>###全栈修炼</p>
 <ul>
-<li><a href="https://github.com/ruanyf/jstraining" target="_blank" rel="external">阮一峰全栈修炼营</a></li>
-<li><a href="https://github.com/phodal/ideabook" target="_blank" rel="external">一个全栈增长工程师的练手项目集</a></li>
-<li><a href="http://ife.baidu.com/task/all" target="_blank" rel="external">百度前端技术学院开发任务</a></li>
-<li><a href="https://www.freecodecamp.cn/map" target="_blank" rel="external">FreeCodeCamp中文网</a></li>
-<li><a href="http://www.salttiger.com/" target="_blank" rel="external">各种Book</a></li>
-<li><a href="https://ninghao.net/course" target="_blank" rel="external">宁皓网</a></li>
-<li><a href="http://www.kancloud.cn/dennis/javascriptmethod/261471" target="_blank" rel="external">Web开发实战</a></li>
-<li><a href="http://www.kancloud.cn/dennis/tgjavascript/241800" target="_blank" rel="external">JavaScript半知半解</a></li>
-<li><a href="https://electron.org.cn/" target="_blank" rel="external">electron搭建跨平台桌面应用</a></li>
+<li><a href="https://github.com/ruanyf/jstraining" target="_blank" rel="noopener">阮一峰全栈修炼营</a></li>
+<li><a href="https://github.com/phodal/ideabook" target="_blank" rel="noopener">一个全栈增长工程师的练手项目集</a></li>
+<li><a href="http://ife.baidu.com/task/all" target="_blank" rel="noopener">百度前端技术学院开发任务</a></li>
+<li><a href="https://www.freecodecamp.cn/map" target="_blank" rel="noopener">FreeCodeCamp中文网</a></li>
+<li><a href="http://www.salttiger.com/" target="_blank" rel="noopener">各种Book</a></li>
+<li><a href="https://ninghao.net/course" target="_blank" rel="noopener">宁皓网</a></li>
+<li><a href="http://www.kancloud.cn/dennis/javascriptmethod/261471" target="_blank" rel="noopener">Web开发实战</a></li>
+<li><a href="http://www.kancloud.cn/dennis/tgjavascript/241800" target="_blank" rel="noopener">JavaScript半知半解</a></li>
+<li><a href="https://electron.org.cn/" target="_blank" rel="noopener">electron搭建跨平台桌面应用</a></li>
 </ul>
 <p>###官方文档</p>
 <ul>
-<li><a href="http://www.css88.com/doc/underscore/" target="_blank" rel="external">underscoreJS</a></li>
-<li><a href="http://jquery.cuishifeng.cn/" target="_blank" rel="external">jQuery中文文档</a></li>
-<li><a href="http://www.requirejs.cn/" target="_blank" rel="external">requireJS中文</a></li>
-<li><a href="http://www.css88.com/doc/backbone/" target="_blank" rel="external">backboneJS</a></li>
-<li><a href="http://www.reactjs.cn/" target="_blank" rel="external">ReactJS</a></li>
-<li><a href="http://cn.vuejs.org/api/" target="_blank" rel="external">VueJS中文</a></li>
-<li><a href="http://www.jslint.com/" target="_blank" rel="external">JSLint</a></li>
-<li><a href="http://www.css88.com/doc/zeptojs_api/" target="_blank" rel="external">Zepto.js</a></li>
-<li><a href="http://juicer.name/" target="_blank" rel="external">juicer-DOM拼接</a></li>
-<li><a href="http://coffee-script.org/" target="_blank" rel="external">CoffeeScript-简化编写JS</a></li>
-<li><a href="http://babeljs.cn/docs/setup/" target="_blank" rel="external">Babel-支持ES6</a></li>
-<li><a href="http://t4t5.github.io/sweetalert/" target="_blank" rel="external">sweetAlert-弹出框</a></li>
-<li><a href="http://echarts.baidu.com/index.html" target="_blank" rel="external">ECharts1.0-网页图表</a></li>
-<li><a href="http://echarts.baidu.com/echarts2/index.html" target="_blank" rel="external">ECharts2.0-网页图表</a></li>
-<li><a href="http://www.react-cn.com/docs/tutorial.html" target="_blank" rel="external">React中文教程</a></li>
-<li><a href="https://threejs.org/" target="_blank" rel="external">Three.js官</a></li>
-<li><a href="http://lodashjs.com/" target="_blank" rel="external">数据操作lodashJS</a></li>
-<li><a href="http://expressjs.com/" target="_blank" rel="external">express</a></li>
-<li><a href="https://mp.weixin.qq.com/debug/wxadoc/dev/api/api-login.html#wxloginobject" target="_blank" rel="external">小程序API</a></li>
-<li><a href="https://mp.weixin.qq.com/debug/wxadoc/dev/demo.html?t=20161122" target="_blank" rel="external">小程序</a></li>
-<li><a href="http://lodashjs.com/docs/" target="_blank" rel="external">Lodash-超越undersore的js库</a></li>
-<li><a href="https://github.com/videojs/video.js" target="_blank" rel="external">video.js</a></li>
-<li><a href="http://www.hewebgl.com/" target="_blank" rel="external">WebGl中文网</a></li>
-<li><a href="http://json.is/" target="_blank" rel="external">package.json配置文件详细介绍</a></li>
+<li><a href="http://www.css88.com/doc/underscore/" target="_blank" rel="noopener">underscoreJS</a></li>
+<li><a href="http://jquery.cuishifeng.cn/" target="_blank" rel="noopener">jQuery中文文档</a></li>
+<li><a href="http://www.requirejs.cn/" target="_blank" rel="noopener">requireJS中文</a></li>
+<li><a href="http://www.css88.com/doc/backbone/" target="_blank" rel="noopener">backboneJS</a></li>
+<li><a href="http://www.reactjs.cn/" target="_blank" rel="noopener">ReactJS</a></li>
+<li><a href="http://cn.vuejs.org/api/" target="_blank" rel="noopener">VueJS中文</a></li>
+<li><a href="http://www.jslint.com/" target="_blank" rel="noopener">JSLint</a></li>
+<li><a href="http://www.css88.com/doc/zeptojs_api/" target="_blank" rel="noopener">Zepto.js</a></li>
+<li><a href="http://juicer.name/" target="_blank" rel="noopener">juicer-DOM拼接</a></li>
+<li><a href="http://coffee-script.org/" target="_blank" rel="noopener">CoffeeScript-简化编写JS</a></li>
+<li><a href="http://babeljs.cn/docs/setup/" target="_blank" rel="noopener">Babel-支持ES6</a></li>
+<li><a href="http://t4t5.github.io/sweetalert/" target="_blank" rel="noopener">sweetAlert-弹出框</a></li>
+<li><a href="http://echarts.baidu.com/index.html" target="_blank" rel="noopener">ECharts1.0-网页图表</a></li>
+<li><a href="http://echarts.baidu.com/echarts2/index.html" target="_blank" rel="noopener">ECharts2.0-网页图表</a></li>
+<li><a href="http://www.react-cn.com/docs/tutorial.html" target="_blank" rel="noopener">React中文教程</a></li>
+<li><a href="https://threejs.org/" target="_blank" rel="noopener">Three.js官</a></li>
+<li><a href="http://lodashjs.com/" target="_blank" rel="noopener">数据操作lodashJS</a></li>
+<li><a href="http://expressjs.com/" target="_blank" rel="noopener">express</a></li>
+<li><a href="https://mp.weixin.qq.com/debug/wxadoc/dev/api/api-login.html#wxloginobject" target="_blank" rel="noopener">小程序API</a></li>
+<li><a href="https://mp.weixin.qq.com/debug/wxadoc/dev/demo.html?t=20161122" target="_blank" rel="noopener">小程序</a></li>
+<li><a href="http://lodashjs.com/docs/" target="_blank" rel="noopener">Lodash-超越undersore的js库</a></li>
+<li><a href="https://github.com/videojs/video.js" target="_blank" rel="noopener">video.js</a></li>
+<li><a href="http://www.hewebgl.com/" target="_blank" rel="noopener">WebGl中文网</a></li>
+<li><a href="http://json.is/" target="_blank" rel="noopener">package.json配置文件详细介绍</a></li>
 </ul>
 <p>###前端工具</p>
 <ul>
-<li><a href="https://regexper.com/#%2F%5E1%5B34578%5D%5Cd%7B9%7D%24%2F" target="_blank" rel="external">正则编辑神器</a></li>
-<li><a href="http://www.tuicool.com/articles/mAzmq2" target="_blank" rel="external">weinre远程调试工具</a></li>
-<li><a href="https://shadowsocks.org/en/config/quick-guide.html" target="_blank" rel="external">翻墙工具</a></li>
-<li><a href="https://github.com/jsdoc3/jsdoc" target="_blank" rel="external">JSDoc-生成js文档</a></li>
-<li><a href="http://jekyll.bootcss.com/" target="_blank" rel="external">jekyll-在git上制作个人博客</a></li>
-<li><a href="http://www.xmind.net/" target="_blank" rel="external">思维导图</a></li>
-<li><a href="http://rj.baidu.com/soft/detail/25729.html?ald" target="_blank" rel="external">远程工作teamviewer下载</a></li>
-<li><a href="http://cubic-bezier.com/#.42,0,.58,1" target="_blank" rel="external">css动画cubic-bezier工具</a></li>
-<li><a href="https://translate.google.cn/" target="_blank" rel="external">谷歌翻译</a></li>
-<li><a href="https://typekit.com/foundries/adobe/" target="_blank" rel="external">Adobe的Typekit字体库</a></li>
-<li><a href="http://www.fontsquirrel.com/fontface/generator" target="_blank" rel="external">FontSquirrel字体包转换程序</a></li>
-<li><a href="http://thinkingwithtype.com/" target="_blank" rel="external">文字排版</a></li>
-<li><a href="http://westciv.com/xray/" target="_blank" rel="external">css样式检查工具–xray</a></li>
-<li><a href="http://www.geetest.com/" target="_blank" rel="external">免费图片验证</a></li>
-<li><a href="http://www.cdnjs.net/" target="_blank" rel="external">免费CDN</a></li>
-<li><a href="http://www.bootcdn.cn/" target="_blank" rel="external">BootCDN</a></li>
+<li><a href="https://regexper.com/#%2F%5E1%5B34578%5D%5Cd%7B9%7D%24%2F" target="_blank" rel="noopener">正则编辑神器</a></li>
+<li><a href="http://www.tuicool.com/articles/mAzmq2" target="_blank" rel="noopener">weinre远程调试工具</a></li>
+<li><a href="https://shadowsocks.org/en/config/quick-guide.html" target="_blank" rel="noopener">翻墙工具</a></li>
+<li><a href="https://github.com/jsdoc3/jsdoc" target="_blank" rel="noopener">JSDoc-生成js文档</a></li>
+<li><a href="http://jekyll.bootcss.com/" target="_blank" rel="noopener">jekyll-在git上制作个人博客</a></li>
+<li><a href="http://www.xmind.net/" target="_blank" rel="noopener">思维导图</a></li>
+<li><a href="http://rj.baidu.com/soft/detail/25729.html?ald" target="_blank" rel="noopener">远程工作teamviewer下载</a></li>
+<li><a href="http://cubic-bezier.com/#.42,0,.58,1" target="_blank" rel="noopener">css动画cubic-bezier工具</a></li>
+<li><a href="https://translate.google.cn/" target="_blank" rel="noopener">谷歌翻译</a></li>
+<li><a href="https://typekit.com/foundries/adobe/" target="_blank" rel="noopener">Adobe的Typekit字体库</a></li>
+<li><a href="http://www.fontsquirrel.com/fontface/generator" target="_blank" rel="noopener">FontSquirrel字体包转换程序</a></li>
+<li><a href="http://thinkingwithtype.com/" target="_blank" rel="noopener">文字排版</a></li>
+<li><a href="http://westciv.com/xray/" target="_blank" rel="noopener">css样式检查工具–xray</a></li>
+<li><a href="http://www.geetest.com/" target="_blank" rel="noopener">免费图片验证</a></li>
+<li><a href="http://www.cdnjs.net/" target="_blank" rel="noopener">免费CDN</a></li>
+<li><a href="http://www.bootcdn.cn/" target="_blank" rel="noopener">BootCDN</a></li>
 </ul>
 <p>###JS库</p>
 <ul>
-<li><a href="https://d3js.org/" target="_blank" rel="external">D3js-扁平化图表</a></li>
-<li><a href="http://www.bootcss.com/p/buttons/" target="_blank" rel="external">BUTTONS-详尽的按钮样式</a></li>
-<li><a href="http://g2.alipay.com/" target="_blank" rel="external">G2-图表插件</a></li>
-<li><a href="http://www.webhek.com/misc/impress-js/" target="_blank" rel="external">网页幻灯片impressJS</a></li>
-<li><a href="http://router.vuejs.org/zh-cn/" target="_blank" rel="external">Vue-router中文</a></li>
-<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&amp;mid=2651551200&amp;idx=1&amp;sn=6a13dbb6f661611194a570c819735a45&amp;scene=2&amp;srcid=0905DiSxVOXbeWarFYItkdFg&amp;from=timeline&amp;isappinstalled=0#wechat_redirect" target="_blank" rel="external">Vue-组件1</a></li>
-<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&amp;mid=2651551218&amp;idx=1&amp;sn=04d735ec778b2e046f1ae7e2f4d20c62&amp;scene=2&amp;srcid=0905RPDNJolYOHATUPgFQMJ7&amp;from=timeline&amp;isappinstalled=0#wechat_redirect" target="_blank" rel="external">Vue-组件2</a></li>
-<li><a href="http://www.dowebok.com/demo/118/" target="_blank" rel="external">移动端上下划动onepage-scroll.js</a></li>
-<li><a href="http://inorganik.github.io/countUp.js/" target="_blank" rel="external">数字滚动动画CountUp.js</a></li>
-<li><a href="https://aframe.io/" target="_blank" rel="external">A-Frame框架–实现VR效果</a></li>
-<li><a href="https://prepack.io/" target="_blank" rel="external">js语法合并-Prepack</a></li>
-<li><a href="https://zhongsp.gitbooks.io/typescript-handbook/content/index.html" target="_blank" rel="external">TypeScript中文文档最全</a></li>
-<li><a href="http://www.jianshu.com/p/5bb86a770e23" target="_blank" rel="external">json-server模拟服务器API</a></li>
+<li><a href="https://d3js.org/" target="_blank" rel="noopener">D3js-扁平化图表</a></li>
+<li><a href="http://www.bootcss.com/p/buttons/" target="_blank" rel="noopener">BUTTONS-详尽的按钮样式</a></li>
+<li><a href="http://g2.alipay.com/" target="_blank" rel="noopener">G2-图表插件</a></li>
+<li><a href="http://www.webhek.com/misc/impress-js/" target="_blank" rel="noopener">网页幻灯片impressJS</a></li>
+<li><a href="http://router.vuejs.org/zh-cn/" target="_blank" rel="noopener">Vue-router中文</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&amp;mid=2651551200&amp;idx=1&amp;sn=6a13dbb6f661611194a570c819735a45&amp;scene=2&amp;srcid=0905DiSxVOXbeWarFYItkdFg&amp;from=timeline&amp;isappinstalled=0#wechat_redirect" target="_blank" rel="noopener">Vue-组件1</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&amp;mid=2651551218&amp;idx=1&amp;sn=04d735ec778b2e046f1ae7e2f4d20c62&amp;scene=2&amp;srcid=0905RPDNJolYOHATUPgFQMJ7&amp;from=timeline&amp;isappinstalled=0#wechat_redirect" target="_blank" rel="noopener">Vue-组件2</a></li>
+<li><a href="http://www.dowebok.com/demo/118/" target="_blank" rel="noopener">移动端上下划动onepage-scroll.js</a></li>
+<li><a href="http://inorganik.github.io/countUp.js/" target="_blank" rel="noopener">数字滚动动画CountUp.js</a></li>
+<li><a href="https://aframe.io/" target="_blank" rel="noopener">A-Frame框架–实现VR效果</a></li>
+<li><a href="https://prepack.io/" target="_blank" rel="noopener">js语法合并-Prepack</a></li>
+<li><a href="https://zhongsp.gitbooks.io/typescript-handbook/content/index.html" target="_blank" rel="noopener">TypeScript中文文档最全</a></li>
+<li><a href="http://www.jianshu.com/p/5bb86a770e23" target="_blank" rel="noopener">json-server模拟服务器API</a></li>
 </ul>
 <p>###JS规范</p>
 <ul>
-<li><a href="http://www.ruanyifeng.com/blog/2012/10/javascript_module.html" target="_blank" rel="external">JavaSript模块规范 AMD规范与CMD规范</a></li>
-<li><a href="http://www.ruanyifeng.com/blog/2015/04/generator.html" target="_blank" rel="external">Generator 函数</a></li>
-<li><a href="http://es6.ruanyifeng.com/" target="_blank" rel="external">ES6入门</a></li>
-<li><a href="https://zhongsp.gitbooks.io/typescript-handbook/content/doc/handbook/tutorials/ASP.NET%20Core.html" target="_blank" rel="external">TypeScript版本大全</a></li>
-<li><a href="https://www.typescriptlang.org/" target="_blank" rel="external">TypeScript-基于ES6</a></li>
-<li><a href="http://www.typescriptlang.org/samples/index.html" target="_blank" rel="external">TypeScript2.6</a></li>
-<li><a href="https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb" target="_blank" rel="external">eslint-config-airbnb</a></li>
-<li><a href="https://github.com/standard/standard" target="_blank" rel="external">StandardJS</a></li>
-<li><a href="https://github.com/airbnb/javascript" target="_blank" rel="external">Airbnb JavaScript</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2012/10/javascript_module.html" target="_blank" rel="noopener">JavaSript模块规范 AMD规范与CMD规范</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2015/04/generator.html" target="_blank" rel="noopener">Generator 函数</a></li>
+<li><a href="http://es6.ruanyifeng.com/" target="_blank" rel="noopener">ES6入门</a></li>
+<li><a href="https://zhongsp.gitbooks.io/typescript-handbook/content/doc/handbook/tutorials/ASP.NET%20Core.html" target="_blank" rel="noopener">TypeScript版本大全</a></li>
+<li><a href="https://www.typescriptlang.org/" target="_blank" rel="noopener">TypeScript-基于ES6</a></li>
+<li><a href="http://www.typescriptlang.org/samples/index.html" target="_blank" rel="noopener">TypeScript2.6</a></li>
+<li><a href="https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb" target="_blank" rel="noopener">eslint-config-airbnb</a></li>
+<li><a href="https://github.com/standard/standard" target="_blank" rel="noopener">StandardJS</a></li>
+<li><a href="https://github.com/airbnb/javascript" target="_blank" rel="noopener">Airbnb JavaScript</a></li>
 </ul>
 <p>###jQuery插件及特效</p>
 <ul>
-<li><a href="http://www.htmleaf.com/Demo/2014100223.html" target="_blank" rel="external">jQuery-瀑布流布局异步图片加载</a></li>
-<li><a href="http://www.jq22.com/jquery-info7282" target="_blank" rel="external">后台管理模板WrapBootstrap</a></li>
-<li><a href="http://lihongxun945.github.io/jquery-weui/" target="_blank" rel="external">jQuery WeUI</a></li>
-<li><a href="http://www.jq22.com/jquery-info4216" target="_blank" rel="external">jQuery3d幻灯片翻页效果</a></li>
-<li><a href="http://www.bootcss.com/p/unslider/" target="_blank" rel="external">jQuery-unslider图片轮播</a></li>
-<li><a href="http://www.jq22.com/" target="_blank" rel="external">插件库</a></li>
-<li><a href="http://tympanus.net/Development/ModalWindowEffects/" target="_blank" rel="external">各种模态框</a></li>
+<li><a href="http://www.htmleaf.com/Demo/2014100223.html" target="_blank" rel="noopener">jQuery-瀑布流布局异步图片加载</a></li>
+<li><a href="http://www.jq22.com/jquery-info7282" target="_blank" rel="noopener">后台管理模板WrapBootstrap</a></li>
+<li><a href="http://lihongxun945.github.io/jquery-weui/" target="_blank" rel="noopener">jQuery WeUI</a></li>
+<li><a href="http://www.jq22.com/jquery-info4216" target="_blank" rel="noopener">jQuery3d幻灯片翻页效果</a></li>
+<li><a href="http://www.bootcss.com/p/unslider/" target="_blank" rel="noopener">jQuery-unslider图片轮播</a></li>
+<li><a href="http://www.jq22.com/" target="_blank" rel="noopener">插件库</a></li>
+<li><a href="http://tympanus.net/Development/ModalWindowEffects/" target="_blank" rel="noopener">各种模态框</a></li>
 <li><a href="">跨浏览器复制jQuery.zlip</a></li>
-<li><a href="http://www.dowebok.com/demo/2014/77/" target="_blank" rel="external">jQurty.fullPage-一页滚动演示</a></li>
-<li><a href="http://2016.makemepulse.com/" target="_blank" rel="external">炫酷前端动画</a></li>
+<li><a href="http://www.dowebok.com/demo/2014/77/" target="_blank" rel="noopener">jQurty.fullPage-一页滚动演示</a></li>
+<li><a href="http://2016.makemepulse.com/" target="_blank" rel="noopener">炫酷前端动画</a></li>
 </ul>
 <p>###插件库</p>
 <ul>
-<li><a href="http://www.dowebok.com" target="_blank" rel="external">效果站</a></li>
-<li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="external">vue组件库</a></li>
-<li><a href="https://www.npmjs.com/package/vue-drapload" target="_blank" rel="external">vue-drapload上拉加载下拉刷新</a></li>
-<li><a href="https://segmentfault.com/a/1190000000357534#articleHeader0" target="_blank" rel="external">jade-js的模板</a></li>
-<li><a href="https://react-bootstrap.github.io/" target="_blank" rel="external">react-Bootstrap</a></li>
-<li><a href="http://recharts.org/" target="_blank" rel="external">React图表组件库-ReCharts</a></li>
+<li><a href="http://www.dowebok.com" target="_blank" rel="noopener">效果站</a></li>
+<li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">vue组件库</a></li>
+<li><a href="https://www.npmjs.com/package/vue-drapload" target="_blank" rel="noopener">vue-drapload上拉加载下拉刷新</a></li>
+<li><a href="https://segmentfault.com/a/1190000000357534#articleHeader0" target="_blank" rel="noopener">jade-js的模板</a></li>
+<li><a href="https://react-bootstrap.github.io/" target="_blank" rel="noopener">react-Bootstrap</a></li>
+<li><a href="http://recharts.org/" target="_blank" rel="noopener">React图表组件库-ReCharts</a></li>
 <li><a href="">React框架MobX</a></li>
 <li><a href="">React框架Redux:Flux 的函数式实现</a></li>
-<li><a href="https://clipboardjs.com/" target="_blank" rel="external">复制组件clipboard.js</a></li>
-<li><a href="https://www.npmjs.com/package/eslint" target="_blank" rel="external">ESLint–静态代码检查工具</a></li>
+<li><a href="https://clipboardjs.com/" target="_blank" rel="noopener">复制组件clipboard.js</a></li>
+<li><a href="https://www.npmjs.com/package/eslint" target="_blank" rel="noopener">ESLint–静态代码检查工具</a></li>
 <li><a href="">Mocha–目前最常用的测试框架</a></li>
 <li><a href="nightmarejs.org">Nightmare功能测试</a></li>
-<li><a href="https://greensock.com/docs/TweenMax" target="_blank" rel="external">动画特效TweenMax</a></li>
-<li><a href="http://validform.rjboy.cn/" target="_blank" rel="external">Validform表单验证</a></li>
-<li><a href="http://www.swiper.com.cn/" target="_blank" rel="external">swiper触摸轮播图</a></li>
-<li><a href="http://www.dowebok.com/77.html" target="_blank" rel="external">全屏滚动fullPage</a></li>
-<li><a href="http://www.layui.com" target="_blank" rel="external">layui模块化组件</a></li>
-<li><a href="http://wowslider.com/javascript-slideshow-quiet-rotate-demo.html" target="_blank" rel="external">轮播图效果大全</a></li>
+<li><a href="https://greensock.com/docs/TweenMax" target="_blank" rel="noopener">动画特效TweenMax</a></li>
+<li><a href="http://validform.rjboy.cn/" target="_blank" rel="noopener">Validform表单验证</a></li>
+<li><a href="http://www.swiper.com.cn/" target="_blank" rel="noopener">swiper触摸轮播图</a></li>
+<li><a href="http://www.dowebok.com/77.html" target="_blank" rel="noopener">全屏滚动fullPage</a></li>
+<li><a href="http://www.layui.com" target="_blank" rel="noopener">layui模块化组件</a></li>
+<li><a href="http://wowslider.com/javascript-slideshow-quiet-rotate-demo.html" target="_blank" rel="noopener">轮播图效果大全</a></li>
 </ul>
 <p>###H5 和 CSS3</p>
 <ul>
-<li><a href="http://www.bootcss.com/" target="_blank" rel="external">BootStrap</a></li>
-<li><a href="https://daneden.github.io/animate.css/" target="_blank" rel="external">Animate.css</a></li>
-<li><a href="http://www.bootcss.com/p/html5boilerplate/" target="_blank" rel="external">HTML5 Boilerplate–快速搭建前端网站</a></li>
-<li><a href="http://www.bootcss.com/p/flat-ui/" target="_blank" rel="external">Fla UI-扩充bootstrap的样式组件库</a></li>
-<li><a href="http://necolas.github.io/normalize.css/" target="_blank" rel="external">Normalize.css–重置样式</a></li>
-<li><a href="http://www.lesscss.net/" target="_blank" rel="external">less</a></li>
-<li><a href="http://sass.bootcss.com/" target="_blank" rel="external">sass</a></li>
-<li><a href="http://www.sasschina.com/guide/" target="_blank" rel="external">Sass中文网</a></li>
-<li><a href="https://connoratherton.com/loaders" target="_blank" rel="external">Loading动画</a></li>
-<li><a href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html?utm_source=tuicool" target="_blank" rel="external">flex布局</a></li>
-<li><a href="http://blog.wpjam.com/m/weui/" target="_blank" rel="external">WeUI-微信官方网页开发样式库</a></li>
+<li><a href="http://www.bootcss.com/" target="_blank" rel="noopener">BootStrap</a></li>
+<li><a href="https://daneden.github.io/animate.css/" target="_blank" rel="noopener">Animate.css</a></li>
+<li><a href="http://www.bootcss.com/p/html5boilerplate/" target="_blank" rel="noopener">HTML5 Boilerplate–快速搭建前端网站</a></li>
+<li><a href="http://www.bootcss.com/p/flat-ui/" target="_blank" rel="noopener">Fla UI-扩充bootstrap的样式组件库</a></li>
+<li><a href="http://necolas.github.io/normalize.css/" target="_blank" rel="noopener">Normalize.css–重置样式</a></li>
+<li><a href="http://www.lesscss.net/" target="_blank" rel="noopener">less</a></li>
+<li><a href="http://sass.bootcss.com/" target="_blank" rel="noopener">sass</a></li>
+<li><a href="http://www.sasschina.com/guide/" target="_blank" rel="noopener">Sass中文网</a></li>
+<li><a href="https://connoratherton.com/loaders" target="_blank" rel="noopener">Loading动画</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html?utm_source=tuicool" target="_blank" rel="noopener">flex布局</a></li>
+<li><a href="http://blog.wpjam.com/m/weui/" target="_blank" rel="noopener">WeUI-微信官方网页开发样式库</a></li>
 </ul>
 <p>###代码优化</p>
 <ul>
-<li><a href="http://csslint.net/" target="_blank" rel="external">CSS LINK-在线css优化工具</a></li>
-<li><a href="http://jshint.com/" target="_blank" rel="external">JSHint-js检测工具</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout" target="_blank" rel="external">CSS框布局</a></li>
-<li><a href="http://codepen.io/pen/" target="_blank" rel="external">在线代码编辑器–CODEPEN</a></li>
+<li><a href="http://csslint.net/" target="_blank" rel="noopener">CSS LINK-在线css优化工具</a></li>
+<li><a href="http://jshint.com/" target="_blank" rel="noopener">JSHint-js检测工具</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout" target="_blank" rel="noopener">CSS框布局</a></li>
+<li><a href="http://codepen.io/pen/" target="_blank" rel="noopener">在线代码编辑器–CODEPEN</a></li>
 </ul>
 <p>###快速搭建项目</p>
 <ul>
-<li><a href="http://yeoman.io/" target="_blank" rel="external">yeomanl</a></li>
-<li><a href="http://foundation.zurb.com/templates.html" target="_blank" rel="external">Function</a></li>
-<li><a href="https://modernizr.com/docs/" target="_blank" rel="external">Modernizr–实现优雅降级</a></li>
-<li><a href="http://www.getuikit.net/" target="_blank" rel="external">UIkit</a></li>
-<li><a href="https://github.com/ruanyf/jstraining" target="_blank" rel="external">阮一峰全栈搭建</a></li>
-<li><a href="https://github.com/gdi2290/angular-starter" target="_blank" rel="external">angular Starter</a></li>
+<li><a href="http://yeoman.io/" target="_blank" rel="noopener">yeomanl</a></li>
+<li><a href="http://foundation.zurb.com/templates.html" target="_blank" rel="noopener">Function</a></li>
+<li><a href="https://modernizr.com/docs/" target="_blank" rel="noopener">Modernizr–实现优雅降级</a></li>
+<li><a href="http://www.getuikit.net/" target="_blank" rel="noopener">UIkit</a></li>
+<li><a href="https://github.com/ruanyf/jstraining" target="_blank" rel="noopener">阮一峰全栈搭建</a></li>
+<li><a href="https://github.com/gdi2290/angular-starter" target="_blank" rel="noopener">angular Starter</a></li>
 </ul>
 <p>###深度好文</p>
 <ul>
-<li><a href="http://www.cnblogs.com/coco1s/p/5777260.html" target="_blank" rel="external">JavaScript防http劫持与XSS</a></li>
-<li><a href="http://blog.csdn.net/wang16510/article/details/8960312" target="_blank" rel="external">H5兼容解决方案-polyfill</a></li>
-<li><a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills" target="_blank" rel="external">HTML5 Cross Browser Polyfills</a></li>
-<li><a href="http://www.infoq.com/cn/articles/understanding-restful-style/" target="_blank" rel="external">REST架构风格</a></li>
-<li><a href="http://www.yyyweb.com/3541.html" target="_blank" rel="external">console的特性完全版</a></li>
-<li><a href="http://blog.csdn.net/kongjiea/article/details/46341575" target="_blank" rel="external">超棒的面试题</a></li>
-<li><a href="https://segmentfault.com/a/1190000002491282" target="_blank" rel="external">gulp与grunt对比</a></li>
-<li><a href="http://www.cnblogs.com/TomXu/archive/2011/12/14/2286225.html" target="_blank" rel="external">大型JavaScript应用程序架构模式</a></li>
-<li><a href="http://www.ruanyifeng.com/blog/2014/09/package-management.html" target="_blank" rel="external">前端模块管理器介绍-阮一峰</a></li>
-<li><a href="http://www.iwan0.com/#column6" target="_blank" rel="external">前端爱玩网仓库</a></li>
-<li><a href="http://www.infoq.com/cn/articles/understanding-restful-style/" target="_blank" rel="external">REST架构风格深入理解</a></li>
-<li><a href="http://www.html5cn.org/article-6776-1.html" target="_blank" rel="external">什么是web服务器</a></li>
-<li><a href="http://littleblack.cc/2016/05/04/Javascript/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AAAjax/" target="_blank" rel="external">手写ajax</a></li>
-<li><a href="http://www.css88.com/archives/6137#more-6137" target="_blank" rel="external">前端调试方式</a></li>
-<li><a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html" target="_blank" rel="external">jQuery的deferred</a></li>
-<li><a href="http://www.w3cfuns.com/notes/28851/cc4837a17338dc9691ac3653f5da9771.html" target="_blank" rel="external">前端职业发展之路</a></li>
-<li><a href="http://blog.51yip.com/jsjquery/1607.html" target="_blank" rel="external">angularJS之directive</a></li>
-<li><a href="http://m.blog.csdn.net/article/details?id=51890406" target="_blank" rel="external">Vue-router思维导图</a></li>
-<li><a href="http://www.oschina.net/translate/being-a-frontend-developer-for-a-weekend" target="_blank" rel="external">我是如何利用一个周末时间成为前端工程师的</a></li>
-<li><a href="http://echarts.baidu.com/demo.html#geo-lines" target="_blank" rel="external">Echarts在线案例</a></li>
-<li><a href="http://www.ezlippi.com/blog/2015/03/github-pages-blog.html" target="_blank" rel="external">github使用介绍</a></li>
-<li><a href="http://redstarofsleep.iteye.com/blog/1917724" target="_blank" rel="external">环状进度球</a></li>
-<li><a href="http://hcysun.me/2016/03/25/%E5%9F%BA%E4%BA%8Ewebpack%E5%92%8Cvue.js%E6%90%AD%E5%BB%BA%E7%9A%84H5%E7%AB%AF%E6%A1%86%E6%9E%B6(%E5%85%B6%E5%AE%9E%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8EHybrid%E5%BC%80%E5%8F%91H5%E7%AB%AF%E6%A1%86%E6%9E%B6%EF%BC%8C%E4%BD%86%E6%98%AF%E4%BE%9D%E7%84%B6%E8%83%BD%E5%A4%9F%E4%BD%9C%E4%B8%BA%E7%BA%AFweb%E7%AB%AF%E4%BD%BF%E7%94%A8" target="_blank" rel="external">webpack搭建vue教程</a>/)</li>
-<li><a href="http://blog.csdn.net/mad1989/article/details/16885569" target="_blank" rel="external">git冲突解决</a></li>
-<li><a href="http://blog.csdn.net/ikscher/article/details/44831539" target="_blank" rel="external">angularjs指令的@=&amp;</a></li>
-<li><a href="http://www.youdzone.com/signature.html" target="_blank" rel="external">一张图告诉你什么是公钥密钥</a></li>
-<li><a href="http://www.css88.com/archives/6410" target="_blank" rel="external">移动短head标签</a></li>
-<li><a href="http://www.cnblogs.com/fishtreeyu/archive/2011/10/06/2200280.html" target="_blank" rel="external">cookie的用法</a></li>
-<li><a href="http://www.uml.org.cn/html/201208224.asp" target="_blank" rel="external">canvas入门学习</a></li>
-<li><a href="http://www.w3school.com.cn/tags/html_ref_canvas.asp" target="_blank" rel="external">canvas参考手册</a></li>
-<li><a href="https://www.html-js.cn/details/Vk7UgWaQg.html" target="_blank" rel="external">webstorm中调试NodeJS</a></li>
-<li><a href="https://segmentfault.com/a/1190000012924855" target="_blank" rel="external">5分钟把任意网站变成桌面软件</a></li>
-<li><a href="https://imsun.net/posts/gitment-introduction/" target="_blank" rel="external">使用GitHub_Issues搭建评论系统</a></li>
-<li><a href="http://www.apjs.net/" target="_blank" rel="external">angularJS教程</a></li>
-<li><a href="https://segmentfault.com/a/1190000005013207" target="_blank" rel="external">React实践经验</a></li>
+<li><a href="http://www.cnblogs.com/coco1s/p/5777260.html" target="_blank" rel="noopener">JavaScript防http劫持与XSS</a></li>
+<li><a href="http://blog.csdn.net/wang16510/article/details/8960312" target="_blank" rel="noopener">H5兼容解决方案-polyfill</a></li>
+<li><a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills" target="_blank" rel="noopener">HTML5 Cross Browser Polyfills</a></li>
+<li><a href="http://www.infoq.com/cn/articles/understanding-restful-style/" target="_blank" rel="noopener">REST架构风格</a></li>
+<li><a href="http://www.yyyweb.com/3541.html" target="_blank" rel="noopener">console的特性完全版</a></li>
+<li><a href="http://blog.csdn.net/kongjiea/article/details/46341575" target="_blank" rel="noopener">超棒的面试题</a></li>
+<li><a href="https://segmentfault.com/a/1190000002491282" target="_blank" rel="noopener">gulp与grunt对比</a></li>
+<li><a href="http://www.cnblogs.com/TomXu/archive/2011/12/14/2286225.html" target="_blank" rel="noopener">大型JavaScript应用程序架构模式</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2014/09/package-management.html" target="_blank" rel="noopener">前端模块管理器介绍-阮一峰</a></li>
+<li><a href="http://www.iwan0.com/#column6" target="_blank" rel="noopener">前端爱玩网仓库</a></li>
+<li><a href="http://www.infoq.com/cn/articles/understanding-restful-style/" target="_blank" rel="noopener">REST架构风格深入理解</a></li>
+<li><a href="http://www.html5cn.org/article-6776-1.html" target="_blank" rel="noopener">什么是web服务器</a></li>
+<li><a href="http://littleblack.cc/2016/05/04/Javascript/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AAAjax/" target="_blank" rel="noopener">手写ajax</a></li>
+<li><a href="http://www.css88.com/archives/6137#more-6137" target="_blank" rel="noopener">前端调试方式</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html" target="_blank" rel="noopener">jQuery的deferred</a></li>
+<li><a href="http://www.w3cfuns.com/notes/28851/cc4837a17338dc9691ac3653f5da9771.html" target="_blank" rel="noopener">前端职业发展之路</a></li>
+<li><a href="http://blog.51yip.com/jsjquery/1607.html" target="_blank" rel="noopener">angularJS之directive</a></li>
+<li><a href="http://m.blog.csdn.net/article/details?id=51890406" target="_blank" rel="noopener">Vue-router思维导图</a></li>
+<li><a href="http://www.oschina.net/translate/being-a-frontend-developer-for-a-weekend" target="_blank" rel="noopener">我是如何利用一个周末时间成为前端工程师的</a></li>
+<li><a href="http://echarts.baidu.com/demo.html#geo-lines" target="_blank" rel="noopener">Echarts在线案例</a></li>
+<li><a href="http://www.ezlippi.com/blog/2015/03/github-pages-blog.html" target="_blank" rel="noopener">github使用介绍</a></li>
+<li><a href="http://redstarofsleep.iteye.com/blog/1917724" target="_blank" rel="noopener">环状进度球</a></li>
+<li><a href="http://hcysun.me/2016/03/25/%E5%9F%BA%E4%BA%8Ewebpack%E5%92%8Cvue.js%E6%90%AD%E5%BB%BA%E7%9A%84H5%E7%AB%AF%E6%A1%86%E6%9E%B6(%E5%85%B6%E5%AE%9E%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8EHybrid%E5%BC%80%E5%8F%91H5%E7%AB%AF%E6%A1%86%E6%9E%B6%EF%BC%8C%E4%BD%86%E6%98%AF%E4%BE%9D%E7%84%B6%E8%83%BD%E5%A4%9F%E4%BD%9C%E4%B8%BA%E7%BA%AFweb%E7%AB%AF%E4%BD%BF%E7%94%A8" target="_blank" rel="noopener">webpack搭建vue教程</a>/)</li>
+<li><a href="http://blog.csdn.net/mad1989/article/details/16885569" target="_blank" rel="noopener">git冲突解决</a></li>
+<li><a href="http://blog.csdn.net/ikscher/article/details/44831539" target="_blank" rel="noopener">angularjs指令的@=&amp;</a></li>
+<li><a href="http://www.youdzone.com/signature.html" target="_blank" rel="noopener">一张图告诉你什么是公钥密钥</a></li>
+<li><a href="http://www.css88.com/archives/6410" target="_blank" rel="noopener">移动短head标签</a></li>
+<li><a href="http://www.cnblogs.com/fishtreeyu/archive/2011/10/06/2200280.html" target="_blank" rel="noopener">cookie的用法</a></li>
+<li><a href="http://www.uml.org.cn/html/201208224.asp" target="_blank" rel="noopener">canvas入门学习</a></li>
+<li><a href="http://www.w3school.com.cn/tags/html_ref_canvas.asp" target="_blank" rel="noopener">canvas参考手册</a></li>
+<li><a href="https://www.html-js.cn/details/Vk7UgWaQg.html" target="_blank" rel="noopener">webstorm中调试NodeJS</a></li>
+<li><a href="https://segmentfault.com/a/1190000012924855" target="_blank" rel="noopener">5分钟把任意网站变成桌面软件</a></li>
+<li><a href="https://imsun.net/posts/gitment-introduction/" target="_blank" rel="noopener">使用GitHub_Issues搭建评论系统</a></li>
+<li><a href="http://www.apjs.net/" target="_blank" rel="noopener">angularJS教程</a></li>
+<li><a href="https://segmentfault.com/a/1190000005013207" target="_blank" rel="noopener">React实践经验</a></li>
 </ul>
 <p>###前端搭建工具</p>
 <ul>
-<li><a href="http://webpack.github.io/" target="_blank" rel="external">webpack</a></li>
-<li><a href="https://webpack.js.org/" target="_blank" rel="external">webpack3.10.0</a></li>
-<li><a href="https://nodejs.org/en/foundation/" target="_blank" rel="external">nodeJS官网</a></li>
-<li><a href="http://nodejs.cn/" target="_blank" rel="external">nodeJS中文网</a></li>
-<li><a href="http://www.gruntjs.net/" target="_blank" rel="external">grunt</a></li>
-<li><a href="http://www.gulpjs.com.cn/" target="_blank" rel="external">gulp教程</a></li>
-<li><a href="https://www.npmjs.com/" target="_blank" rel="external">npm</a></li>
-<li><a href="http://www.expressjs.com.cn/" target="_blank" rel="external">Express</a></li>
-<li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/" target="_blank" rel="external">廖雪峰官方网站</a></li>
-<li><a href="http://webpackdoc.com/plugin.html" target="_blank" rel="external">初级webpack配置</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/20367175" target="_blank" rel="external">webpack菜鸟配置</a></li>
-<li><a href="http://my.oschina.net/wjj328938669/blog/637433?p=1" target="_blank" rel="external">.jshintrc常用配置</a></li>
-<li><a href="http://www.mujiang.info/translation/npmjs/files/package.json.html" target="_blank" rel="external">package.json配置中文文档</a></li>
-<li><a href="https://github.com/github/gitignore" target="_blank" rel="external">.gitignore文件模板-全</a></li>
-<li><a href="https://bower.io/" target="_blank" rel="external">bower</a></li>
-<li><a href="http://www.gulpjs.com.cn/" target="_blank" rel="external">Gulp自动化工具</a></li>
-<li><a href="https://developers.google.com/web/tools/workbox/" target="_blank" rel="external">Web App静态资源本地存储的解决方案</a></li>
+<li><a href="http://webpack.github.io/" target="_blank" rel="noopener">webpack</a></li>
+<li><a href="https://webpack.js.org/" target="_blank" rel="noopener">webpack3.10.0</a></li>
+<li><a href="https://nodejs.org/en/foundation/" target="_blank" rel="noopener">nodeJS官网</a></li>
+<li><a href="http://nodejs.cn/" target="_blank" rel="noopener">nodeJS中文网</a></li>
+<li><a href="http://www.gruntjs.net/" target="_blank" rel="noopener">grunt</a></li>
+<li><a href="http://www.gulpjs.com.cn/" target="_blank" rel="noopener">gulp教程</a></li>
+<li><a href="https://www.npmjs.com/" target="_blank" rel="noopener">npm</a></li>
+<li><a href="http://www.expressjs.com.cn/" target="_blank" rel="noopener">Express</a></li>
+<li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/" target="_blank" rel="noopener">廖雪峰官方网站</a></li>
+<li><a href="http://webpackdoc.com/plugin.html" target="_blank" rel="noopener">初级webpack配置</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/20367175" target="_blank" rel="noopener">webpack菜鸟配置</a></li>
+<li><a href="http://my.oschina.net/wjj328938669/blog/637433?p=1" target="_blank" rel="noopener">.jshintrc常用配置</a></li>
+<li><a href="http://www.mujiang.info/translation/npmjs/files/package.json.html" target="_blank" rel="noopener">package.json配置中文文档</a></li>
+<li><a href="https://github.com/github/gitignore" target="_blank" rel="noopener">.gitignore文件模板-全</a></li>
+<li><a href="https://bower.io/" target="_blank" rel="noopener">bower</a></li>
+<li><a href="http://www.gulpjs.com.cn/" target="_blank" rel="noopener">Gulp自动化工具</a></li>
+<li><a href="https://developers.google.com/web/tools/workbox/" target="_blank" rel="noopener">Web App静态资源本地存储的解决方案</a></li>
 </ul>
 <p>###前端服务器</p>
 <ul>
-<li><a href="http://httpd.apache.org/" target="_blank" rel="external">apache</a></li>
-<li><a href="http://nginx.org/" target="_blank" rel="external">nginx</a></li>
+<li><a href="http://httpd.apache.org/" target="_blank" rel="noopener">apache</a></li>
+<li><a href="http://nginx.org/" target="_blank" rel="noopener">nginx</a></li>
 </ul>
 <p>###待学习</p>
 <ul>
-<li><a href="http://www.qdfuns.com/notes/36748/b3aa001495ee19c512d9310dcebad808.html" target="_blank" rel="external">光线爆炸特效</a></li>
-<li><a href="http://www.qdfuns.com/notes/30191/971d767d0f6e2baf7bdc14b56906ce69.html" target="_blank" rel="external">表单数据正则验证</a></li>
-<li><a href="http://www.qdfuns.com/notes/26253/3f57b0b356841969d9ad2e3415af19d1.html" target="_blank" rel="external">h5小游戏-打砖块</a></li>
-<li><a href="http://www.qdfuns.com/notes/40230/1260d5203da2b75d2259921a5e824e71.html" target="_blank" rel="external">树镜</a></li>
-<li><a href="http://www.qdfuns.com/notes/34644/a29e0b6f781628a1c38755a0f0da55ed.html" target="_blank" rel="external">SVG打造轮盘</a></li>
-<li><a href="http://www.qdfuns.com/notes/23908/70ff1c2514335f486a019a472942233f.html" target="_blank" rel="external">CSS3绘制神奇宝贝</a></li>
-<li><a href="http://www.qdfuns.com/notes/16120/b8132b69802787a3a2cf94accc189651.html" target="_blank" rel="external">CSS绘制机器人</a></li>
-<li><a href="http://www.qdfuns.com/notes/16120/730dbc6ed2e295ad50f09c5e29480a37.html" target="_blank" rel="external">Animation小人动画</a></li>
+<li><a href="http://www.qdfuns.com/notes/36748/b3aa001495ee19c512d9310dcebad808.html" target="_blank" rel="noopener">光线爆炸特效</a></li>
+<li><a href="http://www.qdfuns.com/notes/30191/971d767d0f6e2baf7bdc14b56906ce69.html" target="_blank" rel="noopener">表单数据正则验证</a></li>
+<li><a href="http://www.qdfuns.com/notes/26253/3f57b0b356841969d9ad2e3415af19d1.html" target="_blank" rel="noopener">h5小游戏-打砖块</a></li>
+<li><a href="http://www.qdfuns.com/notes/40230/1260d5203da2b75d2259921a5e824e71.html" target="_blank" rel="noopener">树镜</a></li>
+<li><a href="http://www.qdfuns.com/notes/34644/a29e0b6f781628a1c38755a0f0da55ed.html" target="_blank" rel="noopener">SVG打造轮盘</a></li>
+<li><a href="http://www.qdfuns.com/notes/23908/70ff1c2514335f486a019a472942233f.html" target="_blank" rel="noopener">CSS3绘制神奇宝贝</a></li>
+<li><a href="http://www.qdfuns.com/notes/16120/b8132b69802787a3a2cf94accc189651.html" target="_blank" rel="noopener">CSS绘制机器人</a></li>
+<li><a href="http://www.qdfuns.com/notes/16120/730dbc6ed2e295ad50f09c5e29480a37.html" target="_blank" rel="noopener">Animation小人动画</a></li>
 </ul>
 <p>###关于工具</p>
 <ul>
-<li><a href="http://docs.mitmproxy.org/en/stable/howmitmproxy.html" target="_blank" rel="external">好用的抓包工具</a></li>
-<li><a href="https://piwik.mritd.me/" target="_blank" rel="external">Web统计软件PIWIK</a></li>
-<li><a href="http://www.pc6.com/edu/80832.html" target="_blank" rel="external">mac数据迁移-迁移助理</a></li>
-<li><a href="https://shadowsocks.com/" target="_blank" rel="external">翻墙Shadowsocks</a></li>
-<li><a href="https://longdai.hipchat.com/chat" target="_blank" rel="external">HipChat</a></li>
-<li><a href="http://google.yubolun.com/" target="_blank" rel="external">Goole本地翻墙</a></li>
-<li><a href="https://www.google.com.hk/" target="_blank" rel="external">Goole翻墙网址</a></li>
-<li><a href="https://hexo.io/zh-cn/" target="_blank" rel="external">hexo搭建博客</a></li>
-<li><a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="external">hexo主题皮肤yilia</a></li>
-<li><a href="http://idea.lanyus.com/" target="_blank" rel="external">IDEA注册码</a></li>
-<li><a href="http://www.tuicool.com/articles/mAzmq2" target="_blank" rel="external">远程调试工具weinre使用教程</a></li>
-<li><a href="http://babeljs.cn/docs/learn-es2015/" target="_blank" rel="external">Babel在线编辑</a></li>
-<li><a href="https://www.dnspod.cn/" target="_blank" rel="external">DNSPod腾讯云服务</a></li>
-<li><a href="http://www.geetest.com/" target="_blank" rel="external">验证码服务</a></li>
-<li><a href="https://developer.qiniu.com/sdk#official-tool" target="_blank" rel="external">七牛云-开发者中心</a></li>
-<li><a href="https://open-doc.dingtalk.com/?spm=a219a.7386793.0.0.xu8Ruw" target="_blank" rel="external">钉钉-开发者中心</a></li>
-<li><a href="https://www.dropbox.com/" target="_blank" rel="external">团队管理Dropbox</a></li>
-<li><a href="http://theme-next.iissnan.com/" target="_blank" rel="external">编辑器NexT</a></li>
-<li><a href="https://www.processon.com/;jsessionid=E52513A9DF471A582153C8336DB6EF34.jvm1" target="_blank" rel="external">免费在线作图-ProcessOn</a></li>
-<li><a href="https://greasyfork.org/zh-CN/scripts" target="_blank" rel="external">用户脚本 Greasy Fork</a></li>
-<li><a href="http://www.geetest.com/" target="_blank" rel="external">免费图形验证码</a></li>
-<li><a href="http://www.spritecow.com/" target="_blank" rel="external">2x图片在线代码生成</a></li>
-<li><a href="https://uiiiuiii.com/photoshop/12121781.html" target="_blank" rel="external">PS入门教程</a></li>
-<li><a href="https://pan.gozap.com/login" target="_blank" rel="external">GOZAP云盘</a></li>
-<li><a href="https://blog.coderstory.cn/intellij-idea-babel/" target="_blank" rel="external">IDEA配置Babel插件</a></li>
-<li><a href="https://www.hipchat.com/sign_up" target="_blank" rel="external">HipChat</a></li>
-<li><a href="https://www.juhe.cn/" target="_blank" rel="external">聚合数据</a></li>
+<li><a href="http://docs.mitmproxy.org/en/stable/howmitmproxy.html" target="_blank" rel="noopener">好用的抓包工具</a></li>
+<li><a href="https://piwik.mritd.me/" target="_blank" rel="noopener">Web统计软件PIWIK</a></li>
+<li><a href="http://www.pc6.com/edu/80832.html" target="_blank" rel="noopener">mac数据迁移-迁移助理</a></li>
+<li><a href="https://shadowsocks.com/" target="_blank" rel="noopener">翻墙Shadowsocks</a></li>
+<li><a href="https://longdai.hipchat.com/chat" target="_blank" rel="noopener">HipChat</a></li>
+<li><a href="http://google.yubolun.com/" target="_blank" rel="noopener">Goole本地翻墙</a></li>
+<li><a href="https://www.google.com.hk/" target="_blank" rel="noopener">Goole翻墙网址</a></li>
+<li><a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">hexo搭建博客</a></li>
+<li><a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="noopener">hexo主题皮肤yilia</a></li>
+<li><a href="http://idea.lanyus.com/" target="_blank" rel="noopener">IDEA注册码</a></li>
+<li><a href="http://www.tuicool.com/articles/mAzmq2" target="_blank" rel="noopener">远程调试工具weinre使用教程</a></li>
+<li><a href="http://babeljs.cn/docs/learn-es2015/" target="_blank" rel="noopener">Babel在线编辑</a></li>
+<li><a href="https://www.dnspod.cn/" target="_blank" rel="noopener">DNSPod腾讯云服务</a></li>
+<li><a href="http://www.geetest.com/" target="_blank" rel="noopener">验证码服务</a></li>
+<li><a href="https://developer.qiniu.com/sdk#official-tool" target="_blank" rel="noopener">七牛云-开发者中心</a></li>
+<li><a href="https://open-doc.dingtalk.com/?spm=a219a.7386793.0.0.xu8Ruw" target="_blank" rel="noopener">钉钉-开发者中心</a></li>
+<li><a href="https://www.dropbox.com/" target="_blank" rel="noopener">团队管理Dropbox</a></li>
+<li><a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">编辑器NexT</a></li>
+<li><a href="https://www.processon.com/;jsessionid=E52513A9DF471A582153C8336DB6EF34.jvm1" target="_blank" rel="noopener">免费在线作图-ProcessOn</a></li>
+<li><a href="https://greasyfork.org/zh-CN/scripts" target="_blank" rel="noopener">用户脚本 Greasy Fork</a></li>
+<li><a href="http://www.geetest.com/" target="_blank" rel="noopener">免费图形验证码</a></li>
+<li><a href="http://www.spritecow.com/" target="_blank" rel="noopener">2x图片在线代码生成</a></li>
+<li><a href="https://uiiiuiii.com/photoshop/12121781.html" target="_blank" rel="noopener">PS入门教程</a></li>
+<li><a href="https://pan.gozap.com/login" target="_blank" rel="noopener">GOZAP云盘</a></li>
+<li><a href="https://blog.coderstory.cn/intellij-idea-babel/" target="_blank" rel="noopener">IDEA配置Babel插件</a></li>
+<li><a href="https://www.hipchat.com/sign_up" target="_blank" rel="noopener">HipChat</a></li>
+<li><a href="https://www.juhe.cn/" target="_blank" rel="noopener">聚合数据</a></li>
 </ul>
 <p>###关于mac</p>
 <ul>
-<li><a href="http://brew.sh/index_zh-cn.html" target="_blank" rel="external">Homebrew</a></li>
-<li><a href="https://mritd.me/2016/06/14/Linux-%E7%AC%94%E8%AE%B0/" target="_blank" rel="external">linux命令-漠然</a></li>
+<li><a href="http://brew.sh/index_zh-cn.html" target="_blank" rel="noopener">Homebrew</a></li>
+<li><a href="https://mritd.me/2016/06/14/Linux-%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener">linux命令-漠然</a></li>
 <li><a href="">mac内存清理工具clean my mac</a></li>
 <li><a href="">终端配置 oh my zsh</a></li>
-<li><a href="https://zybuluo.com/mritd/note/535525" target="_blank" rel="external">vpn连接</a></li>
-<li><a href="http://mac-osx-for-newbie-book.kejyun.com/hotkey/HotkeyWindows.html" target="_blank" rel="external">上手mac</a></li>
-<li><a href="https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md" target="_blank" rel="external">命令行艺术</a></li>
-<li><a href="https://www.zhihu.com/question/20873070" target="_blank" rel="external">程序猿如何优雅的用mac</a></li>
-<li><a href="http://blog.csdn.net/lisongjia123/article/details/54949364" target="_blank" rel="external">快捷键大全</a></li>
-<li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="external">git命令</a></li>
+<li><a href="https://zybuluo.com/mritd/note/535525" target="_blank" rel="noopener">vpn连接</a></li>
+<li><a href="http://mac-osx-for-newbie-book.kejyun.com/hotkey/HotkeyWindows.html" target="_blank" rel="noopener">上手mac</a></li>
+<li><a href="https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md" target="_blank" rel="noopener">命令行艺术</a></li>
+<li><a href="https://www.zhihu.com/question/20873070" target="_blank" rel="noopener">程序猿如何优雅的用mac</a></li>
+<li><a href="http://blog.csdn.net/lisongjia123/article/details/54949364" target="_blank" rel="noopener">快捷键大全</a></li>
+<li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="noopener">git命令</a></li>
 </ul>
 <p>###编辑软件</p>
 <ul>
-<li><a href="http://www.jetbrains.com/webstorm/" target="_blank" rel="external">WebStorm</a></li>
-<li><a href="https://pandao.github.io/editor.md/" target="_blank" rel="external">markdown在线编辑器.md</a></li>
-<li><a href="https://www.kancloud.cn/digest/sublime-text-complete-guide/61435" target="_blank" rel="external">Sublime_Text全程指南</a></li>
+<li><a href="http://www.jetbrains.com/webstorm/" target="_blank" rel="noopener">WebStorm</a></li>
+<li><a href="https://pandao.github.io/editor.md/" target="_blank" rel="noopener">markdown在线编辑器.md</a></li>
+<li><a href="https://www.kancloud.cn/digest/sublime-text-complete-guide/61435" target="_blank" rel="noopener">Sublime_Text全程指南</a></li>
 </ul>
 <p>###前后端通道</p>
 <ul>
-<li><a href="http://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html#dialects-the-standard-dialect" target="_blank" rel="external">Thymeleaf</a></li>
-<li><a href="http://springcloud.cn/" target="_blank" rel="external">Spring Cloud微服务解决方案</a></li>
-<li><a href="https://github.com/socketio/socket.io" target="_blank" rel="external">socket.io</a></li>
-<li><a href="http://robotjs.io/" target="_blank" rel="external">robotjs</a></li>
+<li><a href="http://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html#dialects-the-standard-dialect" target="_blank" rel="noopener">Thymeleaf</a></li>
+<li><a href="http://springcloud.cn/" target="_blank" rel="noopener">Spring Cloud微服务解决方案</a></li>
+<li><a href="https://github.com/socketio/socket.io" target="_blank" rel="noopener">socket.io</a></li>
+<li><a href="http://robotjs.io/" target="_blank" rel="noopener">robotjs</a></li>
 </ul>
 <p>###company</p>
 <ul>
-<li><a href="https://svn.longdai.com/svn/LongDai-Docs/UI%E6%96%87%E6%A1%A3/" target="_blank" rel="external">SVN</a></li>
+<li><a href="https://svn.longdai.com/svn/LongDai-Docs/UI%E6%96%87%E6%A1%A3/" target="_blank" rel="noopener">SVN</a></li>
 <li>[NodeBB论坛管理地址]</li>
-<li><a href="http://git.longdai.com/longdai/longdai" target="_blank" rel="external">公司后台直通车</a></li>
-<li><a href="http://dohko.bbs.longdai.com/home" target="_blank" rel="external">龙贷社区</a></li>
+<li><a href="http://git.longdai.com/longdai/longdai" target="_blank" rel="noopener">公司后台直通车</a></li>
+<li><a href="http://dohko.bbs.longdai.com/home" target="_blank" rel="noopener">龙贷社区</a></li>
 </ul>
 <p>###微信小程序</p>
 <ul>
-<li><a href="http://www.w2bc.com/article/173135" target="_blank" rel="external">微信应用制作</a></li>
-<li><a href="http://gold.xitu.io/entry/57e8fed3816dfa005ef47439" target="_blank" rel="external">微信小程序开发入门文档</a></li>
-<li><a href="https://github.com/chemzqm/wept" target="_blank" rel="external">浏览器打开小程序</a></li>
-<li><a href="https://github.com/justjavac/awesome-wechat-weapp" target="_blank" rel="external">微信小程序文章集锦</a></li>
-<li><a href="http://www.jianshu.com/p/65cfda97a689" target="_blank" rel="external">微信小程序——左右滑动切换页面</a></li>
-<li><a href="https://github.com/Tencent/wepy" target="_blank" rel="external">WePY</a>he</li>
-<li><a href="https://tencent.github.io/wepy/document.html#/" target="_blank" rel="external">WePY官方文档</a></li>
+<li><a href="http://www.w2bc.com/article/173135" target="_blank" rel="noopener">微信应用制作</a></li>
+<li><a href="http://gold.xitu.io/entry/57e8fed3816dfa005ef47439" target="_blank" rel="noopener">微信小程序开发入门文档</a></li>
+<li><a href="https://github.com/chemzqm/wept" target="_blank" rel="noopener">浏览器打开小程序</a></li>
+<li><a href="https://github.com/justjavac/awesome-wechat-weapp" target="_blank" rel="noopener">微信小程序文章集锦</a></li>
+<li><a href="http://www.jianshu.com/p/65cfda97a689" target="_blank" rel="noopener">微信小程序——左右滑动切换页面</a></li>
+<li><a href="https://github.com/Tencent/wepy" target="_blank" rel="noopener">WePY</a>he</li>
+<li><a href="https://tencent.github.io/wepy/document.html#/" target="_blank" rel="noopener">WePY官方文档</a></li>
 </ul>
 <p>###兼职orwork</p>
 <ul>
-<li><a href="https://shixian.com/consultants" target="_blank" rel="external">实现网</a></li>
-<li><a href="https://www.proginn.com/" target="_blank" rel="external">程序员客栈</a></li>
-<li><a href="https://cn.100offer.com/how-it-works" target="_blank" rel="external">100offer</a></li>
+<li><a href="https://shixian.com/consultants" target="_blank" rel="noopener">实现网</a></li>
+<li><a href="https://www.proginn.com/" target="_blank" rel="noopener">程序员客栈</a></li>
+<li><a href="https://cn.100offer.com/how-it-works" target="_blank" rel="noopener">100offer</a></li>
 </ul>
 <p>###后端步步为营</p>
 <ul>
-<li><a href="http://www.cnblogs.com/wql025/p/5215570.html" target="_blank" rel="external">新建maven项目</a></li>
-<li><a href="http://www.w3school.com.cn/sql/" target="_blank" rel="external">SQL手册</a></li>
-<li><a href="http://tool.oschina.net/apidocs/apidoc?api=javaEE6" target="_blank" rel="external">javaEE在线API</a></li>
-<li><a href="http://blog.csdn.net/williamchew/article/details/51951551" target="_blank" rel="external">java JDBC基本知识</a></li>
-<li><a href="http://blog.csdn.net/zhuangm_888/article/details/50476423" target="_blank" rel="external">搭建简单学生管理系统</a></li>
-<li><a href="http://www.yiibai.com/jsp/" target="_blank" rel="external">JSP教程</a></li>
-<li><a href="http://www.javacoder.cn/?p=195" target="_blank" rel="external">Maven正确配置Jstl</a></li>
-<li><a href="http://www.jianshu.com/p/1e1116b1ede6" target="_blank" rel="external">MAVEN中央仓库地址大全</a></li>
-<li><a href="http://wandering192.iteye.com/blog/736136" target="_blank" rel="external">JSP+Servlet+Ajax实现后台异步检验用户信息实例</a></li>
-<li><a href="https://blog.coderstory.cn/intellij-idea-babel/" target="_blank" rel="external">IDEA加插件实现es6转es5</a></li>
+<li><a href="http://www.cnblogs.com/wql025/p/5215570.html" target="_blank" rel="noopener">新建maven项目</a></li>
+<li><a href="http://www.w3school.com.cn/sql/" target="_blank" rel="noopener">SQL手册</a></li>
+<li><a href="http://tool.oschina.net/apidocs/apidoc?api=javaEE6" target="_blank" rel="noopener">javaEE在线API</a></li>
+<li><a href="http://blog.csdn.net/williamchew/article/details/51951551" target="_blank" rel="noopener">java JDBC基本知识</a></li>
+<li><a href="http://blog.csdn.net/zhuangm_888/article/details/50476423" target="_blank" rel="noopener">搭建简单学生管理系统</a></li>
+<li><a href="http://www.yiibai.com/jsp/" target="_blank" rel="noopener">JSP教程</a></li>
+<li><a href="http://www.javacoder.cn/?p=195" target="_blank" rel="noopener">Maven正确配置Jstl</a></li>
+<li><a href="http://www.jianshu.com/p/1e1116b1ede6" target="_blank" rel="noopener">MAVEN中央仓库地址大全</a></li>
+<li><a href="http://wandering192.iteye.com/blog/736136" target="_blank" rel="noopener">JSP+Servlet+Ajax实现后台异步检验用户信息实例</a></li>
+<li><a href="https://blog.coderstory.cn/intellij-idea-babel/" target="_blank" rel="noopener">IDEA加插件实现es6转es5</a></li>
 <li><a href="">轻量级数据库sqlite</a></li>
-<li><a href="https://github.com/typicode/lowdb" target="_blank" rel="external">lowdb数据库</a></li>
+<li><a href="https://github.com/typicode/lowdb" target="_blank" rel="noopener">lowdb数据库</a></li>
 </ul>
 
       
@@ -803,10 +911,10 @@
 
 
   
-    <article id="post-license" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-license" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -867,10 +975,10 @@
 
 
   
-    <article id="post-nodeExportExcel" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-nodeExportExcel" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -885,19 +993,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h6 id="如果雷同-纯属巧合"><a href="#如果雷同-纯属巧合" class="headerlink" title="如果雷同,纯属巧合"></a>如果雷同,纯属巧合</h6><p>&emsp;&emsp;解析excel文件,并导出为json格式,可使用<a href="https://github.com/SheetJS/js-xlsx" target="_blank" rel="external">SheetJS js-xlsx</a></p>
-<p>&emsp;&emsp;解析json语句 【可以来自于前端页面,也可以后台直接调用】可使用可使用<a href="https://github.com/functionscope/Node-Excel-Export" target="_blank" rel="external">Excel-Export</a></p>
+        <h6 id="如果雷同-纯属巧合"><a href="#如果雷同-纯属巧合" class="headerlink" title="如果雷同,纯属巧合"></a>如果雷同,纯属巧合</h6><p>&emsp;&emsp;解析excel文件,并导出为json格式,可使用<a href="https://github.com/SheetJS/js-xlsx" target="_blank" rel="noopener">SheetJS js-xlsx</a></p>
+<p>&emsp;&emsp;解析json语句 【可以来自于前端页面,也可以后台直接调用】可使用可使用<a href="https://github.com/functionscope/Node-Excel-Export" target="_blank" rel="noopener">Excel-Export</a></p>
 <p><strong>使用demo:  </strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;name&quot;: &quot;node-excel-export&quot;,</div><div class="line">  &quot;version&quot;: &quot;0.0.0&quot;,</div><div class="line">  &quot;private&quot;: true,</div><div class="line">  &quot;scripts&quot;: &#123;</div><div class="line">    &quot;start&quot;: &quot;node ./index.js&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;dependencies&quot;: &#123;</div><div class="line">    &quot;excel-export&quot;: &quot;^0.5.1&quot;,</div><div class="line">    &quot;express&quot;: &quot;~4.13.1&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;node-excel-export&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;0.0.0&quot;,</span><br><span class="line">  &quot;private&quot;: true,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;start&quot;: &quot;node ./index.js&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;dependencies&quot;: &#123;</span><br><span class="line">    &quot;excel-export&quot;: &quot;^0.5.1&quot;,</span><br><span class="line">    &quot;express&quot;: &quot;~4.13.1&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;express搭建服务器,excel-export到处文件,入口文件为index.js</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">var express = require(&apos;express&apos;);</div><div class="line">var nodeExcel = require(&apos;excel-export&apos;);  //excel到处插件</div><div class="line">var app = express();</div><div class="line"></div><div class="line">app.get(&apos;/excel&apos;, function(req, res)&#123;</div><div class="line">    //基本excel规则</div><div class="line">    var conf = &#123;&#125;;</div><div class="line">    conf.stylesXmlFile = &quot;styles.xml&quot;;</div><div class="line">    conf.cols = [&#123;</div><div class="line">        caption: &apos;编号&apos;,    //行名称</div><div class="line">        type:&apos;number&apos;,       //类型</div><div class="line">        width: 15,   //宽度</div><div class="line">        beforeCellWrite:function(row, cellData)&#123;  //处理数据</div><div class="line">            return cellData; //数据大写</div><div class="line">        &#125;</div><div class="line">    &#125;,&#123;</div><div class="line">        caption: &apos;姓名&apos;,</div><div class="line">        type:&apos;string&apos;,</div><div class="line">        width: 20,</div><div class="line">        beforeCellWrite:function(row, cellData,eOpt)&#123;  //处理数据</div><div class="line"></div><div class="line">            if(cellData == &quot;&quot;)&#123;</div><div class="line">                return &quot;查无此人&quot;;</div><div class="line">            &#125;</div><div class="line">            return cellData;</div><div class="line">        &#125;</div><div class="line">    &#125;,&#123;</div><div class="line">        caption: &apos;日期&apos;,</div><div class="line">        type:&apos;string&apos;,</div><div class="line">        width: 25</div><div class="line">    &#125;];</div><div class="line">    conf.rows = [</div><div class="line">        [1, &quot;华晨宇&quot;,&quot;2014-04-15 00:00:00&quot;],</div><div class="line">        [2, &quot;&quot;,&quot;2014-04-15 00:00:00&quot;],</div><div class="line">        [3, &quot;汪苏泷&quot;,&quot;2014-04-17 00:00:00&quot;],</div><div class="line">        [4, &quot;罗一笑&quot;,&quot;2014-04-18 00:00:00&quot;]</div><div class="line">    ];</div><div class="line">    var result = nodeExcel.execute(conf);</div><div class="line">    res.setHeader(&apos;Content-Type&apos;, &apos;application/vnd.openxmlformats&apos;);</div><div class="line">    res.setHeader(&quot;Content-Disposition&quot;, &quot;attachment; filename=&quot; + &quot;userDate.xlsx&quot;); //会保存userDate为文件名的excel文件</div><div class="line">    res.end(result, &apos;binary&apos;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.listen(8888);</div><div class="line">console.log(&apos;Listening on port 8888&apos;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">var express = require(&apos;express&apos;);</span><br><span class="line">var nodeExcel = require(&apos;excel-export&apos;);  //excel到处插件</span><br><span class="line">var app = express();</span><br><span class="line"></span><br><span class="line">app.get(&apos;/excel&apos;, function(req, res)&#123;</span><br><span class="line">    //基本excel规则</span><br><span class="line">    var conf = &#123;&#125;;</span><br><span class="line">    conf.stylesXmlFile = &quot;styles.xml&quot;;</span><br><span class="line">    conf.cols = [&#123;</span><br><span class="line">        caption: &apos;编号&apos;,    //行名称</span><br><span class="line">        type:&apos;number&apos;,       //类型</span><br><span class="line">        width: 15,   //宽度</span><br><span class="line">        beforeCellWrite:function(row, cellData)&#123;  //处理数据</span><br><span class="line">            return cellData; //数据大写</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,&#123;</span><br><span class="line">        caption: &apos;姓名&apos;,</span><br><span class="line">        type:&apos;string&apos;,</span><br><span class="line">        width: 20,</span><br><span class="line">        beforeCellWrite:function(row, cellData,eOpt)&#123;  //处理数据</span><br><span class="line"></span><br><span class="line">            if(cellData == &quot;&quot;)&#123;</span><br><span class="line">                return &quot;查无此人&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">            return cellData;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,&#123;</span><br><span class="line">        caption: &apos;日期&apos;,</span><br><span class="line">        type:&apos;string&apos;,</span><br><span class="line">        width: 25</span><br><span class="line">    &#125;];</span><br><span class="line">    conf.rows = [</span><br><span class="line">        [1, &quot;华晨宇&quot;,&quot;2014-04-15 00:00:00&quot;],</span><br><span class="line">        [2, &quot;&quot;,&quot;2014-04-15 00:00:00&quot;],</span><br><span class="line">        [3, &quot;汪苏泷&quot;,&quot;2014-04-17 00:00:00&quot;],</span><br><span class="line">        [4, &quot;罗一笑&quot;,&quot;2014-04-18 00:00:00&quot;]</span><br><span class="line">    ];</span><br><span class="line">    var result = nodeExcel.execute(conf);</span><br><span class="line">    res.setHeader(&apos;Content-Type&apos;, &apos;application/vnd.openxmlformats&apos;);</span><br><span class="line">    res.setHeader(&quot;Content-Disposition&quot;, &quot;attachment; filename=&quot; + &quot;userDate.xlsx&quot;); //会保存userDate为文件名的excel文件</span><br><span class="line">    res.end(result, &apos;binary&apos;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.listen(8888);</span><br><span class="line">console.log(&apos;Listening on port 8888&apos;);</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp; conf是配置项,config.cols中定义了表格行的规则,conf.rows是我们模拟的假数据,对应依次打印在excel表中</p>
 <p>&emsp;&emsp; conf.cols中有beforeCellWrite方法,可做数据处理</p>
 <p>&emsp;&emsp; 我们看到,excel表格的样式规则是一个名叫styles.xml的文件,你可直接复制到自己的项目中</p>
-<p>&emsp;&emsp; <a href="https://github.com/Vera0707/huanhuashuixie/blob/master/node-excel-export/styles.xml" target="_blank" rel="external">styles.xml文件地址</a></p>
-<p>&emsp;&emsp; 服务器端口号为8888.启动服务器后,访问<a href="localhost:8888/excel" target="_blank" rel="external">localhost:8888/excel</a></p>
+<p>&emsp;&emsp; <a href="https://github.com/Vera0707/huanhuashuixie/blob/master/node-excel-export/styles.xml" target="_blank" rel="noopener">styles.xml文件地址</a></p>
+<p>&emsp;&emsp; 服务器端口号为8888.启动服务器后,访问<a href="localhost:8888/excel" target="_blank" rel="noopener">localhost:8888/excel</a></p>
 <p>&emsp;&emsp; 打开页面后,会自动下载userDate.excel文件,文件名可根据自己情况做更改</p>
-<p>&emsp;&emsp; <a href="https://github.com/Vera0707/huanhuashuixie/tree/master/node-excel-export" target="_blank" rel="external">这个demo项目地址</a></p>
+<p>&emsp;&emsp; <a href="https://github.com/Vera0707/huanhuashuixie/tree/master/node-excel-export" target="_blank" rel="noopener">这个demo项目地址</a></p>
 <p>&emsp;&emsp; 很简单的小demo,希望对你有用</p>
 
       
@@ -936,10 +1044,10 @@
 
 
   
-    <article id="post-imagesLoad" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-imagesLoad" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -958,17 +1066,17 @@
 <p>&emsp;&emsp;试想，如果模板中有图片，此时如何判断图片是否加载完成？</p>
 <p>&emsp;&emsp;在此之前来了解一下jquery的ready与window.onload的区别，ready只是dom结构加载完毕，便视为加载完成。(此时图片没有加载完毕)，onload是指dom的生成和资源完全加载（比如flash、图片）出来后才执行。接下来回到正题，先从单张图片说起。</p>
 <p>&emsp;&emsp;（1）单张图片（图片在文档中）</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">id</span>=<span class="string">'xiu'</span> <span class="attr">src</span>=<span class="string">"http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg"</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//jquery</span></div><div class="line">    $(<span class="string">'#xiu'</span>).load(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="comment">// 加载完成</span></div><div class="line">    &#125;);</div><div class="line"></div><div class="line">   <span class="comment">//原生  onload</span></div><div class="line">    <span class="keyword">var</span> xiu = <span class="built_in">document</span>.getElementById(<span class="string">'xiu'</span>)</div><div class="line">    xiu.onload = xiu.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="keyword">if</span>(!<span class="keyword">this</span>.readyState||<span class="keyword">this</span>.readyState==<span class="string">'loaded'</span>||<span class="keyword">this</span>.readyState==<span class="string">'complete'</span>)&#123;</div><div class="line">           <span class="comment">// 加载完成</span></div><div class="line">       &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">id</span>=<span class="string">'xiu'</span> <span class="attr">src</span>=<span class="string">"http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//jquery</span></span><br><span class="line">    $(<span class="string">'#xiu'</span>).load(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">       <span class="comment">// 加载完成</span></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">   <span class="comment">//原生  onload</span></span><br><span class="line">    <span class="keyword">var</span> xiu = <span class="built_in">document</span>.getElementById(<span class="string">'xiu'</span>)</span><br><span class="line">    xiu.onload = xiu.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(!<span class="keyword">this</span>.readyState||<span class="keyword">this</span>.readyState==<span class="string">'loaded'</span>||<span class="keyword">this</span>.readyState==<span class="string">'complete'</span>)&#123;</span><br><span class="line">           <span class="comment">// 加载完成</span></span><br><span class="line">       &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;注：<br>&emsp;&emsp;1、IE8及以下版本不支持onload事件，但支持onreadystatechange事件；<br>&emsp;&emsp;2、readyState是onreadystatechange事件的一个状态，值为loaded或complete的时候，表示已经加载完毕。<br>&emsp;&emsp;3、以下内容省略兼容</p>
 <p>&emsp;&emsp;（2）单张图片（图片动态生成）</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xiu = <span class="keyword">new</span> Image()</div><div class="line"> xiu.src = <span class="string">'http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg'</span></div><div class="line"> xiu.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">// 加载完成</span></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xiu = <span class="keyword">new</span> Image()</span><br><span class="line"> xiu.src = <span class="string">'http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg'</span></span><br><span class="line"> xiu.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 加载完成</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;（3）单张图片（结合ES6 Promise）</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</div><div class="line">    <span class="keyword">let</span> xiu = <span class="keyword">new</span> Image()</div><div class="line">    xiu.src = <span class="string">'http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg'</span></div><div class="line">    xiu.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="comment">// 加载完成</span></div><div class="line">       resolve(xiu)</div><div class="line">    &#125;</div><div class="line"> &#125;).then(<span class="function">(<span class="params">xiu</span>)=&gt;</span>&#123;</div><div class="line"> <span class="comment">//code</span></div><div class="line"> &#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> xiu = <span class="keyword">new</span> Image()</span><br><span class="line">    xiu.src = <span class="string">'http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg'</span></span><br><span class="line">    xiu.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">       <span class="comment">// 加载完成</span></span><br><span class="line">       resolve(xiu)</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;).then(<span class="function">(<span class="params">xiu</span>)=&gt;</span>&#123;</span><br><span class="line"> <span class="comment">//code</span></span><br><span class="line"> &#125;)</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;（4）多张图片</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> img = [],</div><div class="line">    flag = <span class="number">0</span>,</div><div class="line">    mulitImg = [</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/03/IMG_0119.jpg'</span>,</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/01/1.jpg'</span>,</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/11/jquery.jpg'</span>,</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/10/maid.jpg'</span></div><div class="line"> ];</div><div class="line"> <span class="keyword">var</span> imgTotal = mulitImg.length;</div><div class="line"> <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; imgTotal ; i++)&#123;</div><div class="line">    img[i] = <span class="keyword">new</span> Image()</div><div class="line">    img[i].src = mulitImg[i]</div><div class="line">    img[i].onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="comment">//第i张图片加载完成</span></div><div class="line">       flag++</div><div class="line">       <span class="keyword">if</span>( flag == imgTotal )&#123;</div><div class="line">          <span class="comment">//全部加载完成</span></div><div class="line">       &#125;</div><div class="line">    &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> img = [],</span><br><span class="line">    flag = <span class="number">0</span>,</span><br><span class="line">    mulitImg = [</span><br><span class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/03/IMG_0119.jpg'</span>,</span><br><span class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/01/1.jpg'</span>,</span><br><span class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/11/jquery.jpg'</span>,</span><br><span class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/10/maid.jpg'</span></span><br><span class="line"> ];</span><br><span class="line"> <span class="keyword">var</span> imgTotal = mulitImg.length;</span><br><span class="line"> <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; imgTotal ; i++)&#123;</span><br><span class="line">    img[i] = <span class="keyword">new</span> Image()</span><br><span class="line">    img[i].src = mulitImg[i]</span><br><span class="line">    img[i].onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">       <span class="comment">//第i张图片加载完成</span></span><br><span class="line">       flag++</span><br><span class="line">       <span class="keyword">if</span>( flag == imgTotal )&#123;</span><br><span class="line">          <span class="comment">//全部加载完成</span></span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;（5）多张图片（结合ES6 Promise.all()）</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> mulitImg = [</div><div class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/03/IMG_0119.jpg'</span>,</div><div class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/01/1.jpg'</span>,</div><div class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/11/jquery.jpg'</span>,</div><div class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/10/maid.jpg'</span></div><div class="line"> ];</div><div class="line"> <span class="keyword">let</span> promiseAll = [], img = [], imgTotal = mulitImg.length;</div><div class="line"> <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span> ; i &lt; imgTotal ; i++)&#123;</div><div class="line">     promiseAll[i] = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</div><div class="line">         img[i] = <span class="keyword">new</span> Image()</div><div class="line">         img[i].src = mulitImg[i]</div><div class="line">         img[i].onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">              <span class="comment">//第i张加载完成</span></div><div class="line">              resolve(img[i])</div><div class="line">         &#125;</div><div class="line">     &#125;)</div><div class="line"> &#125;</div><div class="line"> <span class="built_in">Promise</span>.all(promiseAll).then(<span class="function">(<span class="params">img</span>)=&gt;</span>&#123;</div><div class="line">     <span class="comment">//全部加载完成</span></div><div class="line"> &#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> mulitImg = [</span><br><span class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/03/IMG_0119.jpg'</span>,</span><br><span class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/01/1.jpg'</span>,</span><br><span class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/11/jquery.jpg'</span>,</span><br><span class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/10/maid.jpg'</span></span><br><span class="line"> ];</span><br><span class="line"> <span class="keyword">let</span> promiseAll = [], img = [], imgTotal = mulitImg.length;</span><br><span class="line"> <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span> ; i &lt; imgTotal ; i++)&#123;</span><br><span class="line">     promiseAll[i] = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</span><br><span class="line">         img[i] = <span class="keyword">new</span> Image()</span><br><span class="line">         img[i].src = mulitImg[i]</span><br><span class="line">         img[i].onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">              <span class="comment">//第i张加载完成</span></span><br><span class="line">              resolve(img[i])</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;)</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="built_in">Promise</span>.all(promiseAll).then(<span class="function">(<span class="params">img</span>)=&gt;</span>&#123;</span><br><span class="line">     <span class="comment">//全部加载完成</span></span><br><span class="line"> &#125;)</span><br></pre></td></tr></table></figure>
       
     </div>
       <div id="remark"></div>
@@ -1005,10 +1113,10 @@
 
 
   
-    <article id="post-https" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-https" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -1133,10 +1241,10 @@
 
 
   
-    <article id="post-webEngineers" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-webEngineers" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -1158,7 +1266,7 @@
 <p><strong> 别光解决问题，想想究竟发生了什么 </strong></p>
 <p>&emsp;&emsp;很多人埋头写 CSS 和 JavaScript 直到程序工作起来了，然后就去做别的事情了。我通过 code review 发现这种事经常发生。我总会问大家：“为什么你会在这里添加 float: left？”或者“这里的 overflow: hidden 是必要的吗？”，他们往往答道：“我也不知道，可是我一删掉它们，页面就乱套了。”<br>&emsp;&emsp;JavaScript 也是一样，我总会在一个条件竞争的地方看到一个 setTimeout，或者有些人无意中阻止了事件传播，却不知道它会影响到页面中其它的事件处理。我发现很多情况下，当你遇到问题的时候，你只是解决当下的问题罢了。但是如果你永远不花时间理解问题的本源，你将一次又一次的面对相同的问题。花一些时间找出为什么，这看上去费时费力，但是我保证它会节省你未来的时间。在完全理解整个系统之后，你就不需要总去猜测和论证了。</p>
 <p><strong> 学会预见未来的浏览器发展趋势 </strong></p>
-<p>&emsp;&emsp;前后端开发的一个主要区别在于后端代码通常都运行在完全由你掌控的环境下。前端相对来说不那么在你的掌控之中。不同用户的平台或设备是前端永恒的话题，你的代码需要优雅掌控这一切。<br>&emsp;&emsp;我记得自己 2011 年之前曾经阅读某主流 JavaScript 框架的时候看到过下面这样的代码 (简化过的)：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> isIE6 = !isIE7 &amp;&amp; !isIE8 &amp;&amp; !isIE9;</div></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;前后端开发的一个主要区别在于后端代码通常都运行在完全由你掌控的环境下。前端相对来说不那么在你的掌控之中。不同用户的平台或设备是前端永恒的话题，你的代码需要优雅掌控这一切。<br>&emsp;&emsp;我记得自己 2011 年之前曾经阅读某主流 JavaScript 框架的时候看到过下面这样的代码 (简化过的)：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> isIE6 = !isIE7 &amp;&amp; !isIE8 &amp;&amp; !isIE9;</span><br></pre></td></tr></table></figure></p>
 <p>&emsp;&emsp;在这个例子中变量 IE6 为了判断 IE 浏览器版本是否是 6 或更低的版本。那么在 IE10 发布时，我们的程序判断还是会出问题。<br>&emsp;&emsp;我理解在真实世界特性检测并不 100% 工作，而且有的时候你不得不依赖有 bug 的特性或根据浏览器特性检测的错误设计白名单。但你为此做的每一件事都非常关键，因为你预见到了不再有 bug 的未来。对于我们当中的很多人来说，我们今天写的代码都会比我们的工作周期要长。有些我写的代码已经过去 8 年多了还在产品线上运行。这让人很满足又很不安。</p>
 <p><strong> 阅读规范文档 </strong></p>
 <p>&emsp;&emsp;浏览器有 bug 是很难免的事，但是当同一份代码在两个浏览器渲染出来的效果不一样，人们总会不假思索的推测，那个“广受好评”的浏览器是对的，而“不起眼”的浏览器是错的。但事实并不一定如此，当你的假设出现错误时，你选取的变通办法都会在未来遭遇问题。<br>&emsp;&emsp; 一个就近的例子是 flex 元素的默认最小尺寸问题。根据规范的描述，flex 元素初始化的 min-width 和 min-height 的值是 auto (而不是 0)，也就是说它们默认应该收缩到自己内容的最小尺寸。但是在过去长达 8 个月的时间里，只有 Firefox 的实现是准确的。<br>&emsp;&emsp; 如果你遇到了这个浏览器兼容性的问题并且发现 Chrome、IE、Opera、Safari 的效果相同而 Firefox 和它们不同时，你很可能会认为是 Firefox 搞错了。事实上这种情况我见多了。很多我在自己 Flexbugs 项目上报的问题都是这样的。而且这些解决方案的问题会在两周之后 Chrome 44 修复之后被体现出来。和遵循标准的解决方案相比，这些方案都伤害到了正确的规范行为。当同一份代码在两个或更多浏览器的渲染结果不同时，你应该花些时间确定哪个效果是正确的，并且以此为标准写代码。你的解决方案应该是对未来友好的。额外的，所谓“卓越”的前端工程师是时刻感受变化，在某项技术成为主流之前就去适应它的，甚至在为这样的技术做着贡献。如果你锻炼自己看到规范就能在浏览器支持它之前想象出它如何工作的，那么你将成为谈论并影响其规范开发的那群人。</p>
@@ -1205,10 +1313,10 @@
 
 
   
-    <article id="post-informationScroll" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-informationScroll" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -1227,10 +1335,10 @@
 <li>无间歇 直接滚动</li>
 <li>间歇式滚动</li>
 </ul>
-<p><strong>HTML</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"recoder_con"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"recoder_ul1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"recoder_ul2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p><strong>CSS </strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">.recoder-con&#123;</div><div class="line">    display: inline-block;</div><div class="line">    width: 584px;     //指定宽度</div><div class="line">    height: 280px;    //指定高度</div><div class="line">    overflow: scroll;</div><div class="line">    overflow-x: hidden;</div><div class="line">    overflow-y: hidden;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><strong>无间歇JS </strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span>  <span class="title">prizeScroll</span>(<span class="params">listNum</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> speed = <span class="number">65</span>,</div><div class="line">                wap = <span class="built_in">document</span>.getElementById(<span class="string">"recoder_con"</span>),</div><div class="line">                ul1 = <span class="built_in">document</span>.getElementById(<span class="string">"recoder_ul1"</span>),</div><div class="line">                ul2 = <span class="built_in">document</span>.getElementById(<span class="string">"recoder_ul2"</span>);</div><div class="line"></div><div class="line">        ul2.innerHTML = ul1.innerHTML;</div><div class="line">        <span class="keyword">var</span> leftHeight;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (listNum &gt; <span class="number">4</span>) &#123;</div><div class="line">            leftHeight = <span class="number">0</span>;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (listNum == <span class="number">4</span>) &#123;</div><div class="line">            leftHeight = <span class="number">33</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">Marquee2</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span> (ul2.offsetTop - wap.scrollTop &lt;= leftHeight) &#123;</div><div class="line">                wap.scrollTop -= ul1.offsetHeight;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                wap.scrollTop++;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">var</span> MyMar2 = setInterval(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            Marquee2();</div><div class="line">        &#125;, speed);</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    prizeScroll(<span class="number">4</span>)</div></pre></td></tr></table></figure></p>
-<p><strong>有间歇JS</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> wap = $(<span class="string">'#recoder_con'</span>),</div><div class="line">            ul1Html = $(<span class="string">'#recoder_ul1'</span>).html(),</div><div class="line">            ul2 = $(<span class="string">'#recoder_ul2'</span>);</div><div class="line"></div><div class="line">    <span class="keyword">var</span> speed = <span class="number">50</span>,</div><div class="line">            listNum = <span class="number">4</span>,</div><div class="line">            delay = <span class="number">1000</span>,</div><div class="line">            liHeight = <span class="number">21</span>,</div><div class="line">            time,</div><div class="line">            scrollTop = <span class="number">0</span>;</div><div class="line"></div><div class="line">            ul2.html(ul1Html);</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">startScroll</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        time = setInterval(<span class="string">"scrollUp()"</span>, speed);</div><div class="line">        wap.scrollTop(scrollTop++);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">scrollUp</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(scrollTop % liHeight == <span class="number">0</span>)&#123;</div><div class="line">            clearInterval(time);</div><div class="line">            setTimeout(startScroll,delay);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            wap.scrollTop(scrollTop++);</div><div class="line">            <span class="keyword">if</span>(scrollTop &gt;= (listNum <span class="number">-1</span>) * liHeight)&#123;</div><div class="line">                scrollTop = <span class="number">0</span>;</div><div class="line">                wap.scrollTop(scrollTop);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    setTimeout(<span class="string">'startScroll()'</span>,delay);</div></pre></td></tr></table></figure></p>
+<p><strong>HTML</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"recoder_con"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"recoder_ul1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"recoder_ul2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>CSS </strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.recoder-con</span>&#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    width: 584px;     //指定宽度</span><br><span class="line">    height: 280px;    //指定高度</span><br><span class="line">    <span class="selector-tag">overflow</span>: <span class="selector-tag">scroll</span>;</span><br><span class="line">    <span class="selector-tag">overflow-x</span>: <span class="selector-tag">hidden</span>;</span><br><span class="line">    <span class="selector-tag">overflow-y</span>: <span class="selector-tag">hidden</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>无间歇JS </strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>  <span class="title">prizeScroll</span>(<span class="params">listNum</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> speed = <span class="number">65</span>,</span><br><span class="line">                wap = <span class="built_in">document</span>.getElementById(<span class="string">"recoder_con"</span>),</span><br><span class="line">                ul1 = <span class="built_in">document</span>.getElementById(<span class="string">"recoder_ul1"</span>),</span><br><span class="line">                ul2 = <span class="built_in">document</span>.getElementById(<span class="string">"recoder_ul2"</span>);</span><br><span class="line"></span><br><span class="line">        ul2.innerHTML = ul1.innerHTML;</span><br><span class="line">        <span class="keyword">var</span> leftHeight;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (listNum &gt; <span class="number">4</span>) &#123;</span><br><span class="line">            leftHeight = <span class="number">0</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (listNum == <span class="number">4</span>) &#123;</span><br><span class="line">            leftHeight = <span class="number">33</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">Marquee2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (ul2.offsetTop - wap.scrollTop &lt;= leftHeight) &#123;</span><br><span class="line">                wap.scrollTop -= ul1.offsetHeight;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                wap.scrollTop++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">var</span> MyMar2 = setInterval(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            Marquee2();</span><br><span class="line">        &#125;, speed);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    prizeScroll(<span class="number">4</span>)</span><br></pre></td></tr></table></figure></p>
+<p><strong>有间歇JS</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> wap = $(<span class="string">'#recoder_con'</span>),</span><br><span class="line">            ul1Html = $(<span class="string">'#recoder_ul1'</span>).html(),</span><br><span class="line">            ul2 = $(<span class="string">'#recoder_ul2'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> speed = <span class="number">50</span>,</span><br><span class="line">            listNum = <span class="number">4</span>,</span><br><span class="line">            delay = <span class="number">1000</span>,</span><br><span class="line">            liHeight = <span class="number">21</span>,</span><br><span class="line">            time,</span><br><span class="line">            scrollTop = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">            ul2.html(ul1Html);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">startScroll</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        time = setInterval(<span class="string">"scrollUp()"</span>, speed);</span><br><span class="line">        wap.scrollTop(scrollTop++);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">scrollUp</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(scrollTop % liHeight == <span class="number">0</span>)&#123;</span><br><span class="line">            clearInterval(time);</span><br><span class="line">            setTimeout(startScroll,delay);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            wap.scrollTop(scrollTop++);</span><br><span class="line">            <span class="keyword">if</span>(scrollTop &gt;= (listNum <span class="number">-1</span>) * liHeight)&#123;</span><br><span class="line">                scrollTop = <span class="number">0</span>;</span><br><span class="line">                wap.scrollTop(scrollTop);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    setTimeout(<span class="string">'startScroll()'</span>,delay);</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -1268,88 +1376,9 @@
 
 
   
-    <article id="post-iosMoveEvent" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/17/iosMoveEvent/">解决IOS滑动不畅问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[TOC]<br>@(welcome)[前端菜鸟|掘金中]</p>
-<ul>
-<li>在编写移动端页面时,遇到一个很奇怪的问题,IOS向来滑动通畅,体验度明显甩开安卓十条街,但是在添加了上拉刷新下拉加载加载的插件后,IOS瞬间滑动不畅,慢成一坨.</li>
-<li>那赶脚就像,拖着汽车往前走的老哞…</li>
-<li>起初以为是插件底层的滑动事件影响了IOS,去掉插件之后,依然卡顿如初,what?!</li>
-<li>仔细对比之后,终于找到罪魁祸首,竟然是两行熟悉到不行的css</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">body,html&#123;</div><div class="line">    height: 100%;</div><div class="line">    overflow: auto;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>通过查找，终于找到了解决问题的方法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">-webkit-overflow-scrolling</span>: <span class="selector-tag">touch</span>;</div></pre></td></tr></table></figure></p>
-<p>这个属性只兼容移动版 Safari  iOS 5.0+，而且它有两个值<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">-webkit-overflow-scrolling</span>: <span class="selector-tag">touch</span>; <span class="comment">/* 当手指从触摸屏上移开，会保持一段时间的滚动 */</span></div><div class="line"><span class="selector-tag">-webkit-overflow-scrolling</span>: <span class="selector-tag">auto</span>; <span class="comment">/* 当手指从触摸屏上移开，滚动会立即停止 */</span></div></pre></td></tr></table></figure></p>
-<p>####auto</p>
-<ul>
-<li>使用普通滚动, 当手指从触摸屏上移开，滚动会立即停止。</li>
-</ul>
-<p>####touch</p>
-<ul>
-<li>使用具有回弹效果的滚动, 当手指从触摸屏上移开，内容会继续保持一段时间的滚动效果。继续滚动的速度和持续的时间和滚动手势的强烈程度成正比。同时也会创建一个新的堆栈上下文。</li>
-</ul>
-<p> ``将这行代码放到我的根标签后，我的小苹果又再次欢快的跑起来了！正当我高兴的时候，又发现了一个问题，我写的固定定位导航条随着苹果的告诉滑动，出现了鬼畜情况！</p>
-<p>``也就是说，我需要将我的固定定位排除在滑动之外！</p>
-<p>``上代码</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span>,<span class="selector-tag">html</span>&#123;</div><div class="line">       <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">       <span class="attribute">overflow</span>: auto;</div><div class="line">   &#125;</div><div class="line">   <span class="selector-class">.scroll</span>&#123;</div><div class="line">       <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">       <span class="attribute">overflow</span>: auto;</div><div class="line">       <span class="attribute">-webkit-overflow-scrolling</span>: touch;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<p>要滚动的部分给父元素加上class类scroll,需要注意的是设置的两个overflow形成了两个滚动条，很容易造成滚动问题，建议在苹果浏览器下调试好。</p>
-<p>博主原创文</p>
-
-      
-    </div>
-      <div id="remark"></div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/17/iosMoveEvent/" class="archive-article-date">
-  	<time datetime="2016-11-17T08:51:45.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-17</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css-hack/">css hack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原创/">原创</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
@@ -1411,7 +1440,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/FHS/" style="font-size: 12.5px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/jQuery源码/" style="font-size: 10px;">jQuery源码</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 12.5px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/依赖倒置原则/" style="font-size: 10px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端设计模式/" style="font-size: 17.5px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 15px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
+    				<a href="/tags/FHS/" style="font-size: 12.5px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/jQuery源码/" style="font-size: 10px;">jQuery源码</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 12.5px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/underscore/" style="font-size: 10px;">underscore</a> <a href="/tags/underscore源码/" style="font-size: 10px;">underscore源码</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/依赖倒置原则/" style="font-size: 10px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端设计模式/" style="font-size: 17.5px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 15px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/源码/" style="font-size: 10px;">源码</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
     			</div>
     	</section>
     

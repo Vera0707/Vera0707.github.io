@@ -1,38 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://xieyuxuan.cc">
   <title>解决IOS滑动不畅问题 | 谢雨轩的博客 | Vera Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="[TOC]@(welcome)[前端菜鸟|掘金中]
-
-在编写移动端页面时,遇到一个很奇怪的问题,IOS向来滑动通畅,体验度明显甩开安卓十条街,但是在添加了上拉刷新下拉加载加载的插件后,IOS瞬间滑动不畅,慢成一坨.
-那赶脚就像,拖着汽车往前走的老哞…
-起初以为是插件底层的滑动事件影响了IOS,去掉插件之后,依然卡顿如初,what?!
-仔细对比之后,终于找到罪魁祸首,竟然是两行熟悉到不行的css">
+  <meta name="description" content="[TOC]@(welcome)[前端菜鸟|掘金中]  在编写移动端页面时,遇到一个很奇怪的问题,IOS向来滑动通畅,体验度明显甩开安卓十条街,但是在添加了上拉刷新下拉加载加载的插件后,IOS瞬间滑动不畅,慢成一坨. 那赶脚就像,拖着汽车往前走的老哞… 起初以为是插件底层的滑动事件影响了IOS,去掉插件之后,依然卡顿如初,what?! 仔细对比之后,终于找到罪魁祸首,竟然是两行熟悉到不行的css">
+<meta name="keywords" content="原创,css hack">
 <meta property="og:type" content="article">
 <meta property="og:title" content="解决IOS滑动不畅问题">
 <meta property="og:url" content="http://xieyuxuan.cc/2016/11/17/iosMoveEvent/index.html">
 <meta property="og:site_name" content="谢雨轩的博客 | Vera Blog">
-<meta property="og:description" content="[TOC]@(welcome)[前端菜鸟|掘金中]
-
-在编写移动端页面时,遇到一个很奇怪的问题,IOS向来滑动通畅,体验度明显甩开安卓十条街,但是在添加了上拉刷新下拉加载加载的插件后,IOS瞬间滑动不畅,慢成一坨.
-那赶脚就像,拖着汽车往前走的老哞…
-起初以为是插件底层的滑动事件影响了IOS,去掉插件之后,依然卡顿如初,what?!
-仔细对比之后,终于找到罪魁祸首,竟然是两行熟悉到不行的css">
+<meta property="og:description" content="[TOC]@(welcome)[前端菜鸟|掘金中]  在编写移动端页面时,遇到一个很奇怪的问题,IOS向来滑动通畅,体验度明显甩开安卓十条街,但是在添加了上拉刷新下拉加载加载的插件后,IOS瞬间滑动不畅,慢成一坨. 那赶脚就像,拖着汽车往前走的老哞… 起初以为是插件底层的滑动事件影响了IOS,去掉插件之后,依然卡顿如初,what?! 仔细对比之后,终于找到罪魁祸首,竟然是两行熟悉到不行的css">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2016-11-17T08:51:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决IOS滑动不畅问题">
-<meta name="twitter:description" content="[TOC]@(welcome)[前端菜鸟|掘金中]
-
-在编写移动端页面时,遇到一个很奇怪的问题,IOS向来滑动通畅,体验度明显甩开安卓十条街,但是在添加了上拉刷新下拉加载加载的插件后,IOS瞬间滑动不畅,慢成一坨.
-那赶脚就像,拖着汽车往前走的老哞…
-起初以为是插件底层的滑动事件影响了IOS,去掉插件之后,依然卡顿如初,what?!
-仔细对比之后,终于找到罪魁祸首,竟然是两行熟悉到不行的css">
+<meta name="twitter:description" content="[TOC]@(welcome)[前端菜鸟|掘金中]  在编写移动端页面时,遇到一个很奇怪的问题,IOS向来滑动通畅,体验度明显甩开安卓十条街,但是在添加了上拉刷新下拉加载加载的插件后,IOS瞬间滑动不畅,慢成一坨. 那赶脚就像,拖着汽车往前走的老哞… 起初以为是插件底层的滑动事件影响了IOS,去掉插件之后,依然卡顿如初,what?! 仔细对比之后,终于找到罪魁祸首,竟然是两行熟悉到不行的css">
   
     <link rel="alternative" href="/atom.xml" title="谢雨轩的博客 | Vera Blog" type="application/atom+xml">
   
@@ -60,7 +47,7 @@
   </script>
   <!-- End Piwik Code -->
 </head>
-
+</html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -178,10 +165,10 @@
 
       <canvas id="body-wrap"> </canvas>
       <div class="body-wrap">
-          <article id="post-iosMoveEvent" class="article article-type-post" itemscope itemprop="blogPost">
+          <article id="post-iosMoveEvent" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -203,9 +190,9 @@
 <li>起初以为是插件底层的滑动事件影响了IOS,去掉插件之后,依然卡顿如初,what?!</li>
 <li>仔细对比之后,终于找到罪魁祸首,竟然是两行熟悉到不行的css</li>
 </ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">body,html&#123;</div><div class="line">    height: 100%;</div><div class="line">    overflow: auto;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>通过查找，终于找到了解决问题的方法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">-webkit-overflow-scrolling</span>: <span class="selector-tag">touch</span>;</div></pre></td></tr></table></figure></p>
-<p>这个属性只兼容移动版 Safari  iOS 5.0+，而且它有两个值<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">-webkit-overflow-scrolling</span>: <span class="selector-tag">touch</span>; <span class="comment">/* 当手指从触摸屏上移开，会保持一段时间的滚动 */</span></div><div class="line"><span class="selector-tag">-webkit-overflow-scrolling</span>: <span class="selector-tag">auto</span>; <span class="comment">/* 当手指从触摸屏上移开，滚动会立即停止 */</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">body,html&#123;</span><br><span class="line">    height: 100%;</span><br><span class="line">    overflow: auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过查找，终于找到了解决问题的方法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">-webkit-overflow-scrolling</span>: <span class="selector-tag">touch</span>;</span><br></pre></td></tr></table></figure></p>
+<p>这个属性只兼容移动版 Safari  iOS 5.0+，而且它有两个值<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">-webkit-overflow-scrolling</span>: <span class="selector-tag">touch</span>; <span class="comment">/* 当手指从触摸屏上移开，会保持一段时间的滚动 */</span></span><br><span class="line"><span class="selector-tag">-webkit-overflow-scrolling</span>: <span class="selector-tag">auto</span>; <span class="comment">/* 当手指从触摸屏上移开，滚动会立即停止 */</span></span><br></pre></td></tr></table></figure></p>
 <p>####auto</p>
 <ul>
 <li>使用普通滚动, 当手指从触摸屏上移开，滚动会立即停止。</li>
@@ -217,7 +204,7 @@
 <p> ``将这行代码放到我的根标签后，我的小苹果又再次欢快的跑起来了！正当我高兴的时候，又发现了一个问题，我写的固定定位导航条随着苹果的告诉滑动，出现了鬼畜情况！</p>
 <p>``也就是说，我需要将我的固定定位排除在滑动之外！</p>
 <p>``上代码</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span>,<span class="selector-tag">html</span>&#123;</div><div class="line">       <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">       <span class="attribute">overflow</span>: auto;</div><div class="line">   &#125;</div><div class="line">   <span class="selector-class">.scroll</span>&#123;</div><div class="line">       <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">       <span class="attribute">overflow</span>: auto;</div><div class="line">       <span class="attribute">-webkit-overflow-scrolling</span>: touch;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span>,<span class="selector-tag">html</span>&#123;</span><br><span class="line">       <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">       <span class="attribute">overflow</span>: auto;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="selector-class">.scroll</span>&#123;</span><br><span class="line">       <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">       <span class="attribute">overflow</span>: auto;</span><br><span class="line">       <span class="attribute">-webkit-overflow-scrolling</span>: touch;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 <p>要滚动的部分给父元素加上class类scroll,需要注意的是设置的两个overflow形成了两个滚动条，很容易造成滚动问题，建议在苹果浏览器下调试好。</p>
 <p>博主原创文</p>
 
@@ -348,7 +335,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/FHS/" style="font-size: 12.5px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/jQuery源码/" style="font-size: 10px;">jQuery源码</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 12.5px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/依赖倒置原则/" style="font-size: 10px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端设计模式/" style="font-size: 17.5px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 15px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
+    				<a href="/tags/FHS/" style="font-size: 12.5px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/jQuery源码/" style="font-size: 10px;">jQuery源码</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 12.5px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/underscore/" style="font-size: 10px;">underscore</a> <a href="/tags/underscore源码/" style="font-size: 10px;">underscore源码</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/依赖倒置原则/" style="font-size: 10px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端设计模式/" style="font-size: 17.5px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 15px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/源码/" style="font-size: 10px;">源码</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
     			</div>
     	</section>
     
