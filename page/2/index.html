@@ -165,6 +165,72 @@
       <div class="body-wrap">
           
   
+    <article id="post-linuxFilePath" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/17/linuxFilePath/">linux环境变量初始化与对应文件的生效顺序</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;在登录Linux系统并启动一个bash shell时，默认情况下bash会在若干个文件中查找环境变量的设置。这些文件可统称为系统环境变量。bash检查的环境变量文件的情况取决于系统运行shell的方式。</p>
+<p>&emsp;&emsp;系统运行shell的方式一般有三种：</p>
+<p>&emsp;&emsp;一、通过系统用户登录后默认运行的shell</p>
+<p>&emsp;&emsp;二、非登录交互式运行shell</p>
+<p>&emsp;&emsp;三、执行脚本运行非交互式shell</p>
+<p>&emsp;&emsp;当用户登录Linux系统时，shell会作为登录shell启动。此时的登录shell加载环境变量的顺序如下</p>
+<p><img src="https://img-blog.csdn.net/20170724085550953?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMzQ4MTAyNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>&emsp;&emsp;用户登录系统后首先会加载/etc/profile全局变量文件，这是Linux系统上默认的shell主环境变量文件。系统上每个用户登录都会加载这个文件。</p>
+<p>&emsp;&emsp;当加载完/etc/profile文件后，才会执行/etc/profile.d目录下的脚本文件。</p>
+<p>&emsp;&emsp;之后开始运行$HOME/.bash_profile（用户环境变量文件），在这个文件中，又会去找$HOME/.bashrc（用户环境变量文件），如果有则执行，如果没有则不执行。在$HOME/.bashrc文件中又会去找/etc/bashrc（全局环境变量文件），如果有则执行，如果没有则不执行。</p>
+<p>&emsp;&emsp;如果用户的shell不是登录时启动的，非登录shell只会加载$HOME/.bashrc（用户环境变量文件），并会去找/etc/bashrc（全局环境变量文件）。如果希望在登录shell下也可以读到设置的环境变量等内容，就需要将变量设定等写入$HOME/.bashrc或者/etc/bashrc，而不是$HOME/.bash_profile或/etc/profile。</p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/07/17/linuxFilePath/" class="archive-article-date">
+  	<time datetime="2018-07-17T11:56:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-17</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FHS/">FHS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux环境变量/">linux环境变量</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-linuxFHS" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -1313,69 +1379,6 @@
 
 
   
-    <article id="post-informationScroll" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/08/informationScroll/">滚动信息条的两种展示方法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>无间歇 直接滚动</li>
-<li>间歇式滚动</li>
-</ul>
-<p><strong>HTML</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"recoder_con"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"recoder_ul1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"recoder_ul2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>CSS </strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.recoder-con</span>&#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    width: 584px;     //指定宽度</span><br><span class="line">    height: 280px;    //指定高度</span><br><span class="line">    <span class="selector-tag">overflow</span>: <span class="selector-tag">scroll</span>;</span><br><span class="line">    <span class="selector-tag">overflow-x</span>: <span class="selector-tag">hidden</span>;</span><br><span class="line">    <span class="selector-tag">overflow-y</span>: <span class="selector-tag">hidden</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>无间歇JS </strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>  <span class="title">prizeScroll</span>(<span class="params">listNum</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> speed = <span class="number">65</span>,</span><br><span class="line">                wap = <span class="built_in">document</span>.getElementById(<span class="string">"recoder_con"</span>),</span><br><span class="line">                ul1 = <span class="built_in">document</span>.getElementById(<span class="string">"recoder_ul1"</span>),</span><br><span class="line">                ul2 = <span class="built_in">document</span>.getElementById(<span class="string">"recoder_ul2"</span>);</span><br><span class="line"></span><br><span class="line">        ul2.innerHTML = ul1.innerHTML;</span><br><span class="line">        <span class="keyword">var</span> leftHeight;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (listNum &gt; <span class="number">4</span>) &#123;</span><br><span class="line">            leftHeight = <span class="number">0</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (listNum == <span class="number">4</span>) &#123;</span><br><span class="line">            leftHeight = <span class="number">33</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">Marquee2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (ul2.offsetTop - wap.scrollTop &lt;= leftHeight) &#123;</span><br><span class="line">                wap.scrollTop -= ul1.offsetHeight;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                wap.scrollTop++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">var</span> MyMar2 = setInterval(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            Marquee2();</span><br><span class="line">        &#125;, speed);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    prizeScroll(<span class="number">4</span>)</span><br></pre></td></tr></table></figure></p>
-<p><strong>有间歇JS</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> wap = $(<span class="string">'#recoder_con'</span>),</span><br><span class="line">            ul1Html = $(<span class="string">'#recoder_ul1'</span>).html(),</span><br><span class="line">            ul2 = $(<span class="string">'#recoder_ul2'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> speed = <span class="number">50</span>,</span><br><span class="line">            listNum = <span class="number">4</span>,</span><br><span class="line">            delay = <span class="number">1000</span>,</span><br><span class="line">            liHeight = <span class="number">21</span>,</span><br><span class="line">            time,</span><br><span class="line">            scrollTop = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">            ul2.html(ul1Html);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">startScroll</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        time = setInterval(<span class="string">"scrollUp()"</span>, speed);</span><br><span class="line">        wap.scrollTop(scrollTop++);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">scrollUp</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(scrollTop % liHeight == <span class="number">0</span>)&#123;</span><br><span class="line">            clearInterval(time);</span><br><span class="line">            setTimeout(startScroll,delay);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            wap.scrollTop(scrollTop++);</span><br><span class="line">            <span class="keyword">if</span>(scrollTop &gt;= (listNum <span class="number">-1</span>) * liHeight)&#123;</span><br><span class="line">                scrollTop = <span class="number">0</span>;</span><br><span class="line">                wap.scrollTop(scrollTop);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    setTimeout(<span class="string">'startScroll()'</span>,delay);</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-      <div id="remark"></div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/02/08/informationScroll/" class="archive-article-date">
-  	<time datetime="2017-02-08T03:46:45.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-08</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/滚动信息条间歇性滚动/">滚动信息条间歇性滚动</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1440,7 +1443,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/FHS/" style="font-size: 12.5px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/jQuery源码/" style="font-size: 10px;">jQuery源码</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 12.5px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/underscore/" style="font-size: 10px;">underscore</a> <a href="/tags/underscore源码/" style="font-size: 10px;">underscore源码</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/依赖倒置原则/" style="font-size: 10px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端设计模式/" style="font-size: 17.5px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 15px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/源码/" style="font-size: 10px;">源码</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
+    				<a href="/tags/FHS/" style="font-size: 12.5px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/jQuery源码/" style="font-size: 10px;">jQuery源码</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 12.5px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/underscore/" style="font-size: 10px;">underscore</a> <a href="/tags/underscore源码/" style="font-size: 10px;">underscore源码</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/依赖倒置原则/" style="font-size: 12.5px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端设计模式/" style="font-size: 17.5px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 15px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/源码/" style="font-size: 10px;">源码</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
     			</div>
     	</section>
     

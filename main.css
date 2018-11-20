@@ -1447,7 +1447,10 @@ p::-moz-selection,div::-moz-selection,a::-moz-selection {
   /*box-shadow: 0px 0px 50px #666 inset;*/
  }
   .article img {
-    max-width: 100%; }
+    display: block;
+    max-width: 70%;
+    margin: 0 auto;
+  }
 
 .article-inner h1.article-title, .article-title {
   color: #333;
