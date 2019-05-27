@@ -165,6 +165,408 @@
       <div class="body-wrap">
           
   
+    <article id="post-designPatternsDIP" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/29/designPatternsDIP/">前端设计模式之依赖倒置原则(DIP)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h6 id="译注：本文作者愤怒的韭菜"><a href="#译注：本文作者愤怒的韭菜" class="headerlink" title="译注：本文作者愤怒的韭菜"></a>译注：本文作者<a href="https://blog.csdn.net/zhengzhb/article/details/7289269" target="_blank" rel="noopener">愤怒的韭菜</a></h6><p>&emsp;&emsp;<abbr style="font-weight:bold;">定义:</abbr><br>&emsp;&emsp;高层模块不应该依赖低层模块，二者都应该依赖其抽象；抽象不应该依赖细节；细节应该依赖抽象。</p>
+<p>&emsp;&emsp;<abbr style="font-weight:bold;">问题由来:</abbr><br>&emsp;&emsp;类A直接依赖类B，假如要将类A改为依赖类C，则必须通过修改类A的代码来达成。这种场景下，类A一般是高层模块，负责复杂的业务逻辑；类B和类C是低层模块，负责基本的原子操作；假如修改类A，会给程序带来不必要的风险。</p>
+<p>&emsp;&emsp;<abbr style="font-weight:bold;">解决方案:</abbr><br>&emsp;&emsp;将类A修改为依赖接口I，类B和类C各自实现接口I，类A通过接口I间接与类B或者类C发生联系，则会大大降低修改类A的几率。</p>
+<p>&emsp;&emsp;依赖倒置原则基于这样一个事实：相对于细节的多变性，抽象的东西要稳定的多。以抽象为基础搭建起来的架构比以细节为基础搭建起来的架构要稳定的多。在java中，抽象指的是接口或者抽象类，细节就是具体的实现类，使用接口或者抽象类的目的是制定好规范和契约，而不去涉及任何具体的操作，把展现细节的任务交给他们的实现类去完成。</p>
+<p>&emsp;&emsp;依赖倒置原则的核心思想是面向接口编程，我们依旧用一个例子来说明面向接口编程比相对于面向实现编程好在什么地方。场景是这样的，母亲给孩子讲故事，只要给她一本书，她就可以照着书给孩子讲故事了。代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Book &#123;</span><br><span class="line">    public String getContent()&#123;</span><br><span class="line">        return &apos;很久很久以前有一个阿拉伯的故事...&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Mother&#123;</span><br><span class="line">    public void narrate(Book book)&#123;</span><br><span class="line">        System.out.println(&quot;妈妈开始讲故事&quot;);</span><br><span class="line">        System.out.println(book.getContent());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Client&#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        Mother month = new Month();</span><br><span class="line">        moth.narrate(new Book());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">妈妈开始讲故事</span><br><span class="line">很久很久以前有一个阿拉伯的故事...</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;运行良好，假如有一天，需求变成这样：不是给书而是给一份报纸，让这位母亲讲一下报纸上的故事，报纸的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class Newspaper&#123;</span><br><span class="line">    public String getContent()&#123;</span><br><span class="line">        return &apos;林书豪38+7领导尼克斯击败湖人……&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;这位母亲却办不到，因为她居然不会读报纸上的故事，这太荒唐了，只是将书换成报纸，居然必须要修改Mother才能读。假如以后需求换成杂志呢？换成网页呢？还要不断地修改Mother，这显然不是好的设计。原因就是Mother与Book之间的耦合性太高了，必须降低他们之间的耦合度才行。</p>
+<p>&emsp;&emsp;我们引入一个抽象的接口IReader。读物，只要是带字的都属于读物：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">interface IReader&#123;</span><br><span class="line">    public String getContent();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;Mother类与接口IReader发生依赖关系，而Book和Newspaper都属于读物的范畴，他们各自都去实现IReader接口，这样就符合依赖倒置原则了，代码修改为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">class Newspaper implements IReader&#123;</span><br><span class="line">     public String getContent()&#123;</span><br><span class="line">         return &apos;林书豪38+7领导尼克斯击败湖人……&apos;;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Book implements IReader&#123;</span><br><span class="line">     public String getContent()&#123;</span><br><span class="line">         return &apos;很久很久以前有一个阿拉伯的故事...&apos;;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Month&#123;</span><br><span class="line">     public void narrate(IReader reader)&#123;</span><br><span class="line">          System.out.println(&quot;妈妈开始讲故事&quot;);</span><br><span class="line">          System.out.println(reader.getContent());</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Client&#123;</span><br><span class="line">     public static void main(String[] args)&#123;</span><br><span class="line">         Month month = new Month();</span><br><span class="line">         mother.narrate(new Book());</span><br><span class="line">         month.getContent(new Newspaper());</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">妈妈开始讲故事</span><br><span class="line">很久很久以前有一个阿拉伯的故事……</span><br><span class="line">妈妈开始讲故事</span><br><span class="line">林书豪17+9助尼克斯击败老鹰……</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;这样修改后，无论以后怎样扩展Client类，都不需要再修改Mother类了。这只是一个简单的例子，实际情况中，代表高层模块的Mother类将负责完成主要的业务逻辑，一旦需要对它进行修改，引入错误的风险极大。所以遵循依赖倒置原则可以降低类之间的耦合性，提高系统的稳定性，降低修改程序造成的风险。</p>
+<p>&emsp;&emsp;采用依赖倒置原则给多人并行开发带来了极大的便利，比如上例中，原本Mother类与Book类直接耦合时，Mother类必须等Book类编码完成后才可以进行编码，因为Mother类依赖于Book类。修改后的程序则可以同时开工，互不影响，因为Mother与Book类一点关系也没有。参与协作开发的人越多、项目越庞大，采用依赖导致原则的意义就越重大。现在很流行的TDD开发模式就是依赖倒置原则最成功的应用</p>
+<p>&emsp;&emsp;传递依赖关系有三种方式，以上的例子中使用的方法是接口传递，另外还有两种传递方式：构造方法传递和setter方法传递，相信用过Spring框架的，对依赖的传递方式一定不会陌生。</p>
+<p>&emsp;&emsp;在实际编程中，我们一般需要做到如下3点：</p>
+<p>&emsp;&emsp;&gt; 低层模块尽量都要有抽象类或接口，或者两者都有。<br>&emsp;&emsp;&gt; 变量的声明类型尽量是抽象类或接口。<br>&emsp;&emsp;&gt; 使用继承时遵循里氏替换原则。<br>&emsp;&emsp;依赖倒置原则的核心就是要我们面向接口编程，理解了面向接口编程，也就理解了依赖倒置。</p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/09/29/designPatternsDIP/" class="archive-article-date">
+  	<time datetime="2018-09-29T07:16:52.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-29</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/依赖倒置原则/">依赖倒置原则</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端设计模式/">前端设计模式</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-designPatternsSRP" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/29/designPatternsSRP/">前端设计模式之单一职责原则(SRP)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h6 id="译注：本文作者愤怒的韭菜"><a href="#译注：本文作者愤怒的韭菜" class="headerlink" title="译注：本文作者愤怒的韭菜"></a>译注：本文作者<a href="https://blog.csdn.net/zhengzhb/article/details/7278174" target="_blank" rel="noopener">愤怒的韭菜</a></h6><p>&emsp;&emsp;<abbr style="font-weight:bold;">定义:</abbr><br>&emsp;&emsp;不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。</p>
+<p>&emsp;&emsp;<abbr style="font-weight:bold;">问题由来:</abbr><br>&emsp;&emsp;类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2功能发生故障。</p>
+<p>&emsp;&emsp;<abbr style="font-weight:bold;">解决方案:</abbr><br>&emsp;&emsp;遵循单一职责原则。分别建立两个类T1、T2，使T1完成职责P1功能，T2完成职责P2功能。这样，当修改类T1时，不会使职责P2发生故障风险；同理，当修改T2时，也不会使职责P1发生故障风险。</p>
+<p>&emsp;&emsp;说到单一职责原则，很多人都会不屑一顾。因为它太简单了。稍有经验的程序员即使从来没有读过设计模式、从来没有听说过单一职责原则，在设计软件时也会自觉的遵守这一重要原则，因为这是常识。在软件编程中，谁也不希望因为修改了一个功能导致其他的功能发生故障。而避免出现这一问题的方法便是遵循单一职责原则。虽然单一职责原则如此简单，并且被认为是常识，但是即便是经验丰富的程序员写出的程序，也会有违背这一原则的代码存在。为什么会出现这种现象呢？因为有职责扩散。所谓职责扩散，就是因为某种原因，职责P被分化为粒度更细的职责P1和P2。</p>
+<p>&emsp;&emsp;比如：类T只负责一个职责P，这样设计是符合单一职责原则的。后来由于某种原因，也许是需求变更了，也许是程序的设计者境界提高了，需要将职责P细分为粒度更细的职责P1，P2，这时如果要使程序遵循单一职责原则，需要将类T也分解为两个类T1和T2，分别负责P1、P2两个职责。但是在程序已经写好的情况下，这样做简直太费时间了。所以，简单的修改类T，用它来负责两个职责是一个比较不错的选择，虽然这样做有悖于单一职责原则。（这样做的风险在于职责扩散的不确定性，因为我们不会想到这个职责P，在未来可能会扩散为P1，P2，P3，P4……Pn。所以记住，在职责扩散到我们无法控制的程度之前，立刻对代码进行重构。）</p>
+<p>&emsp;&emsp;举例说明，用一个类描述动物呼吸这个场景：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Animal&#123;</span><br><span class="line">    public void breathe(String animal)&#123;</span><br><span class="line">        System.out.println(animal+&quot;呼吸空气&quot;);</span><br><span class="line">    &#125;&#125;</span><br><span class="line"></span><br><span class="line">    public class Client&#123;</span><br><span class="line">        public static void main(String[] args)&#123;</span><br><span class="line">            Animal animal = new Animal();</span><br><span class="line">            animal.breathe(&quot;牛&quot;);</span><br><span class="line">            animal.breathe(&quot;羊&quot;);</span><br><span class="line">            animal.breathe(&quot;猪&quot;);</span><br><span class="line">         &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">牛呼吸空气</span><br><span class="line">羊呼吸空气</span><br><span class="line">猪呼吸空气</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;程序上线后，发现问题了，并不是所有的动物都呼吸空气的，比如鱼就是呼吸水的。修改时如果遵循单一职责原则，需要将Animal类细分为陆生动物类Terrestrial，水生动物Aquatic，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">class Terrestrial&#123;</span><br><span class="line">     public void breathe(String animal)&#123;</span><br><span class="line">          System.out.println(animal+&quot;呼吸空气&quot;);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Aquatic&#123;</span><br><span class="line">     public void breathe(String animal)&#123;</span><br><span class="line">           System.out.println(animal+&quot;呼吸水&quot;);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Client&#123;</span><br><span class="line">     public static void main(String[] args)&#123;</span><br><span class="line">         Terrestrial terrestrial = new Terrestrial();</span><br><span class="line">         terrestrial.breathe(&quot;牛&quot;);</span><br><span class="line">         terrestrial.breathe(&quot;羊&quot;);</span><br><span class="line">         terrestrial.breathe(&quot;猪&quot;);</span><br><span class="line">         Aquatic aquatic = new Aquatic();</span><br><span class="line">         aquatic.breathe(&quot;鱼&quot;);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">牛呼吸空气</span><br><span class="line">羊呼吸空气</span><br><span class="line">猪呼吸空气</span><br><span class="line">鱼呼吸水</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;我们会发现如果这样修改花销是很大的，除了将原来的类分解之外，还需要修改客户端。而直接修改类Animal来达成目的虽然违背了单一职责原则，但花销却小的多，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Animal&#123;</span><br><span class="line">    public void breathe(String animal)&#123;</span><br><span class="line">        if(&quot;鱼&quot;.equals(animal))&#123;</span><br><span class="line">            System.out.println(animal+&quot;呼吸水&quot;);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            System.out.println(animal+&quot;呼吸空气&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class Client&#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        Animal animal = new Animal();</span><br><span class="line">        animal.breathe(&quot;牛&quot;);</span><br><span class="line">        animal.breathe(&quot;羊&quot;);</span><br><span class="line">        animal.breathe(&quot;猪&quot;);</span><br><span class="line">        animal.breathe(&quot;鱼&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;可以看到，这种修改方式要简单的多。但是却存在着隐患：有一天需要将鱼分为呼吸淡水的鱼和呼吸海水的鱼，则又需要修改Animal类的breathe方法，而对原有代码的修改会对调用“猪”“牛”“羊”等相关功能带来风险，也许某一天你会发现程序运行的结果变为“牛呼吸水”了。这种修改方式直接在代码级别上违背了单一职责原则，虽然修改起来最简单，但隐患却是最大的。还有一种修改方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Animal&#123;</span><br><span class="line">     public void breathe(String animal)&#123;</span><br><span class="line">         System.out.println(animal+&quot;呼吸空气&quot;);</span><br><span class="line">     &#125;</span><br><span class="line">     public void breathe2(String animal)&#123;</span><br><span class="line">         System.out.println(animal+&quot;呼吸水&quot;);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Client&#123;</span><br><span class="line">     public static void main(String[] args)&#123;</span><br><span class="line">         Animal animal = new Animal();</span><br><span class="line">         animal.breathe(&quot;牛&quot;);</span><br><span class="line">         animal.breathe(&quot;羊&quot;);</span><br><span class="line">         animal.breathe(&quot;猪&quot;);</span><br><span class="line">         animal.breathe2(&quot;鱼&quot;);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;可以看到，这种修改方式没有改动原来的方法，而是在类中新加了一个方法，这样虽然也违背了单一职责原则，但在方法级别上却是符合单一职责原则的，因为它并没有动原来方法的代码。这三种方式各有优缺点，那么在实际编程中，采用哪一中呢？其实这真的比较难说，需要根据实际情况来确定。我的原则是：只有逻辑足够简单，才可以在代码级别上违反单一职责原则；只有类中方法数量足够少，才可以在方法级别上违反单一职责原则；</p>
+<p>&emsp;&emsp;例如本文所举的这个例子，它太简单了，它只有一个方法，所以，无论是在代码级别上违反单一职责原则，还是在方法级别上违反，都不会造成太大的影响。实际应用中的类都要复杂的多，一旦发生职责扩散而需要修改类时，除非这个类本身非常简单，否则还是遵循单一职责原则的好。</p>
+<p>&emsp;&emsp;遵循单一职责原的优点有：</p>
+<p>&emsp;&emsp;&gt; 可以降低类的复杂度，一个类只负责一项职责，其逻辑肯定要比负责多项职责简单的多；<br>&emsp;&emsp;&gt; 提高类的可读性，提高系统的可维护性；<br>&emsp;&emsp;&gt; 变更引起的风险降低，变更是必然的，如果单一职责原则遵守的好，当修改一个功能时，可以显著降低对其他功能的影响。</p>
+<p>&emsp;&emsp;需要说明的一点是单一职责原则不只是面向对象编程思想所特有的，只要是模块化的程序设计，都适用单一职责原则。</p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/09/29/designPatternsSRP/" class="archive-article-date">
+  	<time datetime="2018-09-29T06:46:46.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-29</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端设计模式/">前端设计模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单一职责原则/">单一职责原则</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-designPatternsLSP" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/29/designPatternsLSP/">前端设计模式之里氏替换原则(LSP)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h6 id="译注：本文作者愤怒的韭菜"><a href="#译注：本文作者愤怒的韭菜" class="headerlink" title="译注：本文作者愤怒的韭菜"></a>译注：本文作者<a href="https://blog.csdn.net/zhengzhb/article/details/7281833" target="_blank" rel="noopener">愤怒的韭菜</a></h6><p>&emsp;&emsp;肯定有不少人跟我刚看到这项原则的时候一样，对这个原则的名字充满疑惑。其实原因就是这项原则最早是在1988年，由麻省理工学院的一位姓里的女士（Barbara Liskov）提出来的。</p>
+<p>&emsp;&emsp;<abbr style="font-weight:bold;">定义1:</abbr><br>&emsp;&emsp;如果对每一个类型为 T1的对象 o1，都有类型为 T2 的对象o2，使得以 T1定义的所有程序 P 在所有的对象 o1 都代换成 o2 时，程序 P 的行为没有发生变化，那么类型 T2 是类型 T1 的子类型。</p>
+<p>&emsp;&emsp;<abbr style="font-weight:bold;">定义2:</abbr><br>&emsp;&emsp;所有引用基类的地方必须能透明地使用其子类的对象。</p>
+<p>&emsp;&emsp;<abbr style="font-weight:bold;">问题由来:</abbr><br>&emsp;&emsp;有一功能P1，由类A完成。现需要将功能P1进行扩展，扩展后的功能为P，其中P由原有功能P1与新功能P2组成。新功能P由类A的子类B来完成，则子类B在完成新功能P2的同时，有可能会导致原有功能P1发生故障。</p>
+<p>&emsp;&emsp;<abbr style="font-weight:bold;">解决方案:</abbr><br>&emsp;&emsp;当使用继承时，遵循里氏替换原则。类B继承类A时，除添加新的方法完成新增功能P2外，尽量不要重写父类A的方法，也尽量不要重载父类A的方法。</p>
+<p>&emsp;&emsp;继承包含这样一层含义：父类中凡是已经实现好的方法（相对于抽象方法而言），实际上是在设定一系列的规范和契约，虽然它不强制要求所有的子类必须遵从这些契约，但是如果子类对这些非抽象方法任意修改，就会对整个继承体系造成破坏。而里氏替换原则就是表达了这一层含义。</p>
+<p>&emsp;&emsp;继承作为面向对象三大特性之一，在给程序设计带来巨大便利的同时，也带来了弊端。比如使用继承会给程序带来侵入性，程序的可移植性降低，增加了对象间的耦合性，如果一个类被其他的类所继承，则当这个类需要修改时，必须考虑到所有的子类，并且父类修改后，所有涉及到子类的功能都有可能会产生故障。</p>
+<p>&emsp;&emsp;举例说明继承的风险，我们需要完成一个两数相减的功能，由类A来负责。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class A&#123;</span><br><span class="line">    public int func1(int a,int b)&#123;</span><br><span class="line">        return a-b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Client&#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        A a = new A();</span><br><span class="line">        System.out.println(&quot;100-50=&quot;+a.func1(100, 50));</span><br><span class="line">        System.out.println(&quot;100-80=&quot;+a.func1(100, 80));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">100-50=50</span><br><span class="line">100-80=20</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;后来，我们需要增加一个新的功能：完成两数相加，然后再与100求和，由类B来负责。即类B需要完成两个功能：</p>
+<p>&emsp;&emsp; &gt; 两数相减。<br>&emsp;&emsp; &gt; 两数相加，然后再加100。</p>
+<p>&emsp;&emsp;由于类A已经实现了第一个功能，所以类B继承类A后，只需要再完成第二个功能就可以了，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class B extends A&#123;</span><br><span class="line">     public int func1(int a, int b)&#123;</span><br><span class="line">         return a+b;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     public int func2(int a, int b)&#123;</span><br><span class="line">         return func1(a,b)+100;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Client&#123;</span><br><span class="line">     public static void main(String[] args)&#123;</span><br><span class="line">         B b = new B();</span><br><span class="line">         System.out.println(&quot;100-50=&quot;+b.func1(100, 50));</span><br><span class="line">         System.out.println(&quot;100-80=&quot;+b.func1(100, 80));</span><br><span class="line">         System.out.println(&quot;100+20+100=&quot;+b.func2(100, 20));</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;类B完成后，运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">100-50=150</span><br><span class="line">100-80=180</span><br><span class="line">100+20+100=220</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;我们发现原本运行正常的相减功能发生了错误。原因就是类B在给方法起名时无意中重写了父类的方法，造成所有运行相减功能的代码全部调用了类B重写后的方法，造成原本运行正常的功能出现了错误。在本例中，引用基类A完成的功能，换成子类B之后，发生了异常。在实际编程中，我们常常会通过重写父类的方法来完成新的功能，这样写起来虽然简单，但是整个继承体系的可复用性会比较差，特别是运用多态比较频繁时，程序运行出错的几率非常大。如果非要重写父类的方法，比较通用的做法是：原来的父类和子类都继承一个更通俗的基类，原有的继承关系去掉，采用依赖、聚合，组合等关系代替。</p>
+<p>&emsp;&emsp;&gt; 里氏替换原则通俗的来讲就是：子类可以扩展父类的功能，但不能改变父类原有的功能。它包含以下4层含义<br>&emsp;&emsp;&gt; 子类可以实现父类的抽象方法，但不能覆盖父类的非抽象方法。<br>&emsp;&emsp;&gt; 子类中可以增加自己特有的方法。<br>&emsp;&emsp;&gt; 当子类的方法重载父类的方法时，方法的前置条件（即方法的形参）要比父类方法的输入参数更宽松。<br>&emsp;&emsp;&gt; 当子类的方法实现父类的抽象方法时，方法的后置条件（即方法的返回值）要比父类更严格。</p>
+<p>&emsp;&emsp;看上去很不可思议，因为我们会发现在自己编程中常常会违反里氏替换原则，程序照样跑的好好的。所以大家都会产生这样的疑问，假如我非要不遵循里氏替换原则会有什么后果？</p>
+<p>&emsp;&emsp;后果就是：你写的代码出问题的几率将会大大增加。</p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/09/29/designPatternsLSP/" class="archive-article-date">
+  	<time datetime="2018-09-29T06:46:46.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-29</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端设计模式/">前端设计模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/里氏替换原则/">里氏替换原则</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-vim" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/23/vim/">Vim入门基础</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[TOC]</p>
+<p>@(welcome)[前端菜鸟|掘金中]</p>
+<h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>&emsp;&emsp;Vim（Vi[Improved]）编辑器是功能强大的跨平台文本文件编辑工具，继承自Unix系统的Vi编辑器，支持Linux/Mac OS X/Windows系统，利用它可以建立、修改文本文件。进入Vim编辑程序，可以在终端输入下面的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$vim [filename]</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;其中<code>filename</code>是要编辑器的文件的路径名。如果文件不存在，它将为你建立一个新文件。Vim编辑程序有三种操作模式，分别称为 编辑模式、插入模式 和 命令模式，当运行Vim时，首先进入编辑模式。</p>
+<h2 id="2-编辑模式"><a href="#2-编辑模式" class="headerlink" title="2. 编辑模式"></a>2. 编辑模式</h2><p>&emsp;&emsp;Vim编辑方式的主要用途是在被编辑的文件中移动光标的位置。一旦光标移到到所要的位置，就可以进行剪切和粘贴正文块，删除正文和插入新的正文。当完成所有的编辑工作后，需要保存编辑器结果，退出编辑程序回到终端，可以发出<code>ZZ</code>命令，连续按两次大写的<code>Z</code>键。</p>
+<h3 id="2-1-跳转"><a href="#2-1-跳转" class="headerlink" title="2.1 跳转"></a>2.1 跳转</h3><p>&emsp;&emsp;如果键盘上有上、下、左、右箭头的导航键，就由这些键来完成光标的移动。另外，可以用下面的键完成同样的 按字符移动 功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">k               上移；</span><br><span class="line">j               下移；</span><br><span class="line">h               左移；</span><br><span class="line">l               右移。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;上面这４个键将光标位置每次移动一行或一个 字符 。Vim还提供稍大范围移动光标的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ctrl+f      在文件中前移一页（相当于 page down）；</span><br><span class="line">ctrl+b      在文件中后移一页（相当于 page up）；</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;更大范围的移动：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">*         当光标停留在一个单词上，* 键会在文件内搜索该单词，并跳转到下一处；</span><br><span class="line">#         当光标停留在一个单词上，# 在文件内搜索该单词，并跳转到上一处；</span><br><span class="line">(/)       移动到 前/后 句 的开始；</span><br><span class="line">&#123;/&#125;       跳转到 当前/下一个 段落 的开始。</span><br><span class="line">g_        到本行最后一个不是 blank 字符的位置。</span><br><span class="line">fa        到下一个为 a 的字符处，你也可以fs到下一个为s的字符。</span><br><span class="line">t,        到逗号前的第一个字符。逗号可以变成其它字符。</span><br><span class="line">3fa       在当前行查找第三个出现的 a。</span><br><span class="line">F/T       和 f 和 t 一样，只不过是相反方向;</span><br><span class="line">gg        将光标定位到文件第一行起始位置；</span><br><span class="line">G         将光标定位到文件最后一行起始位置；</span><br><span class="line">NG或Ngg   将光标定位到第 N 行的起始位置。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;在屏幕中找到需要的 一页 时，可以用下面的命令快速移动光标：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">H               将光标移到屏幕上的起始行（或最上行）；</span><br><span class="line">M               将光标移到屏幕中间；</span><br><span class="line">L               将光标移到屏幕最后一行。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;同样需要注意字母的大小写。<code>H</code>和 <code>L</code>命令还可以加数字。如<code>2H</code>表示将光标移到屏幕的第２行，<code>3L</code>表示将光标移到屏幕的倒数第3行。</p>
+<p>&emsp;&emsp;当将光标移到所要的行是，行内移动 光标可以用下面的命令来实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">w               右移光标到下一个字的开头；</span><br><span class="line">e               右移光标到一个字的末尾；</span><br><span class="line">b               左移光标到前一个字的开头；</span><br><span class="line">0               数字０，左移光标到本行的开始；</span><br><span class="line">$               右移光标，到本行的末尾；</span><br><span class="line">^               移动光标，到本行的第一个非空字符。</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-搜索匹配"><a href="#2-2-搜索匹配" class="headerlink" title="2.2 搜索匹配"></a>2.2 搜索匹配</h3><p>&emsp;&emsp;和许多先进的编辑器一样，Vim 提供了强大的字符串搜索功能。要查找文件中指定字或短语出现的位置，可以用Vim直接进行搜索，而不必以手工方式进行。搜索方法是：键入字符<code>/</code>，后面跟以要搜索的字符串，然后按回车键。编辑程序执行正向搜索（即朝文件末尾方向），并在找到指定字符串后，将光标停到该字符串的开头；键入<code>n</code>命令可以继续执行搜索，找出这一字符串下次出现的位置。用字符<code>?</code>取代<code>/</code>，可以实现反向搜索（朝文件开头方向）。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/str1               正向搜索字符串 str1；</span><br><span class="line">n                   继续搜索，找出 str1 字符串下次出现的位置；</span><br><span class="line">N                   继续搜索，找出 str1 字符串上一次出现的位置；</span><br><span class="line">?str2               反向搜索字符串 str2 。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;无论搜索方向如何，当到达文件末尾或开头时，搜索工作会循环到文件的另一端并继续执行。<br>Vim中执行搜索匹配最强大的地方是结合 <abbr style="font-weight:bold"> 正则表达式 </abbr> 来搜索，后续将会介绍。</p>
+<h3 id="2-3-替换和删除"><a href="#2-3-替换和删除" class="headerlink" title="2.3 替换和删除"></a>2.3 替换和删除</h3><p>&emsp;&emsp;Vim常规的删除命令是 <code>d</code>、<code>x</code>(前者删除 <code>行</code>，后者删除<code>字符</code> ),结合Vim的其他特性可以实现基础的删除功能。将光标定位于文件内指定位置后，可以用其他字符来替换光标所指向的字符，或从当前光标位置删除一个或多个字符或一行、多行。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">rc                用 c 替换光标所指向的当前字符；</span><br><span class="line">nrc               用 c 替换光标所指向的前 n 个字符；</span><br><span class="line">5rA               用 A 替换光标所指向的前 5 个字符；</span><br><span class="line">x                 删除光标所指向的当前字符；</span><br><span class="line">nx                删除光标所指向的前 n 个字符；</span><br><span class="line">3x                删除光标所指向的前 3 个字符；</span><br><span class="line">dw                删除光标右侧的字；</span><br><span class="line">ndw               删除光标右侧的 n 个字；</span><br><span class="line">3dw               删除光标右侧的 3 个字；</span><br><span class="line">db                删除光标左侧的字；</span><br><span class="line">ndb               删除光标左侧的 n 个字；</span><br><span class="line">5db               删除光标左侧的 5 个字；</span><br><span class="line">dd                删除光标所在行，并去除空隙；</span><br><span class="line">ndd               删除（剪切） n 行内容，并去除空隙；</span><br><span class="line">3dd               删除（剪切） 3 行内容，并去除空隙；</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;其他常用的删除命令有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">d$              从当前光标起删除字符直到行的结束；</span><br><span class="line">d0              从当前光标起删除字符直到行的开始；</span><br><span class="line">J                删除本行的回车符（CR），并和下一行合并。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;Vim常规的替换命令有<code>c</code>和<code>s</code>，结合Vim的其他特性可以实现基础的替换功能，不过替换命令执行以后，通常会由<abbr style="font-weight:bold"> 编辑模式 </abbr>进入<abbr style="font-weight:bold"> 插入模式 </abbr>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">s              用输入的正文替换光标所指向的字符；</span><br><span class="line">S              删除当前行，并进入插入模式；</span><br><span class="line">ns             用输入的正文替换光标右侧 n 个字符；</span><br><span class="line">nS             删除当前行在内的 n 行，并进入插入模式；</span><br><span class="line">cw             用输入的正文替换光标右侧的字；</span><br><span class="line">cW             用输入的正文替换从光标到行尾的所有字符（同 c$ )；</span><br><span class="line">ncw            用输入的正文替换光标右侧的 n 个字；</span><br><span class="line">cb             用输入的正文替换光标左侧的字；</span><br><span class="line">ncb            用输入的正文替换光标左侧的 n 个字；</span><br><span class="line">cd             用输入的正文替换光标的所在行；</span><br><span class="line">ncd            用输入的正文替换光标下面的 n 行；</span><br><span class="line">c$             用输入的正文替换从光标开始到本行末尾的所有字符；</span><br><span class="line">c0             用输入的正文替换从本行开头到光标的所有字符。</span><br></pre></td></tr></table></figure>
+<h3 id="2-4-复制粘贴"><a href="#2-4-复制粘贴" class="headerlink" title="2.4 复制粘贴"></a>2.4 复制粘贴</h3><p>&emsp;&emsp;从正文中删除的内容（如字符、字或行）并没有真正丢失，而是被剪切并复制到了一个内存缓冲区中。用户可将其粘贴到正文中的指定位置。完成这一操作的命令是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p               小写字母 p，将缓冲区的内容粘贴到光标的后面；</span><br><span class="line">P               大写字母 P，将缓冲区的内容粘贴到光标的前面。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;如果缓冲区的内容是字符或字，直接粘贴在光标的前面或后面；如果缓冲区的内容为整行正文，执行上述粘贴命令将会粘贴在当前光标所在行的上一行或下一行。</p>
+<p>&emsp;&emsp;注意上述两个命令中字母的大小写。Vim 编辑器经常以一对大、小写字母（如<code>p</code>和<code>P</code>）来提供一对相似的功能。通常，小写命令在光标的后面进行操作，大写命令在光标的前面进行操作。</p>
+<p>&emsp;&emsp;有时需要复制一段正文到新位置，同时保留原有位置的内容。这种情况下，首先应当把指定内容复制（而不是剪切）到内存缓冲区。完成这一操作的命令是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yy              复制当前行到内存缓冲区；</span><br><span class="line">nyy             复制 n 行内容到内存缓冲区；</span><br><span class="line">5yy             复制 5 行内容到内存缓冲区；</span><br><span class="line">“+y             复制 1 行到操作系统的粘贴板；</span><br><span class="line">“+nyy           复制 n 行到操作系统的粘贴板。</span><br></pre></td></tr></table></figure>
+<h3 id="2-5-撤销和重复"><a href="#2-5-撤销和重复" class="headerlink" title="2.5 撤销和重复"></a>2.5 撤销和重复</h3><p>&emsp;&emsp;在编辑文档的过程中，为消除某个错误的编辑命令造成的后果，可以用撤消命令。另外，如果用户希望在新的光标位置重复前面执行过的编辑命令，可用重复命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">u               撤消前一条命令的结果；</span><br><span class="line">.              重复最后一条修改正文的命令。</span><br></pre></td></tr></table></figure>
+<h2 id="3-插入模式"><a href="#3-插入模式" class="headerlink" title="3. 插入模式"></a>3. 插入模式</h2><h3 id="3-1-进入插入模式"><a href="#3-1-进入插入模式" class="headerlink" title="3.1 进入插入模式"></a>3.1 进入插入模式</h3><p>&emsp;&emsp;在编辑模式下正确定位光标之后，可用以下命令切换到插入模式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">i            在光标左侧插入正文</span><br><span class="line">a            在光标右侧插入正文</span><br><span class="line">o            在光标所在行的下一行增添新行</span><br><span class="line">O            在光标所在行的上一行增添新行</span><br><span class="line">I            在光标所在行的开头插入</span><br><span class="line">A            在光标所在行的末尾插入</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-退出插入模式"><a href="#3-2-退出插入模式" class="headerlink" title="3.2 退出插入模式"></a>3.2 退出插入模式</h3><p>&emsp;&emsp;退出插入模式的方法是，按 <code>ESC</code> 键或组合键 <code>Ctrl+[</code> ，退出插入模式之后，将会进入编辑模式 。</p>
+<h2 id="4-命令模式"><a href="#4-命令模式" class="headerlink" title="4. 命令模式"></a>4. 命令模式</h2><p>&emsp;&emsp;在已经启动的Vim中打开一个文件需要用 <code>:e</code>命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:e path_to_file/filename</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;保存当前编辑的文件需要用 <code>:w</code>命令（单词 <code>write</code> 的缩写）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:w</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;将当前文件另存为 <code>file_temp</code> 则：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:w file_temp</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;在编辑模式下可以用 <code>ZZ</code> 命令退出Vim编辑程序，该命令保存对正文所作的修改，覆盖原始文件。如果只需要退出编辑程序，而不打算保存编辑的内容，可用下面的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">: q             在未作修改的情况下退出；</span><br><span class="line">: q!            放弃所有修改，退出编辑程序。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;保存并退出则可以讲两条命令结合起来使用（注意命令顺序，先保存，后退出）：</p>
+<h3 id="4-2-行号与文件"><a href="#4-2-行号与文件" class="headerlink" title="4.2  行号与文件"></a>4.2  行号与文件</h3><p>&emsp;&emsp;编辑中的每一行正文都有自己的行号，用下列命令可以移动光标到指定行（效果与 编辑模式 下的 <code>ngg</code> 或 <code>nG</code> 相同）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">: n             将光标移到第 n 行</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;命令模式下，可以规定命令操作的行号范围。数值用来指定绝对行号；字符“.”表示光标所在行的行号；字符符“$”表示正文最后一行的行号；简单的表达式，例如“.+5”表示当前行往下的第 5 行。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">:345                  将光标移到第 345 行</span><br><span class="line">:345w file            将第 345 行写入 file 文件</span><br><span class="line">:3,5w file            将第 3 行至第 5 行写入 file 文件</span><br><span class="line">:1,.w file            将第 1 行至当前行写入 file 文件</span><br><span class="line">:.,$w file            将当前行至最后一行写入 file 文件</span><br><span class="line">:.,.+5w file          从当前行开始将 6 行内容写入 file 文件</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;在命令模式下，允许从文件中读取正文，或将正文写入文件。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">:w                 将编辑的内容写入原始文件，用来保存编辑的中间结果</span><br><span class="line">:wq                将编辑的内容写入原始文件并退出编辑程序（相当于 ZZ 命令）</span><br><span class="line">:w file            将编辑的内容写入 file 文件，保持原有文件的内容不变</span><br><span class="line">:a,bw file         将第 a 行至第 b 行的内容写入 file 文件</span><br><span class="line">:r file            读取 file 文件的内容，插入当前光标所在行的后面</span><br><span class="line">:e file            编辑新文件 file 代替原有内容</span><br><span class="line">:f file            将当前文件重命名为 file</span><br><span class="line">:f                 打印当前文件名称和状态，如文件的行数、光标所在的行号等</span><br></pre></td></tr></table></figure>
+<h3 id="4-3-字符串搜索"><a href="#4-3-字符串搜索" class="headerlink" title="4.3  字符串搜索"></a>4.3  字符串搜索</h3><p>&emsp;&emsp;在 <abbr style="font-weight:bold"> 编辑模式  </abbr>讲过字符串的搜索，此处的<abbr style="font-weight:bold"> 命令模式  </abbr>也可以进行字符串搜索，给出一个字符串，可以通过搜索该字符串到达指定行。如果希望进行正向搜索，将待搜索的字符串置于两个<code>/</code>之间；如果希望反向搜索，则将字符串放在两个<code>?</code>之间。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">:/str/                  正向搜索，将光标移到下一个包含字符串 str 的行</span><br><span class="line">:?str?                  反向搜索，将光标移到上一个包含字符串 str 的行</span><br><span class="line">:/str/w file            正向搜索，并将第一个包含字符串 str 的行写入 file 文件</span><br><span class="line">:/str1/,/str2/w file    正向搜索，并将包含字符串 str1 的行至包含字符串 str2 的行写</span><br></pre></td></tr></table></figure>
+<h3 id="4-4-字符串搜索"><a href="#4-4-字符串搜索" class="headerlink" title="4.4  字符串搜索"></a>4.4  字符串搜索</h3><p>&emsp;&emsp;当给Vim指定搜索字符串时，可以包含具有特殊含义的字符。包含这些特殊字符的搜索字符串称为正则表达式（Regular Expressions）。例如，要搜索一行正文，这行正文的开头包含 <code>struct</code> 字。下面的命令做不到这一点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:/struct/</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;因为它只找出在行中任意位置包含<code>struct</code>的第一行，并不一定在行的开始包含<code>struct</code>。解决问题的办法是在搜索字符串前面加上特殊字符^：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:/^struct/</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;<code>^</code>字符比较每行开头的字符串。所以上面的命令表示：找出以字符串<code>struct</code>开头的行。</p>
+<p>&emsp;&emsp;也可以用类似办法在搜索字符串后面加上表示行的末尾的特殊字符 $ 来找出位于行末尾的字：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:/^struct/</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;下表给出大多数特殊字符和它们的含义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">^               放在字符串前面，匹配行首的字；</span><br><span class="line">$               放在字符串后面，匹配行尾的字；</span><br><span class="line">\&lt;              匹配一个字的字头；</span><br><span class="line">\&gt;              匹配一个字的字尾；</span><br><span class="line">.               匹配任何单个正文字符；</span><br><span class="line">[str]           匹配 str 中的任何单个字符；</span><br><span class="line">[^str]          匹配任何不在 str 中的单个字符；</span><br><span class="line">[a-b]           匹配 a 到 b 之间的任一字符；</span><br><span class="line">*               匹配前一个字符的 0 次或多次出现；</span><br><span class="line">\               转义后面的字符。</span><br></pre></td></tr></table></figure>
+<h3 id="4-5-正文替换"><a href="#4-5-正文替换" class="headerlink" title="4.5  正文替换"></a>4.5  正文替换</h3><p>&emsp;&emsp;利用<code>:s</code>命令可以实现字符串的替换。具体的用法包括：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">:%s/str1/str2/      用字符串 str2 替换行中首次出现的字符串 str1</span><br><span class="line">:s/str1/str2/g      用字符串 str2 替换行中所有出现的字符串 str1</span><br><span class="line">:.,$ s/str1/str2/g  用字符串 str2 替换正文当前行到末尾所有出现的字符串 str1</span><br><span class="line">:1,$ s/str1/str2/g  用字符串 str2 替换正文中所有出现的字符串 str1</span><br><span class="line">:g/str1/s//str2/g    功能同上</span><br><span class="line">:m,ns/str1/str2/g    将从m行到n行的str1替换成str2</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;从上述替换命令可以看到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">`g` 放在命令末尾，表示对搜索字符串的每次出现进行替换,不止匹配每行中的第一次出现；不加 `g`，表示只对搜索字符串的首次出现进行替换；`g` 放在命令开头，表示对正文中所有包含搜索字符串的行进行替换操作;</span><br><span class="line">`s` 表示后面跟着一串替换的命令；</span><br><span class="line">`%` 表示替换范围是所有行，即全文。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;另外一个实用的命令，在Vim中统计当前文件中字符串 <code>str1</code> 出现的次数，可用替换命令的变形：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s/str1/&amp;/gn</span><br></pre></td></tr></table></figure>
+<h3 id="4-6-删除正文"><a href="#4-6-删除正文" class="headerlink" title="4.6  删除正文"></a>4.6  删除正文</h3><p>&emsp;&emsp;在命令模式下，同样可以删除正文中的内容。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">:d                              删除光标所在行</span><br><span class="line">:3d                             删除 3 行</span><br><span class="line">:.,$d                           删除当前行至正文的末尾</span><br><span class="line">:/str1/,/str2/d                 删除从字符串 str1 到 str2 的所有行</span><br><span class="line">:g/^\(.*\)$\n\1$/d              删除连续相同的行，保留最后一行</span><br><span class="line">:g/\%(^\1$\n\)\@&lt;=\(.*\)$/d     删除连续相同的行，保留最开始一行</span><br><span class="line">:g/^\s*$\n\s*$/d                删除连续多个空行，只保留一行空行</span><br><span class="line">:5,20s/^#//g                    删除5到20行开头的 # 注释</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;总之，Vim的初级删除命令是用 <code>d</code> ，高级删除命令可以用<abbr style="font-weight:bold"> 正则替换  </abbr></p>
+<h3 id="4-7-恢复文件"><a href="#4-7-恢复文件" class="headerlink" title="4.7  恢复文件"></a>4.7  恢复文件</h3><p>&emsp;&emsp;Vim 在编辑某个文件时，会另外生成一个临时文件，这个文件的名称通常以<code>.</code>开头，并以<code>.swp</code>结尾。Vim 在正常退出时，该文件被删除，若意外退出，而没有保存文件的最新修改内容，则可以使用恢复命令<code>:recover</code>来恢复文件，也可以在启动Vim时用<code>-r</code>选项。</p>
+<h3 id="4-8-选项设置"><a href="#4-8-选项设置" class="headerlink" title="4.8  选项设置"></a>4.8  选项设置</h3><p>&emsp;&emsp;为控制不同的编辑功能，Vim 提供了很多内部选项。利用 :set 命令可以设置选项。基本语法为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:set option         设置选项 option</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;常见的功能选项包括：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">autoindent      设置该选项，则正文自动缩进</span><br><span class="line">ignorecase      设置该选项，则忽略规则表达式中大小写字母的区别</span><br><span class="line">number          设置该选项，则显示正文行号</span><br><span class="line">ruler           设置该选项，则在屏幕底部显示光标所在行、列的位置</span><br><span class="line">tabstop         设置按 Tab 键跳过的空格数。例如 :set tabstop=n，n 默认值为 8</span><br><span class="line">mk              将选项保存在当前目录的 .exrc 文件中</span><br></pre></td></tr></table></figure>
+<h3 id="4-9-Shell切换"><a href="#4-9-Shell切换" class="headerlink" title="4.9  Shell切换"></a>4.9  Shell切换</h3><p>&emsp;&emsp;当处于编辑的对话过程中时，可能需要执行一些Linux命令。如果需要保存当前的结果，退出编辑程序，再执行所需的Linux命令，然后再回头继续编辑过程，就显得十分累赘。如果能在编辑的环境中运行Linux命令就要省事得多。在Vim中，可以用下面的命令来做到这一点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:!shell_command   执行完 shell_command 后回到Vim</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;这称为Shell切换。它允许执行任何可以在标准的Shell提示符下执行的命令。当这条命令执行完毕，控制返回给编辑程序。又可以继续编辑对话过程。</p>
+<h3 id="4-10-分屏与标签页"><a href="#4-10-分屏与标签页" class="headerlink" title="4.10  分屏与标签页"></a>4.10  分屏与标签页</h3><h4 id="分屏"><a href="#分屏" class="headerlink" title="分屏"></a>分屏</h4><p>&emsp;&emsp;普通的Vim模式，打开一个Vim程序只能查看一个文件，如果想同时查看多个文件，就需要用到Vim分屏与标签页功能。</p>
+<p>&emsp;&emsp;Vim的分屏，主要有两种方式：上下分屏（水平分屏）和左右分屏（垂直分屏），在命令模式分别敲入以下命令即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:split（可用缩写 :sp）            上下分屏；</span><br><span class="line">:vsplit（可用缩写 :vsp）          左右分屏。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;另外，也可以在终端里启动vim时就开启分屏操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim -On file1 file2...   打开 file1 和 file2 ，垂直分屏</span><br><span class="line">vim -on file1 file2...   打开 file1 和 file2 ，水平分屏</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;理论上，一个Vim窗口，可以分为多个Vim屏幕，切换屏幕需要用键盘快捷键，命令分别有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Ctrl+w+h            切换到当前分屏的左边一屏；</span><br><span class="line">Ctrl+w+l            切换到当前分屏的右边一屏；</span><br><span class="line">Ctrl+w+j            切换到当前分屏的下方一屏；</span><br><span class="line">Ctrl+w+k            切换到当前分屏的上方一屏。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;即键盘上的<code>h,j,k,l</code> 四个Vim专用方向键，配合<code>Ctrl</code>键和<code>w</code>键（<code>window</code>的缩写），就能跳转到目标分屏。另外，也可以直接按 <code>Ctrl+w+w</code>来跳转分屏，不过跳转方向则是在当前Vim窗口所有分屏中，按照逆时针方向跳转。<br>&emsp;&emsp;下面是改变尺寸的一些操作，主要是高度，对于宽度你可以使用 <code>[Ctrl+W &lt;]</code> 或是 <code>[Ctrl+W &gt;]</code> ，但这可能需要最新的版本才支持。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Ctrl+W =            让所有的屏都有一样的高度；</span><br><span class="line">Ctrl+W +            增加高度；</span><br><span class="line">Ctrl+W -            减少高度。</span><br></pre></td></tr></table></figure>
+<h4 id="标签页"><a href="#标签页" class="headerlink" title="标签页"></a>标签页</h4><p>&emsp;&emsp;Vim的标签（Tab）页，类似浏览器的标签页，一个标签页打开一个Vim的窗口，一个Vim的窗口可以支持N个分屏。</p>
+<p>&emsp;&emsp;在Vim中新建一个标签的命令是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:tabnew</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;如果要在新建标签页的同时打开一个文件，则可以在命令后面直接附带文件路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:tabnew filename</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;Vim中的每个标签页有一个唯一的数字序号，第一个标签页的序号是<code>0</code>，从左向右依次加一。关于标签页有一系列操作命令，简介如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">:tN[ext]                跳转到上一个匹配的标签</span><br><span class="line">:tabN[ext]              跳到上一个标签页</span><br><span class="line">:tabc[lose]             关闭当前标签页</span><br><span class="line">:tabdo                  为每个标签页执行命令</span><br><span class="line">:tabe[dit]              在新标签页里编辑文件</span><br><span class="line">:tabf[ind]              寻找 &apos;path&apos; 里的文件，在新标签页里编辑之</span><br><span class="line">:tabfir[st]             转到第一个标签页</span><br><span class="line">:tabl[ast]              转到最后一个标签页</span><br><span class="line">:tabm[ove]  N           把标签页移到序号为N位置</span><br><span class="line">:tabnew [filename]      在新标签页里编辑文件</span><br><span class="line">:tabn[ext]              转到下一个标签页</span><br><span class="line">:tabo[nly]              关闭所有除了当前标签页以外的所有标签页</span><br><span class="line">:tabp[revious]          转到前一个标签页</span><br><span class="line">:tabr[ewind]            转到第一个标签页</span><br></pre></td></tr></table></figure>
+<h3 id="4-11-与外部工具集成"><a href="#4-11-与外部工具集成" class="headerlink" title="4.11  与外部工具集成"></a>4.11  与外部工具集成</h3><p>&emsp;&emsp;Vim可以与许多外部程序集成，功能十分强大，比如 diff , ctags , sort , xxd 等等，下面选取几个简单介绍一下。</p>
+<h4 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h4><p>&emsp;&emsp;Linux命令<code>diff</code>用来对比两个文件的内容，不过对比结果显示在终端里，可读性比较差。结合Vim，在终端里可以直接输入命令<code>vimdiff</code>，后面跟两个文件名作为参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vimdiff file1 file2</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;即可在Vim里分屏显示两个文件内容的对比结果，对文件内容差异部分进行高亮标记，还可以同步滚动两个文件内容，更可以实时修改文件内容，方便程度和用户体验大大提高。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vimdiff a.txt b.txt</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;如果直接给 <code>-d</code>选项是一样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim -d a.txt b.txt</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;除了在终端里开启vimdiff 功能，也可以在打开Vim后，在Vim的命令模式输入相关命令来开启 <code>vimdiff</code> 功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:diffsplit abc.txt</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;如果你现在已经开启了一个文件，想Vim帮你区分你的文件跟 <code>abc.txt</code> 有什么区别，可以在Vim中用 <code>diffsplit</code> 的方式打开第二个文件，这个时 候Vim会用 <code>split</code>（分上下两屏）的方式开启第二个文件，并且通过颜色，<code>fold</code> 来显示两个文件的区别<br>&emsp;&emsp;这样Vim就会用颜色帮你区分开2个文件的区别。如果文件比较大（源码）重复的部分会帮你折叠起来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:diffpatch filename</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;通过 <code>:diffpatch</code>你的patch的文件名，就可以以当前文件加上你的patch来显示。vim会split一个新的屏，显示patch后的信息并且用颜色标明区别。<br>&emsp;&emsp;如果不喜欢上下对比，喜欢左右（比较符合视觉）可以在前面加 <code>vert</code> ，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:vert diffsplit abc.txt</span><br><span class="line">:vert diffpatch abc.txt</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;看完diff，用<code>:only</code> 回到原本编辑的文件，觉得diff的讨厌颜色还是在哪里，只要用<code>:diffoff</code> 关闭就好了。<br>&emsp;&emsp;还有个常用的diff中的就是 <code>:diffu</code>,这个是 <code>:diffupdate</code> 的简写，更新的时候用。</p>
+<h4 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h4><p>&emsp;&emsp;Linux命令 <code>sort</code> 可以对文本内容进行按行中的字符比较、排序，但在终端里使用 <code>sort</code> 命令处理文件，并不能实时查看文件内容。具体用法请自查手册。</p>
+<h4 id="xxd"><a href="#xxd" class="headerlink" title="xxd"></a>xxd</h4><p>&emsp;&emsp;<code>vim+xxd</code> 是Linux下最常用的二进制文本编辑工具，<code>xxd</code>其实是Vim外部的一个转换程序，随Vim一起发布，在Vim里调用它来编辑二进制文本非常方便。<br>&emsp;&emsp;首先以二进制模式在终端里打开一个文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim -b filename</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;Vim 的 <code>-b</code> 选项是告诉 Vim 打开的是一个二进制文件，不指定的话，会在后面加上 <code>0x0a</code> ，即一个换行符。<br>&emsp;&emsp;然后在Vim的命令模式下键入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%!xxd</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;即可看到二进制模式显示出来的文本，看起来像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0000000: 1f8b 0808 39d7 173b 0203 7474 002b 4e49  ....9..;..tt.+NI</span><br><span class="line">0000010: 4b2c 8660 eb9c ecac c462 eb94 345e 2e30  K,......b..4^.0</span><br><span class="line">0000020: 373b 2731 0b22 0ca6 c1a2 d669 1035 39d9  7;&apos;1.&quot;.....i.59</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;然后就可以在二进制模式下编辑该文件，编辑后保存，然后用下面命令从二进制模式转换到普通模式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%!xxd -r</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;另外，也可以调整二进制的显示模式，默认是 2 个字节为一组，可以通过 <code>g</code> 参数调整每组字节数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">:%!xxd -g 1         表示每1个字节为1组</span><br><span class="line">:%!xxd -g 2         表示每2个字节为1组(默认)</span><br><span class="line">:%!xxd -g 4         表示每4个字节为1组</span><br></pre></td></tr></table></figure>
+<h2 id="5-Vim配置"><a href="#5-Vim配置" class="headerlink" title="5. Vim配置"></a>5. Vim配置</h2><p>&emsp;&emsp;最初安装的Vim功能、特性支持比较少，用起来比较费劲，想要稍微“好用”一点，需做一些初步的配置。Vim的配置主要分为Vim本身特性的配置和外部插件的配置两部分。<br>&emsp;&emsp;Vim的配置是通常是存放在用户主目录的 <code>.vimrc</code> 的隐藏文件中的。就Vim本身特性来说，基础的配置有编程语言语法高亮、缩进设置、行号显示、搜索高亮、TAB键设置、字体设置、Vim主题设置等等，稍微高级一些的有编程语言缩进、自动补全设置等，具体配置项可以自行查资料，全面详细的配置项介绍可以参考：<br>&emsp;&emsp;<a href="http://vimcdoc.sourceforge.net/doc/options.html#%27completeopt%27" target="_blank" rel="noopener">《Vim Options》</a></p>
+<h2 id="6-Vim插件"><a href="#6-Vim插件" class="headerlink" title="6. Vim插件"></a>6. Vim插件</h2><p>&emsp;&emsp;Vim“编辑器之神”的称号并不是浪得虚名，然而，这个荣誉的背后，或许近半的功劳要归功于强大的插件支持特性，以及社区开发的各种各样功能强大的插件。<br>&emsp;&emsp;平时开发人员常用插件主要是目录（文件）查看和管理、编程语言缩进与自动补全、编程语言Docs支持、函数跳转、项目管理等等，简单配置可以参考下面：<br>&emsp;&emsp;<a href="http://blog.segmentfault.com/xuelang/1190000000630547" target="_blank" rel="noopener">《Vim插件简单介绍》：</a><br>&emsp;&emsp;<a href="http://blog.csdn.net/wooin/article/details/1858917" target="_blank" rel="noopener">《手把手教你把Vim改装成一个IDE编程环境(图文)》</a><br>&emsp;&emsp;<a href="http://www.cnblogs.com/zhangsf/archive/2013/06/13/3134409.html" target="_blank" rel="noopener">《将Vim改造为强大的IDE》</a></p>
+<p>&emsp;&emsp;当然，这些插件都是拜Vim本身的插件支持特性所赐。Vim为了支持丰富的第三方插件，自身定义了一套简单的脚本开发语言，供程序员自行开发自己所需要的插件，插件开发介绍可以参考：</p>
+<p>&emsp;&emsp;(《Writing Vim Plugins》)[<a href="http://stevelosh.com/blog/2011/09/writing-vim-plugins/" target="_blank" rel="noopener">http://stevelosh.com/blog/2011/09/writing-vim-plugins/</a>]</p>
+<h2 id="7-Vim完整文档"><a href="#7-Vim完整文档" class="headerlink" title="7. Vim完整文档"></a>7. Vim完整文档</h2><p>&emsp;&emsp;<a href="http://vimdoc.sourceforge.net/" target="_blank" rel="noopener">Vim官方文档</a><br>&emsp;&emsp;<a href="http://pan.baidu.com/s/1jGzbTBo" target="_blank" rel="noopener">Vim中文用户手册7_3.pdf</a></p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/07/23/vim/" class="archive-article-date">
+  	<time datetime="2018-07-23T12:21:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-23</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux操作/">linux操作</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/">vim</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim命令/">vim命令</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-linuxFilePath" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -1041,344 +1443,6 @@
 
 
   
-    <article id="post-nodeExportExcel" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/06/nodeExportExcel/">node导出Excel表格方式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h6 id="如果雷同-纯属巧合"><a href="#如果雷同-纯属巧合" class="headerlink" title="如果雷同,纯属巧合"></a>如果雷同,纯属巧合</h6><p>&emsp;&emsp;解析excel文件,并导出为json格式,可使用<a href="https://github.com/SheetJS/js-xlsx" target="_blank" rel="noopener">SheetJS js-xlsx</a></p>
-<p>&emsp;&emsp;解析json语句 【可以来自于前端页面,也可以后台直接调用】可使用可使用<a href="https://github.com/functionscope/Node-Excel-Export" target="_blank" rel="noopener">Excel-Export</a></p>
-<p><strong>使用demo:  </strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;node-excel-export&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;0.0.0&quot;,</span><br><span class="line">  &quot;private&quot;: true,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;start&quot;: &quot;node ./index.js&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;dependencies&quot;: &#123;</span><br><span class="line">    &quot;excel-export&quot;: &quot;^0.5.1&quot;,</span><br><span class="line">    &quot;express&quot;: &quot;~4.13.1&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;express搭建服务器,excel-export到处文件,入口文件为index.js</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">var express = require(&apos;express&apos;);</span><br><span class="line">var nodeExcel = require(&apos;excel-export&apos;);  //excel到处插件</span><br><span class="line">var app = express();</span><br><span class="line"></span><br><span class="line">app.get(&apos;/excel&apos;, function(req, res)&#123;</span><br><span class="line">    //基本excel规则</span><br><span class="line">    var conf = &#123;&#125;;</span><br><span class="line">    conf.stylesXmlFile = &quot;styles.xml&quot;;</span><br><span class="line">    conf.cols = [&#123;</span><br><span class="line">        caption: &apos;编号&apos;,    //行名称</span><br><span class="line">        type:&apos;number&apos;,       //类型</span><br><span class="line">        width: 15,   //宽度</span><br><span class="line">        beforeCellWrite:function(row, cellData)&#123;  //处理数据</span><br><span class="line">            return cellData; //数据大写</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,&#123;</span><br><span class="line">        caption: &apos;姓名&apos;,</span><br><span class="line">        type:&apos;string&apos;,</span><br><span class="line">        width: 20,</span><br><span class="line">        beforeCellWrite:function(row, cellData,eOpt)&#123;  //处理数据</span><br><span class="line"></span><br><span class="line">            if(cellData == &quot;&quot;)&#123;</span><br><span class="line">                return &quot;查无此人&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">            return cellData;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,&#123;</span><br><span class="line">        caption: &apos;日期&apos;,</span><br><span class="line">        type:&apos;string&apos;,</span><br><span class="line">        width: 25</span><br><span class="line">    &#125;];</span><br><span class="line">    conf.rows = [</span><br><span class="line">        [1, &quot;华晨宇&quot;,&quot;2014-04-15 00:00:00&quot;],</span><br><span class="line">        [2, &quot;&quot;,&quot;2014-04-15 00:00:00&quot;],</span><br><span class="line">        [3, &quot;汪苏泷&quot;,&quot;2014-04-17 00:00:00&quot;],</span><br><span class="line">        [4, &quot;罗一笑&quot;,&quot;2014-04-18 00:00:00&quot;]</span><br><span class="line">    ];</span><br><span class="line">    var result = nodeExcel.execute(conf);</span><br><span class="line">    res.setHeader(&apos;Content-Type&apos;, &apos;application/vnd.openxmlformats&apos;);</span><br><span class="line">    res.setHeader(&quot;Content-Disposition&quot;, &quot;attachment; filename=&quot; + &quot;userDate.xlsx&quot;); //会保存userDate为文件名的excel文件</span><br><span class="line">    res.end(result, &apos;binary&apos;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.listen(8888);</span><br><span class="line">console.log(&apos;Listening on port 8888&apos;);</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp; conf是配置项,config.cols中定义了表格行的规则,conf.rows是我们模拟的假数据,对应依次打印在excel表中</p>
-<p>&emsp;&emsp; conf.cols中有beforeCellWrite方法,可做数据处理</p>
-<p>&emsp;&emsp; 我们看到,excel表格的样式规则是一个名叫styles.xml的文件,你可直接复制到自己的项目中</p>
-<p>&emsp;&emsp; <a href="https://github.com/Vera0707/huanhuashuixie/blob/master/node-excel-export/styles.xml" target="_blank" rel="noopener">styles.xml文件地址</a></p>
-<p>&emsp;&emsp; 服务器端口号为8888.启动服务器后,访问<a href="localhost:8888/excel" target="_blank" rel="noopener">localhost:8888/excel</a></p>
-<p>&emsp;&emsp; 打开页面后,会自动下载userDate.excel文件,文件名可根据自己情况做更改</p>
-<p>&emsp;&emsp; <a href="https://github.com/Vera0707/huanhuashuixie/tree/master/node-excel-export" target="_blank" rel="noopener">这个demo项目地址</a></p>
-<p>&emsp;&emsp; 很简单的小demo,希望对你有用</p>
-
-      
-    </div>
-      <div id="remark"></div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/09/06/nodeExportExcel/" class="archive-article-date">
-  	<time datetime="2017-09-06T08:15:59.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-09-06</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/excel表格导出/">excel表格导出</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node/">node</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/">nodejs</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-imagesLoad" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/23/imagesLoad/">判断单、多张图片加载完成</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;在实际的运用中有这样一种场景，某资源加载完成后再执行某个操作，例如在做导出时，后端通过打开模板页生成PDF，并返回下载地址。这时前后端通常需要约定一个flag，用以标识模板准备就绪，可以生成PDF了。</p>
-<p>&emsp;&emsp;试想，如果模板中有图片，此时如何判断图片是否加载完成？</p>
-<p>&emsp;&emsp;在此之前来了解一下jquery的ready与window.onload的区别，ready只是dom结构加载完毕，便视为加载完成。(此时图片没有加载完毕)，onload是指dom的生成和资源完全加载（比如flash、图片）出来后才执行。接下来回到正题，先从单张图片说起。</p>
-<p>&emsp;&emsp;（1）单张图片（图片在文档中）</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">id</span>=<span class="string">'xiu'</span> <span class="attr">src</span>=<span class="string">"http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg"</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//jquery</span></span><br><span class="line">    $(<span class="string">'#xiu'</span>).load(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">       <span class="comment">// 加载完成</span></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">   <span class="comment">//原生  onload</span></span><br><span class="line">    <span class="keyword">var</span> xiu = <span class="built_in">document</span>.getElementById(<span class="string">'xiu'</span>)</span><br><span class="line">    xiu.onload = xiu.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(!<span class="keyword">this</span>.readyState||<span class="keyword">this</span>.readyState==<span class="string">'loaded'</span>||<span class="keyword">this</span>.readyState==<span class="string">'complete'</span>)&#123;</span><br><span class="line">           <span class="comment">// 加载完成</span></span><br><span class="line">       &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;注：<br>&emsp;&emsp;1、IE8及以下版本不支持onload事件，但支持onreadystatechange事件；<br>&emsp;&emsp;2、readyState是onreadystatechange事件的一个状态，值为loaded或complete的时候，表示已经加载完毕。<br>&emsp;&emsp;3、以下内容省略兼容</p>
-<p>&emsp;&emsp;（2）单张图片（图片动态生成）</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xiu = <span class="keyword">new</span> Image()</span><br><span class="line"> xiu.src = <span class="string">'http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg'</span></span><br><span class="line"> xiu.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 加载完成</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;（3）单张图片（结合ES6 Promise）</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> xiu = <span class="keyword">new</span> Image()</span><br><span class="line">    xiu.src = <span class="string">'http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg'</span></span><br><span class="line">    xiu.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">       <span class="comment">// 加载完成</span></span><br><span class="line">       resolve(xiu)</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;).then(<span class="function">(<span class="params">xiu</span>)=&gt;</span>&#123;</span><br><span class="line"> <span class="comment">//code</span></span><br><span class="line"> &#125;)</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;（4）多张图片</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> img = [],</span><br><span class="line">    flag = <span class="number">0</span>,</span><br><span class="line">    mulitImg = [</span><br><span class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/03/IMG_0119.jpg'</span>,</span><br><span class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/01/1.jpg'</span>,</span><br><span class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/11/jquery.jpg'</span>,</span><br><span class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/10/maid.jpg'</span></span><br><span class="line"> ];</span><br><span class="line"> <span class="keyword">var</span> imgTotal = mulitImg.length;</span><br><span class="line"> <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; imgTotal ; i++)&#123;</span><br><span class="line">    img[i] = <span class="keyword">new</span> Image()</span><br><span class="line">    img[i].src = mulitImg[i]</span><br><span class="line">    img[i].onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">       <span class="comment">//第i张图片加载完成</span></span><br><span class="line">       flag++</span><br><span class="line">       <span class="keyword">if</span>( flag == imgTotal )&#123;</span><br><span class="line">          <span class="comment">//全部加载完成</span></span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;（5）多张图片（结合ES6 Promise.all()）</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> mulitImg = [</span><br><span class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/03/IMG_0119.jpg'</span>,</span><br><span class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/01/1.jpg'</span>,</span><br><span class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/11/jquery.jpg'</span>,</span><br><span class="line">     <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/10/maid.jpg'</span></span><br><span class="line"> ];</span><br><span class="line"> <span class="keyword">let</span> promiseAll = [], img = [], imgTotal = mulitImg.length;</span><br><span class="line"> <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span> ; i &lt; imgTotal ; i++)&#123;</span><br><span class="line">     promiseAll[i] = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</span><br><span class="line">         img[i] = <span class="keyword">new</span> Image()</span><br><span class="line">         img[i].src = mulitImg[i]</span><br><span class="line">         img[i].onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">              <span class="comment">//第i张加载完成</span></span><br><span class="line">              resolve(img[i])</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;)</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="built_in">Promise</span>.all(promiseAll).then(<span class="function">(<span class="params">img</span>)=&gt;</span>&#123;</span><br><span class="line">     <span class="comment">//全部加载完成</span></span><br><span class="line"> &#125;)</span><br></pre></td></tr></table></figure>
-      
-    </div>
-      <div id="remark"></div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/05/23/imagesLoad/" class="archive-article-date">
-  	<time datetime="2017-05-23T03:34:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-05-23</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/图片加载/">图片加载</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/图片加载完成事件/">图片加载完成事件</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-https" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/07/https/">看完就懂的HTTPS</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h6 id="译注：本文作者酷壳-陈皓"><a href="#译注：本文作者酷壳-陈皓" class="headerlink" title="译注：本文作者酷壳/陈皓"></a>译注：本文作者酷壳/陈皓</h6><p>&emsp;&emsp;我们先不了聊HTTP，HTTPS，我们先从一个聊天软件说起，我们要实现A能发一个hello消息给B：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/292372-b93c4670333eb8d9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>&emsp;&emsp;如果我们要实现这个聊天软件，本文只考虑安全性问题，要实现</p>
-<blockquote>
-<p>A发给B的hello消息包，即使被中间人拦截到了，也无法得知消息的内容</p>
-</blockquote>
-<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">如何做到真正的安全？</abbr></p>
-<p>&emsp;&emsp;这个问题，很多人马上就想到了各种加密算法，什么对称加密、非对称加密、DES、RSA、XX、噼里啪啦~<br>&emsp;&emsp;而我想说，加密算法只是解决方案，我们首先要做的是理解我们的问题域——什么是安全？<br>&emsp;&emsp;我个人的理解是：</p>
-<blockquote>
-<p>A与B通信的内容，有且只有A和B有能力看到通信的真正内容</p>
-</blockquote>
-<p>&emsp;&emsp;好，问题域已经定义好了（现实中当然不止这一种定义）。对于解决方案，很容易就想到了对消息进行加密。<br>&emsp;&emsp;题外话，但是只有这一种方法吗？我看未必，说不定在将来会出现一种物质打破当前世界的通信假设，实现真正意义上的保密。<br>&emsp;&emsp;对于A与B这样的简单通信模型，我们很容易做出选择：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/292372-9d943956300560f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>&emsp;&emsp;这就是对称加密算法，其中图中的密钥S同时扮演加密和解密的角色。具体细节不是本文范畴。<br>&emsp;&emsp;只要这个密钥S不公开给第三者，同时密钥S足够安全，我们就解决了我们一开始所定问题域了。因为世界上有且只有A与B知道如何加密和解密他们之间的消息。<br>&emsp;&emsp;但是，在WWW环境下，我们的Web服务器的通信模型没有这么简单：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/292372-528782117a69a5dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>&emsp;&emsp;如果服务器端对所有的客户端通信都使用同样的对称加密算法，无异于没有加密。那怎么办呢？即能使用对称加密算法，又不公开密钥？请读者思考21秒钟。</p>
-<p>&emsp;&emsp;答案是：Web服务器与每个客户端使用不同的对称加密算法：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/292372-d38dbcf3633a1cc9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">如何确定对称加密算法</abbr></p>
-<p>&emsp;&emsp;慢着，另一个问题来了，我们的服务器端怎么告诉客户端该使用哪种对称加密算法？<br>&emsp;&emsp;当然是通过协商。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/292372-88ce3bd16ac6006d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>&emsp;&emsp;但是，你协商的过程是没有加密的，还是会被中间人拦截。那我们再对这个协商过程进行对称加密就好了，那你对协商过程加密的加密还是没有加密，怎么办？再加密不就好了……好吧，进行鸡生蛋蛋生鸡的问题了。</p>
-<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">如何对协商过程进行加密</abbr></p>
-<p>&emsp;&emsp;新问题来了，如何对协商过程进行加密？密码学领域中，有一种称为“非对称加密”的加密算法，特点是私钥加密后的密文，只要是公钥，都可以解密，但是公钥加密后的密文，只有私钥可以解密。私钥只有一个人有，而公钥可以发给所有的人。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/292372-ae678fa7d569dac9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>&emsp;&emsp;虽然服务器端向A、B……的方向还是不安全的，但是至少A、B向服务器端方向是安全的。<br>&emsp;&emsp;好了，如何协商加密算法的问题，我们解决了：使用非对称加密算法进行对称加密算法协商过程。<br>&emsp;&emsp;这下，你明白为什么HTTPS同时需要对称加密算法和非对称加密算法了吧？</p>
-<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">协商什么加密算法</abbr></p>
-<p>&emsp;&emsp;要达到Web服务器针对每个客户端使用不同的对称加密算法，同时，我们也不能让第三者知道这个对称加密算法是什么，怎么办？<br>&emsp;&emsp;使用随机数，就是使用随机数来生成对称加密算法。这样就可以做到服务器和客户端每次交互都是新的加密算法、只有在交互的那一该才确定加密算法。<br>&emsp;&emsp;这下，你明白为什么HTTPS协议握手阶段会有这么多的随机数了吧。</p>
-<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">如何得到公钥？</abbr></p>
-<p>&emsp;&emsp;细心的人可能已经注意到了如果使用非对称加密算法，我们的客户端A，B需要一开始就持有公钥，要不没法开展加密行为啊。<br>&emsp;&emsp;这下，我们又遇到新问题了，如何让A、B客户端安全地得到公钥？<br>&emsp;&emsp;我能想到的方案只有这些：</p>
-<ul>
-<li>方案1. 服务器端将公钥发送给每一个客户端</li>
-<li>方案2. 服务器端将公钥放到一个远程服务器，客户端可以请求得到</li>
-</ul>
-<p>&emsp;&emsp;我们选择方案1，因为方案2又多了一次请求，还要另外处理公钥的放置问题。<br>&emsp;&emsp;公钥被调包了怎么办？又是一个鸡生蛋蛋生鸡问题？<br>&emsp;&emsp;但是方案1有个问题：如果服务器端发送公钥给客户端时，被中间人调包了，怎么办？</p>
-<p>&emsp;&emsp;我画了张图方便理解：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/292372-8f0d8228af2f6480.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>&emsp;&emsp;显然，让每个客户端的每个浏览器默认保存所有网站的公钥是不现实的。</p>
-<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">使用第三方机构的公钥解决鸡生蛋蛋生鸡问题</abbr></p>
-<p>&emsp;&emsp;公钥被调包的问题出现，是因为我们的客户端无法分辨返回公钥的人到底是中间人，还是真的服务器。这其实就是密码学中提的身份验证问题。<br>&emsp;&emsp;如果让你来解决，你怎么解决？如果你了解过HTTPS，会知道使用数字证书来解决。但是你想过证书的本质是什么么？请放下你对HTTPS已有的知识，自己尝试找到解决方案。<br>&emsp;&emsp;我是这样解决的。既然服务器需要将公钥传给客户端，这个过程本身是不安全，那么我们为什么不对这个过程本身再加密一次？可是，你是使用对称加密，还是非对称加密？这下好了，我感觉又进了鸡生蛋蛋生鸡问题了。<br>&emsp;&emsp;问题的难点是如果我们选择直接将公钥传递给客户端的方案，我们始终无法解决公钥传递被中间人调包的问题。<br>&emsp;&emsp;所以，我们不能直接将服务器的公钥传递给客户端，而是第三方机构使用它的私钥对我们的公钥进行加密后，再传给客户端。客户端再使用第三方机构的公钥进行解密。<br>&emsp;&emsp;下图就是我们设计的第一版“数字证书”，证书中只有服务器交给第三方机构的公钥，而且这个公钥被第三方机构的私钥加密了：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/292372-f3dd4b7370df950e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>&emsp;&emsp;如果能解密，就说明这个公钥没有被中间人调包。因为如果中间人使用自己的私钥加密后的东西传给客户端，客户端是无法使用第三方的公钥进行解密的。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/292372-3b7c21b3525c0e64.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>&emsp;&emsp;话到此，我以为解决问题了。但是现实中HTTPS，还有一个数字签名的概念，我没法理解它的设计理由。<br>&emsp;&emsp;原来，我漏掉了一个场景：第三方机构不可能只给你一家公司制作证书，它也可能会给中间人这样有坏心思的公司发放证书。这样的，中间人就有机会对你的证书进行调包，客户端在这种情况下是无法分辨出是接收的是你的证书，还是中间人的。因为不论中间人，还是你的证书，都能使用第三方机构的公钥进行解密。像下面这样：<br>&emsp;&emsp;第三方机构向多家公司颁发证书的情况：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/292372-66e00dc26cea3112.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>&emsp;&emsp;客户端能解密同一家第三机构颁发的所有证书：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/292372-5bf2c898914e749f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>&emsp;&emsp;最终导致其它持有同一家第三方机构证书的中间人可以进行调包：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/292372-b2bd3805bc25fd2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">数字签名，解决同一机构颁发的不同证书被篡改问题</abbr></p>
-<p>&emsp;&emsp;要解决这个问题，我们首先要想清楚一个问题，辨别同一机构下不同证书的这个职责，我们应该放在哪？<br>&emsp;&emsp;只能放到客户端了。意思是，客户端在拿到证书后，自己就有能力分辨证书是否被篡改了。如何才能有这个能力呢？<br>&emsp;&emsp;我们从现实中找灵感。比如你是HR，你手上拿到候选人的学历证书，证书上写了持证人，颁发机构，颁发时间等等，同时证书上，还写有一个最重要的：证书编号！我们怎么鉴别这张证书是的真伪呢？只要拿着这个证书编号上相关机构去查，如果证书上的持证人与现实的这个候选人一致，同时证书编号也能对应上，那么就说明这个证书是真实的。<br>&emsp;&emsp;我们的客户端能不能采用这个机制呢？像这样：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/292372-ac2b0d452a4e8b05.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>&emsp;&emsp;可是，这个“第三方机构”到底是在哪呢？是一个远端服务？不可能吧？如果是个远端服务，整个交互都会慢了。所以，这个第三方机构的验证功能只能放在客户端的本地了。</p>
-<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">客户端本地怎么验证证书呢？</abbr></p>
-<p>&emsp;&emsp;客户端本地怎么验证证书呢？答案是证书本身就已经告诉客户端怎么验证证书的真伪。<br>&emsp;&emsp;也就是证书上写着如何根据证书的内容生成证书编号。客户端拿到证书后根据证书上的方法自己生成一个证书编号，如果生成的证书编号与证书上的证书编号相同，那么说明这个证书是真实的。<br>&emsp;&emsp;同时，为避免证书编号本身又被调包，所以使用第三方的私钥进行加密。<br>&emsp;&emsp;这地方有些抽象，我们来个图帮助理解：<br>&emsp;&emsp;证书的制作如图所示。证书中的“编号生成方法MD5”就是告诉客户端：你使用MD5对证书的内容求值就可以得到一个证书编号。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/292372-60fd73c3f79e8641.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>&emsp;&emsp;当客户端拿到证书后，开始对证书中的内容进行验证，如果客户端计算出来的证书编号与证书中的证书编号相同，则验证通过：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/292372-4dbf41053fb6fb25.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>&emsp;&emsp;但是第三方机构的公钥怎么跑到了客户端的机器中呢？世界上这么多机器。<br>&emsp;&emsp;其实呢，现实中，浏览器和操作系统都会维护一个权威的第三方机构列表（包括它们的公钥）。因为客户端接收到的证书中会写有颁发机构，客户端就根据这个颁发机构的值在本地找相应的公钥。</p>
-<blockquote>
-<p>题外话：如果浏览器和操作系统这道防线被破了，就没办法。想想当年自己装过的非常规XP系统，都害怕。</p>
-</blockquote>
-<p>&emsp;&emsp;说到这里，想必大家已经知道上文所说的，证书就是HTTPS中数字证书，证书编号就是数字签名，而第三方机构就是指数字证书签发机构（CA）。</p>
-<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">CA如何颁发数字证书给服务器端的？</abbr></p>
-<p>&emsp;&emsp;当我听到这个问题时，我误以为，我们的SERVER需要发网络请求到CA部门的服务器来拿这个证书。😭 到底是我理解能力问题，还是。。<br>&emsp;&emsp;其实，问题应该是CA如何颁发给我们的网站管理员，而我们的管理员又如何将这个数字证书放到我们的服务器上。</p>
-<p>&emsp;&emsp;我们如何向CA申请呢？每个CA机构都大同小异，我在网上找了一个：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/292372-6eb448d41e6bc2fb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p>&emsp;&emsp;拿到证书后，我们就可以将证书配置到自己的服务器上了。那么如何配置？这是具体细节了，留给大家google了。</p>
-<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">也许我们需要整理一下思路</abbr></p>
-<p>&emsp;&emsp;我们通过推算的方式尝试还原HTTPS的设计过程。这样，我们也就明白了为什么HTTPS比HTTP多那么多次的交互，为什么HTTPS的性能会差，以及找到HTTPS的性能优化点。<br>&emsp;&emsp;而上面一大堆工作都是为了让客户端与服务器端安全地协商出一个对称加密算法。这就是HTTPS中的SSL/TLS协议主要干的活。剩下的就是通信时双方使用这个对称加密算法进行加密解密。<br>&emsp;&emsp;以下是一张HTTPS协议的真实交互图（从网上copy的，忘了从哪了，如果侵权麻烦告知）：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/292372-323411d0bb2d7232.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<p><abbr title="" style="color:#b01942;font-weight:bold;background:#fff">能不能用一句话总结HTTPS？</abbr></p>
-<p>&emsp;&emsp;答案是不能，因为HTTPS本身实在太复杂。但是我还是尝试使用一段话来总结HTTPS:<br>&emsp;&emsp;HTTPS要使客户端与服务器端的通信过程得到安全保证，必须使用的对称加密算法，但是协商对称加密算法的过程，需要使用非对称加密算法来保证安全，然而直接使用非对称加密的过程本身也不安全，会有中间人篡改公钥的可能性，所以客户端与服务器不直接使用公钥，而是使用数字证书签发机构颁发的证书来保证非对称加密过程本身的安全。这样通过这些机制协商出一个对称加密算法，就此双方使用该算法进行加密解密。从而解决了客户端与服务器端之间的通信安全问题。</p>
-
-      
-    </div>
-      <div id="remark"></div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/03/07/https/" class="archive-article-date">
-  	<time datetime="2017-03-07T04:03:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-07</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/理解https/">理解https</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-webEngineers" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/08/webEngineers/">如何成为一名卓越的前端工程师</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>译注：本文翻译自谷歌工程师 Philip Walton 的一篇博客。</p>
-</blockquote>
-<p>&emsp;&emsp;最近我收到一封读者来信让我陷入了思考，信是这么写的：<br>&emsp;&emsp;Hi Philip，您是否介意我问，您是如何成为一名卓越 (great) 的前端工程师的？对此您有什么建议吗？<br>&emsp;&emsp;不得不承认，被问这样的问题，我很惊讶，因为我从来不觉得自己是个很卓越的前端工程师。甚至我入行的头几年时并不认为自己可以做好这一行。我只确定自己比自己想象中还才疏学浅，而且大家面试我的时候都不知道从何问起。<br>&emsp;&emsp;话虽这么说，我到现在做得还算不错，而且成为了团队中有价值的一员。但我最终离开 (去寻求新的挑战——即我还不能够胜任的工作) 的时候，我经常会被要求招聘我的继任者。现在回看这些面试，我不禁感叹当我刚开始的时候自己在这方面的知识是多么的匮乏。我现在或许不会按照我自己的模型进行招聘，即便我个人的这种经历也有可能成功。<br>&emsp;&emsp;我在 web 领域工作越长时间，我就越意识到区分人才和顶尖人才的并不是他们的知识——而是他们思考问题的方式。很显然，知识在很多情况下是非常重要而且关键的——但是在一个快速发展的领域，你前进和获取知识的方式 (至少在相当长的一段时间里) 会比你已经掌握的知识显得更加重要。更重要的是：你是如何运用这些知识解决每天的问题的。<br>&emsp;&emsp;这里有许许多多的文章谈论你工作中需要的语言、框架、工具等等。我希望给一些不一样的建议。在这篇文章里，我想谈一谈一个前端工程师的心态，希望可以帮助大家找到通往卓越的道路。</p>
-<p><strong> 别光解决问题，想想究竟发生了什么 </strong></p>
-<p>&emsp;&emsp;很多人埋头写 CSS 和 JavaScript 直到程序工作起来了，然后就去做别的事情了。我通过 code review 发现这种事经常发生。我总会问大家：“为什么你会在这里添加 float: left？”或者“这里的 overflow: hidden 是必要的吗？”，他们往往答道：“我也不知道，可是我一删掉它们，页面就乱套了。”<br>&emsp;&emsp;JavaScript 也是一样，我总会在一个条件竞争的地方看到一个 setTimeout，或者有些人无意中阻止了事件传播，却不知道它会影响到页面中其它的事件处理。我发现很多情况下，当你遇到问题的时候，你只是解决当下的问题罢了。但是如果你永远不花时间理解问题的本源，你将一次又一次的面对相同的问题。花一些时间找出为什么，这看上去费时费力，但是我保证它会节省你未来的时间。在完全理解整个系统之后，你就不需要总去猜测和论证了。</p>
-<p><strong> 学会预见未来的浏览器发展趋势 </strong></p>
-<p>&emsp;&emsp;前后端开发的一个主要区别在于后端代码通常都运行在完全由你掌控的环境下。前端相对来说不那么在你的掌控之中。不同用户的平台或设备是前端永恒的话题，你的代码需要优雅掌控这一切。<br>&emsp;&emsp;我记得自己 2011 年之前曾经阅读某主流 JavaScript 框架的时候看到过下面这样的代码 (简化过的)：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> isIE6 = !isIE7 &amp;&amp; !isIE8 &amp;&amp; !isIE9;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;在这个例子中变量 IE6 为了判断 IE 浏览器版本是否是 6 或更低的版本。那么在 IE10 发布时，我们的程序判断还是会出问题。<br>&emsp;&emsp;我理解在真实世界特性检测并不 100% 工作，而且有的时候你不得不依赖有 bug 的特性或根据浏览器特性检测的错误设计白名单。但你为此做的每一件事都非常关键，因为你预见到了不再有 bug 的未来。对于我们当中的很多人来说，我们今天写的代码都会比我们的工作周期要长。有些我写的代码已经过去 8 年多了还在产品线上运行。这让人很满足又很不安。</p>
-<p><strong> 阅读规范文档 </strong></p>
-<p>&emsp;&emsp;浏览器有 bug 是很难免的事，但是当同一份代码在两个浏览器渲染出来的效果不一样，人们总会不假思索的推测，那个“广受好评”的浏览器是对的，而“不起眼”的浏览器是错的。但事实并不一定如此，当你的假设出现错误时，你选取的变通办法都会在未来遭遇问题。<br>&emsp;&emsp; 一个就近的例子是 flex 元素的默认最小尺寸问题。根据规范的描述，flex 元素初始化的 min-width 和 min-height 的值是 auto (而不是 0)，也就是说它们默认应该收缩到自己内容的最小尺寸。但是在过去长达 8 个月的时间里，只有 Firefox 的实现是准确的。<br>&emsp;&emsp; 如果你遇到了这个浏览器兼容性的问题并且发现 Chrome、IE、Opera、Safari 的效果相同而 Firefox 和它们不同时，你很可能会认为是 Firefox 搞错了。事实上这种情况我见多了。很多我在自己 Flexbugs 项目上报的问题都是这样的。而且这些解决方案的问题会在两周之后 Chrome 44 修复之后被体现出来。和遵循标准的解决方案相比，这些方案都伤害到了正确的规范行为。当同一份代码在两个或更多浏览器的渲染结果不同时，你应该花些时间确定哪个效果是正确的，并且以此为标准写代码。你的解决方案应该是对未来友好的。额外的，所谓“卓越”的前端工程师是时刻感受变化，在某项技术成为主流之前就去适应它的，甚至在为这样的技术做着贡献。如果你锻炼自己看到规范就能在浏览器支持它之前想象出它如何工作的，那么你将成为谈论并影响其规范开发的那群人。</p>
-<p><strong> 阅读别人的代码 </strong><br>&emsp;&emsp;出于乐趣阅读别人的代码可能并不是你每周六晚上会想到的娱乐项目，但是这毫无疑问是你成为优秀工程师的最佳途径。自己独立解决问题绝对是个不错的方式，但是这不应该是你唯一的方式，因为它很快就会让你稳定在某个层次。阅读别人的代码会让你开阔思维，并且阅读和理解别人写的代码也是团队协作或开源贡献必须具备的能力。我着实认为很多公司在招聘新员工的时候犯的最大错误是他们只评估应聘者从轮廓开始写新代码的能力。我几乎没有见过一场面试会要求应聘者阅读现有的代码，找出其中的问题，并修复它们。缺少这样的面试流程真的非常不好，因为你作为工程师的很多时间都花费在了在现有的代码的基础上增加或改变上面，而不是搭建新的东西。</p>
-<p><strong>与比你聪明的人一起工作</strong></p>
-<p>&emsp;&emsp;我印象中的很多前端开发者 (相比于全职工作来说) 都是自由职业者，有同类想法的后端开发者并没有那么多。可能是因为很多前端都是自学成才的而后端则多是学校里学出来的。不论是自我学习还是自我工作，我们都面对一个问题：你并没有机会从比你聪明的家伙那里学到什么。没有人帮你 review 代码，也没有人与你碰撞灵感。我强烈建议，最起码在你职业发展的前期，你要在一个团队里工作，尤其是一个普遍比你聪明而且有经验的团队里工作。如果你最终会在你职业发展的某个阶段选择独立工作，一定要让自己投身在开源社区当中。保持对开源项目的活跃贡献，这会给你团队工作相同甚至更多的益处。</p>
-<p><strong>“造轮子”</strong><br>&emsp;&emsp;造轮子在商业上是非常糟糕的，但是从学习的角度是非常好的。你可能很想把那些库和小工具直接从 npm 里拿下来用，但也可以想象一下你独立建造它们能够学到多少东西。我知道有些人读到这里是特别不赞成的。别误会，我并没有说你不应该使用第三方代码。那些经过充分测试的库具有多年的测试用例积累和已知问题积累，使用它们绝对是非常明智的选择。但在这里我想说的是如何从优秀到卓越。我觉得这个领域很多卓越的人都是我每天在用的非常流行的库的作者或维护者。<br>&emsp;&emsp;你可能不曾打造过自己的 JavaScript 库也拥有一个成功的职业发展，但是你从不把自己手弄脏是几乎不可能淘到金子的。在这一行大家普遍会问的一个问题是：我接下来应该做点什么？如果你没有试着学一个新的工具创建一个新的应用，那不妨试着重新造一个你喜欢的 JavaScript 库或 CSS 框架。这样做的一个好消息是，在你遇到困难的时候，所有现成的库的源代码都会为你提供帮助。</p>
-<p><strong>把你学到的东西都记录下来</strong></p>
-<p>&emsp;&emsp;最后，但丝毫不逊色的是，你应该把你学到的东西记录下来。这样做有很多原因，但也许最重要的原因是它强迫你更好的理解这件事。如果你无法讲清楚它的工作原理，在整个过程中它会推动你自己把并不真正理解的东西弄清楚。很多情况下你根本意识不到自己还不理解它们——直到自己动手写的时候。根据我的经验，写作、演讲、做 demo 是强迫自己完全深入理解一件事的最佳方式。就算你写的东西没有人看，整个过程也会让你受益匪浅。</p>
-
-      
-    </div>
-      <div id="remark"></div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/02/08/webEngineers/" class="archive-article-date">
-  	<time datetime="2017-02-08T06:34:27.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-08</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端工程师/">前端工程师</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1391,7 +1455,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 谢雨轩
+    		&copy; 2019 谢雨轩
     	</div>
       	<div class="footer-right">虽然生的丑 毕竟想的美</div>
     </div>
@@ -1443,7 +1507,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/FHS/" style="font-size: 12.5px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/jQuery源码/" style="font-size: 10px;">jQuery源码</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 12.5px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/underscore/" style="font-size: 10px;">underscore</a> <a href="/tags/underscore源码/" style="font-size: 10px;">underscore源码</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/依赖倒置原则/" style="font-size: 12.5px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端设计模式/" style="font-size: 17.5px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 15px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/源码/" style="font-size: 10px;">源码</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
+    				<a href="/tags/FHS/" style="font-size: 12px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/jQuery源码/" style="font-size: 10px;">jQuery源码</a> <a href="/tags/js原型/" style="font-size: 10px;">js原型</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 12px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/rich-text/" style="font-size: 10px;">rich-text</a> <a href="/tags/underscore/" style="font-size: 10px;">underscore</a> <a href="/tags/underscore源码/" style="font-size: 10px;">underscore源码</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/依赖倒置原则/" style="font-size: 12px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 12px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端设计模式/" style="font-size: 18px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 16px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/源码/" style="font-size: 14px;">源码</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
     			</div>
     	</section>
     
