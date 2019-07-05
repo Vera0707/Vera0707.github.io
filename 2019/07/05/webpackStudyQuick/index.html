@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://xieyuxuan.cc">
-  <title>老师,为什么我想学源码 | 谢雨轩的博客 | Vera Blog</title>
+  <title>webpack 4.X小白从0开始一步学到位 | 谢雨轩的博客 | Vera Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="老师好 嘿嘿~!    我还是关于React的课程内容，想坚持一把听源码的。    昨天有很童鞋说我这非听源码是『飘了』，我也立马反省了自己，可能有一点吧，因为老师讲的大多内容其实我都并没有掌握，自己确实有学到很多。    当下的课程也非常利于立马融入工作和面试寻求更好的offer.    课程结构和内容上也完全看的出老师在用心准备和认真教学，毕竟我面对的是一个老师，而老师面对的是近百名不同情况不">
-<meta name="keywords" content="原创,前端学习,源码">
+  <meta name="description" content="&amp;emsp;&amp;emsp; 来自三刷老肖的学习视频 webpack介绍1.webpack是什么 打包工具(模块) 前端必不可少的工具  2. webpack的作用 打包（把多个文件打包成一个js文件，减少服务器压力、带宽） 转化（比如less/sass/ts）需要loader 优化（SPA越来越盛行，前端项目复杂度高,webpack可以对项目进行优化）  3. webpack构成 入口 （entry">
+<meta name="keywords" content="webpack,webpack 4.0,webpack教程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="老师,为什么我想学源码">
-<meta property="og:url" content="http://xieyuxuan.cc/2019/03/14/learnTheSourceCode/index.html">
+<meta property="og:title" content="webpack 4.X小白从0开始一步学到位">
+<meta property="og:url" content="http://xieyuxuan.cc/2019/07/05/webpackStudyQuick/index.html">
 <meta property="og:site_name" content="谢雨轩的博客 | Vera Blog">
-<meta property="og:description" content="老师好 嘿嘿~!    我还是关于React的课程内容，想坚持一把听源码的。    昨天有很童鞋说我这非听源码是『飘了』，我也立马反省了自己，可能有一点吧，因为老师讲的大多内容其实我都并没有掌握，自己确实有学到很多。    当下的课程也非常利于立马融入工作和面试寻求更好的offer.    课程结构和内容上也完全看的出老师在用心准备和认真教学，毕竟我面对的是一个老师，而老师面对的是近百名不同情况不">
+<meta property="og:description" content="&amp;emsp;&amp;emsp; 来自三刷老肖的学习视频 webpack介绍1.webpack是什么 打包工具(模块) 前端必不可少的工具  2. webpack的作用 打包（把多个文件打包成一个js文件，减少服务器压力、带宽） 转化（比如less/sass/ts）需要loader 优化（SPA越来越盛行，前端项目复杂度高,webpack可以对项目进行优化）  3. webpack构成 入口 （entry">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-14T03:36:03.000Z">
+<meta property="og:updated_time" content="2019-07-05T10:20:25.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="老师,为什么我想学源码">
-<meta name="twitter:description" content="老师好 嘿嘿~!    我还是关于React的课程内容，想坚持一把听源码的。    昨天有很童鞋说我这非听源码是『飘了』，我也立马反省了自己，可能有一点吧，因为老师讲的大多内容其实我都并没有掌握，自己确实有学到很多。    当下的课程也非常利于立马融入工作和面试寻求更好的offer.    课程结构和内容上也完全看的出老师在用心准备和认真教学，毕竟我面对的是一个老师，而老师面对的是近百名不同情况不">
+<meta name="twitter:title" content="webpack 4.X小白从0开始一步学到位">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp; 来自三刷老肖的学习视频 webpack介绍1.webpack是什么 打包工具(模块) 前端必不可少的工具  2. webpack的作用 打包（把多个文件打包成一个js文件，减少服务器压力、带宽） 转化（比如less/sass/ts）需要loader 优化（SPA越来越盛行，前端项目复杂度高,webpack可以对项目进行优化）  3. webpack构成 入口 （entry">
   
     <link rel="alternative" href="/atom.xml" title="谢雨轩的博客 | Vera Blog" type="application/atom+xml">
   
@@ -165,7 +165,7 @@
 
       <canvas id="body-wrap"> </canvas>
       <div class="body-wrap">
-          <article id="post-learnTheSourceCode" class="article article-type-post" itemscope="" itemprop="blogPost">
+          <article id="post-webpackStudyQuick" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy">
@@ -175,7 +175,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      老师,为什么我想学源码
+      webpack 4.X小白从0开始一步学到位
     </h1>
   
 
@@ -183,41 +183,93 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>老师好 嘿嘿~!</p>
-<p>   我还是关于React的课程内容，想坚持一把听源码的。</p>
-<p>   昨天有很童鞋说我这非听源码是『飘了』，我也立马反省了自己，可能有一点吧，因为老师讲的大多内容其实我都并没有掌握，自己确实有学到很多。</p>
-<p>   当下的课程也非常利于立马融入工作和面试寻求更好的offer.</p>
-<p>   课程结构和内容上也完全看的出老师在用心准备和认真教学，毕竟我面对的是一个老师，而老师面对的是近百名不同情况不同需求的学生.</p>
-<p>   即使这样，我依然还是想坚持一把，这只是以我的立场的一个建议，不管怎样，我都会好好跟着老师学习的。</p>
-<p>   以下是我坚持的原因：</p>
-<ul>
-<li><p>学习源码虽然『见效』慢，但它恰如中药对西药，乃是根本。</p>
-<p>源码里的优秀编写方式和思想虽不能立马发挥出来，但日积月累，它会深深影响自己。<br>恰如我曾经视为洪水猛兽的正则，虽然没有立马通透，但在我又通读过一遍正则类的书籍后，突然有一种无惧无畏的感觉。如果不是因为硬啃源码，我很有可能会想办法继续绕开这块晦涩的骨头，并会继续不得其解。</p>
+        <p>&emsp;&emsp; 来自三刷老肖的学习视频</p>
+<h4 id="webpack介绍"><a href="#webpack介绍" class="headerlink" title="webpack介绍"></a>webpack介绍</h4><h5 id="1-webpack是什么"><a href="#1-webpack是什么" class="headerlink" title="1.webpack是什么"></a>1.webpack是什么</h5><ul>
+<li>打包工具(模块)</li>
+<li>前端必不可少的工具</li>
+</ul>
+<h5 id="2-webpack的作用"><a href="#2-webpack的作用" class="headerlink" title="2. webpack的作用"></a>2. webpack的作用</h5><ul>
+<li>打包（把多个文件打包成一个js文件，减少服务器压力、带宽）</li>
+<li>转化（比如less/sass/ts）需要loader</li>
+<li>优化（SPA越来越盛行，前端项目复杂度高,webpack可以对项目进行优化）</li>
+</ul>
+<h5 id="3-webpack构成"><a href="#3-webpack构成" class="headerlink" title="3. webpack构成"></a>3. webpack构成</h5><ul>
+<li>入口 （entry）</li>
+<li>出口 （output）</li>
+<li>转化器 （loader）</li>
+<li>插件 （plugins）</li>
+<li>开发服务器 （devServer）</li>
+<li>模式 （mode）</li>
+</ul>
+<h5 id="4-安装webpack"><a href="#4-安装webpack" class="headerlink" title="4. 安装webpack"></a>4. 安装webpack</h5><pre><code> <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack-cli -g</span><br></pre></td></tr></table></figure>
+
+or 
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add webpack-cli -g</span><br></pre></td></tr></table></figure>
+
+
+ 验证webpack环境已经OK ？
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack -v</span><br></pre></td></tr></table></figure>
+</code></pre><h5 id="5-开发环境和生产环境"><a href="#5-开发环境和生产环境" class="headerlink" title="5. 开发环境和生产环境"></a>5. 开发环境和生产环境</h5><ul>
+<li>开发环境(development)： 就是你平时编写代码的环境</li>
+<li><p>生产环境(production): 项目开发完毕，部署上线</p>
+<h5 id="6-npm基本命令"><a href="#6-npm基本命令" class="headerlink" title="6. npm基本命令"></a>6. npm基本命令</h5></li>
+<li>生成package.json: <ul>
+<li>npm init  </li>
+<li>npm init -y</li>
+</ul>
 </li>
-<li><p>现在学习源码当然会有『超纲』之感。</p>
-<p>我早就做好了回看一遍，甚至很多遍的准备，都说读书百遍其义自见，现在不也是这样么？<br>精华知识就是在不停的啃，我记得第一次看阮一峰的ES6是两年前，完全如天书，勉强算看了一遍，到了现在我应该有看过4次，每次看都感觉变得更容易一点，每次看学到的东西也都不一样，额…但是到现在我也没有完全理解，有时间继续看……囧</p>
+<li>下载线上环境包依赖<ul>
+<li>npm install [包名,包名,包名…] –save</li>
+<li>npm i [包名,包名,包名…] -S</li>
+</ul>
 </li>
-<li><p>源码让我开始不在乎『插件，甚至还想自己去翻它的源代码。</p>
-<p>  这里我确实是飘了。我开始觉得『插件』有千千万，我不知道A插件又如何呢，有官网文档，有那么多的技术文章在告诉我如何做，我学会它又能需要多久呢。</p>
-<p>  但源码不行，不管我用一个库用了多久，我都没有勇气和能力自己去解析和仿写它，好难！尤其那些精妙的『骚操作』对我来说就是一脸懵。我希望能自己能有更多源码的基础，来强悍自己不用惧怕新的东西，甚至还敢大胆揭面，查看它究竟注入了什么魔法。</p>
+<li>下载开发环境包依赖 <ul>
+<li>npm install [包名,包名,包名…] –save–dev  </li>
+<li>npm i [包名,包名,包名…] -D</li>
+</ul>
 </li>
 </ul>
-<p>   我的天赋一般，创新能力也差，好在自己特别能坚持，为对的东西可以一直发力，所以才坚持走了这几年。在学习源码之前，我从来没想到自己可以去看jQuery源码，更别提后来的Vue，所以当我看到讲源码的时候，毫不犹豫交了钱，所以对学习源码有点过于执着吧。</p>
-<p>   这只是以我的出发点做的需求，只是希望老师能有所考虑而不是要求老师一定采纳，如果老师做好了决定了也不用纠结，我也会好好学习。</p>
-<p>   咳咳，这里要敬礼么？敬礼~！</p>
-
+<h4 id="webpack4-x初探"><a href="#webpack4-x初探" class="headerlink" title="webpack4.x初探"></a>webpack4.x初探</h4><h5 id="1-跑一跑webpack"><a href="#1-跑一跑webpack" class="headerlink" title="1 跑一跑webpack"></a>1 跑一跑webpack</h5><p>&emsp;&emsp;当前项目下，新建src文件,src文件下新建index.js<br>&emsp;&emsp;index.js文件编写测试代码【console.log(‘Hello World’);】<br>&emsp;&emsp;将src下index.js打包为dist下bundle.js，执行如下:</p>
+<pre><code><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack src/index.js --output dist/bundle.js</span><br></pre></td></tr></table></figure>
+</code></pre><h5 id="2-webpack-config-js配置文件"><a href="#2-webpack-config-js配置文件" class="headerlink" title="2 webpack.config.js配置文件"></a>2 webpack.config.js配置文件</h5><p>&emsp;&emsp;当前项目下执行npm init -y<br>&emsp;&emsp;当前项目下新增webpack.config.js<br>    <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: &#123;</span><br><span class="line">        app: <span class="string">'./src/index.js'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    output:&#123;</span><br><span class="line">        filename: <span class="string">'bundle.js'</span>,</span><br><span class="line">        path: path.resolve(__dirname,<span class="string">'/dist'</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="built_in">module</span>: &#123;&#125;,</span><br><span class="line">    plugins: [],</span><br><span class="line">    devServer:&#123;&#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h5 id="3-使用自定义webpack配置文件名-例：myself-config-js"><a href="#3-使用自定义webpack配置文件名-例：myself-config-js" class="headerlink" title="3 使用自定义webpack配置文件名 例：myself.config.js"></a>3 使用自定义webpack配置文件名 例：myself.config.js</h5><pre><code><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack --config myself.config.js</span><br></pre></td></tr></table></figure>
+</code></pre><h5 id="4-package-json配置运行命令"><a href="#4-package-json配置运行命令" class="headerlink" title="4 package.json配置运行命令"></a>4 package.json配置运行命令</h5><p>&emsp;&emsp;package.json文件scripts下配置命令<br>&emsp;&emsp;配置webpack开发环境(dev)/线上环境(build)命令如下<br>    <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"dev"</span>: <span class="string">"webpack --mode development"</span>,</span><br><span class="line">    <span class="string">"build"</span>: <span class="string">"webpack --mode production"</span>,</span><br><span class="line"> &#125;,</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;执行开发环境打包：npm run dev<br>&emsp;&emsp;执行线上环境打包：npm run build<br>&emsp;&emsp;mode:设置打包环境</p>
+<h4 id="多入口、多出口、html插件使用"><a href="#多入口、多出口、html插件使用" class="headerlink" title="多入口、多出口、html插件使用"></a>多入口、多出口、html插件使用</h4><h5 id="1-多入口打包"><a href="#1-多入口打包" class="headerlink" title="1 多入口打包"></a>1 多入口打包</h5><pre><code><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">        <span class="built_in">module</span>.exports = &#123;</span><br><span class="line">            entry: [<span class="string">'./src/index.js'</span>,<span class="string">'./src/index2.js'</span>],</span><br><span class="line">            output:&#123;</span><br><span class="line">                filename: <span class="string">'bundle.js'</span>,</span><br><span class="line">                path: path.resolve(__dirname,<span class="string">'dist'</span>)</span><br><span class="line">            &#125;,</span><br><span class="line">        &#125;;</span><br><span class="line">    <span class="string">``</span><span class="string">`    </span></span><br><span class="line"><span class="string">##### 2 多出口</span></span><br><span class="line"><span class="string">    `</span><span class="string">``</span>js</span><br><span class="line">        <span class="built_in">module</span>.exports = &#123;</span><br><span class="line">            entry: &#123;</span><br><span class="line">                app: <span class="string">'./src/index'</span>,</span><br><span class="line">                main: <span class="string">'./src/index2.js'</span></span><br><span class="line">            &#125;,</span><br><span class="line">            output:&#123;</span><br><span class="line">                filename: <span class="string">'[name].bundle.js'</span>,</span><br><span class="line">                path: path.resolve(__dirname,<span class="string">'dist'</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br></pre></td></tr></table></figure>
+</code></pre><h5 id="3-html-webpack-plugin"><a href="#3-html-webpack-plugin" class="headerlink" title="3 html-webpack-plugin"></a>3 html-webpack-plugin</h5><p>&emsp;&emsp;作用：生成页面<br>&emsp;&emsp;依赖webpack webpack-cli<br>&emsp;&emsp;安装插件：npm i html-webpack-plugin -D<br>&emsp;&emsp;使用如下<br>    <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    ...,</span><br><span class="line">    plugins:[</span><br><span class="line">        <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">            template: <span class="string">'./src/index.html'</span>,</span><br><span class="line">            title: <span class="string">'可配置标题'</span>,</span><br><span class="line">            hash: <span class="literal">true</span>,</span><br><span class="line">            minify:&#123;</span><br><span class="line">               collapseWhitespace: <span class="literal">true</span></span><br><span class="line">            &#125;,</span><br><span class="line">         &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<pre><code><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;<span class="name">%=</span> <span class="attr">htmlWebpackPlugin.options.title</span>%&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--htmlWebpackPlugin 为插件定义名称,与js中自定义的插件名无关 --&gt;</span></span><br></pre></td></tr></table></figure>
+</code></pre><p>&emsp;&emsp;参数解析</p>
+<ul>
+<li>title：HTML文档标题</li>
+<li>filename: 文件名,默认为index.html，可设置</li>
+<li>template: 版本地址,默认查询 src/index.ejs,若未查到,将自动生成模板</li>
+<li>templateParameters: 允许重新模板参数</li>
+<li>inject: 注入，允许对head、body等添加脚本</li>
+<li>favicon: 设置网页顶部图标</li>
+<li>meta: 在head中注入mate标签</li>
+<li>base: 设置公共地址，如 <a href="https://example.com/path/page.html" target="_blank" rel="noopener">https://example.com/path/page.html</a></li>
+<li>minify: 是否压缩</li>
+<li>hash: 是否生成哈希值,若为true将为所以注入文件加入哈希值</li>
+<li>cache: 是否启用缓存，仅在文件有改动后才更新文件</li>
+<li>showErrors: 是否报错</li>
+<li>chunks: 是否仅允许添加指定块</li>
+<li>chunksSortMode: 设置块加载排序方式</li>
+<li>excludeChunks: 不允许加入的块</li>
+<li>xhtml: 是否遵照xhtml加入link标签</li>
+</ul>
+<h4 id="HTML插件优化、服务器、热更新"><a href="#HTML插件优化、服务器、热更新" class="headerlink" title="HTML插件优化、服务器、热更新"></a>HTML插件优化、服务器、热更新</h4>
       
     </div>
       <div id="remark"></div>
     <div class="article-info article-info-index">
       
-      <a href="/2019/03/14/learnTheSourceCode/" class="archive-article-date">
-  	<time datetime="2019-03-14T03:36:03.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-03-14</time>
+      <a href="/2019/07/05/webpackStudyQuick/" class="archive-article-date">
+  	<time datetime="2019-07-05T10:20:25.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-07-05</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端学习/">前端学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原创/">原创</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/源码/">源码</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack-4-0/">webpack 4.0</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack教程/">webpack教程</a></li></ul>
 	</div>
 
       
@@ -235,18 +287,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/05/27/applets-rich-text/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          小程序之rich-text如何生成渲染DOM
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/03/13/javascriptPrototype/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">前端设计模式之依赖倒置原则(DIP)</div>
+    <a href="/2019/07/04/webpackOptimization/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">webpack优化</div>
       <i class="icon-circle-right"></i>
     </a>
   
