@@ -165,6 +165,291 @@
       <div class="body-wrap">
           
   
+    <article id="post-wbpackDepthExplanation2" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/28/wbpackDepthExplanation2/">从0基础到大牛-webpack深入浅出超强完整版(二)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><abbr style="display:block;margin-top: -50px;font-size: 12px;color:#999;text-align: center;border-bottom: 1px dotted #999;">你可能只需要这一个教程</abbr></p>
+<h2 id="webpack小试牛刀-ES6-转-ES5"><a href="#webpack小试牛刀-ES6-转-ES5" class="headerlink" title="webpack小试牛刀 - ES6+ 转 ES5"></a>webpack小试牛刀 - ES6+ 转 ES5</h2><ul>
+<li>全局垫片 polyfill</li>
+</ul>
+<p>&emsp;&emsp;使用babel,需要下载 babel-loader @babel/core @babel/preset-env<br>&emsp;&emsp;<a href="https://webpack.js.org/loaders/babel-loader/" target="_blank" rel="noopener">babel-loader</a> 下载 <code>npm install -D babel-loader @babel/core @babel/preset-env webpack</code><br>&emsp;&emsp;配置如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="built_in">module</span>: &#123;</span><br><span class="line">        rules: [    </span><br><span class="line">          &#123;</span><br><span class="line">              test: <span class="regexp">/\.js$/</span>,            <span class="comment">// 正则 匹配规则</span></span><br><span class="line">              exclude: <span class="regexp">/node_modules/</span>,  <span class="comment">// 依赖文件已做过处理，无需再处理，节省打包时间</span></span><br><span class="line">              loader: <span class="string">"babel-loader"</span>,   <span class="comment">// 使用的loader</span></span><br><span class="line">              option: &#123;                 <span class="comment">// 配置  option的配置应参照使用的loader配置列表</span></span><br><span class="line">                  presets: [<span class="string">"@babel/preset-env"</span> ] </span><br><span class="line">              &#125;</span><br><span class="line">          &#125;  </span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;打包生成的文件中，ES6语法将会转为ES5语法<br>&emsp;&emsp;但并不是所有的ES6都可以被转化，ES6中一些内置API和功能（Promise set Map）、Object.assign等无法转化<br>&emsp;&emsp;如果想要实现上述这些方法，我们需要使用垫片库（polyfill）<code>npm install -D @babel/polyfill</code><br>&emsp;&emsp;直接引入垫片库，会将所有方法都加载进来<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"@babel/polyfill"</span>;</span><br><span class="line"><span class="keyword">const</span> arr = [<span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">()</span>=&gt;</span>&#123;&#125;),<span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">()</span>=&gt;</span>&#123;&#125;)];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 此时  Object.assign Set Map等方法也会被打入,生成文件骤然变大</span></span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;如何实现按需加载呢？需要配置如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="built_in">module</span>: &#123;</span><br><span class="line">        rules: [</span><br><span class="line">            &#123;</span><br><span class="line">                rule: <span class="regexp">/\.js$/</span>,</span><br><span class="line">                exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">                loader: <span class="string">"@babel-loader"</span>,</span><br><span class="line">                options: &#123;</span><br><span class="line">                    presets: [</span><br><span class="line">                        [<span class="string">"@babel/preset-env"</span>,&#123;</span><br><span class="line">                            <span class="string">"useBuiltIns"</span> : <span class="string">"usage"</span>, </span><br><span class="line">                            <span class="comment">// usage: 按需加载  页面无需引入"@babel/polyfill" </span></span><br><span class="line">                            <span class="comment">// entry: 按需加载  页面需手动引入 import "@babel/polyfill"</span></span><br><span class="line">                            <span class="comment">// 自测时发现 entry比usage打出的包更轻量</span></span><br><span class="line">                            </span><br><span class="line">                            <span class="string">"target"</span>: &#123;  <span class="comment">// 目标  针对浏览器版本打包</span></span><br><span class="line">                                ie: <span class="string">"9"</span></span><br><span class="line">                            &#125;    </span><br><span class="line">                        &#125;]</span><br><span class="line">                    ]</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>babel的全局配置<br>&emsp;&emsp;webpack中options的配置可以全部放置到babel全局配置文件中，其作用和用法完全一致。首先我们先将webpack中babel的options清除<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">        <span class="built_in">module</span>: &#123;</span><br><span class="line">            rules: [</span><br><span class="line">                &#123;</span><br><span class="line">                    rule: <span class="regexp">/\.js$/</span>,</span><br><span class="line">                    exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">                    loader: <span class="string">"@babel-loader"</span>,</span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&emsp;&emsp;根目录下新建babel配置文件: .babelrc 并配置如下(此处注意JSON写法)<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"presets"</span> : [[<span class="string">"@babel/preset-env"</span>,&#123;</span><br><span class="line">    <span class="attr">"useBuiltIns"</span>: <span class="string">"entry"</span>,</span><br><span class="line">    <span class="attr">"targets"</span>: &#123;</span><br><span class="line">      <span class="attr">"chrome"</span>: <span class="number">67</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;]]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>局部垫片 transform-runtime</li>
+</ul>
+<p>&emsp;&emsp;polyfill是一个全局的垫片，会将方法全部扩展到原型上。如果是开发库或者框架，就需要使用局部垫片。<br>&emsp;&emsp;下载<a href="https://babeljs.io/docs/en/babel-plugin-transform-runtime" target="_blank" rel="noopener">transform-runtime</a> <code>npm install --save-dev @babel/plugin-transform-runtime</code> 和 <code>npm install --save @babel/runtime</code><br>&emsp;&emsp;.babelrc配置如下<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"presets"</span> : [<span class="string">"@babel/preset-env"</span>],</span><br><span class="line">  <span class="attr">"plugins"</span>: [</span><br><span class="line">    [</span><br><span class="line">      <span class="string">"@babel/plugin-transform-runtime"</span>,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"absoluteRuntime"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">"corejs"</span>: <span class="literal">false</span>,  </span><br><span class="line">        <span class="attr">"helpers"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"regenerator"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"useESModules"</span>: <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;transform-runtime默认按需加载，无需配置<br>&emsp;&emsp;corejs可取值false，2，3或{ version: 2 | 3, proposals: boolean }，默认为false详见文档</p>
+<ul>
+<li>更改文件打包地址</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>); <span class="comment">// node</span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">module</span>.exports = &#123;</span><br><span class="line">        output:&#123;</span><br><span class="line">            filename: <span class="string">'[name].js'</span>,</span><br><span class="line">            path: path.resolve(__dirname,<span class="string">'dist'</span>), <span class="comment">// __dirname为当前文件路径 dist可更改为要打包的路径名 默认dist</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="string">``</span><span class="string">` </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">- 转换TS文件</span></span><br><span class="line"><span class="string">&amp;emsp;&amp;emsp;webpack支持[Typescript](https://webpack.js.org/guides/typescript/)打包，需先下载`</span>npm install --save-dev typescript ts-loader<span class="string">`</span></span><br><span class="line"><span class="string">&amp;emsp;&amp;emsp;根目录下新建ts配置文件：tsconfig.json 并配置如下</span></span><br><span class="line"><span class="string">`</span><span class="string">``</span>js    </span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"compilerOptions"</span>: &#123;</span><br><span class="line">        <span class="string">"module"</span>: <span class="string">"es6"</span>,  <span class="comment">// 模块的引入方式 es6|commonjs</span></span><br><span class="line">        <span class="string">"target"</span>: <span class="string">"es5"</span>,  <span class="comment">// 目标语法</span></span><br><span class="line">        <span class="string">"allowJs"</span>: <span class="literal">true</span>   <span class="comment">// 是否允许JS语法</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"include"</span>: [        <span class="comment">// 包含文件列表</span></span><br><span class="line">          <span class="string">"./src/"</span>,</span><br><span class="line">          <span class="string">"./"</span></span><br><span class="line">      ],</span><br><span class="line">      <span class="string">"exclude"</span>: [        <span class="comment">//  不包含的文件</span></span><br><span class="line">          <span class="string">"node_modules"</span></span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;并在webpack配置中新增loader<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">   <span class="built_in">module</span>: &#123;</span><br><span class="line">       rules: [</span><br><span class="line">           &#123;</span><br><span class="line">              test: <span class="regexp">/\.ts$/</span>,</span><br><span class="line">              loader: <span class="string">"ts-loader"</span>,</span><br><span class="line">              exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">           &#125;</span><br><span class="line">       ]</span><br><span class="line">   &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;<a href="https://microsoft.github.io/TypeSearch/" target="_blank" rel="noopener">TypeSearch类型约束查找地址</a></p>
+<ul>
+<li>图片打包</li>
+</ul>
+<p>&emsp;&emsp;下载<a href="https://webpack.js.org/loaders/file-loader/" target="_blank" rel="noopener">file-loader</a> <code>npm install file-loader --save-dev</code><br>&emsp;&emsp;webpack中新增图片转换的loader<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line"> <span class="built_in">module</span> : &#123;</span><br><span class="line">     rules : [</span><br><span class="line">         &#123;</span><br><span class="line">            test: <span class="regexp">/\.(png|jpe?g|gif)/</span>,</span><br><span class="line">            use: &#123;</span><br><span class="line">               loader: <span class="string">"file-loader"</span>,</span><br><span class="line">               options:&#123;</span><br><span class="line">                   name: <span class="string">"[name]-[hash:5].[ext]"</span>,   <span class="comment">// name:图片名 ext:图片后缀名 hash:5 取Hash前5位值 默认文件名为hash:5</span></span><br><span class="line">                   outputPath: <span class="string">"images/"</span>            <span class="comment">// 输出文件夹(output.path)下 打包输出地址 </span></span><br><span class="line">               &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            exclude: <span class="regexp">/node_modules/</span></span><br><span class="line">         &#125;</span><br><span class="line">     ]</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;注：loader有多种引入写法<br>&emsp;&emsp;另一个插件<a href="https://webpack.js.org/loaders/url-loader/" target="_blank" rel="noopener">url-loader</a>包含file-loader,比file-loader更强大。<code>npm install -D url-loader</code><br>&emsp;&emsp;将上述配置file-loader改为url-loader,将不再生成image文件，会自动将图片转为base64位并注入js中。现在我们修改配置,限制转Base64大小<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line"> <span class="built_in">module</span> : &#123;</span><br><span class="line">     rules : [</span><br><span class="line">         &#123;</span><br><span class="line">            test: <span class="regexp">/\.(png|jpe?g|gif)/</span>,</span><br><span class="line">            use: &#123;</span><br><span class="line">               loader: <span class="string">"file-loader"</span>,</span><br><span class="line">               options:&#123;</span><br><span class="line">                   name: <span class="string">"[name]-[hash:5].[ext]"</span>,</span><br><span class="line">                   outputPath: <span class="string">"images/"</span>,  </span><br><span class="line">                   limit: <span class="number">1024</span> * <span class="number">1</span>            <span class="comment">//1024 = 1kb 低于1kb生成base64位，以减少http请求</span></span><br><span class="line">               &#125; </span><br><span class="line">            &#125;,   </span><br><span class="line">            exclude: <span class="regexp">/node_modules/</span></span><br><span class="line">         &#125;</span><br><span class="line">     ]</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/08/28/wbpackDepthExplanation2/" class="archive-article-date">
+  	<time datetime="2019-08-28T09:58:52.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-08-28</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack-4-0/">webpack 4.0</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack教程/">webpack教程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-wbpackDepthExplanation1" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/15/wbpackDepthExplanation1/">从0基础到大牛-webpack深入浅出超强完整版(一)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><abbr style="display:block;margin-top: -50px;font-size: 12px;color:#999;text-align: center;border-bottom: 1px dotted #999;">你可能只需要这一个教程</abbr></p>
+<h2 id="webpack介绍"><a href="#webpack介绍" class="headerlink" title="webpack介绍"></a>webpack介绍</h2><h6 id="1-webpack发展历程"><a href="#1-webpack发展历程" class="headerlink" title="1.webpack发展历程"></a>1.webpack发展历程</h6><p><abbr style="display:block;color: brown;">发布时间</abbr></p>
+<ul>
+<li>webpack &emsp; v1.x &emsp; 2014.02</li>
+<li>webpack &emsp; v2.x &emsp; 2017.01</li>
+<li>webpack &emsp; v3.x &emsp; 2017.06 </li>
+<li>webpack &emsp; v4.0 &emsp; 2018.05  &emsp; 稳定版4.32.2</li>
+<li>webpack &emsp; v5.x &emsp; 2019.xx  &emsp; 目前不是稳定的版本</li>
+</ul>
+<p><abbr style="display:block;color: brown;">模块化历程</abbr><br>&emsp;单页面应用(Vue React)都在用模块化</p>
+<p><abbr style="font-size: 13px;color: burlywood;font-weight:bold;">命名空间</abbr> </p>
+<p>&emsp;蛮荒时代的模块化<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;&#125;;</span><br><span class="line">obj.type = obj.type || &#123;&#125;;</span><br><span class="line">obj.type.method = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">obj.type.add = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">obj.type.sub = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">   </span><br><span class="line">obj.addin = obj.addin || &#123;&#125;;</span><br><span class="line">obj.addin.remove = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">obj.addin.append = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;AMD与CMD的中原逐鹿</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// AMD 异步加载 依赖前置 先加载后使用</span></span><br><span class="line"><span class="comment">// 需要库文件 - require.js</span></span><br><span class="line"><span class="comment">// 定义AMD模块  文件名amd</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line"><span class="meta">    'use strict'</span>;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        add: <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">          <span class="keyword">return</span> a + b;</span><br><span class="line">        &#125;,</span><br><span class="line">        sub: <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">          <span class="keyword">return</span> a - b;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 加载AMD模块</span></span><br><span class="line"><span class="built_in">require</span>([<span class="string">'moduleA'</span>,<span class="string">'moduleB'</span>,<span class="string">'amd'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">a,b,amd</span>) </span>&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(a);  <span class="comment">// a模块</span></span><br><span class="line">   <span class="built_in">console</span>.log(b);  <span class="comment">// b模块</span></span><br><span class="line">   </span><br><span class="line">   amd.add(<span class="number">1</span>,<span class="number">2</span>);   <span class="comment">// 调用amd</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CMD 同步加载 依赖后置 使用时引入 </span></span><br><span class="line"><span class="comment">// 需要库文件 - sea.js</span></span><br><span class="line"><span class="comment">// 定义CMD模块  文件名cmd</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params">require,exports,module</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> moduleA = <span class="built_in">require</span>(<span class="string">'moduleA'</span>);   <span class="comment">// 需要时引入</span></span><br><span class="line">    </span><br><span class="line">    exports = &#123;</span><br><span class="line">        add: <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">          <span class="keyword">return</span> a+b;</span><br><span class="line">        &#125;,</span><br><span class="line">        sub: <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">          <span class="keyword">return</span> a - b;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 加载CMD模块</span></span><br><span class="line">seajs.use([<span class="string">'cmd'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">cmd</span>) </span>&#123;</span><br><span class="line">    cmd.add(<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line">    cmd.sub(<span class="number">2</span>,<span class="number">3</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>&emsp;commonJS -  Node.js主要践行者<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一个文件就是一个模块 文件名common</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">20</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 导出方式 一</span></span><br><span class="line">modules.export = &#123;</span><br><span class="line">    a : a,</span><br><span class="line">    b : b,</span><br><span class="line">    fun : b</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 导出方式 二</span></span><br><span class="line"><span class="comment">// export.add = function()&#123;&#125;; ...</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过关键字require引入文件【相对路径/绝对路径引入】</span></span><br><span class="line"><span class="keyword">var</span> common = <span class="built_in">require</span>(<span class="string">'common'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(common.a);  <span class="comment">// 10</span></span><br></pre></td></tr></table></figure></p>
+<p>&emsp;官方科普最硬核 - ES Module(ES6的模块化)<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用方式 一</span></span><br><span class="line"><span class="comment">// 导出 文件名es1</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 引入</span></span><br><span class="line"><span class="keyword">import</span> &#123; a,add &#125; <span class="keyword">from</span> <span class="string">'es1'</span>;</span><br><span class="line">add(<span class="number">3</span>,<span class="number">5</span>);   <span class="comment">// 调用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用方式 二</span></span><br><span class="line"> <span class="comment">// 导出 文件名es2</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">const</span> b = &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">20</span>;  </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 引入</span></span><br><span class="line"><span class="keyword">import</span> b <span class="keyword">from</span> <span class="string">'es2'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(b);</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;<abbr style="color: red;font-weight: bold;">*</abbr>CSS模块化</p>
+<ul>
+<li>OOCSS(面向对象)</li>
+<li>AMCSS(属性模块)</li>
+</ul>
+<p><abbr style="display:block;color: brown;">webpack 4.32.2核心组成</abbr></p>
+<ul>
+<li>entry : 命令行中写入口，配置文件中 </li>
+<li>output</li>
+<li>module</li>
+<li>plugins</li>
+</ul>
+<p>&emsp;准备工作<br>&emsp;&emsp;卸载旧的webpack版本 <code>npm uninstall webpack -g</code><br>&emsp;&emsp;下载最新的版本 <code>npm install webpack -g</code><br>&emsp;&emsp;检查当前webpack版本 <code>webpack --version</code><br>&emsp;&emsp;需要在本地文件内下载webpack,初始化package.json文件 <code>npm init -y</code><br>&emsp;&emsp;去下载 webpack 和 webpack-cli,3.x 的版本是不需要 webpack-cli,webpack 中集成了 webpack-cli, 4.X以后没有集成<br>&emsp;&emsp;webpack4.x 以下的使用 webpack app.js 是可以的，4.x以后因为增加了一个多入口命令打包，需要指定出口文: <code>webpack app.js -o bundle.js</code><br>&emsp;&emsp;如果不加 –mode development 参数，默认是生产环境，会自动压缩代码<br>&emsp;&emsp;当前可下载的webpack版本 <code>npm info webpack</code> webpack-5.x-bate(公测的版本)</p>
+<p>&emsp;起手式<br>&emsp;&emsp;根目录下新建配置文件,默认配置文件为 webpack.config.js<br>&emsp;&emsp;你的第一个配置文件<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="comment">// 入口 相对文件地址</span></span><br><span class="line">    entry: <span class="string">'./app.js'</span>,</span><br><span class="line">    <span class="comment">// 出口</span></span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: <span class="string">'bundle.js'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    mode: <span class="string">"development"</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;执行命令webpack后会生成 /dist/bundle.js 文件<br>&emsp;&emsp;使用自定义名称的配置文件my-webpack-setting.js打包，请执行 <code>webpack --config my-webpack-setting.js</code></p>
+<ul>
+<li><p>多入口打包</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">   entry: [<span class="string">'app.js'</span>,<span class="string">'app1.js'</span>,<span class="string">'app2.js'</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自定义出口文件名打包</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: &#123;</span><br><span class="line">        main: <span class="string">'./app1.js'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: <span class="string">'[name].js'</span>,</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&emsp;&emsp;将生成 /dist/main.js 文件</p>
+<ul>
+<li>多入口多出口文件打包<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: &#123;</span><br><span class="line">        main: <span class="string">'./app.js'</span>,</span><br><span class="line">        select: <span class="string">'./my_select.js'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: <span class="string">'[name].js'</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&emsp;&emsp;将在dist文件夹下生成main.js与select.js<br>&emsp;&emsp;注：多入口对应多出口,多入口对应单一出口配置时将会报错</p>
+<ul>
+<li>ES6 module 打包<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  导出文件 es6.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 导入文件 app.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; add &#125; <span class="keyword">from</span> <span class="string">'./es6.js'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="number">4</span>,<span class="number">7</span>));   <span class="comment">// 11</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// webpack配置文件</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: &#123;</span><br><span class="line">        app: <span class="string">'./app.js'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: <span class="string">'[name].js'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    mode: <span class="string">"development"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&emsp;&emsp;结果生成 /dist/app.js 文件, 文件内包含 es6.js 与 app.js 代码</p>
+<ul>
+<li>CommonJS 打包<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 导出 common.js</span></span><br><span class="line"><span class="built_in">module</span>.exports =  &#123;</span><br><span class="line">  add : <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">  &#125;,</span><br><span class="line">  sub: <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">     <span class="keyword">return</span> a - b;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 导入 app.js</span></span><br><span class="line"><span class="keyword">const</span>  method = reqiore(<span class="string">'./common,js'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(method.add(<span class="number">4</span>,<span class="number">7</span>));   <span class="comment">// 11</span></span><br><span class="line"><span class="built_in">console</span>.log(method.sub(<span class="number">8</span>,<span class="number">3</span>));  <span class="comment">// 5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// webpack配置文件 同上</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&emsp;&emsp;结果生成 /dist/app.js 文件, 文件内包含 common.js 与 app.js 代码</p>
+<ul>
+<li>amd模块 打包</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 导出 amd.js</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params">require,factory</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">      mul: <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a * b;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 导入</span></span><br><span class="line"><span class="built_in">require</span>([<span class="string">'./amd.js'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">method</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(method.mul(<span class="number">10</span>,<span class="number">4</span>));   <span class="comment">// 40</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"> <span class="comment">// webpack配置文件 同上</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;dist文件夹下将生成 app.js与 0.js<br>&emsp;&emsp;0.js异步加载的内容(amd.js内容)</p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/08/15/wbpackDepthExplanation1/" class="archive-article-date">
+  	<time datetime="2019-08-15T07:20:27.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-08-15</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack-4-0/">webpack 4.0</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack教程/">webpack教程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-javascriptPrototype" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/13/javascriptPrototype/">前端设计模式之依赖倒置原则(DIP)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h6 id="前端原型的个人猜想"><a href="#前端原型的个人猜想" class="headerlink" title="前端原型的个人猜想"></a>前端原型的个人猜想</h6><p>&emsp;&emsp;相信每个学习javaScript的同僚,一定对一个说法非常熟悉『一切皆对象』.</p>
+<p>&emsp;&emsp;这个说法很好的将我们从现实社会连接进了程序世界，同时也解释了程序界很多古怪无法理解的东西.</p>
+<p>&emsp;&emsp;而事实真是这样么？在我写了这么久代码之后，我反而对javaScript最基本的东西产生了越发的迷茫和混乱.</p>
+<p>&emsp;&emsp;像隐式转换、原型链的继承这种更是完全无法想通，当我看到null和undefined时鬼知道我的脑子会爆炸出什么,最后扭合到一起，变成一堆的问号…</p>
+<p>&emsp;&emsp;现在我希望彻底能搞清祖师爷在创造javaScript是究竟是怎样的思路，这对我来说很难，但我知道当我搞清楚这个问题时，会有一个很大的飞跃，我不应该继续『不了解但不影响工作』在的舒适区混下去.</p>
+<p>&emsp;&emsp;感谢jQuery的源码，让我有了共享原型的概念，不然我一定会强制要求原型链必须是个有唯一顶点的树状结构。</p>
+<p>&emsp;&emsp;*请注意下面代码中，一定要将Object.prototype和Function.prototype当成是独立的一部分</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.prototype.__proto__ == <span class="literal">null</span>   <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;这里我们知道了Object.prototype的原型链向上指向是null，注意我没有说它继承自null,因为null是个很特别的类型，我们都知道原型的本质是个对象，所以它应该继承自对象.<br>&emsp;&emsp;那这里怎么会是个null呢？我是猜想浏览器帮我们指向了null.<br>&emsp;&emsp;太好了，至少有一个封闭的点了！我们继续.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.__proto__ == <span class="built_in">Function</span>.prototype  <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;大声尖叫，Object竟然继承自Function.prototype,『一切皆对象』并不是最后的真像！就好比我们好不容易发现了真菌细菌这些肉眼看不见的小东西，转眼我们又发现了分子原子，难道大世界无限的在嵌套我们不知道的小世界么？</p>
+<p>&emsp;&emsp;好在程序世界的构成元素就是这几个，根本不存在宇宙这种无休无止的构成一说，但程序世界与现实世界还有一个最大的区别,叫做『自举』,这里我们可以简单理解为『我可以创造我自己』.</p>
+<p>&emsp;&emsp;有了上面代码，就下面代码的成立.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span> <span class="keyword">instanceof</span> <span class="built_in">Function</span> == <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;但是我们还知道</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span> <span class="keyword">instanceof</span> <span class="built_in">Object</span> == <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;这里是『我创造了我自己』么?不是的，这里完全是多绕了一步</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.__proto__ == <span class="built_in">Function</span>.prototype   <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Function</span>.prototype.__proto__ == <span class="built_in">Object</span>.prototype    <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;目前还没有出现Object，我们又回到了Object.prototype，而Object.prototype.<strong>proto</strong>等于null这件事我们在第一步就已经证实过了.</p>
+<p>&emsp;&emsp;问题出在哪呢？当然还是Object.prototype的继承问题！刚刚说过了Object.prototype很有可能是Object的实例,并保留了其继承关系，而浏览器对其赋值为null.</p>
+<p>&emsp;&emsp;这完全出自我的个人想法，因为如果不是这样，这条原型链的解释则都不成立.</p>
+<p>&emsp;&emsp;再看这个</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.__proto__ == <span class="built_in">Function</span>.prototype  <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;Function继承自自己</p>
+<pre><code>/* 这里非常明确了Object继承自Function.prototype */
+
+
+/*我们知道了上面代码的关系 下面这句就理所当然了*/
+
+
+/* 但我们还知道*/
+</code></pre>
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/08/13/javascriptPrototype/" class="archive-article-date">
+  	<time datetime="2019-08-13T07:09:30.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-08-13</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js原型/">js原型</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-webpackStudyQuick" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -559,92 +844,6 @@
 
 
   
-    <article id="post-javascriptPrototype" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/13/javascriptPrototype/">前端设计模式之依赖倒置原则(DIP)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h6 id="前端原型的个人猜想"><a href="#前端原型的个人猜想" class="headerlink" title="前端原型的个人猜想"></a>前端原型的个人猜想</h6><p>&emsp;&emsp;相信每个学习javaScript的同僚,一定对一个说法非常熟悉『一切皆对象』.</p>
-<p>&emsp;&emsp;这个说法很好的将我们从现实社会连接进了程序世界，同时也解释了程序界很多古怪无法理解的东西.</p>
-<p>&emsp;&emsp;而事实真是这样么？在我写了这么久代码之后，我反而对javaScript最基本的东西产生了越发的迷茫和混乱.</p>
-<p>&emsp;&emsp;像隐式转换、原型链的继承这种更是完全无法想通，当我看到null和undefined时鬼知道我的脑子会爆炸出什么,最后扭合到一起，变成一堆的问号…</p>
-<p>&emsp;&emsp;现在我希望彻底能搞清祖师爷在创造javaScript是究竟是怎样的思路，这对我来说很难，但我知道当我搞清楚这个问题时，会有一个很大的飞跃，我不应该继续『不了解但不影响工作』在的舒适区混下去.</p>
-<p>&emsp;&emsp;感谢jQuery的源码，让我有了共享原型的概念，不然我一定会强制要求原型链必须是个有唯一顶点的树状结构。</p>
-<p>&emsp;&emsp;*请注意下面代码中，一定要将Object.prototype和Function.prototype当成是独立的一部分</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.prototype.__proto__ == <span class="literal">null</span>   <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;这里我们知道了Object.prototype的原型链向上指向是null，注意我没有说它继承自null,因为null是个很特别的类型，我们都知道原型的本质是个对象，所以它应该继承自对象.<br>&emsp;&emsp;那这里怎么会是个null呢？我是猜想浏览器帮我们指向了null.<br>&emsp;&emsp;太好了，至少有一个封闭的点了！我们继续.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.__proto__ == <span class="built_in">Function</span>.prototype  <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;大声尖叫，Object竟然继承自Function.prototype,『一切皆对象』并不是最后的真像！就好比我们好不容易发现了真菌细菌这些肉眼看不见的小东西，转眼我们又发现了分子原子，难道大世界无限的在嵌套我们不知道的小世界么？</p>
-<p>&emsp;&emsp;好在程序世界的构成元素就是这几个，根本不存在宇宙这种无休无止的构成一说，但程序世界与现实世界还有一个最大的区别,叫做『自举』,这里我们可以简单理解为『我可以创造我自己』.</p>
-<p>&emsp;&emsp;有了上面代码，就下面代码的成立.</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span> <span class="keyword">instanceof</span> <span class="built_in">Function</span> == <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;但是我们还知道</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span> <span class="keyword">instanceof</span> <span class="built_in">Object</span> == <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;这里是『我创造了我自己』么?不是的，这里完全是多绕了一步</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.__proto__ == <span class="built_in">Function</span>.prototype   <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Function</span>.prototype.__proto__ == <span class="built_in">Object</span>.prototype    <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;目前还没有出现Object，我们又回到了Object.prototype，而Object.prototype.<strong>proto</strong>等于null这件事我们在第一步就已经证实过了.</p>
-<p>&emsp;&emsp;问题出在哪呢？当然还是Object.prototype的继承问题！刚刚说过了Object.prototype很有可能是Object的实例,并保留了其继承关系，而浏览器对其赋值为null.</p>
-<p>&emsp;&emsp;这完全出自我的个人想法，因为如果不是这样，这条原型链的解释则都不成立.</p>
-<p>&emsp;&emsp;再看这个</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.__proto__ == <span class="built_in">Function</span>.prototype  <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;Function继承自自己</p>
-<pre><code>/* 这里非常明确了Object继承自Function.prototype */
-
-
-/*我们知道了上面代码的关系 下面这句就理所当然了*/
-
-
-/* 但我们还知道*/
-</code></pre>
-      
-    </div>
-      <div id="remark"></div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2019/03/13/javascriptPrototype/" class="archive-article-date">
-  	<time datetime="2019-03-13T09:48:36.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-03-13</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js原型/">js原型</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
     <article id="post-regexp" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -997,129 +1196,6 @@
 
 
   
-    <article id="post-jquerySourceCode" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/05/jquerySourceCode/">手写jQuery源码</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;虽然jQuery的时代已经过去，但是jQuery漂亮的源码依然非常值得学习。<br>&emsp;&emsp;jQuery源码中很多方法已经不适用,例如数组相关的：类数组转数组的$.makeArray,数组判断$.isArray…等等，这些ES6都给我们封装到了Array对象中,但这不代表我们不应该去了解源码，去探索造源码的思想；<br>&emsp;&emsp;很长时间,我都对源码敬而远之,现在,我终于勇敢对它揭面。<br>&emsp;&emsp;感觉,一个新大陆扑面而来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br></pre></td><td class="code"><pre><span class="line">(function (root) &#123;</span><br><span class="line">    var testExp= /^(?:\s*(&lt;[\w\W]+&gt;)[^&gt;]*|#([\w-]*))$/,</span><br><span class="line">        rejectExp = /^&lt;(\w+)\s*\/?&gt;/,</span><br><span class="line">        rootjQuery;</span><br><span class="line"></span><br><span class="line">    var jQuery = function (selector,context) &#123;</span><br><span class="line">        return new jQuery.prototype.init(selector,context,rootjQuery);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    jQuery.fn = jQuery.prototype = &#123;</span><br><span class="line">        length: 0,</span><br><span class="line">        init: function( selector,context,rootjQuery )&#123;</span><br><span class="line">            var match,elem;</span><br><span class="line"></span><br><span class="line">            if(!selector)&#123;</span><br><span class="line">                return this;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if(typeof selector === &quot;string&quot;)&#123;</span><br><span class="line">                if(selector.charAt(0) === &quot;&lt;&quot; &amp;&amp; selector.charAt(selector.length -1) === &quot;&gt;&quot; &amp;&amp; selector.length &gt;= 3)&#123;</span><br><span class="line">                    match = [null,selector,null];</span><br><span class="line">                &#125;else&#123;</span><br><span class="line">                    match = testExp.exec(selector);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                if(match[1])&#123;</span><br><span class="line">                    jQuery.merge(this,jQuery.parseHTML(selector,context &amp;&amp; context.nodeType ? context : document));</span><br><span class="line">                &#125;else&#123;</span><br><span class="line">                    elem = document.getElementById(match[2]);</span><br><span class="line">                    if(elem &amp;&amp; elem.nodeType)&#123;</span><br><span class="line">                        this.length = 1;</span><br><span class="line">                        this[0] = elem;</span><br><span class="line">                    &#125;</span><br><span class="line">                    this.context =  document;</span><br><span class="line">                    this.selector = selector;</span><br><span class="line">                    return this;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;else if(selector.nodeType)&#123;</span><br><span class="line">                this.context = this[0] = selector;</span><br><span class="line">                this.length = 1;</span><br><span class="line">                return this;</span><br><span class="line">            &#125;else if(jQuery.isFunction(selector)) &#123;</span><br><span class="line">                rootjQuery.ready(selector)</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;,</span><br><span class="line">        ready: function (fn) &#123;</span><br><span class="line">            document.addEventListener(&quot;DOMContentLoaded&quot;,jQuery.ready);</span><br><span class="line">            if(jQuery.isReady)&#123;</span><br><span class="line">                fn.call(document,jQuery);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                jQuery.readyList.push(fn);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    jQuery.fn.init.prototype = jQuery.fn;</span><br><span class="line"></span><br><span class="line">    jQuery.extend = jQuery.fn.extend = function () &#123;</span><br><span class="line">        var target = arguments[0] || &#123;&#125;,</span><br><span class="line">            length = arguments.length,</span><br><span class="line">            copyIsArray = false,</span><br><span class="line">            deep = false,</span><br><span class="line">            option,</span><br><span class="line">            clone,</span><br><span class="line">            copy,</span><br><span class="line">            src,</span><br><span class="line">            name,</span><br><span class="line">            i = 1;</span><br><span class="line"></span><br><span class="line">        if(typeof arguments[0] === &quot;boolean&quot;)&#123;</span><br><span class="line">            deep = target;</span><br><span class="line">            target = arguments[i];</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if(typeof target !== &quot;object&quot;)&#123;</span><br><span class="line">            target = &#123;&#125;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if(length === i)&#123;</span><br><span class="line">            target = this;</span><br><span class="line">            i--;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        for(;i&lt;length;i++)&#123;</span><br><span class="line">            if((option = arguments[i]) !== null)&#123;</span><br><span class="line">                for(name in option)&#123;</span><br><span class="line">                    src = target[name];</span><br><span class="line">                    copy = option[name];</span><br><span class="line">                    if(deep &amp;&amp; (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy))))&#123;</span><br><span class="line">                        if(copyIsArray)&#123;</span><br><span class="line">                            copyIsArray = false;</span><br><span class="line">                            clone = src &amp;&amp; jQuery.isArray(src) ? src : [];</span><br><span class="line">                        &#125;else&#123;</span><br><span class="line">                            clone = src &amp;&amp; jQuery.isPlainObject(src) ? src : &#123;&#125;;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        target[name] = jQuery.extend(deep,clone,copy);</span><br><span class="line"></span><br><span class="line">                    &#125;else if(copy !== undefined)&#123;</span><br><span class="line">                        target[name] = copy;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return target;</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    jQuery.extend(&#123;</span><br><span class="line">        isPlainObject: function (obj) &#123;</span><br><span class="line">            return toString.call(obj) === &quot;[object Object]&quot;;</span><br><span class="line">        &#125;,</span><br><span class="line">        isArray: function (obj) &#123;</span><br><span class="line">            return toString.call(obj) === &quot;[object Array]&quot;;</span><br><span class="line">        &#125;,</span><br><span class="line">        isFunction: function (seletor) &#123;</span><br><span class="line">            return typeof seletor === &quot;function&quot;;</span><br><span class="line">        &#125;,</span><br><span class="line">        markArray: function (arr) &#123;</span><br><span class="line">            var result = [];</span><br><span class="line">            if(arr &amp;&amp; arr.length)&#123;</span><br><span class="line">                return jQuery.merge(result,arr);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        merge: function (arg1,arg2) &#123;</span><br><span class="line">            var i = arg1.length,</span><br><span class="line">                l = arg2.length,</span><br><span class="line">                j = 0;</span><br><span class="line"></span><br><span class="line">            if(typeof l === &quot;number&quot;)&#123;</span><br><span class="line">                for(;j&lt;l;)&#123;</span><br><span class="line">                    arg1[i++] = arg2[j++];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                while(arg2[j] !== undefined)&#123;</span><br><span class="line">                    arg1[i++] = arg2[j++];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            return arg1;</span><br><span class="line">        &#125;,</span><br><span class="line">        parseHTML: function (data,context) &#123;</span><br><span class="line">            if(!data || typeof data !== &quot;string&quot;)&#123;</span><br><span class="line">                return null;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            var parse = rejectExp.exec(data);</span><br><span class="line">            return [context.createElement(parse[1])];</span><br><span class="line">        &#125;,</span><br><span class="line">        each: function (object,callback,args) &#123;</span><br><span class="line">            var length = object.length,</span><br><span class="line">                name,i = 0;</span><br><span class="line"></span><br><span class="line">            if(args)&#123;</span><br><span class="line">                if(length === undefined)&#123;</span><br><span class="line">                    for(name in object)&#123;</span><br><span class="line">                        callback.apply(object,args);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;else&#123;</span><br><span class="line">                    for(;i&lt;length;)&#123;</span><br><span class="line">                        callback.apply(object[i++],args);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                if(length === undefined)&#123;</span><br><span class="line">                    for(name in object)&#123;</span><br><span class="line">                        callback.call(object,name,object[name]);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;else&#123;</span><br><span class="line">                    for(;i&lt;length;i++)&#123;</span><br><span class="line">                        callback.call(object[i],i,object[i]);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;,</span><br><span class="line">        isReady: false,</span><br><span class="line">        readyList : [],</span><br><span class="line">        ready: function () &#123;</span><br><span class="line">            jQuery.isReady = true;</span><br><span class="line">            jQuery.each(jQuery.readyList,function (key,value) &#123;</span><br><span class="line">                this.call(document);</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            jQuery.readyList = [];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    rootjQuery = jQuery(document);</span><br><span class="line">    root.$ = root.jQuery = jQuery;</span><br><span class="line">&#125;)(this);</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-      <div id="remark"></div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/11/05/jquerySourceCode/" class="archive-article-date">
-  	<time datetime="2018-11-05T09:21:13.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-11-05</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery源码/">jQuery源码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原创/">原创</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-designPatternsOCP" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/29/designPatternsOCP/">前端设计模式之开闭原则(OCP)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h6 id="译注：本文作者愤怒的韭菜"><a href="#译注：本文作者愤怒的韭菜" class="headerlink" title="译注：本文作者愤怒的韭菜"></a>译注：本文作者<a href="https://blog.csdn.net/zhengzhb/article/details/7296944" target="_blank" rel="noopener">愤怒的韭菜</a></h6><p>&emsp;&emsp;<abbr style="font-weight:bold;">定义:</abbr><br>&emsp;&emsp;一个软件实体如类、模块和函数应该对扩展开放，对修改关闭。</p>
-<p>&emsp;&emsp;<abbr style="font-weight:bold;">问题由来:</abbr><br>&emsp;&emsp;在软件的生命周期内，因为变化、升级和维护等原因需要对软件原有代码进行修改时，可能会给旧代码中引入错误，也可能会使我们不得不对整个功能进行重构，并且需要原有代码经过重新测试。</p>
-<p>&emsp;&emsp;<abbr style="font-weight:bold;">解决方案:</abbr><br>&emsp;&emsp;当软件需要变化时，尽量通过扩展软件实体的行为来实现变化，而不是通过修改已有的代码来实现变化。</p>
-<p>&emsp;&emsp;开闭原则是面向对象设计中最基础的设计原则，它指导我们如何建立稳定灵活的系统。开闭原则可能是设计模式六项原则中定义最模糊的一个了，它只告诉我们对扩展开放，对修改关闭，可是到底如何才能做到对扩展开放，对修改关闭，并没有明确的告诉我们。以前，如果有人告诉我“你进行设计的时候一定要遵守开闭原则”，我会觉的他什么都没说，但貌似又什么都说了。因为开闭原则真的太虚了。</p>
-<p>&emsp;&emsp;在仔细思考以及仔细阅读很多设计模式的文章后，终于对开闭原则有了一点认识。其实，我们遵循设计模式前面5大原则，以及使用23种设计模式的目的就是遵循开闭原则。也就是说，只要我们对前面5项原则遵守的好了，设计出的软件自然是符合开闭原则的，这个开闭原则更像是前面五项原则遵守程度的“平均得分”，前面5项原则遵守的好，平均分自然就高，说明软件设计开闭原则遵守的好；如果前面5项原则遵守的不好，则说明开闭原则遵守的不好。</p>
-<p>&emsp;&emsp;其实笔者认为，开闭原则无非就是想表达这样一层意思：用抽象构建框架，用实现扩展细节。因为抽象灵活性好，适应性广，只要抽象的合理，可以基本保持软件架构的稳定。而软件中易变的细节，我们用从抽象派生的实现类来进行扩展，当软件需要发生变化时，我们只需要根据需求重新派生一个实现类来扩展就可以了。当然前提是我们的抽象要合理，要对需求的变更有前瞻性和预见性才行。</p>
-<p>&emsp;&emsp;说到这里，再回想一下前面说的5项原则，恰恰是告诉我们用抽象构建框架，用实现扩展细节的注意事项而已：单一职责原则告诉我们实现类要职责单一；里氏替换原则告诉我们不要破坏继承体系；依赖倒置原则告诉我们要面向接口编程；接口隔离原则告诉我们在设计接口的时候要精简单一；迪米特法则告诉我们要降低耦合。而开闭原则是总纲，他告诉我们要对扩展开放，对修改关闭。</p>
-<p>&emsp;&emsp;最后说明一下如何去遵守这六个原则。对这六个原则的遵守并不是是和否的问题，而是多和少的问题，也就是说，我们一般不会说有没有遵守，而是说遵守程度的多少。任何事都是过犹不及，设计模式的六个设计原则也是一样，制定这六个原则的目的并不是要我们刻板的遵守他们，而需要根据实际情况灵活运用。对他们的遵守程度只要在一个合理的范围内，就算是良好的设计。我们用一幅图来说明一下。</p>
-<p><img src="https://cdn.longdai.com/assets/20180929/0fee8c98bba4190bc1eab1a7321bd52f.gif" alt=""></p>
-<p>&emsp;&emsp;图中的每一条维度各代表一项原则，我们依据对这项原则的遵守程度在维度上画一个点，则如果对这项原则遵守的合理的话，这个点应该落在红色的同心圆内部；如果遵守的差，点将会在小圆内部；如果过度遵守，点将会落在大圆外部。一个良好的设计体现在图中，应该是六个顶点都在同心圆中的六边形。</p>
-<p><img src="https://cdn.longdai.com/assets/20180929/f0b230fb42289b41ea4b4e3bf7cde9d5.gif" alt=""></p>
-<p>&emsp;&emsp;在上图中，设计1、设计2属于良好的设计，他们对六项原则的遵守程度都在合理的范围内；设计3、设计4设计虽然有些不足，但也基本可以接受；设计5则严重不足，对各项原则都没有很好的遵守；而设计6则遵守过渡了，设计5和设计6都是迫切需要重构的设计。</p>
-
-      
-    </div>
-      <div id="remark"></div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/09/29/designPatternsOCP/" class="archive-article-date">
-  	<time datetime="2018-09-29T09:29:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-29</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端设计模式/">前端设计模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开闭原则/">开闭原则</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1184,7 +1260,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/FHS/" style="font-size: 12px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/jQuery源码/" style="font-size: 10px;">jQuery源码</a> <a href="/tags/js原型/" style="font-size: 10px;">js原型</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 12px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/rich-text/" style="font-size: 10px;">rich-text</a> <a href="/tags/underscore/" style="font-size: 10px;">underscore</a> <a href="/tags/underscore源码/" style="font-size: 10px;">underscore源码</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/webpack/" style="font-size: 12px;">webpack</a> <a href="/tags/webpack-4-0/" style="font-size: 10px;">webpack 4.0</a> <a href="/tags/webpack优化/" style="font-size: 10px;">webpack优化</a> <a href="/tags/webpack教程/" style="font-size: 10px;">webpack教程</a> <a href="/tags/依赖倒置原则/" style="font-size: 12px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 12px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端打包工具/" style="font-size: 10px;">前端打包工具</a> <a href="/tags/前端设计模式/" style="font-size: 18px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 16px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/源码/" style="font-size: 14px;">源码</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
+    				<a href="/tags/FHS/" style="font-size: 11.67px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/jQuery源码/" style="font-size: 10px;">jQuery源码</a> <a href="/tags/js原型/" style="font-size: 10px;">js原型</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/rich-text/" style="font-size: 10px;">rich-text</a> <a href="/tags/underscore/" style="font-size: 10px;">underscore</a> <a href="/tags/underscore源码/" style="font-size: 10px;">underscore源码</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/webpack/" style="font-size: 15px;">webpack</a> <a href="/tags/webpack-4-0/" style="font-size: 13.33px;">webpack 4.0</a> <a href="/tags/webpack优化/" style="font-size: 10px;">webpack优化</a> <a href="/tags/webpack教程/" style="font-size: 13.33px;">webpack教程</a> <a href="/tags/依赖倒置原则/" style="font-size: 11.67px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 11.67px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端打包工具/" style="font-size: 10px;">前端打包工具</a> <a href="/tags/前端设计模式/" style="font-size: 18.33px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 16.67px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/源码/" style="font-size: 13.33px;">源码</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
     			</div>
     	</section>
     

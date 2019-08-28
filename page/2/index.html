@@ -165,6 +165,129 @@
       <div class="body-wrap">
           
   
+    <article id="post-jquerySourceCode" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/05/jquerySourceCode/">手写jQuery源码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;虽然jQuery的时代已经过去，但是jQuery漂亮的源码依然非常值得学习。<br>&emsp;&emsp;jQuery源码中很多方法已经不适用,例如数组相关的：类数组转数组的$.makeArray,数组判断$.isArray…等等，这些ES6都给我们封装到了Array对象中,但这不代表我们不应该去了解源码，去探索造源码的思想；<br>&emsp;&emsp;很长时间,我都对源码敬而远之,现在,我终于勇敢对它揭面。<br>&emsp;&emsp;感觉,一个新大陆扑面而来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br></pre></td><td class="code"><pre><span class="line">(function (root) &#123;</span><br><span class="line">    var testExp= /^(?:\s*(&lt;[\w\W]+&gt;)[^&gt;]*|#([\w-]*))$/,</span><br><span class="line">        rejectExp = /^&lt;(\w+)\s*\/?&gt;/,</span><br><span class="line">        rootjQuery;</span><br><span class="line"></span><br><span class="line">    var jQuery = function (selector,context) &#123;</span><br><span class="line">        return new jQuery.prototype.init(selector,context,rootjQuery);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    jQuery.fn = jQuery.prototype = &#123;</span><br><span class="line">        length: 0,</span><br><span class="line">        init: function( selector,context,rootjQuery )&#123;</span><br><span class="line">            var match,elem;</span><br><span class="line"></span><br><span class="line">            if(!selector)&#123;</span><br><span class="line">                return this;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if(typeof selector === &quot;string&quot;)&#123;</span><br><span class="line">                if(selector.charAt(0) === &quot;&lt;&quot; &amp;&amp; selector.charAt(selector.length -1) === &quot;&gt;&quot; &amp;&amp; selector.length &gt;= 3)&#123;</span><br><span class="line">                    match = [null,selector,null];</span><br><span class="line">                &#125;else&#123;</span><br><span class="line">                    match = testExp.exec(selector);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                if(match[1])&#123;</span><br><span class="line">                    jQuery.merge(this,jQuery.parseHTML(selector,context &amp;&amp; context.nodeType ? context : document));</span><br><span class="line">                &#125;else&#123;</span><br><span class="line">                    elem = document.getElementById(match[2]);</span><br><span class="line">                    if(elem &amp;&amp; elem.nodeType)&#123;</span><br><span class="line">                        this.length = 1;</span><br><span class="line">                        this[0] = elem;</span><br><span class="line">                    &#125;</span><br><span class="line">                    this.context =  document;</span><br><span class="line">                    this.selector = selector;</span><br><span class="line">                    return this;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;else if(selector.nodeType)&#123;</span><br><span class="line">                this.context = this[0] = selector;</span><br><span class="line">                this.length = 1;</span><br><span class="line">                return this;</span><br><span class="line">            &#125;else if(jQuery.isFunction(selector)) &#123;</span><br><span class="line">                rootjQuery.ready(selector)</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;,</span><br><span class="line">        ready: function (fn) &#123;</span><br><span class="line">            document.addEventListener(&quot;DOMContentLoaded&quot;,jQuery.ready);</span><br><span class="line">            if(jQuery.isReady)&#123;</span><br><span class="line">                fn.call(document,jQuery);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                jQuery.readyList.push(fn);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    jQuery.fn.init.prototype = jQuery.fn;</span><br><span class="line"></span><br><span class="line">    jQuery.extend = jQuery.fn.extend = function () &#123;</span><br><span class="line">        var target = arguments[0] || &#123;&#125;,</span><br><span class="line">            length = arguments.length,</span><br><span class="line">            copyIsArray = false,</span><br><span class="line">            deep = false,</span><br><span class="line">            option,</span><br><span class="line">            clone,</span><br><span class="line">            copy,</span><br><span class="line">            src,</span><br><span class="line">            name,</span><br><span class="line">            i = 1;</span><br><span class="line"></span><br><span class="line">        if(typeof arguments[0] === &quot;boolean&quot;)&#123;</span><br><span class="line">            deep = target;</span><br><span class="line">            target = arguments[i];</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if(typeof target !== &quot;object&quot;)&#123;</span><br><span class="line">            target = &#123;&#125;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if(length === i)&#123;</span><br><span class="line">            target = this;</span><br><span class="line">            i--;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        for(;i&lt;length;i++)&#123;</span><br><span class="line">            if((option = arguments[i]) !== null)&#123;</span><br><span class="line">                for(name in option)&#123;</span><br><span class="line">                    src = target[name];</span><br><span class="line">                    copy = option[name];</span><br><span class="line">                    if(deep &amp;&amp; (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy))))&#123;</span><br><span class="line">                        if(copyIsArray)&#123;</span><br><span class="line">                            copyIsArray = false;</span><br><span class="line">                            clone = src &amp;&amp; jQuery.isArray(src) ? src : [];</span><br><span class="line">                        &#125;else&#123;</span><br><span class="line">                            clone = src &amp;&amp; jQuery.isPlainObject(src) ? src : &#123;&#125;;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        target[name] = jQuery.extend(deep,clone,copy);</span><br><span class="line"></span><br><span class="line">                    &#125;else if(copy !== undefined)&#123;</span><br><span class="line">                        target[name] = copy;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return target;</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    jQuery.extend(&#123;</span><br><span class="line">        isPlainObject: function (obj) &#123;</span><br><span class="line">            return toString.call(obj) === &quot;[object Object]&quot;;</span><br><span class="line">        &#125;,</span><br><span class="line">        isArray: function (obj) &#123;</span><br><span class="line">            return toString.call(obj) === &quot;[object Array]&quot;;</span><br><span class="line">        &#125;,</span><br><span class="line">        isFunction: function (seletor) &#123;</span><br><span class="line">            return typeof seletor === &quot;function&quot;;</span><br><span class="line">        &#125;,</span><br><span class="line">        markArray: function (arr) &#123;</span><br><span class="line">            var result = [];</span><br><span class="line">            if(arr &amp;&amp; arr.length)&#123;</span><br><span class="line">                return jQuery.merge(result,arr);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        merge: function (arg1,arg2) &#123;</span><br><span class="line">            var i = arg1.length,</span><br><span class="line">                l = arg2.length,</span><br><span class="line">                j = 0;</span><br><span class="line"></span><br><span class="line">            if(typeof l === &quot;number&quot;)&#123;</span><br><span class="line">                for(;j&lt;l;)&#123;</span><br><span class="line">                    arg1[i++] = arg2[j++];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                while(arg2[j] !== undefined)&#123;</span><br><span class="line">                    arg1[i++] = arg2[j++];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            return arg1;</span><br><span class="line">        &#125;,</span><br><span class="line">        parseHTML: function (data,context) &#123;</span><br><span class="line">            if(!data || typeof data !== &quot;string&quot;)&#123;</span><br><span class="line">                return null;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            var parse = rejectExp.exec(data);</span><br><span class="line">            return [context.createElement(parse[1])];</span><br><span class="line">        &#125;,</span><br><span class="line">        each: function (object,callback,args) &#123;</span><br><span class="line">            var length = object.length,</span><br><span class="line">                name,i = 0;</span><br><span class="line"></span><br><span class="line">            if(args)&#123;</span><br><span class="line">                if(length === undefined)&#123;</span><br><span class="line">                    for(name in object)&#123;</span><br><span class="line">                        callback.apply(object,args);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;else&#123;</span><br><span class="line">                    for(;i&lt;length;)&#123;</span><br><span class="line">                        callback.apply(object[i++],args);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                if(length === undefined)&#123;</span><br><span class="line">                    for(name in object)&#123;</span><br><span class="line">                        callback.call(object,name,object[name]);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;else&#123;</span><br><span class="line">                    for(;i&lt;length;i++)&#123;</span><br><span class="line">                        callback.call(object[i],i,object[i]);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;,</span><br><span class="line">        isReady: false,</span><br><span class="line">        readyList : [],</span><br><span class="line">        ready: function () &#123;</span><br><span class="line">            jQuery.isReady = true;</span><br><span class="line">            jQuery.each(jQuery.readyList,function (key,value) &#123;</span><br><span class="line">                this.call(document);</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            jQuery.readyList = [];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    rootjQuery = jQuery(document);</span><br><span class="line">    root.$ = root.jQuery = jQuery;</span><br><span class="line">&#125;)(this);</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/11/05/jquerySourceCode/" class="archive-article-date">
+  	<time datetime="2018-11-05T09:21:13.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-11-05</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/">jQuery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery源码/">jQuery源码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原创/">原创</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-designPatternsOCP" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/29/designPatternsOCP/">前端设计模式之开闭原则(OCP)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h6 id="译注：本文作者愤怒的韭菜"><a href="#译注：本文作者愤怒的韭菜" class="headerlink" title="译注：本文作者愤怒的韭菜"></a>译注：本文作者<a href="https://blog.csdn.net/zhengzhb/article/details/7296944" target="_blank" rel="noopener">愤怒的韭菜</a></h6><p>&emsp;&emsp;<abbr style="font-weight:bold;">定义:</abbr><br>&emsp;&emsp;一个软件实体如类、模块和函数应该对扩展开放，对修改关闭。</p>
+<p>&emsp;&emsp;<abbr style="font-weight:bold;">问题由来:</abbr><br>&emsp;&emsp;在软件的生命周期内，因为变化、升级和维护等原因需要对软件原有代码进行修改时，可能会给旧代码中引入错误，也可能会使我们不得不对整个功能进行重构，并且需要原有代码经过重新测试。</p>
+<p>&emsp;&emsp;<abbr style="font-weight:bold;">解决方案:</abbr><br>&emsp;&emsp;当软件需要变化时，尽量通过扩展软件实体的行为来实现变化，而不是通过修改已有的代码来实现变化。</p>
+<p>&emsp;&emsp;开闭原则是面向对象设计中最基础的设计原则，它指导我们如何建立稳定灵活的系统。开闭原则可能是设计模式六项原则中定义最模糊的一个了，它只告诉我们对扩展开放，对修改关闭，可是到底如何才能做到对扩展开放，对修改关闭，并没有明确的告诉我们。以前，如果有人告诉我“你进行设计的时候一定要遵守开闭原则”，我会觉的他什么都没说，但貌似又什么都说了。因为开闭原则真的太虚了。</p>
+<p>&emsp;&emsp;在仔细思考以及仔细阅读很多设计模式的文章后，终于对开闭原则有了一点认识。其实，我们遵循设计模式前面5大原则，以及使用23种设计模式的目的就是遵循开闭原则。也就是说，只要我们对前面5项原则遵守的好了，设计出的软件自然是符合开闭原则的，这个开闭原则更像是前面五项原则遵守程度的“平均得分”，前面5项原则遵守的好，平均分自然就高，说明软件设计开闭原则遵守的好；如果前面5项原则遵守的不好，则说明开闭原则遵守的不好。</p>
+<p>&emsp;&emsp;其实笔者认为，开闭原则无非就是想表达这样一层意思：用抽象构建框架，用实现扩展细节。因为抽象灵活性好，适应性广，只要抽象的合理，可以基本保持软件架构的稳定。而软件中易变的细节，我们用从抽象派生的实现类来进行扩展，当软件需要发生变化时，我们只需要根据需求重新派生一个实现类来扩展就可以了。当然前提是我们的抽象要合理，要对需求的变更有前瞻性和预见性才行。</p>
+<p>&emsp;&emsp;说到这里，再回想一下前面说的5项原则，恰恰是告诉我们用抽象构建框架，用实现扩展细节的注意事项而已：单一职责原则告诉我们实现类要职责单一；里氏替换原则告诉我们不要破坏继承体系；依赖倒置原则告诉我们要面向接口编程；接口隔离原则告诉我们在设计接口的时候要精简单一；迪米特法则告诉我们要降低耦合。而开闭原则是总纲，他告诉我们要对扩展开放，对修改关闭。</p>
+<p>&emsp;&emsp;最后说明一下如何去遵守这六个原则。对这六个原则的遵守并不是是和否的问题，而是多和少的问题，也就是说，我们一般不会说有没有遵守，而是说遵守程度的多少。任何事都是过犹不及，设计模式的六个设计原则也是一样，制定这六个原则的目的并不是要我们刻板的遵守他们，而需要根据实际情况灵活运用。对他们的遵守程度只要在一个合理的范围内，就算是良好的设计。我们用一幅图来说明一下。</p>
+<p><img src="https://cdn.longdai.com/assets/20180929/0fee8c98bba4190bc1eab1a7321bd52f.gif" alt=""></p>
+<p>&emsp;&emsp;图中的每一条维度各代表一项原则，我们依据对这项原则的遵守程度在维度上画一个点，则如果对这项原则遵守的合理的话，这个点应该落在红色的同心圆内部；如果遵守的差，点将会在小圆内部；如果过度遵守，点将会落在大圆外部。一个良好的设计体现在图中，应该是六个顶点都在同心圆中的六边形。</p>
+<p><img src="https://cdn.longdai.com/assets/20180929/f0b230fb42289b41ea4b4e3bf7cde9d5.gif" alt=""></p>
+<p>&emsp;&emsp;在上图中，设计1、设计2属于良好的设计，他们对六项原则的遵守程度都在合理的范围内；设计3、设计4设计虽然有些不足，但也基本可以接受；设计5则严重不足，对各项原则都没有很好的遵守；而设计6则遵守过渡了，设计5和设计6都是迫切需要重构的设计。</p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/09/29/designPatternsOCP/" class="archive-article-date">
+  	<time datetime="2018-09-29T09:29:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-29</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端设计模式/">前端设计模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开闭原则/">开闭原则</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-designPatternsLOD" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -377,6 +500,79 @@
 
 
   
+    <article id="post-designPatternsLSP" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/29/designPatternsLSP/">前端设计模式之里氏替换原则(LSP)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h6 id="译注：本文作者愤怒的韭菜"><a href="#译注：本文作者愤怒的韭菜" class="headerlink" title="译注：本文作者愤怒的韭菜"></a>译注：本文作者<a href="https://blog.csdn.net/zhengzhb/article/details/7281833" target="_blank" rel="noopener">愤怒的韭菜</a></h6><p>&emsp;&emsp;肯定有不少人跟我刚看到这项原则的时候一样，对这个原则的名字充满疑惑。其实原因就是这项原则最早是在1988年，由麻省理工学院的一位姓里的女士（Barbara Liskov）提出来的。</p>
+<p>&emsp;&emsp;<abbr style="font-weight:bold;">定义1:</abbr><br>&emsp;&emsp;如果对每一个类型为 T1的对象 o1，都有类型为 T2 的对象o2，使得以 T1定义的所有程序 P 在所有的对象 o1 都代换成 o2 时，程序 P 的行为没有发生变化，那么类型 T2 是类型 T1 的子类型。</p>
+<p>&emsp;&emsp;<abbr style="font-weight:bold;">定义2:</abbr><br>&emsp;&emsp;所有引用基类的地方必须能透明地使用其子类的对象。</p>
+<p>&emsp;&emsp;<abbr style="font-weight:bold;">问题由来:</abbr><br>&emsp;&emsp;有一功能P1，由类A完成。现需要将功能P1进行扩展，扩展后的功能为P，其中P由原有功能P1与新功能P2组成。新功能P由类A的子类B来完成，则子类B在完成新功能P2的同时，有可能会导致原有功能P1发生故障。</p>
+<p>&emsp;&emsp;<abbr style="font-weight:bold;">解决方案:</abbr><br>&emsp;&emsp;当使用继承时，遵循里氏替换原则。类B继承类A时，除添加新的方法完成新增功能P2外，尽量不要重写父类A的方法，也尽量不要重载父类A的方法。</p>
+<p>&emsp;&emsp;继承包含这样一层含义：父类中凡是已经实现好的方法（相对于抽象方法而言），实际上是在设定一系列的规范和契约，虽然它不强制要求所有的子类必须遵从这些契约，但是如果子类对这些非抽象方法任意修改，就会对整个继承体系造成破坏。而里氏替换原则就是表达了这一层含义。</p>
+<p>&emsp;&emsp;继承作为面向对象三大特性之一，在给程序设计带来巨大便利的同时，也带来了弊端。比如使用继承会给程序带来侵入性，程序的可移植性降低，增加了对象间的耦合性，如果一个类被其他的类所继承，则当这个类需要修改时，必须考虑到所有的子类，并且父类修改后，所有涉及到子类的功能都有可能会产生故障。</p>
+<p>&emsp;&emsp;举例说明继承的风险，我们需要完成一个两数相减的功能，由类A来负责。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class A&#123;</span><br><span class="line">    public int func1(int a,int b)&#123;</span><br><span class="line">        return a-b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Client&#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        A a = new A();</span><br><span class="line">        System.out.println(&quot;100-50=&quot;+a.func1(100, 50));</span><br><span class="line">        System.out.println(&quot;100-80=&quot;+a.func1(100, 80));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">100-50=50</span><br><span class="line">100-80=20</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;后来，我们需要增加一个新的功能：完成两数相加，然后再与100求和，由类B来负责。即类B需要完成两个功能：</p>
+<p>&emsp;&emsp; &gt; 两数相减。<br>&emsp;&emsp; &gt; 两数相加，然后再加100。</p>
+<p>&emsp;&emsp;由于类A已经实现了第一个功能，所以类B继承类A后，只需要再完成第二个功能就可以了，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class B extends A&#123;</span><br><span class="line">     public int func1(int a, int b)&#123;</span><br><span class="line">         return a+b;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     public int func2(int a, int b)&#123;</span><br><span class="line">         return func1(a,b)+100;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Client&#123;</span><br><span class="line">     public static void main(String[] args)&#123;</span><br><span class="line">         B b = new B();</span><br><span class="line">         System.out.println(&quot;100-50=&quot;+b.func1(100, 50));</span><br><span class="line">         System.out.println(&quot;100-80=&quot;+b.func1(100, 80));</span><br><span class="line">         System.out.println(&quot;100+20+100=&quot;+b.func2(100, 20));</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;类B完成后，运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">100-50=150</span><br><span class="line">100-80=180</span><br><span class="line">100+20+100=220</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;我们发现原本运行正常的相减功能发生了错误。原因就是类B在给方法起名时无意中重写了父类的方法，造成所有运行相减功能的代码全部调用了类B重写后的方法，造成原本运行正常的功能出现了错误。在本例中，引用基类A完成的功能，换成子类B之后，发生了异常。在实际编程中，我们常常会通过重写父类的方法来完成新的功能，这样写起来虽然简单，但是整个继承体系的可复用性会比较差，特别是运用多态比较频繁时，程序运行出错的几率非常大。如果非要重写父类的方法，比较通用的做法是：原来的父类和子类都继承一个更通俗的基类，原有的继承关系去掉，采用依赖、聚合，组合等关系代替。</p>
+<p>&emsp;&emsp;&gt; 里氏替换原则通俗的来讲就是：子类可以扩展父类的功能，但不能改变父类原有的功能。它包含以下4层含义<br>&emsp;&emsp;&gt; 子类可以实现父类的抽象方法，但不能覆盖父类的非抽象方法。<br>&emsp;&emsp;&gt; 子类中可以增加自己特有的方法。<br>&emsp;&emsp;&gt; 当子类的方法重载父类的方法时，方法的前置条件（即方法的形参）要比父类方法的输入参数更宽松。<br>&emsp;&emsp;&gt; 当子类的方法实现父类的抽象方法时，方法的后置条件（即方法的返回值）要比父类更严格。</p>
+<p>&emsp;&emsp;看上去很不可思议，因为我们会发现在自己编程中常常会违反里氏替换原则，程序照样跑的好好的。所以大家都会产生这样的疑问，假如我非要不遵循里氏替换原则会有什么后果？</p>
+<p>&emsp;&emsp;后果就是：你写的代码出问题的几率将会大大增加。</p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/09/29/designPatternsLSP/" class="archive-article-date">
+  	<time datetime="2018-09-29T06:46:46.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-29</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端设计模式/">前端设计模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/里氏替换原则/">里氏替换原则</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-designPatternsSRP" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -427,79 +623,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端设计模式/">前端设计模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单一职责原则/">单一职责原则</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-designPatternsLSP" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/29/designPatternsLSP/">前端设计模式之里氏替换原则(LSP)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h6 id="译注：本文作者愤怒的韭菜"><a href="#译注：本文作者愤怒的韭菜" class="headerlink" title="译注：本文作者愤怒的韭菜"></a>译注：本文作者<a href="https://blog.csdn.net/zhengzhb/article/details/7281833" target="_blank" rel="noopener">愤怒的韭菜</a></h6><p>&emsp;&emsp;肯定有不少人跟我刚看到这项原则的时候一样，对这个原则的名字充满疑惑。其实原因就是这项原则最早是在1988年，由麻省理工学院的一位姓里的女士（Barbara Liskov）提出来的。</p>
-<p>&emsp;&emsp;<abbr style="font-weight:bold;">定义1:</abbr><br>&emsp;&emsp;如果对每一个类型为 T1的对象 o1，都有类型为 T2 的对象o2，使得以 T1定义的所有程序 P 在所有的对象 o1 都代换成 o2 时，程序 P 的行为没有发生变化，那么类型 T2 是类型 T1 的子类型。</p>
-<p>&emsp;&emsp;<abbr style="font-weight:bold;">定义2:</abbr><br>&emsp;&emsp;所有引用基类的地方必须能透明地使用其子类的对象。</p>
-<p>&emsp;&emsp;<abbr style="font-weight:bold;">问题由来:</abbr><br>&emsp;&emsp;有一功能P1，由类A完成。现需要将功能P1进行扩展，扩展后的功能为P，其中P由原有功能P1与新功能P2组成。新功能P由类A的子类B来完成，则子类B在完成新功能P2的同时，有可能会导致原有功能P1发生故障。</p>
-<p>&emsp;&emsp;<abbr style="font-weight:bold;">解决方案:</abbr><br>&emsp;&emsp;当使用继承时，遵循里氏替换原则。类B继承类A时，除添加新的方法完成新增功能P2外，尽量不要重写父类A的方法，也尽量不要重载父类A的方法。</p>
-<p>&emsp;&emsp;继承包含这样一层含义：父类中凡是已经实现好的方法（相对于抽象方法而言），实际上是在设定一系列的规范和契约，虽然它不强制要求所有的子类必须遵从这些契约，但是如果子类对这些非抽象方法任意修改，就会对整个继承体系造成破坏。而里氏替换原则就是表达了这一层含义。</p>
-<p>&emsp;&emsp;继承作为面向对象三大特性之一，在给程序设计带来巨大便利的同时，也带来了弊端。比如使用继承会给程序带来侵入性，程序的可移植性降低，增加了对象间的耦合性，如果一个类被其他的类所继承，则当这个类需要修改时，必须考虑到所有的子类，并且父类修改后，所有涉及到子类的功能都有可能会产生故障。</p>
-<p>&emsp;&emsp;举例说明继承的风险，我们需要完成一个两数相减的功能，由类A来负责。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class A&#123;</span><br><span class="line">    public int func1(int a,int b)&#123;</span><br><span class="line">        return a-b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Client&#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        A a = new A();</span><br><span class="line">        System.out.println(&quot;100-50=&quot;+a.func1(100, 50));</span><br><span class="line">        System.out.println(&quot;100-80=&quot;+a.func1(100, 80));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">100-50=50</span><br><span class="line">100-80=20</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;后来，我们需要增加一个新的功能：完成两数相加，然后再与100求和，由类B来负责。即类B需要完成两个功能：</p>
-<p>&emsp;&emsp; &gt; 两数相减。<br>&emsp;&emsp; &gt; 两数相加，然后再加100。</p>
-<p>&emsp;&emsp;由于类A已经实现了第一个功能，所以类B继承类A后，只需要再完成第二个功能就可以了，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class B extends A&#123;</span><br><span class="line">     public int func1(int a, int b)&#123;</span><br><span class="line">         return a+b;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     public int func2(int a, int b)&#123;</span><br><span class="line">         return func1(a,b)+100;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Client&#123;</span><br><span class="line">     public static void main(String[] args)&#123;</span><br><span class="line">         B b = new B();</span><br><span class="line">         System.out.println(&quot;100-50=&quot;+b.func1(100, 50));</span><br><span class="line">         System.out.println(&quot;100-80=&quot;+b.func1(100, 80));</span><br><span class="line">         System.out.println(&quot;100+20+100=&quot;+b.func2(100, 20));</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;类B完成后，运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">100-50=150</span><br><span class="line">100-80=180</span><br><span class="line">100+20+100=220</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;我们发现原本运行正常的相减功能发生了错误。原因就是类B在给方法起名时无意中重写了父类的方法，造成所有运行相减功能的代码全部调用了类B重写后的方法，造成原本运行正常的功能出现了错误。在本例中，引用基类A完成的功能，换成子类B之后，发生了异常。在实际编程中，我们常常会通过重写父类的方法来完成新的功能，这样写起来虽然简单，但是整个继承体系的可复用性会比较差，特别是运用多态比较频繁时，程序运行出错的几率非常大。如果非要重写父类的方法，比较通用的做法是：原来的父类和子类都继承一个更通俗的基类，原有的继承关系去掉，采用依赖、聚合，组合等关系代替。</p>
-<p>&emsp;&emsp;&gt; 里氏替换原则通俗的来讲就是：子类可以扩展父类的功能，但不能改变父类原有的功能。它包含以下4层含义<br>&emsp;&emsp;&gt; 子类可以实现父类的抽象方法，但不能覆盖父类的非抽象方法。<br>&emsp;&emsp;&gt; 子类中可以增加自己特有的方法。<br>&emsp;&emsp;&gt; 当子类的方法重载父类的方法时，方法的前置条件（即方法的形参）要比父类方法的输入参数更宽松。<br>&emsp;&emsp;&gt; 当子类的方法实现父类的抽象方法时，方法的后置条件（即方法的返回值）要比父类更严格。</p>
-<p>&emsp;&emsp;看上去很不可思议，因为我们会发现在自己编程中常常会违反里氏替换原则，程序照样跑的好好的。所以大家都会产生这样的疑问，假如我非要不遵循里氏替换原则会有什么后果？</p>
-<p>&emsp;&emsp;后果就是：你写的代码出问题的几率将会大大增加。</p>
-
-      
-    </div>
-      <div id="remark"></div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/09/29/designPatternsLSP/" class="archive-article-date">
-  	<time datetime="2018-09-29T06:46:46.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-29</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端设计模式/">前端设计模式</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/里氏替换原则/">里氏替换原则</a></li></ul>
 	</div>
 
       
@@ -878,222 +1001,6 @@
 
 
   
-    <article id="post-studyWay" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/27/studyWay/">前端网老姚浅谈：怎么学JavaScript？</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>   &emsp;&emsp;鉴于时不时，有同学私信问我（老姚，下同）怎么学前端的问题。这里统一回复一下，如下次再遇到问我此问题同学，就直接把本文链接地址发给你了。</p>
-<p>   &emsp;&emsp;首先说句题外话。关于有人管我叫大神的事情。个人感觉这跟你买东西时，人家管你叫帅哥一样，你答应与否都无妨。</p>
-<p>   &emsp;&emsp;正题开始，“前端怎么学”应该因人而异，别人的方法未必适合自己。就说说我的学习方法吧：我把大部分时间放在学习js上了。因为这个js的学习曲线，先平后陡。项目实践和练习啥的，我不说了，主要说下工作之外的时间利用问题。我是怎么学的呢，看书，分析源码。个人这几天统计了一下，前端书籍目前看了50多本吧，大部分都是js的。市面上的书基本，差不多都看过。</p>
-<p>   <abbr title="" style="color:red;font-weight:bold;text-decoration: none;">第一个问题是，看书有啥好处？</abbr></p>
-<p>   &emsp;&emsp;好处应该是不言而明的，书看多了，基础会逐渐夯实起来。看多了，自己的判断力，自然就上来了。看别人的文章，就能很快判断出，对方每块儿讲得对不对，哪块儿又是自己不清楚的，模棱两可的。当然也为看源码，分析源码提供了基础。</p>
-<p>   &emsp;&emsp;<abbr title="" style="color:green;text-decoration: none;">10本书读2遍的好处，应该大于一本书读20遍</abbr>。10本书的交集，那就是基础知识的核心，而并集那就是所有的知识。好书当然要多读，反复读。但是只读一本是不行的。因为每本书的侧重点都不一样。从不同的侧面，去理解一个知识点，是很有意义的。</p>
-<p>   &emsp;&emsp;所以特别佩服印度人，他跟你讲英文，你一个词语没听懂，他会蹦出n个同一意思的单词，你听懂一个，就ok了。看书也是这样的，某一块讲得不透彻，不用担心，其他书籍可以帮助你来了解。</p>
-<p>   <abbr title="" style="color:red;font-weight:bold;text-decoration: none;">第二个问题是，书籍推荐。</abbr></p>
-<p>   &emsp;&emsp;个人觉得不错的，没事可以翻翻的。书籍如下：</p>
-<p>   &emsp;&emsp; <abbr title="" style="color:green;text-decoration: none;">&gt;《javascript面向对象编程指南》</abbr>，风格轻松易懂，比较适合初学者，原型那块儿讲得透彻，12种继承方式呢。</p>
-<p>   &emsp;&emsp; <abbr title="" style="color:green;text-decoration: none;">&gt;《js权威指南》、《js高级程序设计》</abbr>，这两本书经典是经典，但是太厚，适合把其中任意一章都当成一本书来读。洋洋洒洒，很难一口气看完。比较适合当做参考书。</p>
-<p>   &emsp;&emsp; <abbr title="" style="color:green;text-decoration: none;">&gt;《你不知道的javascript》</abbr>狙击js核心细节，闭包、原型、this讲得都还清楚。目前《中册》也出了，还在看。</p>
-<p>   &emsp;&emsp; <abbr title="" style="color:green;text-decoration: none;">&gt;《js设计模式与开发实践》</abbr>js设计模式也是要学的，此书把js的设计模式讲得非常清晰，一点不晦涩，看起来没多少难度。</p>
-<p>   &emsp;&emsp; <abbr title="" style="color:green;text-decoration: none;">&gt;《正则指引》</abbr>，分析源码时，如果正则表达式不懂，没法进行下去的。此书相对来说讲得比较清晰。</p>
-<p>   &emsp;&emsp; <abbr title="" style="color:green;text-decoration: none;">&gt;《基于MVC的JavaScript Web富应用开发》</abbr>，看完后，基本能写出自己的mvc框架了。是本好书。</p>
-<p>   &emsp;&emsp; <abbr title="" style="color:green;text-decoration: none;">&gt;《javascript函数式编程》</abbr>，js是一门函数式语言，此书是函数式编程一个入门，函数是一等公民那是非常重要的。</p>
-<p>   &emsp;&emsp; <abbr title="" style="color:green;text-decoration: none;">&gt;《js忍者秘籍》</abbr>，jq作者写的，没有传说中的那么难读，话说就算你看完并理解所有知识点，也不会达到世界高手级别的。因为你还没有做到随心所欲。</p>
-<p>   &emsp;&emsp; <abbr title="" style="color:green;text-decoration: none;">&gt;《javascript框架设计》</abbr>，如果初看此书，会觉得此书有罗列代码之嫌。在我看来，此书讲究的是框架的全局观。以上书籍是我认为是成就高手之路上必须看的，也需要反复看。</p>
-<p>   &emsp;&emsp; css相关的书籍，说实话我看得比较少，总共有六七本吧。有两本必须推荐一下：</p>
-<p>   &emsp;&emsp; <abbr title="" style="color:green;text-decoration: none;">&gt;《css权威指南》</abbr>，css基础知识点那是讲得非常清楚的。什么层叠优先级、line-height啥的。不是随便一本书都敢叫“权威指南”的。</p>
-<p>   &emsp;&emsp; <abbr title="" style="color:green;text-decoration: none;">&gt;《css揭秘》</abbr>，此书我也是不断的看，此书才不屑于全面讲css3各属性呢。css规范文档能讲的，它只会讲你最不在意的。此书解决的47问题，解决思路和解决方案同等重要，很有启发性。以上各书你都可以不买，至少买本此书吧。</p>
-<p>   <abbr title="" style="color:red;font-weight:bold;text-decoration: none;">第三个问题，怎么看。</abbr></p>
-<p>   &emsp;&emsp;想必很多同学，都想看书，但是很难看下去。文字部分相对来说还能看看，一遇到代码，头皮就发麻了。此问题一开始时我也遇到的。</p>
-<p>   &emsp;&emsp;说一个学习理论。比如说学英语，有个开水理论。词汇量必须达到6000才行，如果没达到，英文水平不会上去的，这跟烧开水一样，没事烧烧，放着凉凉，从来没烧到100度，那么此水是永远不能喝的。一旦煮沸过，就可以随时喝了。</p>
-<p>   &emsp;&emsp;20本书你看不下去，说明什么呢？<abbr title="" style="color:green;text-decoration: none;">任何一本书，你都没看完过。</abbr>熟悉的，永远只是前三章。别笑，我原先也是这样的。</p>
-<p>   &emsp;&emsp;那么现在的问题是，怎么把一本书看完呢？<abbr title="" style="color:green;text-decoration: none;">很简单，敲。</abbr>《基于MVC的JavaScript Web富应用开发》这本书我看时，就是这样，终于有一天，我下定决心要把此书从头到尾敲一遍。文字加代码都敲，然后就一章一章得看完了。代码敲一遍后，你会发现，没之前看起来的那么难。</p>
-<p>   &emsp;&emsp;如果你属于一看书就犯困那种同学。<abbr title="" style="color:green;text-decoration: none;">强烈建议你把《javascript面向对象编程指南》此书从头到尾敲一遍。</abbr>坚持看完一本书后，信心就上来了。先保证看完一本再说,看完3本后，基本应该能做到几天就能看一本了。万事开头难，加油吧。</p>
-<p>   <abbr title="" style="color:red;font-weight:bold;text-decoration: none;">第四个问题，看书的层次问题。</abbr></p>
-<p>   &emsp;&emsp;书看完后，要自己总结，要与其他书籍对比看。有同学同时对比着看《权威指南》和《高设》来的。随便拿出个知识点，你都能闭着眼睛说得头头是道，说明水平够了。</p>
-<p>   &emsp;&emsp;下一块就是<abbr title="" style="color:green;text-decoration: none;">源码的学习</abbr>了。看框架源码之前，想说一件事情：dom的api不懂，没问题，你可以百度。</p>
-<p>   &emsp;&emsp;但是正则一定要先研究研究，不然大多数人去尝试分析源码时，遇到的挫折都在于此。</p>
-<p>   <abbr title="" style="color:green;text-decoration: none;">怎么去阅读源码呢？敲，照着敲。</abbr></p>
-<p>   &emsp;&emsp;有哪些代码值得去敲呢？优秀框架或者库的源码都值得你去敲。但是拿jq来敲，来入门，那不行的。原因：太他么长了。八九千行呢！！</p>
-<p>   &emsp;&emsp;个人觉得<abbr title="" style="color:green;text-decoration: none;">underscore.js</abbr>库是不错的第一个选择。原因都是工具方法，敲完以后自己的水平应该略有小成吧。其实有一些api的实现，你要把它当成getElementById一样，深深的印在脑海里。比如extend方法，必须张口就来。敲完underscore库后，可以考虑去看看《javascript函数式编程》这本书了。</p>
-<p>   &emsp;&emsp;jq的源码不好敲。那么<abbr title="" style="color:green;text-decoration: none;">zepto</abbr>的源码比较少1800多行，敲一天应该敲完了。敲几遍后，把所有不懂的地方，都百度清楚，然后就可以写自己的类jq的库了。然后就可以作为一项技能写进自己的简历里。比如“创建过自己的jquery库”。当然敲的过程，还能帮助自己对jq的api认识。</p>
-<p>   &emsp;&emsp;然后是<abbr title="" style="color:green;text-decoration: none;">backbone.js</abbr>，因为此框架是以类jq和underscore为基础的mvc框架。代码也没多少行。敲吧。spine.js与backbone类似。可以在敲其之前，先看看那本《基于MVC的JavaScript Web富应用开发》。希望你的简历可以添加这么一笔，“创建过自己的mvc框架”。</p>
-<p>   &emsp;&emsp;其他的，我也敲过一些。包括<abbr title="" style="color:green;text-decoration: none;">jq.validate.js</abbr>，包括一些插件。如果你愿意的话，bootstrap你可以去敲敲啊。源码挺多的，可以按插件逐个来敲。分析明白了，轮播、分页、下拉框等等的插件那还不是分分钟随手就写一个了。最起码看看人家api接口是怎么设计的也是极好的。话说个人在阅读其css代码中，也学到了不少东西。说到插件，有两个必须提提，一个是表格插件，一个是树。都敲完，简历里可以这么写上，“创建过自己的UI框架”。</p>
-<p>   &emsp;&emsp;当然了，你也可以敲你喜欢的框架代码，重要的是明白其<abbr title="" style="color:green;text-decoration: none;">实现原理</abbr>，最好理解其为啥那么设计，如果对设计模式比较熟悉的话，会经常发现原来是这么回事。</p>
-<p>   &emsp;&emsp;照着敲只是分析源码的入门，用途也是为了学习，最后能用在自己的项目中，那是才是正道。就算没啥用，也是打发时间的好方式，比看电视剧强多了。我闲着无聊时，就背着敲underscore源码。最后说句，如果你简历上能如期写上那几句话后，必须是大神。加油吧。</p>
-<p>   <abbr title="" style="color:#333;font-weight:bold;text-decoration: none;">后记</abbr></p>
-<p>   &emsp;&emsp;写本文的最初目的，正如文章开头说的那样，方便自己回复大家的提问。本站的任何一篇分享学习经验的文章，基本都会引起共鸣，这确实是一个值得讨论的话题。这里再说说几个事情。</p>
-<p>   &emsp;&emsp;<abbr title="" style="color:green;text-decoration: none;">&gt;有人问我前端工作经验事情。<abbr></abbr></abbr></p>
-<p>   &emsp;&emsp;没几年。三年多。</p>
-<p>   &emsp;&emsp;<abbr title="" style="color:green;text-decoration: none;">&gt;初学者或新手（beginner）怎么办？<abbr></abbr></abbr></p>
-<p>   &emsp;&emsp;看书和分析源码是重要的提高方式，但不适合新手。新手需要的是能快速的入门和入行，能快速的上手工作。一种快捷的学习方式就是看视频。正如有的同学说得那样，知道有哪些东西，怎么用就可以了。</p>
-<p>   &emsp;&emsp;看视频是有好处的，首先它是一种被动学习方式。我最开始的入门也是看视频来的，只需要看就行了。一遍没懂，再放一遍，我基本上是1.5倍数去看的。</p>
-<p>   &emsp;&emsp;而读书是一种主动方式，需要自己一页一页翻。需要自己主动的去理解。而很多东西，也许只是视频老师一句话，就能突出的重点，需要我们自己去解读。还有另一件事情是，比如发现自己某个知识点不太清楚，可以单独去百度。比如this，文章很多的。这种学习方式也是快速掌握知识点的好办法。</p>
-<p>   &emsp;&emsp;书籍需要技术评审，那么看文章一定要看看评论。不过视频就不好说了，视频一般都不会讲得太深入，偶尔也有讲错的。当年我也曾被一些视频误导过，建议找不错的视频看看。各大网站培训机构的免费视频挺多的。</p>
-<p>   &emsp;&emsp;<abbr title="" style="color:green;text-decoration: none;">&gt;看书和分析源码的时机。<abbr></abbr></abbr></p>
-<p>   &emsp;&emsp;但已经工作一年半载时，正是提高的好时候，此时可以去看书了。全面系统的梳理知识点，扫清自己的盲区。如果只是靠项目经验是不够的，通过项目来学习，那肯定是必须的，工作本身就是一个学习的过程。</p>
-<p>   &emsp;&emsp;但是工作三年不看书的话，学又能学到多少呢？更何况每个项目都很类似，一直处在舒适区，那真就是5年经验重复第一年的了。所以我不认同这句话：面试时强调自己的学习能力是工作能力不强的表现。3年经验的水平，完全有可能超过5年的。</p>
-<p>   &emsp;&emsp;<abbr title="" style="color:green;text-decoration: none;">&gt;没有时间去学习？<abbr></abbr></abbr></p>
-<p>   &emsp;&emsp;如果你还没毕业，就已经天天在本站混了，其实你领先了一大步。都是混过大学的，天天充斥着lol和电视剧的陪伴，我只想说进入社会是要还的。最可怕的是什么呢？该还、还不还（这几个字别念错了）。时间是有的，就看你愿意付出不。下班后学习，周末学习，节假日别人玩的时候，在家敲代码，这样才能领先别人。</p>
-<p>   &emsp;&emsp;<abbr title="" style="color:green;text-decoration: none;">&gt;兴趣问题？<abbr></abbr></abbr></p>
-<p>   &emsp;&emsp;兴趣和擅长是一个良性迭代循环。你擅长某件事情，就会越喜欢它，越喜欢，就越愿意花时间，进而越擅长。此道理都懂，只是缺乏一个trigger。</p>
-<p>   &emsp;&emsp;如果你喜欢玩游戏的话，其实你可能非常适合做前端。玩游戏就是一个反馈机制，前端工作的反馈，相对其他工作来说也是非常及时的。代码一改，网页一刷，就看到效果了。擅长、优越感、成就感通常都是连在一起的。每看完一本书，我都觉得很有成就感。每敲完一个库，也有成就感。</p>
-<p>   &emsp;&emsp;以上纯属一家之言，每个人的学习习惯、方式、态度都不一样。先端正态度、找到自己的学习方法，进而养成坚持下去的习惯。最后说一句，你我共勉：只要你走在正确的道路上，不管、走得多慢，都是前进！</p>
-<p>   &emsp;&emsp;本文完。</p>
-
-      
-    </div>
-      <div id="remark"></div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/02/27/studyWay/" class="archive-article-date">
-  	<time datetime="2018-02-27T03:22:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-02-27</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/全栈/">全栈</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端学习/">前端学习</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-webDevelopment" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/27/webDevelopment/">技术人员的发展之路</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>译注：本文作者酷壳/陈皓</p>
-</blockquote>
-<p>   &emsp;&emsp;2012年的时候写过一篇叫《程序算法与人生选择》的文章，我用算法来类比如何做选择，说白了就是怎么去计算，但是并没有讲程序员可以发展的方向有哪些。 所以，就算是有这些所谓的方法论，我们可能对自己的发展还是会很纠结和无所事从，尤其是人到了30岁，这种彷徨和迷惑越来越重。虽然我之前也写过一篇《编程年龄和编程技能》的文章，但是还是有很多做技术的人对于自己能否在年纪大时还能去做技术感到没有信心。我猜测，这其中，最大的问题的是，目前从事技术工作的种种负面的经历（比如经常性的加班，被当成棋子或劳动力等等），让人完全看不到希望和前途，尤其是随着年纪越来越大，对未来的越来越没有信心。<br>   &emsp;&emsp;同时，也是因为在GIAC的大会被问到，程序员老了怎么办？而在年底这段时间，也和几个朋友在交流中不断地重复谈到个人发展的这个话题。我的人生过半，活到“不惑”的年纪，自然经常性的对什么事都会回头看看总结归纳，所以，在交谈过程中和交谈过后，自己也有一些思考想记录下来。因为我本人也是在这条路上的人，所以，谈不上给他人指导，我同样也是在瞎乱折腾同样每天在思考自己要去哪儿的“一尘世间迷途老生”。况且，我的经历和眼界非常有限，因此，下面的这些关于个人发展的文字和思考必然是受我的眼界和经历所局限的。也欢迎大家补充和指正。<br>   &emsp;&emsp;这些东西不一定对，也不一定就是全部，期许可以让你在年底的时候有所思考，在明年的时候有所计划。</p>
-<p>   <abbr title="" style="color:red;font-weight:bold;text-decoration: none;">一个重要阶段和标志</abbr></p>
-<p>   &emsp;&emsp;在讲个人发展之前，我需要先说一下人生中的一个非常重要的阶段——20到30岁！<br>   &emsp;&emsp;这个阶段的首要任务，就是提升自己学习能力和解决难题的能力。这是一个非常非常关键的时间段！这个时间段几乎决定着你的未来。<br>   &emsp;&emsp;30岁以前，这个时间段，应该是人学习和积累的时间段，这个时间段，就是努力学习的时间段。这个时间段，你一定要把时间花在解决问题的技能上。就是说，你一定要练就成的技能是——你能解决大多数人不能解决的问题。使蛮力埋头加班苦干，当一个搬砖老黄牛的是肯定没有前途的。如果你不幸呆在了一个搬砖的地方，天天被业务压得喘不过气来，我建议你宁可让你的项目延期被老板骂，也要把时间挤出来努力学习基础知识，多掌握一些技术（很多技术在思路上是相通的），然后才能有机会改变自己目前的状况。因为，比起你的个人未来，项目延期被老板骂、绩效不好拿不到奖金，都不是什么事儿。<br>   &emsp;&emsp;总结一下，你在30岁前，工作5-7年，你需要拥有：</p>
-<p>   &emsp;&emsp;&hearts; 高效的学习能力。这意味着——基础知识扎实、触类旁通、读英文文档不费劲、有寻找前沿知识的能力、能够看到问题和技术的本质、善于思辩、能独立思考。<br>   &emsp;&emsp;&hearts; 解决问题的能力。这意味着——你要高效的学习能力、见过很多的场景、犯过或是处理很多错误、能够防火而不是救火。</p>
-<p>   &emsp;&emsp;如果你拥有这两个能力的现象是—— 在团队或身边的人群中的显现出Leadership。<br>   &emsp;&emsp;Leadership并不是当领导和经理，而是一种特征，这种特征有如下两个简单的表象：</p>
-<p>   &emsp;&emsp;&hearts; 帮人解问题。团队或身边中大多数人都在问：“这问题怎么办？”，而总是你能站出来告诉大家这事该怎么办？<br>   &emsp;&emsp;&hearts; 被人所依赖。团队或身边中大多数人在做比较关键的决定时，都会来找你咨询你的意见和想法。</p>
-<p>   &emsp;&emsp;一但你在在30岁之间出现了Leadership这样的特征，那么，你会进入一个正循环的阶段：</p>
-<p>   &emsp;&emsp;&hearts; 因为你学习能力强，所以，你会有更多的机会解决难题。<br>   &emsp;&emsp;&hearts; 你有更多的机会解决难题，你就会学更多的东西，于是你就会更强。<br>   &emsp;&emsp;&hearts; 上面这个循环，只要循环上几年，就会让你人生的各种可能性大大的增加。</p>
-<p>   &emsp;&emsp;【 注意 】<br>   &emsp;&emsp;&hearts; 要达到这样的特质，需要找到自己的长处、以及适合自己的环境。就像鱼的特长是呆在水里，让鱼儿去追求陆上动物的刺激生活并不靠谱。<br>   &emsp;&emsp;&hearts; 一般说来，有这样的潜质的人，在学校中就应该要出现。如果你在大学中还没有出现这样的潜质，那么，你在工作当中要加倍努力了（注：所谓的加倍努力，不是让你使蛮力加班，而是让你多学习成长，使蛮力拼命是弥补不了能力、思维、眼界上的缺陷的）。<br>   &emsp;&emsp;&hearts; Leadership也有范围的，比如，身边的朋友，工作中的团队/部分，圈内，整个行业。Leadership的范围越大，你的个人发展的选择性就越高。反之则越小。<br>   &emsp;&emsp;&hearts; 如果已到了30岁左右，还是没有出现这样的特征。那么，可能未来你也很难有这样的Leadership了。而你的个人发展的可能性可能也就不多了（sigh…）</p>
-<p>   &emsp;&emsp;读到这里，我必需要说一下，如果你已开始显现出你的Leadership，那么你才谈得上个人发展，这篇文章后续的内容也可能才会对你有意义。</p>
-<p>   <abbr title="" style="color:red;font-weight:bold;text-decoration: none;">个人发展的三个方向</abbr></p>
-<p>   &emsp;&emsp;以我个人短浅的经历和视野，目前只看到的人的发展有如下三个大方向（他们之间可能会有重叠）：</p>
-<p>   &emsp;&emsp;1）在职场中打拼<br>   &emsp;&emsp;2）去经历有意义有价值的事<br>   &emsp;&emsp;3）追求一种自由的生活</p>
-<p>   &emsp;&emsp;这三个方向，我个人或多或少都体验过，我也见过身边的很多人走这三个方向走的比较成功。也许还有别的方向，没办法，现在，我的视野就这么大，所以，我在这里，我主要就是谈谈这三个方向。Again，人有资格去走这三个方向的前提是——已有了上面我说的Leadership那种特质！</p>
-<p>   <abbr title="" style="color:red;font-weight:bold;text-decoration: none;">一、在职场中发展</abbr></p>
-<p>   &emsp;&emsp;在职场中发展应该是绝大多数人的选择。通过加入公司来达到人生的发展。</p>
-<p>   &emsp;&emsp;我们经常可以看到很多所谓的“职业规划”，但是大多数职业规划只不过人力资源搞出来的东西，和实际其实是有很大出入的。我的人生经历中，有18年左右是在公司中度过的，在过银行，小公司，大公司，民营公司，外国公司，传统IT公司，互联网公司，不同的公司完全有不同的玩法和文化，我的经历还算丰富，但也不算特别成功，这里只分享一些我在职场中的心得（不一定对，仅供参考）。</p>
-<p>   &emsp;&emsp;<abbr title="" style="color:green;text-decoration: none;">1、去顶尖公司</abbr></p>
-<p>   &emsp;&emsp;去顶尖公司的一个目的就是让你的Leadership的范围的可能性扩大。<br>   &emsp;&emsp;因为公司和公司的差距也不小，所以，就算你在低端公司里是骨干份子，但在高端公司里可能只是一个普通员工（就像中国足球队的主力到了英超可能都无法入选）。所以，在职场中，如果你要让你的个人价值最大化的话，你一定要去顶尖的公司。因为顶尖公司里有非常不错的工作方法和场景，这并不是能看书或是交流得来的，这是必需要去亲身体验的。所以说，在顶尖公司掌握的技能，开阔的眼界，通常来说都会比低端公司的要多得多。<br>   &emsp;&emsp;另外，每个公司的工作级别都是有相互对标的，比如：阿里的P几对应于百度的T几。国内的一线公司职位还相当，但是如果和国外一线公司的比，那就有差距了，而且差距还很大。比如，Google或Facebook的某个高级工程师，可能就对应于阿里的P8/P9甚至更高。<br>   &emsp;&emsp;是的，对于职场来说，如果你在顶尖公司是骨干，那么，你去低端公司，则有很大机会会成为他们高管和核心。就好像你在Facebook里干三五年成为他们的技术骨干，那么你到BAT去成成为高管概率是非常大的。反过来，如果你毕业主去了BAT成为了一个螺丝钉，在天天加班中度过你的青春，你干个十年能成为BAT的高管的概率可能会非常的低。</p>
-<p>   &emsp;&emsp;<abbr title="" style="color:green;text-decoration: none;">2、去真正的创业公司</abbr></p>
-<p>   &emsp;&emsp;去顶尖公司和去创业公司在某些时候并不冲突。不过，这里我想讲的是，一个技术能力强的人在大公司可能会被埋没掉。因为大公司业务成功后，</p>
-<p>   &emsp;&emsp;&hearts; 成功的公司在招聘各种高级技术人才都不会成为问题，于是少你一个不少，多你一个不多。<br>   &emsp;&emsp;&hearts; 成功的公司其整个技术体系已经完成，Legacy的问题也比较多，所以，可以供你发挥的余地不大。<br>   &emsp;&emsp;&hearts; 成功的公司更多的可能会想要稳定的系统，稳定必然会产生保守，而保守则产生不思进取。</p>
-<p>   &emsp;&emsp;所以，对于中高级人才来说，在大公司里的能产生的个人价值，可能远远不如那些求贤若渴、没有包袱、可以尽情施展、相对更为灵活和自由的创业型公司。<br>   &emsp;&emsp;不过，去创业公司需要小心仔细的挑选和评估，创业公司的不确定因素很多，也和创始人的因素太大了，所以，你需要小心了解创始人和他们的业务情况，想法和理念差不多才能更好的共事。<br>   &emsp;&emsp;好多创业公司其实并不是真正的创业公司，他们创业有很大的侥幸和驱利心理，要小心甄别。因为那不是真正的创业公司。</p>
-<p>   &emsp;&emsp;<abbr title="" style="color:green;text-decoration: none;">3、职业生涯的发展阶段</abbr></p>
-<p>   &emsp;&emsp;首先，有一个不争事实——整个社会是会把最重要的工作交给30岁左右的这群人的。也就是说，30岁左右这群人是这个社会的做事的中坚力量。<br>   &emsp;&emsp;所以，这是一个机遇！如果你有了Leadership，你就一定能在这个时间段内赶得上这个机遇——公司和领导对你寄于信任和厚望，并把重要的团队和工作交给你。<br>   &emsp;&emsp;于是，你的30岁到40岁就成了一个职业生涯的发展期，也就是你的事业上升期。如果你到40岁都没有赶上，那么你的职业生涯也就这样了，老有所成的人是少数。<br>   &emsp;&emsp;在你事业的上升期，你需要更多的软技能，比如：</p>
-<p>   &emsp;&emsp;&hearts; 带领产品和业务的发展的能力<br>   &emsp;&emsp;&hearts; 推行自己喜欢的文化的能力<br>   &emsp;&emsp;&hearts; 项目管理的能力——在任务重、时间紧中求全<br>   &emsp;&emsp;&hearts; 沟通和说服别人的能力<br>   &emsp;&emsp;&hearts; 解决冲突的能力<br>   &emsp;&emsp;&hearts; 管理和发展团队的能力<br>   &emsp;&emsp;&hearts; 解决突发事件的应急能力<br>   &emsp;&emsp;&hearts; …… ……</p>
-<p>   &emsp;&emsp;另外，你还要明白在职场里的几个冷酷的事实：</p>
-<p>   &emsp;&emsp;&hearts; 你开始要关心并处理复杂的人事。尤其在大公司，大量的人都是屁股决定脑袋，利益关系复杂，目标不一致，每个人心里都有不一样的想法。这个时候再也不是 talk is cheap, show me the code！而是，code is cheap，talk is the matter。你需要花大量的时间去思考和观察形形色色的人。需要耗费大量的精力在不同的人之间周旋，而不是花时间去创造些什么有价值的东西。<br>   &emsp;&emsp;&hearts; 你要开始学会使用各种政治手段。办公室政治不可避免，越大的公司越重，自从你开始成为一线的leader的那一天起，你就开始成为“里外不是人”的角色，需要在下属和领导，员工和公司之间周旋。随而你的级别越来越高，你需要使用更多的政治手段，你会学会审时度世的站队，学会迎合员工和领导，学会用官员的语言说话，学会此一时彼一时，学会妥协和交换，学会忍气吞声，学会在在适当的时机表现自己，学会波澜不惊，学会把自己隐藏起来，甚至你还会迷失自我，开始学会一些厚黑学，比如不得不在适当的时机在背后捅人刀子……你可能会成为一个你自己都讨厌的人。</p>
-<p>   &emsp;&emsp;听上去真的好无聊，所以，你现在也明白为什么高层们都看上去很忙很累，而且抽不出时间来关心细节问题，因为，他们更多的是要协调整个组织和系统来运转，甚至还要四处周旋，各种博弈，没办法，这是职场的必需的东西！听起来是不是感觉人类很愚蠢？这真是没办法的事。如果你不想或是也没有能力玩这些东西，那么你需要去那些可以让技术人员安安心心做技术的公司。这类的公司，我见过Microsoft、Google、Amazon或是一些创业公司里都有。国内的大公司中也有让技术人员成长的职业成长线，但老实说，表面上看似是一个让人专心做技术的升职成长线，但其实还是管理岗位。<br>   &emsp;&emsp;所以，技术人员在职场中的归宿有两条路 —— 到真正的技术公司成为一个专心做技术的人，或是在成为一个职业的经理人。</p>
-<p>   <abbr title="" style="color:red;font-weight:bold;text-decoration: none;">一个重要阶段和标志</abbr></p>
-<p>   &emsp;&emsp;先说三个故事，</p>
-<p>   &emsp;&emsp;&hearts; 第一个，是在阿里的时候，有一天在内网里看到一个贴子，一个做产品的女孩说自己准备离职要去法国学烘培厨艺，引得大家热评。<br>   &emsp;&emsp;&hearts; 第二个，是在亚马逊的美国老板，他每年都要去报个培训班学一个技能，比如：厨艺、开双翼飞机、夜总会里的DJ……、甚至去华盛顿去学当一个政客。<br>   &emsp;&emsp;&hearts; 第三个，是在汤森路透工作时，一个英国的同事，有一天他说他离职了，和自己的老婆准备用余生去周游世界，我问他是不是有足够多的钱了？他和我说，钱不够，他俩口子的计划是，边旅游边打工，打工打够到下一站的钱就走。他还说，那种用假期去另一个城市的旅游太没意思了，如果你不在那个地方生活上一段时间 ，你怎么能算是好的旅游体验呢？好吧，无法反驳。</p>
-<p>   &emsp;&emsp;我是觉得他们把自己的人生过得如此有意思，令我很佩服。虽然跨界跨得有点猛，但是 Why Not？<br>   &emsp;&emsp;在这里，我想说，去追求一种和众人不一样的人生经历也是一件挺好的事，我个人感觉，比起在职场里有趣地多多了。如果你厌倦了职场，其实为什么不去追求一下不同的人生经历呢。就算你不想去追求跨度比较大的人生经历，那么，在技术圈里，也有很多有价值有意思的经历也可以去的。追求刺激有意义的与众不同的经历的人，其实也能算是一种人生的成功，不是吗？<br>   &emsp;&emsp;如果只说技术方面，我个人看到的去追求经历的人，有两种追求的人其实也很成功的：</p>
-<p>   &emsp;&emsp;&hearts; <abbr title="" style="font-weight:bold;text-decoration: none;">到技术创新的发源地去经历创新。</abbr>计算机互联网各种技术的创新引擎，基本上来说，就是在美国了。我们赶上了这个时代，也选对了这个时代最火热的行业，那么，有什么理由不去这个时代的技术发动机那里去经历呢？在美国硅谷湾区，无论是大公司，还是创业公司，都在迸发着各式各样的创新，如果有能力有机会，为什么不努力去经历一下呢？不经历一下，老了不会觉得错过了是一种后悔吗？<br>   &emsp;&emsp;&hearts; <abbr title="" style="font-weight:bold;text-decoration: none;">去经历下一个热点技术的发展。</abbr>从IT，到互联网、再到移动互联网、云计算、大数据，再到未来的AI，VR，IoT……，技术创新的浪潮一波接一波的过来，你是想在那继续搬砖搬下去，是想迎浪而上去经历浪潮，还是想成为一个随波逐流的人？</p>
-<p>   &emsp;&emsp;打工也好，创业也好，在国内也好，在国外也好，这些都是形式，不是内容。内容则是你有没有和有想法的人去经历有意义有价值事？人生苦短，白驹过隙，我们技术人员最大的幸运就是生在这样一个刺激的时代，那么，你还有什么理由不去追逐这些前沿刺激的经历呢？</p>
-<p>   <abbr title="" style="color:red;font-weight:bold;text-decoration: none;">三、追求自由的生活</abbr></p>
-<p>   &emsp;&emsp;我相信“自由”这个事，是所有人的心中都会想去追求的。“生命诚可贵，爱情价更高，…… ”（哈哈）<br>   &emsp;&emsp;但一说起自由，绝大多数人都想到的是“财富自由”或是“财务自由”，其实，并不完全是这样的，在自由的通路上，我个人的经历告诉我，其实，你会有很多的不同类型的自由。下面，是我对几个层次的“自由”的理解。<br>   &emsp;&emsp;<abbr title="" style="font-weight:bold;text-decoration: none;">第一层自由——工作自由。</abbr>人的第一层自由的境界是——“工作自由”，我到不是说你在工作单位上可以很自由，虽然有特例，但并不普遍。我想说的“工作自由”是——你不会有失业危机感了。也就是说，你成了各个公司的抢手货，你不但不愁找不到工作，而且你是完全不愁找不到好工作。试想一下，如果是工作来找你，一方面，你就有真正意义上的工作选择权了，另一方面，你都不愁工作了，你完全就可以随时离职去干你想干的事了。此时，你就达到了“工作自由”。<br>   &emsp;&emsp;<abbr title="" style="font-weight:bold;text-decoration: none;">第一层自由——技能自由。</abbr>工作自由已是不错，不过前提是你还是需要依赖于别人提供的工作机会。而技能自由则是你可以用自己的技能养活自己，而不需要去公司里工作。也就是所谓的自由职业者了，社会上，这样的人也不少，比如，一些健身体育教练、设计师、翻译者、作者……这些都可以算是自由职业者，程序员这个职业中只要不是搬砖的，有想法的，就有可以成为自由积业者的潜质，想一想，你拥有的编程能力，其实是一种创造的能力，也就是创造力，只要你Make Something People Want（YC创业公司的slogan），你是完全可以通过自己的技能来养活自己的。如果你通过某些自动化的东西，或是你在App上做了一个软件个体户，让自己的收入不断，甚至你做了一个开源软件，社区每个月都给你捐款捐到比你打工挣的还多，那么你就真正的有了技能自由了。<br>   &emsp;&emsp;<abbr title="" style="font-weight:bold;text-decoration: none;">第一层自由——物质自由。</abbr>我把财务自由换了一种说法。我个人觉得，除了有个好爸爸之外这种特例的情况，如果你想有物质自由的话，本质上来说，你一定要学会投资，投资不一定是你的钱，时间也是一种财富，年轻更是，你怎么投资你的时间还有你的青春？你要把你的投资投到什么样的事，什么样的人？对于投资这个事，风险也比较大。但是，人生不敢冒险可能才是最大的冒险。这个世界有很多技术不是你能看书学来的，而要只能在实战中学会的，比如：游泳。投资可能也是一种。只有真正懂投资的人，或是运气非常好的人，才可能实现物质自由。</p>
-<p>   &emsp;&emsp;追求自由的生活，其实也是个人发展道路上的一个不错的选择。通常来说，自由的人，能力都不差，钱也不会少。因为，他们懂得投资。<br>   &emsp;&emsp;也就是说，拥有追求自由能力的的人，</p>
-<p>   &emsp;&emsp;&hearts; 不但有领导力和创造力（也可指导大多数人并走在大多数人前面）<br>   &emsp;&emsp;&hearts; 同时他还懂得怎么投资（知道时间和精力和金钱应该投在什么地方）</p>
-<p>   &emsp;&emsp;注：这里我没有提精神自由，老实说，精神上的自由我也不清楚是什么东西，因为我还没有见过，眼界有限，所以先按不表了，不然真成鸡汤文了）</p>
-<p>   <abbr title="" style="color:red;font-weight:bold;text-decoration: none;">总结</abbr></p>
-<p>   &emsp;&emsp;无论是在职场中打拼，还是追求精彩的经历，还是去实现自由，我觉得都是不错的个人发展的方向。<br>   &emsp;&emsp;他们都有重叠，比如：</p>
-<p>   &emsp;&emsp;&hearts; 你可以在职场中去追求那些刺激的经历的公司。<br>   &emsp;&emsp;&hearts; 同样也可以通过加入有潜力高速发展的公司来达到自由。<br>   &emsp;&emsp;&hearts; 你也可以通过追寻不一样的经历来达到人生的自由。<br>   &emsp;&emsp;&hearts; ……</p>
-<p>   &emsp;&emsp;总之，这里的逻辑是——</p>
-<p>   &emsp;&emsp;&hearts; 能够去规划自己的个人发展的人，通常都是有很多机会和可能性的人。<br>   &emsp;&emsp;&hearts; 有很多机会和可能性的人，通常都是有Leadership，喜欢冒险的人。<br>   &emsp;&emsp;&hearts; 有Leadership喜欢冒险的人，通常都是学习能力强，思维活跃，喜欢折腾，懂得“投资”的人。<br>   &emsp;&emsp;&hearts; 学习能力强思维活跃的人，通常来说，都是喜欢看书，喜欢实践和新鲜事物，不怕艰难和挑战，用智力而不是使蛮力的人。<br>   &emsp;&emsp;&hearts; 懂得“投资”的人，通常来说，他们更多的关注的是未来和长远的成长，而不是当下的KPI、奖金和晋升。</p>
-
-      
-    </div>
-      <div id="remark"></div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/02/27/webDevelopment/" class="archive-article-date">
-  	<time datetime="2018-02-27T02:52:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-02-27</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术发展/">技术发展</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1158,7 +1065,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/FHS/" style="font-size: 12px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/jQuery源码/" style="font-size: 10px;">jQuery源码</a> <a href="/tags/js原型/" style="font-size: 10px;">js原型</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 12px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/rich-text/" style="font-size: 10px;">rich-text</a> <a href="/tags/underscore/" style="font-size: 10px;">underscore</a> <a href="/tags/underscore源码/" style="font-size: 10px;">underscore源码</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/webpack/" style="font-size: 12px;">webpack</a> <a href="/tags/webpack-4-0/" style="font-size: 10px;">webpack 4.0</a> <a href="/tags/webpack优化/" style="font-size: 10px;">webpack优化</a> <a href="/tags/webpack教程/" style="font-size: 10px;">webpack教程</a> <a href="/tags/依赖倒置原则/" style="font-size: 12px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 12px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端打包工具/" style="font-size: 10px;">前端打包工具</a> <a href="/tags/前端设计模式/" style="font-size: 18px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 16px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/源码/" style="font-size: 14px;">源码</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
+    				<a href="/tags/FHS/" style="font-size: 11.67px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/jQuery源码/" style="font-size: 10px;">jQuery源码</a> <a href="/tags/js原型/" style="font-size: 10px;">js原型</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/rich-text/" style="font-size: 10px;">rich-text</a> <a href="/tags/underscore/" style="font-size: 10px;">underscore</a> <a href="/tags/underscore源码/" style="font-size: 10px;">underscore源码</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/webpack/" style="font-size: 15px;">webpack</a> <a href="/tags/webpack-4-0/" style="font-size: 13.33px;">webpack 4.0</a> <a href="/tags/webpack优化/" style="font-size: 10px;">webpack优化</a> <a href="/tags/webpack教程/" style="font-size: 13.33px;">webpack教程</a> <a href="/tags/依赖倒置原则/" style="font-size: 11.67px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 11.67px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端打包工具/" style="font-size: 10px;">前端打包工具</a> <a href="/tags/前端设计模式/" style="font-size: 18.33px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 16.67px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/源码/" style="font-size: 13.33px;">源码</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
     			</div>
     	</section>
     
