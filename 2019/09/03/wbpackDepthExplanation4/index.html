@@ -6,18 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://xieyuxuan.cc">
-  <title>Tag: 技术发展 | 谢雨轩的博客 | Vera Blog</title>
+  <title>从0基础到大牛-webpack深入浅出超强完整版(四) | 谢雨轩的博客 | Vera Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前端技术分享,前端个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="谢雨轩的博客 | Vera Blog">
-<meta property="og:url" content="http://xieyuxuan.cc/tags/技术发展/index.html">
+  <meta name="description" content="你可能只需要这一个教程 webpack - Plugin&amp;emsp;&amp;emsp;loader和plugin都是webpack重要的组成部分，loader主要用于文件内的处理，而plugin主要用于文件间的处理，有时他们需要共同协作&amp;emsp;&amp;emsp;plugin的执行顺序与书写顺序无关，它通常是一个构造函数，挂载到webpack不同的生命周期中，等待执行  html-webpack-plugi">
+<meta name="keywords" content="前端,webpack,webpack 4.0,webpack教程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从0基础到大牛-webpack深入浅出超强完整版(四)">
+<meta property="og:url" content="http://xieyuxuan.cc/2019/09/03/wbpackDepthExplanation4/index.html">
 <meta property="og:site_name" content="谢雨轩的博客 | Vera Blog">
-<meta property="og:description" content="前端技术分享,前端个人博客">
+<meta property="og:description" content="你可能只需要这一个教程 webpack - Plugin&amp;emsp;&amp;emsp;loader和plugin都是webpack重要的组成部分，loader主要用于文件内的处理，而plugin主要用于文件间的处理，有时他们需要共同协作&amp;emsp;&amp;emsp;plugin的执行顺序与书写顺序无关，它通常是一个构造函数，挂载到webpack不同的生命周期中，等待执行  html-webpack-plugi">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-09-03T09:58:34.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="谢雨轩的博客 | Vera Blog">
-<meta name="twitter:description" content="前端技术分享,前端个人博客">
+<meta name="twitter:title" content="从0基础到大牛-webpack深入浅出超强完整版(四)">
+<meta name="twitter:description" content="你可能只需要这一个教程 webpack - Plugin&amp;emsp;&amp;emsp;loader和plugin都是webpack重要的组成部分，loader主要用于文件内的处理，而plugin主要用于文件间的处理，有时他们需要共同协作&amp;emsp;&amp;emsp;plugin的执行顺序与书写顺序无关，它通常是一个构造函数，挂载到webpack不同的生命周期中，等待执行  html-webpack-plugi">
   
     <link rel="alternative" href="/atom.xml" title="谢雨轩的博客 | Vera Blog" type="application/atom+xml">
   
@@ -167,59 +169,128 @@
 
       <canvas id="body-wrap"> </canvas>
       <div class="body-wrap">
-          
-  
-  
+          <article id="post-wbpackDepthExplanation4" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
     
     
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/27/webDevelopment/" class="archive-article-date">
-  	<time datetime="2018-02-27T02:52:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-02-27</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/27/webDevelopment/">技术人员的发展之路</a>
+    <h1 class="article-title" itemprop="name">
+      从0基础到大牛-webpack深入浅出超强完整版(四)
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><abbr style="display:block;margin-top: -50px;font-size: 12px;color:#999;text-align: center;border-bottom: 1px dotted #999;">你可能只需要这一个教程</abbr></p>
+<h2 id="webpack-Plugin"><a href="#webpack-Plugin" class="headerlink" title="webpack - Plugin"></a>webpack - Plugin</h2><p>&emsp;&emsp;loader和plugin都是webpack重要的组成部分，loader主要用于文件内的处理，而plugin主要用于文件间的处理，有时他们需要共同协作<br>&emsp;&emsp;plugin的执行顺序与书写顺序无关，它通常是一个构造函数，挂载到webpack不同的生命周期中，等待执行</p>
+<ul>
+<li>html-webpack-plugin</li>
+</ul>
+<p>&emsp;&emsp;html-webpack-plugin是我们最长的Plugin之一，它会帮我们管理html,<br>&emsp;&emsp;下载插件<code>npm install --save--dev html-webpack-plugin</code>,配置如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: &#123;&#125;,</span><br><span class="line">    output: &#123;&#125;,</span><br><span class="line">    mode: <span class="string">"development"</span>,</span><br><span class="line">    <span class="built_in">module</span>:&#123;&#125;,</span><br><span class="line">    plugins: [</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// new HtmlWebpackPlugin()</span></span><br><span class="line">        <span class="comment">// 默认在output文件下生成一个标题为Webpack App的html文件，并引入entry内的所有文件</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">            template : <span class="string">"./src/index.html"</span> </span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="comment">// 指定html模板文件 会自动复制当前文件到output文件下，并引入entry内的所有口文件</span></span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>clean-webpack-plugin</li>
+</ul>
+<p>&emsp;&emsp;想要每次新打包前清除output文件，以防止废弃文件占用内存空间，我们可以使用clean-webpack-plugin<br>&emsp;&emsp;下载插件<code>npm install --save--dev clean-webpack-plugin</code>,配置如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; CleanWebpackPlugin &#125; = <span class="built_in">require</span>(<span class="string">'clean-webpack-plugin'</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    plugins: [</span><br><span class="line">        <span class="keyword">new</span> CleanWebpackPlugin(),</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>指定服务器地址</li>
+</ul>
+<p>&emsp;&emsp;如有需要指定打包的服务器地址，可配置如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: <span class="string">'[name].js'</span>,</span><br><span class="line">        path: path.resolve(__dirname,<span class="string">'dist'</span>),</span><br><span class="line">        publicPath: <span class="string">"http://xieyuxuan.cc"</span>     <span class="comment">// 服务器地址</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;打包后html引入的入口文件，都将会是publicPath的值+文件名</p>
+<ul>
+<li>错误调试 - sourceMap</li>
+</ul>
+<p>&emsp;&emsp;早期webpack打包后如有代码错误无法直接定位到源码，仅显示打包后的文件错误位置，这给开发调试造成了很大障碍<br>&emsp;&emsp;sourceMap是一个映射关系表，能够将我们所有的源文件的映射到打包后的文件上。<br>&emsp;&emsp;通过配置<a href="https://webpack.js.org/configuration/devtool/" target="_blank" rel="noopener">devtool</a>，满足不同场景的调试需求<br><code>js
+    module.exports = {
+        devtool: &#39;none&#39;   // 默认值是none
+                          // source-map  会在output文件下生成一个 [output.filename].map的 映射文件
+                          // inlne-source-map 将映射文件打入[output.filename] 内最底部
+                          // cheap-module-source-map 生成环境中最常使用 生成[output.filename].map的 映射文件
+                          // cheap-module-eval-source-map 开发环境中最常使用
+                          // ...
+    };</code></p>
+<ul>
+<li>webpack-dev-server - 本地服务器</li>
+</ul>
+<p>&emsp;&emsp;webpack –watch命令可以实现文件更新检测，但这种方式无法满足我们的开发需要<br>&emsp;&emsp;webpack-dev-server主要用于本地开发，满足我们的常规开发需求，大大提升我们工作效率<br>&emsp;&emsp;它为我们开启一个本地服务器，可以实现热更新、跨域(服务器端没有跨域)、重定向等功能<br>&emsp;&emsp;下载webpack-dev-server依赖<code>npm install --save--dev webpack-dev-server</code>,并在webpack.config.js中配置devServer属性<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: &#123;&#125;,</span><br><span class="line">    output: &#123;&#125;,</span><br><span class="line">    mode: <span class="string">"development"</span>,</span><br><span class="line">    <span class="built_in">module</span>:&#123;&#125;,</span><br><span class="line">    devServer:&#123;</span><br><span class="line">        contentBase: <span class="string">'./dist'</span>,   <span class="comment">// 服务器根文件地址</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;在package.json中添加脚本，实现npm run dev开启本地服务<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"test"</span>: <span class="string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span>,</span><br><span class="line">    <span class="attr">"dev"</span>: <span class="string">"webpack-dev-server"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;终端执行npm run dev后，webpack会告诉我们webpack-dev-server为我们开启了一个地址为<a href="http://localhost:8080的服务" target="_blank" rel="noopener">http://localhost:8080的服务</a><br>&emsp;&emsp;此时观察dist文件，该目录下文件清空，但页面显示正常，文件更改后会自动刷新页面并重新执行<br>&emsp;&emsp;dist下的文件不再存放在磁盘中，而是被放置在内存中</p>
+<p>&emsp;&emsp;webpack-dev-server其它常用配置如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    devServer:&#123;</span><br><span class="line">        contentBase: <span class="string">'./dist'</span>,   <span class="comment">// 服务器根文件地址</span></span><br><span class="line">        open: <span class="literal">true</span>,              <span class="comment">// 自动打开页面</span></span><br><span class="line">        host: <span class="string">'localhost'</span>,                <span class="comment">// 指定服务器地址 默认 localhost</span></span><br><span class="line">        port: <span class="number">8080</span>               <span class="comment">// 指定端口号 默认8080</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;实现HMR(热模块更新)<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    devServer:&#123;</span><br><span class="line">        contentBase: <span class="string">'./dist'</span>,</span><br><span class="line">        open: <span class="literal">true</span>,     </span><br><span class="line">        hot: <span class="literal">true</span>           <span class="comment">// 开启热模块更新</span></span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [</span><br><span class="line">        <span class="keyword">new</span> webpack.HotModuleReplacementPlugin()  <span class="comment">// 配置热更新</span></span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>TreeShaking</li>
+</ul>
+<p>&emsp;&emsp;有时我们定义了N个方法，但仅有部分方法被调用，或者引用一个外部的包文件，我们仅使用了它的部分api,我们并不希望所有的方法都被打入，这时候我们就需要shaking一下<br>&emsp;&emsp;shaking,抖一抖，将我们不需要的抖掉</p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/09/03/wbpackDepthExplanation4/" class="archive-article-date">
+  	<time datetime="2019-09-03T09:58:34.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-09-03</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术发展/">技术发展</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack-4-0/">webpack 4.0</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack教程/">webpack教程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 	<i class="icon-price-tags"></i>
 	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
 	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/09/03/wbpackDepthExplanation3/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">从0基础到大牛-webpack深入浅出超强完整版(三)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
 
 
       </div>
@@ -241,9 +312,9 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: true,
 		root: "/",

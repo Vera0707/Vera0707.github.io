@@ -71,6 +71,8 @@
 			
 				<li><a href="/">主页</a></li>
 	        
+				<li><a href="/webpack">webpack教程</a></li>
+	        
 				<li><a href="/web">移动端直通车</a></li>
 	        
 				<li><a href="/css">炫酷CSS3</a></li>
@@ -140,6 +142,8 @@
 				
 					<li><a href="/">主页</a></li>
 		        
+					<li><a href="/webpack">webpack教程</a></li>
+		        
 					<li><a href="/web">移动端直通车</a></li>
 		        
 					<li><a href="/css">炫酷CSS3</a></li>
@@ -164,6 +168,113 @@
       <canvas id="body-wrap"> </canvas>
       <div class="body-wrap">
           
+  
+    <article id="post-linuxFHS" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/17/linuxFHS/">Linux文件层级结构标准（FHS）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;设计FHS(Filesystem Hierarchy Standard)的目的主要是为了给Unix-like系统的管理员提供一个管理系统以及目录结构的一个参考。</p>
+<p>&emsp;&emsp;由于利用Linux源码开发产品和发行版的企业或组织众多，如果每个组织都按照自己的喜好来组织系统中的文件结构，网络上必然出现各种各样的文件结构。这些产品的用户就不得不为每种不同的文件系统结构花费时间来学习。有了FHS之后，几乎所有的Unix-like系统的发行商或软件开发者都遵从该建议规范每个特定目录下分别只放哪些文件，方便了文件的组织和查找。</p>
+<p>&emsp;&emsp;FHS也根据实际使用的需求持续更新，完整的FHS可参考（<a href="http://www.pathname.com/fhs/）" target="_blank" rel="noopener">http://www.pathname.com/fhs/）</a></p>
+<p><abbr title="" style="color:#333;font-weight:bold;background:#fff;text-decoration:none;border-bottom:none;">/, /usr, /var</abbr></p>
+<hr>
+<p>&emsp;&emsp;FHS根据文件的可共享、不可共享、静态和动态等特点，将目录树架构分为/、/usr、/var三部分。</p>
+<blockquote>
+<p> / 根目录是整个系统最重要的一个目录，因为在Linux系统中所有的目录都必须挂载在根目录下，也即所有的目录都是由根目录衍生出来。系统开机是所需要的开机软件、内核文件、函数库等都必须在根目录下。因此FHS也建议根目录不要安装在非常大、数据存取非常活跃的分区上，如此一来就能尽可能地降低系统不必要的错误。建议：根目录越小越好，且应用程序安装目录不要和根目录放置于同一分区。根目录下一般建议由以下耳机子目录：</p>
+</blockquote>
+<ul>
+<li>/bin 供所有用户使用的基本命令程序文件</li>
+<li>/sbin 系统管理员使用的工具程序</li>
+<li>/boot 引导加载器(bootloader)必须用到的静态文件：kernel、initramfs(initrd)、grub等</li>
+<li>/dev 存储特殊文件或设备文件: 字符设备（线性设备）、块设备（随机设备）</li>
+<li>/etc 系统程序的配置文件（只能为静态的，不能是二进制）</li>
+<li>/lib、/lib64 为系统启动或根文件系统上的应用程序（/bin, /sbin）提供共享库（libc.so.<em> ld</em>），以及为内核提供内核模块（modules）</li>
+<li>/media 便携式设备的挂载点，cdrom、floopy等</li>
+<li>/mnt 其他文件系统的临时挂载点</li>
+<li>/opt 第三方程序的安装位置，可选路径；</li>
+<li>/srv 当前主机为服务提供的数据</li>
+<li>/tmp 为那些会产生临时文件的程序提供的用于存储临时文件的目录</li>
+<li>/usr user hierarchy 全局共享只读数据路径</li>
+<li>/var var hierarchy存储常发生变化的文件</li>
+<li>/proc 内核级进程存储其相关信息，多为内核参数，例如net.ipv4.ipforward虚拟为net/ipv4/ipforward，存储于/proc/sys</li>
+<li>/sys sysfs虚拟文件系统提供了一种比proc更为理想的访问内核数据的途径；为管理内核提供了一种统一模型的接口</li>
+</ul>
+<blockquote>
+<p> /usr 根据FHS建议软件安装后将他们的数据合理地分别放置到这个目录下，而不要自行新建该软件自己的独立目录。/usr放置的数据属于可分享的且不可变动的，/usr可分享给局域网内的其他主机来使用。</p>
+</blockquote>
+<ul>
+<li>/usr/bin</li>
+<li>/usr/sbin</li>
+<li>/usr/lib</li>
+<li>/usr/lib64</li>
+<li>/usr/include C程序头文件</li>
+<li>/usr/share 命令手册页和自带文档等</li>
+<li>/usr/local 另一个层级结构，让系统管理员安装本地应用程序，通常用于安装第三方软件</li>
+<li>/usr/src 程序的源码</li>
+</ul>
+<blockquote>
+<p> /var 主要存储常变化的文件，包括缓存(cache)、登录文件(logfile)以及某些软件运行所产生的文件，包括程序文件(lock file, run file)，或者例如MySQL数据库的文件等。</p>
+</blockquote>
+<ul>
+<li>/var/cache 应用程序产生的缓存文件</li>
+<li>/var/lib 程序执行过程中，需要用到的数据文件放置的目录。此目录下各自的软件应该要有各自的目录。</li>
+<li>/var/lib 某些设备或者文件资源一次只能被一个应用程序所使用，如果同时有两个程序使用该设备时，就可能产生一些错误，因此就得要将该设备或文件上锁(lock)，以确保该文件或设备只给一个程序使用。</li>
+<li>/var/log 登录文件 /var/log/messages, /var/log/wtmp</li>
+<li>/var/mail 个人电子邮箱目录，通常与/var/spool/mail/目录互为链接</li>
+<li>/var/run 与运行中的进程相关的数据，PID等</li>
+<li>/var/spool 存放等待其他程序使用的数据</li>
+<li>/var/tmp 下次启动前会被删除的临时数据</li>
+</ul>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/07/17/linuxFHS/" class="archive-article-date">
+  	<time datetime="2018-07-17T11:51:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-17</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FHS/">FHS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux文件/">linux文件</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
   
     <article id="post-studyWay" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
@@ -1269,88 +1380,9 @@
 
 
   
-    <article id="post-iosMoveEvent" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/17/iosMoveEvent/">解决IOS滑动不畅问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[TOC]<br>@(welcome)[前端菜鸟|掘金中]</p>
-<ul>
-<li>在编写移动端页面时,遇到一个很奇怪的问题,IOS向来滑动通畅,体验度明显甩开安卓十条街,但是在添加了上拉刷新下拉加载加载的插件后,IOS瞬间滑动不畅,慢成一坨.</li>
-<li>那赶脚就像,拖着汽车往前走的老哞…</li>
-<li>起初以为是插件底层的滑动事件影响了IOS,去掉插件之后,依然卡顿如初,what?!</li>
-<li>仔细对比之后,终于找到罪魁祸首,竟然是两行熟悉到不行的css</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">body,html&#123;</span><br><span class="line">    height: 100%;</span><br><span class="line">    overflow: auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>通过查找，终于找到了解决问题的方法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">-webkit-overflow-scrolling</span>: <span class="selector-tag">touch</span>;</span><br></pre></td></tr></table></figure></p>
-<p>这个属性只兼容移动版 Safari  iOS 5.0+，而且它有两个值<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">-webkit-overflow-scrolling</span>: <span class="selector-tag">touch</span>; <span class="comment">/* 当手指从触摸屏上移开，会保持一段时间的滚动 */</span></span><br><span class="line"><span class="selector-tag">-webkit-overflow-scrolling</span>: <span class="selector-tag">auto</span>; <span class="comment">/* 当手指从触摸屏上移开，滚动会立即停止 */</span></span><br></pre></td></tr></table></figure></p>
-<p>####auto</p>
-<ul>
-<li>使用普通滚动, 当手指从触摸屏上移开，滚动会立即停止。</li>
-</ul>
-<p>####touch</p>
-<ul>
-<li>使用具有回弹效果的滚动, 当手指从触摸屏上移开，内容会继续保持一段时间的滚动效果。继续滚动的速度和持续的时间和滚动手势的强烈程度成正比。同时也会创建一个新的堆栈上下文。</li>
-</ul>
-<p> ``将这行代码放到我的根标签后，我的小苹果又再次欢快的跑起来了！正当我高兴的时候，又发现了一个问题，我写的固定定位导航条随着苹果的告诉滑动，出现了鬼畜情况！</p>
-<p>``也就是说，我需要将我的固定定位排除在滑动之外！</p>
-<p>``上代码</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span>,<span class="selector-tag">html</span>&#123;</span><br><span class="line">       <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">       <span class="attribute">overflow</span>: auto;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="selector-class">.scroll</span>&#123;</span><br><span class="line">       <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">       <span class="attribute">overflow</span>: auto;</span><br><span class="line">       <span class="attribute">-webkit-overflow-scrolling</span>: touch;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>要滚动的部分给父元素加上class类scroll,需要注意的是设置的两个overflow形成了两个滚动条，很容易造成滚动问题，建议在苹果浏览器下调试好。</p>
-<p>博主原创文</p>
-
-      
-    </div>
-      <div id="remark"></div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/17/iosMoveEvent/" class="archive-article-date">
-  	<time datetime="2016-11-17T08:51:45.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-17</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css-hack/">css hack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原创/">原创</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 
