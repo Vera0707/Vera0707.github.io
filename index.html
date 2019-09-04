@@ -71,13 +71,13 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/webpack">webpack教程</a></li>
+				<li><a href="/types/webpack.html">webpack教程</a></li>
 	        
-				<li><a href="/web">移动端直通车</a></li>
+				<li><a href="/types/origincode.html">源码剖析</a></li>
 	        
-				<li><a href="/css">炫酷CSS3</a></li>
+				<li><a href="/types/web.html">移动端直通车</a></li>
 	        
-				<li><a href="/script">神奇JS</a></li>
+				<li><a href="/types/script.html">神奇JS</a></li>
 	        
 			</ul>
 		</nav>
@@ -142,13 +142,13 @@
 				
 					<li><a href="/">主页</a></li>
 		        
-					<li><a href="/webpack">webpack教程</a></li>
+					<li><a href="/types/webpack.html">webpack教程</a></li>
 		        
-					<li><a href="/web">移动端直通车</a></li>
+					<li><a href="/types/origincode.html">源码剖析</a></li>
 		        
-					<li><a href="/css">炫酷CSS3</a></li>
+					<li><a href="/types/web.html">移动端直通车</a></li>
 		        
-					<li><a href="/script">神奇JS</a></li>
+					<li><a href="/types/script.html">神奇JS</a></li>
 		        
 				</ul>
 			</nav>
@@ -179,7 +179,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/03/wbpackDepthExplanation4/">从0基础到大牛-webpack深入浅出超强完整版(四)</a>
+      <a class="article-title" href="/2019/09/04/wbpackDepthExplanation4/">从0基础到大牛-webpack深入浅出超强完整版(四)</a>
     </h1>
   
 
@@ -225,15 +225,24 @@
 <ul>
 <li>TreeShaking</li>
 </ul>
-<p>&emsp;&emsp;有时我们定义了N个方法，但仅有部分方法被调用，或者引用一个外部的包文件，我们仅使用了它的部分api,我们并不希望所有的方法都被打入，这时候我们就需要shaking一下<br>&emsp;&emsp;shaking,抖一抖，将我们不需要的抖掉</p>
+<p>&emsp;&emsp;有时我们定义了N个方法，但仅有部分方法被调用,不想让所有的方法都被打入，这时候我们就需要shaking一下<br>&emsp;&emsp;将未被使用的 exported member 标记为 unused 同时在将其 re-export 的模块中不再 export<br>&emsp;&emsp;这里必须使用ESmodule的引入方式<br>&emsp;&emsp;webpack.config.js新增配置如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: &#123;&#125;,</span><br><span class="line">    output: &#123;&#125;,</span><br><span class="line">    mode: <span class="string">"development"</span>,</span><br><span class="line">    optimization: &#123;</span><br><span class="line">        usedExports: <span class="literal">true</span>,    <span class="comment">// 开去tree shaking</span></span><br><span class="line">    &#125;,   </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;同时需要在package中新增配置，取消副作用<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"webpack-demo"</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="attr">"slideEffects"</span>: <span class="literal">false</span>   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;虽然webpack设置了tree shaking，但是比如包中有一些配置，设定，日志等产生的副作用，会使得包文件依然会被打入<br>&emsp;&emsp;如果你不想，可以设置slideEffects为false，或者通过数组指定<br>&emsp;&emsp;我们在设置副作用时应当明确,这个包没有副作用或者不需要它们的副作用<br>&emsp;&emsp;webpack会在线上shaking掉，我们的配置才会有效，而开发环境我们可以看到它的分析结果</p>
+<ul>
+<li>开发模式 和 生产模式</li>
+</ul>
+<p>&emsp;&emsp;开发模式 development 本地编写代码<br>&emsp;&emsp;生产模式 production 用于打包完成后交给线上服务<br>&emsp;&emsp;区分两种模式，实现不同环境的打包，现我们新建webpack.dev.js做开发配置，并将所有开发环境的配置保留,可参考如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; CleanWebpackPlugin &#125; = <span class="built_in">require</span>(<span class="string">'clean-webpack-plugin'</span>);</span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: &#123; <span class="string">'app'</span> : <span class="string">'./src/app.js'</span> &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: <span class="string">'[name].js'</span>,</span><br><span class="line">        path: path.resolve(__dirname,<span class="string">'../dist'</span>),</span><br><span class="line">    &#125;,</span><br><span class="line">    devtool: <span class="string">'cheap-module-eval-source-map'</span>,</span><br><span class="line">    mode: <span class="string">"development"</span>,</span><br><span class="line">    devServer:&#123;</span><br><span class="line">        contentBase: <span class="string">'./dist'</span>,</span><br><span class="line">        hot: <span class="literal">true</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    optimization:&#123;</span><br><span class="line">        usedExports: <span class="literal">true</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="built_in">module</span>:&#123;&#125;,   <span class="comment">//  此处省略</span></span><br><span class="line">    plugins: [</span><br><span class="line">        <span class="keyword">new</span> HtmlWebpackPlugin(</span><br><span class="line">            &#123;<span class="attr">template</span> : <span class="string">"./src/index.html"</span>&#125;</span><br><span class="line">        ),</span><br><span class="line">        <span class="keyword">new</span> CleanWebpackPlugin(),</span><br><span class="line">        <span class="keyword">new</span> webpack.HotModuleReplacementPlugin()</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;新建webpack.prod.js，做线上配置，并将所有线上环境的配置保留，可参考如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; CleanWebpackPlugin &#125; = <span class="built_in">require</span>(<span class="string">'clean-webpack-plugin'</span>);</span><br><span class="line">   </span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: &#123;<span class="string">'main'</span> : <span class="string">'./src/main.js'</span>&#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: <span class="string">'[name].js'</span>,</span><br><span class="line">        path: path.resolve(__dirname,<span class="string">'../dist'</span>),</span><br><span class="line">    &#125;,</span><br><span class="line">    devtool: <span class="string">'cheap-eval-source-map'</span>,</span><br><span class="line">    mode: <span class="string">"production"</span>,</span><br><span class="line">    optimization:&#123;</span><br><span class="line">        usedExports: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="built_in">module</span>:&#123;&#125;,                     <span class="comment">//  此处省略</span></span><br><span class="line">    plugins: [</span><br><span class="line">        <span class="keyword">new</span> HtmlWebpackPlugin(</span><br><span class="line">            &#123;<span class="attr">template</span> : <span class="string">"./src/index.html"</span>&#125;</span><br><span class="line">        ),</span><br><span class="line">        <span class="keyword">new</span> CleanWebpackPlugin(),</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;将webpack配置文件都放入根目录下的config文件夹内<br>&emsp;&emsp;配置package.json，通过不同的命令执行不同的打包规则<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   <span class="attr">"name"</span>: <span class="string">"webpack-demo"</span>,</span><br><span class="line">   <span class="attr">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">   <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">      <span class="attr">"dev"</span>: <span class="string">"webpack-dev-server --config config/webpack.dev.js"</span>,</span><br><span class="line">      <span class="attr">"build"</span>: <span class="string">"webpack --config config/webpack.prod.js"</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;通过命令<code>npm run dev</code>与命令<code>npm run build</code>我们实现了不同环境下的打包<br>&emsp;&emsp;虽然我们已经可以区分两种环境了,但是很明显配置文件中包含大量共同部分，现在我们新建webpack.common.js文件，提取公共部分</p>
 
       
     </div>
       <div id="remark"></div>
     <div class="article-info article-info-index">
       
-      <a href="/2019/09/03/wbpackDepthExplanation4/" class="archive-article-date">
-  	<time datetime="2019-09-03T09:58:34.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-09-03</time>
+      <a href="/2019/09/04/wbpackDepthExplanation4/" class="archive-article-date">
+  	<time datetime="2019-09-04T12:14:37.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-09-04</time>
 </a>
       
 	<div class="article-tag tagcloud">
