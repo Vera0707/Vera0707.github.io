@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="dns-prefetch" href="http://xieyuxuan.cc">
+  <title>上古利器jQuery源码剖析(一) | 谢雨轩的博客 | Vera Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="上古利器 虽经沧海变革 宝剑尚锋 &amp;emsp;随着数据驱动时代的到来，jQuery不可避免的跌下神坛，但应记得它曾何等辉煌&amp;emsp;我们学习jQuery，不是学习它的用法，而是学习它的架构，它的思想，来深刻理解JS&amp;emsp;优秀的jQuery还未落伍，像当下最火着的axios/fetch等都源自对ajax的吸纳，11年就出现的异步解决方法deferred，在Promise里处处是它的影子&amp;em">
+<meta name="keywords" content="前端,jquery,jquery源码,jquery源码教程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="上古利器jQuery源码剖析(一)">
+<meta property="og:url" content="http://xieyuxuan.cc/2019/09/05/jquerySourceCode1/index.html">
+<meta property="og:site_name" content="谢雨轩的博客 | Vera Blog">
+<meta property="og:description" content="上古利器 虽经沧海变革 宝剑尚锋 &amp;emsp;随着数据驱动时代的到来，jQuery不可避免的跌下神坛，但应记得它曾何等辉煌&amp;emsp;我们学习jQuery，不是学习它的用法，而是学习它的架构，它的思想，来深刻理解JS&amp;emsp;优秀的jQuery还未落伍，像当下最火着的axios/fetch等都源自对ajax的吸纳，11年就出现的异步解决方法deferred，在Promise里处处是它的影子&amp;em">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-09-05T08:24:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="上古利器jQuery源码剖析(一)">
+<meta name="twitter:description" content="上古利器 虽经沧海变革 宝剑尚锋 &amp;emsp;随着数据驱动时代的到来，jQuery不可避免的跌下神坛，但应记得它曾何等辉煌&amp;emsp;我们学习jQuery，不是学习它的用法，而是学习它的架构，它的思想，来深刻理解JS&amp;emsp;优秀的jQuery还未落伍，像当下最火着的axios/fetch等都源自对ajax的吸纳，11年就出现的异步解决方法deferred，在Promise里处处是它的影子&amp;em">
+  
+    <link rel="alternative" href="/atom.xml" title="谢雨轩的博客 | Vera Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+
+
+  <!-- Piwik -->
+  <script type="text/javascript">
+    var _paq = _paq || [];
+    // tracker methods like "setCustomDimension" should be called before "trackPageView"
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//piwik.mritd.me/";
+      _paq.push(['setTrackerUrl', u+'piwik.php']);
+      _paq.push(['setSiteId', '3']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Piwik Code -->
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/images/userimg.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">谢雨轩</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Web前端技术宅升级打倒小怪兽</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/types/webpack.html">webpack教程</a></li>
+	        
+				<li><a href="/types/origincode.html">源码剖析</a></li>
+	        
+				<li><a href="/types/web.html">移动端直通车</a></li>
+	        
+				<li><a href="/types/script.html">神奇JS</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">我的项目</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/Vera0707/huanhuashuixie" title="github">github</a>
+		        
+					<a class="mail" target="_blank" href="/lishuxia@gozap.com" title="mail">mail</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">谢雨轩</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/images/userimg.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">谢雨轩</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Web前端技术宅升级打倒小怪兽</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/types/webpack.html">webpack教程</a></li>
+		        
+					<li><a href="/types/origincode.html">源码剖析</a></li>
+		        
+					<li><a href="/types/web.html">移动端直通车</a></li>
+		        
+					<li><a href="/types/script.html">神奇JS</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/Vera0707/huanhuashuixie" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="/lishuxia@gozap.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <canvas id="body-wrap"> </canvas>
+      <div class="body-wrap">
+          <article id="post-jquerySourceCode1" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      上古利器jQuery源码剖析(一)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><abbr style="display:block;margin-top: -50px;font-size: 12px;color:#999;text-align: center;border-bottom: 1px dotted #999;">上古利器 虽经沧海变革 宝剑尚锋</abbr></p>
+<p>&emsp;随着数据驱动时代的到来，jQuery不可避免的跌下神坛，但应记得它曾何等辉煌<br>&emsp;我们学习jQuery，不是学习它的用法，而是学习它的架构，它的思想，来深刻理解JS<br>&emsp;优秀的jQuery还未落伍，像当下最火着的axios/fetch等都源自对ajax的吸纳，11年就出现的异步解决方法deferred，在Promise里处处是它的影子<br>&emsp;之前并没有怎么看过别人的源码教程，第一次写源码稍显吃力，给自己加油吧</p>
+<p>&emsp;&emsp;<abbr style="display:block;color: brown;">* 首先，你应该知道</abbr> </p>
+<p>&emsp;$ 只是一个 jQuery的一个别名<br>&emsp;jQuery是一个构造函数,可以理解为就是一个普通的构造函数<br>&emsp;但是我们在调用jQuery的时候,并没有使用new关键字呢.其实这里,jQuery帮我们做了一层语法糖的封装,即调用$()的时候,它自动帮我们创建了jQuery的实例对象<br>&emsp;即$()时就为我们实现了new</p>
+<p>&emsp;&emsp;<abbr style="display:block;color: brown;">* 经典的jQuery框架</abbr> </p>
+<p>&emsp;首先我们创造一个自执行函数,传入this,通过root来接收<br>&emsp;在匿名函数里 我们创建一个叫jQuery的变量,jQuery变量拿到的是一个匿名函数的引用<br>&emsp;这个匿名函数,我们会把它当成构造函数<br>&emsp;因为我们是在全局环境下传入的this,所以这里的this指的就是window对象<br>&emsp;给环境变量root扩展一个叫做jQuery的属性,让它指向jQuery变量,同时再给root扩展一个叫做$的别名<br>&emsp;在随手给jQuery设置一下原型方法<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> jQuery = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;   <span class="comment">// 构造函数</span></span><br><span class="line">    </span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    jQuery.prototype = &#123;</span><br><span class="line">       init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">         </span><br><span class="line">       &#125;  </span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//root.jQuery = jQuery;</span></span><br><span class="line">    root.$ = root.jQuery = jQuery;</span><br><span class="line">&#125;)(<span class="keyword">this</span>);   <span class="comment">// 环境变量this 因为是全局环境 所以这里指的是window</span></span><br></pre></td></tr></table></figure></p>
+<p>&emsp;上面的代码看起来一点都不复杂，甚至还有一点小简单，但是别忘了，我们刚才说过jQuery是一个构造函数，$()时为我们实现了new<br>&emsp;让jQuery返回new jQuery()，就可以完美解决！图样图破森,那样会死循环<br>&emsp;我们再造一个构造函数，让jQuery返回这个构造函数不就好了,这个构造函数就是init</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> jQuery = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;  <span class="comment">// 别忘了 jQuery我们也是当做构造函数的</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> jQuery.prototype.init();  <span class="comment">// 返回构造函数init的实例对象</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    jQuery.prototype = &#123;</span><br><span class="line">        init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;       <span class="comment">// init是一个匿名对象,在这里我们将它当做一个构造函数</span></span><br><span class="line">           </span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    root.$ = root.jQuery = jQuery;</span><br><span class="line">&#125;)(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;<abbr style="display:block;color: brown;">* 共享原型</abbr> </p>
+<p>&emsp;新的问题来了，$()返回了init方法，而init方法的原型对象上什么都没有，如何将方法扩展进来呢？<br>&emsp;如果init的原型对象是jQuery.prototype，那jQuery.prototype的所有方法都会挂载到init的实例中，也就是$()中</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> jQuery = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;  <span class="comment">// 别忘了 jQuery我们也是当做构造函数的</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> jQuery.prototype.init();  <span class="comment">// 返回构造函数init的实例对象</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    jQuery.prototype = &#123;</span><br><span class="line">        init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;       <span class="comment">// init是一个匿名对象,在这里我们将它当做一个构造函数</span></span><br><span class="line">           </span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    jQuery.prototype.init.prototype = jQuery.prototype; <span class="comment">// init的原型对象指向为jQuery的原型原型对象</span></span><br><span class="line">    </span><br><span class="line">    root.$ = root.jQuery = jQuery;</span><br><span class="line">&#125;)(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+<p>&emsp;init是jQuery.prototype的一个方法,init的原型对象又是jQuery.prototype,那么init拥有了jQuery.prototype的所有方法(包括它自己)<br>&emsp;设计的思路是这样的,我们有两个函数jQuery和init,$()就等同于实例化jQuery即new jQuery(),但们无法直接让jQuery函数返回new jQuery,这样会形成死循环,于是我们实例化了另一个构造函数init<br>&emsp;我们将init方法的原型也指向了jQuery的方法原型,实现了原型共享<br>&emsp;因此,jQuery.prototype原型对象里封装的所有属性和方法,jQuery与init都是可以调用的<br>&emsp;最反思维的地方就在于了,init是Query.prototype原型对象的一个方法,可以想想计算机的自举~</p>
+<p>&emsp;<abbr style="display:block;color: brown;">* 工具函数</abbr> </p>
+<p>&emsp;jQuery框架非常重要的一个函数-工具函数,它的作用是将jQuery所有的自身对象或者实例对象的属性和方法,全部都剥离开来,进行分类管理<br>&emsp;jQuery中一共有两个对象,一个是实例对象,一个是jQuery本身的对象<br>&emsp;起手式中我们实现了实例对象,而jQuery除了是一个构造函数,它也是一个函数对象,我们也有很多函数对象是挂载到jQuery本身上的,例如$.ajax/$.each等<br>&emsp;我们给jQuery添加一个静态属性fn,我们让fn等于jQuery的原型对象,这样我们在外部扩展时,至需要扩展jQuery.fn即可<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> jQuery = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> jQuery.prototype.init();</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    jQuery.fn = jQuery.prototype = &#123;    <span class="comment">// jQuery的静态方法等于jQuery的原型对象,原型对象也是对象</span></span><br><span class="line">        init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    jQuery.fn.init.prototype = jQuery.fn;   <span class="comment">// 替换</span></span><br><span class="line"></span><br><span class="line">    root.$ = root.jQuery = jQuery;</span><br><span class="line"></span><br><span class="line">&#125;)(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;外部扩展时,只需要$.fn.新方法名 = function(){} -&gt;插件编写的形式<br>&emsp;通过调用静态属性扩展到jQuery的实例对象上</p>
+<p>&emsp;<abbr style="display:block;color: brown;">* extend</abbr> </p>
+<p>&emsp;extend在jQuery函数内部是作为一个工具函数存在,用它来管理不同对象(jQuery本身以及它的原型对象)的扩展<br>&emsp;extend在外部可以给 ①任意对象扩展/浅拷贝/深拷贝 ②jQuery本身扩展 ③jQuery实例对象扩展</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> jQuery = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> jQuery.prototype.init();</span><br><span class="line">    &#125;;</span><br><span class="line">    jQuery.fn = jQuery.prototype = &#123;</span><br><span class="line">        init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// jQuery与 jQuery.prototype的原型都扩展了一个extend属性</span></span><br><span class="line">    jQuery.extend = jQuery.prototype.extend = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 方法调用时,我们有可能给任何对象/jQuery对象/jQuery原型对象进行扩展</span></span><br><span class="line">        <span class="comment">// 我们通过参数来进行区分</span></span><br><span class="line">        <span class="comment">// 参数1 是我们要扩展的对象 参数2 是我们要变量的对象</span></span><br><span class="line">        <span class="comment">// 分析 有1个参数 可能给jQuery对象/jQuery原型对象扩展 有2个及以上 给任意对象arguments[0]扩展</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> target = <span class="built_in">arguments</span>[<span class="number">0</span>] || &#123;&#125;;   <span class="comment">// 参数处理: 参数为空? 赋值对象不是引用类型?</span></span><br><span class="line">        <span class="keyword">var</span> length = <span class="built_in">arguments</span>.length;  <span class="comment">// 参数个数</span></span><br><span class="line">        <span class="keyword">var</span> i = <span class="number">1</span>;  <span class="comment">// 默认参数个数</span></span><br><span class="line">        <span class="keyword">var</span> option;</span><br><span class="line">        <span class="keyword">var</span> name;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> target !== <span class="string">"object"</span>)&#123;</span><br><span class="line">            target = &#123;&#125;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1个参数</span></span><br><span class="line">        <span class="keyword">if</span>(length == i)&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2个及以上参数</span></span><br><span class="line">        <span class="keyword">for</span>(;i&lt;length;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>((option = <span class="built_in">arguments</span>[i]) !== <span class="literal">null</span>)&#123;</span><br><span class="line">                <span class="keyword">for</span>(name <span class="keyword">in</span> option)&#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    jQuery.fn.init.prototype = jQuery.fn;</span><br><span class="line">    root.$ = root.jQuery = jQuery;</span><br><span class="line"></span><br><span class="line">&#125;)(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+<p>&emsp;<br>&emsp;<br>&emsp;</p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/09/05/jquerySourceCode1/" class="archive-article-date">
+  	<time datetime="2019-09-05T08:24:55.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-09-05</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jquery/">jquery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jquery源码/">jquery源码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jquery源码教程/">jquery源码教程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2019/10/11/webStudent/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          前端常用学习网站
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/05/wbpackDepthExplanation4/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">从0基础到大牛-webpack深入浅出超强完整版(四)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019 谢雨轩
+    	</div>
+      	<div class="footer-right">虽然生的丑 毕竟想的美</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: true,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/FHS/" style="font-size: 11.67px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/jquery源码/" style="font-size: 10px;">jquery源码</a> <a href="/tags/jquery源码教程/" style="font-size: 10px;">jquery源码教程</a> <a href="/tags/js原型/" style="font-size: 10px;">js原型</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/react-redux/" style="font-size: 10px;">react-redux</a> <a href="/tags/rich-text/" style="font-size: 10px;">rich-text</a> <a href="/tags/underscore/" style="font-size: 10px;">underscore</a> <a href="/tags/underscore源码/" style="font-size: 10px;">underscore源码</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/webpack/" style="font-size: 16.67px;">webpack</a> <a href="/tags/webpack-4-0/" style="font-size: 15px;">webpack 4.0</a> <a href="/tags/webpack优化/" style="font-size: 10px;">webpack优化</a> <a href="/tags/webpack教程/" style="font-size: 15px;">webpack教程</a> <a href="/tags/依赖倒置原则/" style="font-size: 11.67px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端打包工具/" style="font-size: 10px;">前端打包工具</a> <a href="/tags/前端设计模式/" style="font-size: 18.33px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 13.33px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/源码/" style="font-size: 11.67px;">源码</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/Vera0707/huanhuashuixie/tree/master/framework">流行框架练习</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">一枚深水前端&lt;br/&gt;&lt;br/&gt;大神带带我&lt;br/&gt;小白我要升级打倒小怪兽</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <!--<script>-->
+      <!--var WIDTH = window.innerWidth, HEIGHT = window.innerHeight, POINT = 35;-->
+
+      <!--var canvas = document.getElementById('body-wrap');-->
+      <!--canvas.width = WIDTH,-->
+          <!--canvas.height = HEIGHT;-->
+      <!--var context = canvas.getContext('2d');-->
+      <!--context.strokeStyle = 'rgba(0,0,0,0.2)',-->
+          <!--context.strokeWidth = 1,-->
+          <!--context.fillStyle = 'rgba(0,0,0,0.1)';-->
+      <!--var circleArr = [];-->
+
+      <!--//线条：开始xy坐标，结束xy坐标，线条透明度-->
+      <!--function Line (x, y, _x, _y, o) {-->
+          <!--this.beginX = x,-->
+              <!--this.beginY = y,-->
+              <!--this.closeX = _x,-->
+              <!--this.closeY = _y,-->
+              <!--this.o = o;-->
+      <!--}-->
+      <!--//点：圆心xy坐标，半径，每帧移动xy的距离-->
+      <!--function Circle (x, y, r, moveX, moveY) {-->
+          <!--this.x = x,-->
+              <!--this.y = y,-->
+              <!--this.r = r,-->
+              <!--this.moveX = moveX,-->
+              <!--this.moveY = moveY;-->
+      <!--}-->
+      <!--//生成max和min之间的随机数-->
+      <!--function num (max, _min) {-->
+          <!--var min = arguments[1] || 0;-->
+          <!--return Math.floor(Math.random()*(max-min+1)+min);-->
+      <!--}-->
+      <!--// 绘制原点-->
+      <!--function drawCricle (cxt, x, y, r, moveX, moveY) {-->
+          <!--var circle = new Circle(x, y, r, moveX, moveY)-->
+          <!--cxt.beginPath()-->
+          <!--cxt.arc(circle.x, circle.y, circle.r, 0, 2*Math.PI)-->
+          <!--cxt.closePath()-->
+          <!--cxt.fill();-->
+          <!--return circle;-->
+      <!--}-->
+      <!--//绘制线条-->
+      <!--function drawLine (cxt, x, y, _x, _y, o) {-->
+          <!--var line = new Line(x, y, _x, _y, o)-->
+          <!--cxt.beginPath()-->
+          <!--cxt.strokeStyle = 'rgba(0,0,0,'+ o +')'-->
+          <!--cxt.moveTo(line.beginX, line.beginY)-->
+          <!--cxt.lineTo(line.closeX, line.closeY)-->
+          <!--cxt.closePath()-->
+          <!--cxt.stroke();-->
+
+      <!--}-->
+      <!--//每帧绘制-->
+      <!--function draw () {-->
+          <!--context.clearRect(0,0,canvas.width, canvas.height);-->
+          <!--for (var i = 0; i < POINT; i++) {-->
+              <!--drawCricle(context, circleArr[i].x, circleArr[i].y, circleArr[i].r);-->
+          <!--}-->
+          <!--for (var i = 0; i < POINT; i++) {-->
+              <!--for (var j = 0; j < POINT; j++) {-->
+                  <!--if (i + j < POINT) {-->
+                      <!--var A = Math.abs(circleArr[i+j].x - circleArr[i].x),-->
+                          <!--B = Math.abs(circleArr[i+j].y - circleArr[i].y);-->
+                      <!--var lineLength = Math.sqrt(A*A + B*B);-->
+                      <!--var C = 1/lineLength*7-0.009;-->
+                      <!--var lineOpacity = C > 0.03 ? 0.03 : C;-->
+                      <!--if (lineOpacity > 0) {-->
+                          <!--drawLine(context, circleArr[i].x, circleArr[i].y, circleArr[i+j].x, circleArr[i+j].y, lineOpacity);-->
+                      <!--}-->
+                  <!--}-->
+              <!--}-->
+          <!--}-->
+      <!--}-->
+      <!--//初始化生成原点-->
+      <!--function init () {-->
+          <!--circleArr = [];-->
+          <!--for (var i = 0; i < POINT; i++) {-->
+              <!--circleArr.push(drawCricle(context, num(WIDTH), num(HEIGHT), num(15, 2), num(10, -10)/40, num(10, -10)/40));-->
+          <!--}-->
+          <!--draw();-->
+      <!--}-->
+      <!--//调用执行-->
+      <!--window.onload = function () {-->
+          <!--init();-->
+          <!--setInterval(function () {-->
+              <!--for (var i = 0; i < POINT; i++) {-->
+                  <!--var cir = circleArr[i];-->
+                  <!--cir.x += cir.moveX;-->
+                  <!--cir.y += cir.moveY;-->
+                  <!--if (cir.x > WIDTH) cir.x = 0;-->
+                  <!--else if (cir.x < 0) cir.x = WIDTH;-->
+                  <!--if (cir.y > HEIGHT) cir.y = 0;-->
+                  <!--else if (cir.y < 0) cir.y = HEIGHT;-->
+              <!--}-->
+              <!--draw();-->
+          <!--}, 10);-->
+      <!--}-->
+  <!--</script>-->
+  <!--<script>-->
+      <!--var gitment = new Gitment({-->
+          <!--id: '', // 可选。默认为 location.href-->
+          <!--owner: 'vera0707',-->
+          <!--repo: 'https://github.com/vera0707/vera0707.github.io',-->
+          <!--labels: "gitment-introduction",-->
+          <!--oauth: {-->
+              <!--client_id: '412dc716eeeb8fa2983f',-->
+              <!--client_secret: 'e350354961bdca67937a21eed747e23ba1e6f86e'-->
+          <!--}-->
+      <!--})-->
+      <!--gitment.render('remark')-->
+  <!--</script>-->
+</body>
+</html>

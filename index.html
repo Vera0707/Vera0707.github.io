@@ -169,6 +169,574 @@
       <div class="body-wrap">
           
   
+    <article id="post-react-my-dedux" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/13/react-my-dedux/">手写系列之React-redux</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>痛定思痛，悲痛难已，放弃源码，后补webpack，决定先做手写系列内容。主要最近被问到哑口，各种语塞，是时候搞一波创造了</p>
+</blockquote>
+<p>** 很多都是自己的理解，”谨”供参考</p>
+<h4 id="单向数据流"><a href="#单向数据流" class="headerlink" title="单向数据流"></a>单向数据流</h4><p>&emsp;React是单向数据流,首先我们讲讲单向数据流<br>&emsp;何为单向数据流，顾名思义，就是数据像河流一样只能从一端流向另一端,而且是地势较高的一端(顶级/父级)-向地势低的一端(子级)流动<br>&emsp;这种数据传输特点保证了数据的纯净性，当我们想”追根溯源”，可以轻易检测到问题症结<br>&emsp;当然，React或Vue都可以通过$emit，使子组件通知父组件变更数据，但它依然不会破坏数据的单一流动</p>
+<h4 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h4><p>&emsp;基于单向数据流的处理方式，使我们想要从顶层将数据传给底层子组件，需要中间跨越层层组件<br>&emsp;假使我们嵌套了N层，意味着我们的数据需要经过N层组件，中间组件N-2个组件都是毫无意义的数据传声筒<br>&emsp;而这样的情况有很多，像我们的用户数据，公共配置…等等<br>&emsp;Content就是帮我们做全局数据处理的，我们常用的React-redux/React-router都是基于Content<br>&emsp;还记得redux是怎么”劝”我们的嘛？</p>
+<p>&emsp;&emsp;&emsp; - “如果你不知道是否需要 Redux，那就是不需要它。”<br>&emsp;&emsp;&emsp; - “只有遇到 React 实在解决不了的问题，你才需要 Redux 。”</p>
+<p>&emsp;redux解决了我们的公共数据问题，但redux只是工具，没有redux我们一样可以实现功能<br>&emsp;是的没错，就是自己使用Context实现</p>
+<p>&emsp;我们先来看语法</p>
+<ul>
+<li>Content创造者：  一般在放在根组件 </li>
+<li>Content消费者：  任何需要使用Content的组件</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 创建一个 Context 对象</span></span><br><span class="line"><span class="keyword">const</span> MyContext = React.createContent(defaultValue);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/12/13/react-my-dedux/" class="archive-article-date">
+  	<time datetime="2019-12-13T06:17:43.149Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-13</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/">react</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react-redux/">react-redux</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-webStudent" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/11/webStudent/">前端常用学习网站</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>@(welcome)[前端菜鸟|掘金中]</p>
+<p>###技术网站</p>
+<ul>
+<li><a href="http://chuangzaoshi.com/index" target="_blank" rel="noopener">创造狮导航</a></li>
+<li><a href="https://leetcode.com/problemset/all/" target="_blank" rel="noopener">leetcode刷题</a></li>
+<li><a href="http://www.cnblogs.com/" target="_blank" rel="noopener">博客园</a></li>
+<li><a href="https://www.qianduan.net/" target="_blank" rel="noopener">前端观察</a></li>
+<li><a href="http://www.w3cfuns.com/" target="_blank" rel="noopener">前端网</a></li>
+<li><a href="http://www.tuicool.com/" target="_blank" rel="noopener">推酷</a></li>
+<li><a href="http://www.daqianduan.com/" target="_blank" rel="noopener">大前端</a></li>
+<li><a href="http://www.css88.com/" target="_blank" rel="noopener">web前端开发</a></li>
+<li><a href="http://www.webhek.com/" target="_blank" rel="noopener">web骇客</a></li>
+<li><a href="http://gold.xitu.io/explore/frontend" target="_blank" rel="noopener">掘金</a></li>
+<li><a href="http://fex.baidu.com/" target="_blank" rel="noopener">百度FEX</a></li>
+<li><a href="http://taobaofed.org/" target="_blank" rel="noopener">淘宝前端团队</a></li>
+<li><a href="https://segmentfault.com/" target="_blank" rel="noopener">segmentfault</a></li>
+<li><a href="http://www.uisdc.com/" target="_blank" rel="noopener">优设</a></li>
+<li><a href="http://javascript.ruanyifeng.com/" target="_blank" rel="noopener">阮一峰javascript教程</a></li>
+<li><a href="https://mritd.me/" target="_blank" rel="noopener">漠然Github</a></li>
+<li><a href="https://github.com/IORI20091101/" target="_blank" rel="noopener">芝哥Github</a></li>
+<li><a href="http://devdocs.io/" target="_blank" rel="noopener">程序猿宝典</a></li>
+<li><a href="http://qianduan.guru/" target="_blank" rel="noopener">前端外刊评论</a></li>
+<li><a href="http://q.ibeifeng.com/" target="_blank" rel="noopener">北风网</a></li>
+<li><a href="http://www.jqsite.com/main/plug" target="_blank" rel="noopener">前端社区</a></li>
+<li><a href="https://www.v2ex.com/" target="_blank" rel="noopener">v2ex</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/" target="_blank" rel="noopener">MDN-分享知识</a></li>
+</ul>
+<p>###资源整合</p>
+<ul>
+<li><a href="https://segmentfault.com/a/1190000004978770" target="_blank" rel="noopener">前端资源汇集</a></li>
+<li><a href="http://www.cnblogs.com/sb19871023/p/3894452.html" target="_blank" rel="noopener">前端总结</a></li>
+<li><a href="http://www.w3cfuns.com/notes/18186/714fccfb15f26c9858a163918b39a944.html" target="_blank" rel="noopener">前端知识大全</a></li>
+<li><a href="http://www.daqianduan.com/6281.html" target="_blank" rel="noopener">移动端WEB资源整合</a></li>
+</ul>
+<p>###美工集锦</p>
+<ul>
+<li><a href="http://www.iconfont.cn/collections/" target="_blank" rel="noopener">图标库</a></li>
+<li><a href="http://w3schools.bootcss.com/colors/colors_picker.html" target="_blank" rel="noopener">取色卡</a></li>
+<li><a href="http://www.bootcss.com/p/websafecolors/" target="_blank" rel="noopener">网站安全色</a></li>
+<li><a href="http://sucai.zcool.com.cn/" target="_blank" rel="noopener">站酷</a></li>
+<li><a href="http://www.google.com/webfonts" target="_blank" rel="noopener">简单好用的谷歌字体库</a></li>
+<li><a href="http://fontawesome.dashgame.com/" target="_blank" rel="noopener">font字体库</a></li>
+<li><a href="https://www.ico.la/" target="_blank" rel="noopener">ico图片在线制作</a></li>
+<li><a href="http://www.quanjing.com/" target="_blank" rel="noopener">全景素材图片网</a></li>
+<li><a href="http://www.ui.cn/" target="_blank" rel="noopener">UI中国</a></li>
+<li><a href="http://so.uigreat.com/" target="_blank" rel="noopener">UI设计师导航</a></li>
+<li><a href="http://huaban.com/" target="_blank" rel="noopener">素材集锦-花瓣网</a></li>
+<li><a href="https://www.google.com/doodles" target="_blank" rel="noopener">谷歌每日动画</a></li>
+<li><a href="http://www.sketchcn.com/" target="_blank" rel="noopener">开发APP的设计利器SKETCH</a></li>
+</ul>
+<p>###全栈修炼</p>
+<ul>
+<li><a href="https://github.com/ruanyf/jstraining" target="_blank" rel="noopener">阮一峰全栈修炼营</a></li>
+<li><a href="https://github.com/phodal/ideabook" target="_blank" rel="noopener">一个全栈增长工程师的练手项目集</a></li>
+<li><a href="http://ife.baidu.com/task/all" target="_blank" rel="noopener">百度前端技术学院开发任务</a></li>
+<li><a href="https://www.freecodecamp.cn/map" target="_blank" rel="noopener">FreeCodeCamp中文网</a></li>
+<li><a href="http://www.salttiger.com/" target="_blank" rel="noopener">各种Book</a></li>
+<li><a href="https://ninghao.net/course" target="_blank" rel="noopener">宁皓网</a></li>
+<li><a href="http://www.kancloud.cn/dennis/javascriptmethod/261471" target="_blank" rel="noopener">Web开发实战</a></li>
+<li><a href="http://www.kancloud.cn/dennis/tgjavascript/241800" target="_blank" rel="noopener">JavaScript半知半解</a></li>
+<li><a href="https://electron.org.cn/" target="_blank" rel="noopener">electron搭建跨平台桌面应用</a></li>
+</ul>
+<p>###官方文档</p>
+<ul>
+<li><a href="http://www.css88.com/doc/underscore/" target="_blank" rel="noopener">underscoreJS</a></li>
+<li><a href="http://jquery.cuishifeng.cn/" target="_blank" rel="noopener">jQuery中文文档</a></li>
+<li><a href="http://www.requirejs.cn/" target="_blank" rel="noopener">requireJS中文</a></li>
+<li><a href="http://www.css88.com/doc/backbone/" target="_blank" rel="noopener">backboneJS</a></li>
+<li><a href="http://www.reactjs.cn/" target="_blank" rel="noopener">ReactJS</a></li>
+<li><a href="http://cn.vuejs.org/api/" target="_blank" rel="noopener">VueJS中文</a></li>
+<li><a href="http://www.jslint.com/" target="_blank" rel="noopener">JSLint</a></li>
+<li><a href="http://www.css88.com/doc/zeptojs_api/" target="_blank" rel="noopener">Zepto.js</a></li>
+<li><a href="http://juicer.name/" target="_blank" rel="noopener">juicer-DOM拼接</a></li>
+<li><a href="http://coffee-script.org/" target="_blank" rel="noopener">CoffeeScript-简化编写JS</a></li>
+<li><a href="http://babeljs.cn/docs/setup/" target="_blank" rel="noopener">Babel-支持ES6</a></li>
+<li><a href="http://t4t5.github.io/sweetalert/" target="_blank" rel="noopener">sweetAlert-弹出框</a></li>
+<li><a href="http://echarts.baidu.com/index.html" target="_blank" rel="noopener">ECharts1.0-网页图表</a></li>
+<li><a href="http://echarts.baidu.com/echarts2/index.html" target="_blank" rel="noopener">ECharts2.0-网页图表</a></li>
+<li><a href="http://www.react-cn.com/docs/tutorial.html" target="_blank" rel="noopener">React中文教程</a></li>
+<li><a href="https://threejs.org/" target="_blank" rel="noopener">Three.js官</a></li>
+<li><a href="http://lodashjs.com/" target="_blank" rel="noopener">数据操作lodashJS</a></li>
+<li><a href="http://expressjs.com/" target="_blank" rel="noopener">express</a></li>
+<li><a href="https://mp.weixin.qq.com/debug/wxadoc/dev/api/api-login.html#wxloginobject" target="_blank" rel="noopener">小程序API</a></li>
+<li><a href="https://mp.weixin.qq.com/debug/wxadoc/dev/demo.html?t=20161122" target="_blank" rel="noopener">小程序</a></li>
+<li><a href="http://lodashjs.com/docs/" target="_blank" rel="noopener">Lodash-超越undersore的js库</a></li>
+<li><a href="https://github.com/videojs/video.js" target="_blank" rel="noopener">video.js</a></li>
+<li><a href="http://www.hewebgl.com/" target="_blank" rel="noopener">WebGl中文网</a></li>
+<li><a href="http://json.is/" target="_blank" rel="noopener">package.json配置文件详细介绍</a></li>
+</ul>
+<p>###前端工具</p>
+<ul>
+<li><a href="https://regexper.com/#%2F%5E1%5B34578%5D%5Cd%7B9%7D%24%2F" target="_blank" rel="noopener">正则编辑神器</a></li>
+<li><a href="http://www.tuicool.com/articles/mAzmq2" target="_blank" rel="noopener">weinre远程调试工具</a></li>
+<li><a href="https://shadowsocks.org/en/config/quick-guide.html" target="_blank" rel="noopener">翻墙工具</a></li>
+<li><a href="https://github.com/jsdoc3/jsdoc" target="_blank" rel="noopener">JSDoc-生成js文档</a></li>
+<li><a href="http://jekyll.bootcss.com/" target="_blank" rel="noopener">jekyll-在git上制作个人博客</a></li>
+<li><a href="http://www.xmind.net/" target="_blank" rel="noopener">思维导图</a></li>
+<li><a href="http://rj.baidu.com/soft/detail/25729.html?ald" target="_blank" rel="noopener">远程工作teamviewer下载</a></li>
+<li><a href="http://cubic-bezier.com/#.42,0,.58,1" target="_blank" rel="noopener">css动画cubic-bezier工具</a></li>
+<li><a href="https://translate.google.cn/" target="_blank" rel="noopener">谷歌翻译</a></li>
+<li><a href="https://typekit.com/foundries/adobe/" target="_blank" rel="noopener">Adobe的Typekit字体库</a></li>
+<li><a href="http://www.fontsquirrel.com/fontface/generator" target="_blank" rel="noopener">FontSquirrel字体包转换程序</a></li>
+<li><a href="http://thinkingwithtype.com/" target="_blank" rel="noopener">文字排版</a></li>
+<li><a href="http://westciv.com/xray/" target="_blank" rel="noopener">css样式检查工具–xray</a></li>
+<li><a href="http://www.geetest.com/" target="_blank" rel="noopener">免费图片验证</a></li>
+<li><a href="http://www.cdnjs.net/" target="_blank" rel="noopener">免费CDN</a></li>
+<li><a href="http://www.bootcdn.cn/" target="_blank" rel="noopener">BootCDN</a></li>
+<li><a href="https://steemit.com/cn/@causenet/1" target="_blank" rel="noopener">科学上网</a></li>
+</ul>
+<p>~~~~</p>
+<p>###JS库</p>
+<ul>
+<li><a href="https://d3js.org/" target="_blank" rel="noopener">D3js-扁平化图表</a></li>
+<li><a href="http://www.bootcss.com/p/buttons/" target="_blank" rel="noopener">BUTTONS-详尽的按钮样式</a></li>
+<li><a href="http://g2.alipay.com/" target="_blank" rel="noopener">G2-图表插件</a></li>
+<li><a href="http://www.webhek.com/misc/impress-js/" target="_blank" rel="noopener">网页幻灯片impressJS</a></li>
+<li><a href="http://router.vuejs.org/zh-cn/" target="_blank" rel="noopener">Vue-router中文</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&amp;mid=2651551200&amp;idx=1&amp;sn=6a13dbb6f661611194a570c819735a45&amp;scene=2&amp;srcid=0905DiSxVOXbeWarFYItkdFg&amp;from=timeline&amp;isappinstalled=0#wechat_redirect" target="_blank" rel="noopener">Vue-组件1</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&amp;mid=2651551218&amp;idx=1&amp;sn=04d735ec778b2e046f1ae7e2f4d20c62&amp;scene=2&amp;srcid=0905RPDNJolYOHATUPgFQMJ7&amp;from=timeline&amp;isappinstalled=0#wechat_redirect" target="_blank" rel="noopener">Vue-组件2</a></li>
+<li><a href="http://www.dowebok.com/demo/118/" target="_blank" rel="noopener">移动端上下划动onepage-scroll.js</a></li>
+<li><a href="http://inorganik.github.io/countUp.js/" target="_blank" rel="noopener">数字滚动动画CountUp.js</a></li>
+<li><a href="https://aframe.io/" target="_blank" rel="noopener">A-Frame框架–实现VR效果</a></li>
+<li><a href="https://prepack.io/" target="_blank" rel="noopener">js语法合并-Prepack</a></li>
+<li><a href="https://zhongsp.gitbooks.io/typescript-handbook/content/index.html" target="_blank" rel="noopener">TypeScript中文文档最全</a></li>
+<li><a href="http://www.jianshu.com/p/5bb86a770e23" target="_blank" rel="noopener">json-server模拟服务器API</a></li>
+</ul>
+<p>###JS规范</p>
+<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2012/10/javascript_module.html" target="_blank" rel="noopener">JavaSript模块规范 AMD规范与CMD规范</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2015/04/generator.html" target="_blank" rel="noopener">Generator 函数</a></li>
+<li><a href="http://es6.ruanyifeng.com/" target="_blank" rel="noopener">ES6入门</a></li>
+<li><a href="https://zhongsp.gitbooks.io/typescript-handbook/content/doc/handbook/tutorials/ASP.NET%20Core.html" target="_blank" rel="noopener">TypeScript版本大全</a></li>
+<li><a href="https://www.typescriptlang.org/" target="_blank" rel="noopener">TypeScript-基于ES6</a></li>
+<li><a href="http://www.typescriptlang.org/samples/index.html" target="_blank" rel="noopener">TypeScript2.6</a></li>
+<li><a href="https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb" target="_blank" rel="noopener">eslint-config-airbnb</a></li>
+<li><a href="https://github.com/standard/standard" target="_blank" rel="noopener">StandardJS</a></li>
+<li><a href="https://github.com/airbnb/javascript" target="_blank" rel="noopener">Airbnb JavaScript</a></li>
+</ul>
+<p>###jQuery插件及特效</p>
+<ul>
+<li><a href="http://www.htmleaf.com/Demo/2014100223.html" target="_blank" rel="noopener">jQuery-瀑布流布局异步图片加载</a></li>
+<li><a href="http://www.jq22.com/jquery-info7282" target="_blank" rel="noopener">后台管理模板WrapBootstrap</a></li>
+<li><a href="http://lihongxun945.github.io/jquery-weui/" target="_blank" rel="noopener">jQuery WeUI</a></li>
+<li><a href="http://www.jq22.com/jquery-info4216" target="_blank" rel="noopener">jQuery3d幻灯片翻页效果</a></li>
+<li><a href="http://www.bootcss.com/p/unslider/" target="_blank" rel="noopener">jQuery-unslider图片轮播</a></li>
+<li><a href="http://www.jq22.com/" target="_blank" rel="noopener">插件库</a></li>
+<li><a href="http://tympanus.net/Development/ModalWindowEffects/" target="_blank" rel="noopener">各种模态框</a></li>
+<li><a href="">跨浏览器复制jQuery.zlip</a></li>
+<li><a href="http://www.dowebok.com/demo/2014/77/" target="_blank" rel="noopener">jQurty.fullPage-一页滚动演示</a></li>
+<li><a href="http://2016.makemepulse.com/" target="_blank" rel="noopener">炫酷前端动画</a></li>
+</ul>
+<p>###插件库</p>
+<ul>
+<li><a href="http://www.dowebok.com" target="_blank" rel="noopener">效果站</a></li>
+<li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">vue组件库</a></li>
+<li><a href="https://www.npmjs.com/package/vue-drapload" target="_blank" rel="noopener">vue-drapload上拉加载下拉刷新</a></li>
+<li><a href="https://segmentfault.com/a/1190000000357534#articleHeader0" target="_blank" rel="noopener">jade-js的模板</a></li>
+<li><a href="https://react-bootstrap.github.io/" target="_blank" rel="noopener">react-Bootstrap</a></li>
+<li><a href="http://recharts.org/" target="_blank" rel="noopener">React图表组件库-ReCharts</a></li>
+<li><a href="">React框架MobX</a></li>
+<li><a href="">React框架Redux:Flux 的函数式实现</a></li>
+<li><a href="https://clipboardjs.com/" target="_blank" rel="noopener">复制组件clipboard.js</a></li>
+<li><a href="https://www.npmjs.com/package/eslint" target="_blank" rel="noopener">ESLint–静态代码检查工具</a></li>
+<li><a href="">Mocha–目前最常用的测试框架</a></li>
+<li><a href="nightmarejs.org">Nightmare功能测试</a></li>
+<li><a href="https://greensock.com/docs/TweenMax" target="_blank" rel="noopener">动画特效TweenMax</a></li>
+<li><a href="http://validform.rjboy.cn/" target="_blank" rel="noopener">Validform表单验证</a></li>
+<li><a href="http://www.swiper.com.cn/" target="_blank" rel="noopener">swiper触摸轮播图</a></li>
+<li><a href="http://www.dowebok.com/77.html" target="_blank" rel="noopener">全屏滚动fullPage</a></li>
+<li><a href="http://www.layui.com" target="_blank" rel="noopener">layui模块化组件</a></li>
+<li><a href="http://wowslider.com/javascript-slideshow-quiet-rotate-demo.html" target="_blank" rel="noopener">轮播图效果大全</a></li>
+</ul>
+<p>###H5 和 CSS3</p>
+<ul>
+<li><a href="http://www.bootcss.com/" target="_blank" rel="noopener">BootStrap</a></li>
+<li><a href="https://daneden.github.io/animate.css/" target="_blank" rel="noopener">Animate.css</a></li>
+<li><a href="http://www.bootcss.com/p/html5boilerplate/" target="_blank" rel="noopener">HTML5 Boilerplate–快速搭建前端网站</a></li>
+<li><a href="http://www.bootcss.com/p/flat-ui/" target="_blank" rel="noopener">Fla UI-扩充bootstrap的样式组件库</a></li>
+<li><a href="http://necolas.github.io/normalize.css/" target="_blank" rel="noopener">Normalize.css–重置样式</a></li>
+<li><a href="http://www.lesscss.net/" target="_blank" rel="noopener">less</a></li>
+<li><a href="http://sass.bootcss.com/" target="_blank" rel="noopener">sass</a></li>
+<li><a href="http://www.sasschina.com/guide/" target="_blank" rel="noopener">Sass中文网</a></li>
+<li><a href="https://connoratherton.com/loaders" target="_blank" rel="noopener">Loading动画</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html?utm_source=tuicool" target="_blank" rel="noopener">flex布局</a></li>
+<li><a href="http://blog.wpjam.com/m/weui/" target="_blank" rel="noopener">WeUI-微信官方网页开发样式库</a></li>
+</ul>
+<p>###代码优化</p>
+<ul>
+<li><a href="http://csslint.net/" target="_blank" rel="noopener">CSS LINK-在线css优化工具</a></li>
+<li><a href="http://jshint.com/" target="_blank" rel="noopener">JSHint-js检测工具</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout" target="_blank" rel="noopener">CSS框布局</a></li>
+<li><a href="http://codepen.io/pen/" target="_blank" rel="noopener">在线代码编辑器–CODEPEN</a></li>
+</ul>
+<p>###快速搭建项目</p>
+<ul>
+<li><a href="http://yeoman.io/" target="_blank" rel="noopener">yeomanl</a></li>
+<li><a href="http://foundation.zurb.com/templates.html" target="_blank" rel="noopener">Function</a></li>
+<li><a href="https://modernizr.com/docs/" target="_blank" rel="noopener">Modernizr–实现优雅降级</a></li>
+<li><a href="http://www.getuikit.net/" target="_blank" rel="noopener">UIkit</a></li>
+<li><a href="https://github.com/ruanyf/jstraining" target="_blank" rel="noopener">阮一峰全栈搭建</a></li>
+<li><a href="https://github.com/gdi2290/angular-starter" target="_blank" rel="noopener">angular Starter</a></li>
+</ul>
+<p>###深度好文</p>
+<ul>
+<li><a href="http://www.cnblogs.com/coco1s/p/5777260.html" target="_blank" rel="noopener">JavaScript防http劫持与XSS</a></li>
+<li><a href="http://blog.csdn.net/wang16510/article/details/8960312" target="_blank" rel="noopener">H5兼容解决方案-polyfill</a></li>
+<li><a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills" target="_blank" rel="noopener">HTML5 Cross Browser Polyfills</a></li>
+<li><a href="http://www.infoq.com/cn/articles/understanding-restful-style/" target="_blank" rel="noopener">REST架构风格</a></li>
+<li><a href="http://www.yyyweb.com/3541.html" target="_blank" rel="noopener">console的特性完全版</a></li>
+<li><a href="http://blog.csdn.net/kongjiea/article/details/46341575" target="_blank" rel="noopener">超棒的面试题</a></li>
+<li><a href="https://segmentfault.com/a/1190000002491282" target="_blank" rel="noopener">gulp与grunt对比</a></li>
+<li><a href="http://www.cnblogs.com/TomXu/archive/2011/12/14/2286225.html" target="_blank" rel="noopener">大型JavaScript应用程序架构模式</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2014/09/package-management.html" target="_blank" rel="noopener">前端模块管理器介绍-阮一峰</a></li>
+<li><a href="http://www.iwan0.com/#column6" target="_blank" rel="noopener">前端爱玩网仓库</a></li>
+<li><a href="http://www.infoq.com/cn/articles/understanding-restful-style/" target="_blank" rel="noopener">REST架构风格深入理解</a></li>
+<li><a href="http://www.html5cn.org/article-6776-1.html" target="_blank" rel="noopener">什么是web服务器</a></li>
+<li><a href="http://littleblack.cc/2016/05/04/Javascript/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AAAjax/" target="_blank" rel="noopener">手写ajax</a></li>
+<li><a href="http://www.css88.com/archives/6137#more-6137" target="_blank" rel="noopener">前端调试方式</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html" target="_blank" rel="noopener">jQuery的deferred</a></li>
+<li><a href="http://www.w3cfuns.com/notes/28851/cc4837a17338dc9691ac3653f5da9771.html" target="_blank" rel="noopener">前端职业发展之路</a></li>
+<li><a href="http://blog.51yip.com/jsjquery/1607.html" target="_blank" rel="noopener">angularJS之directive</a></li>
+<li><a href="http://m.blog.csdn.net/article/details?id=51890406" target="_blank" rel="noopener">Vue-router思维导图</a></li>
+<li><a href="http://www.oschina.net/translate/being-a-frontend-developer-for-a-weekend" target="_blank" rel="noopener">我是如何利用一个周末时间成为前端工程师的</a></li>
+<li><a href="http://echarts.baidu.com/demo.html#geo-lines" target="_blank" rel="noopener">Echarts在线案例</a></li>
+<li><a href="http://www.ezlippi.com/blog/2015/03/github-pages-blog.html" target="_blank" rel="noopener">github使用介绍</a></li>
+<li><a href="http://redstarofsleep.iteye.com/blog/1917724" target="_blank" rel="noopener">环状进度球</a></li>
+<li><a href="http://hcysun.me/2016/03/25/%E5%9F%BA%E4%BA%8Ewebpack%E5%92%8Cvue.js%E6%90%AD%E5%BB%BA%E7%9A%84H5%E7%AB%AF%E6%A1%86%E6%9E%B6(%E5%85%B6%E5%AE%9E%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8EHybrid%E5%BC%80%E5%8F%91H5%E7%AB%AF%E6%A1%86%E6%9E%B6%EF%BC%8C%E4%BD%86%E6%98%AF%E4%BE%9D%E7%84%B6%E8%83%BD%E5%A4%9F%E4%BD%9C%E4%B8%BA%E7%BA%AFweb%E7%AB%AF%E4%BD%BF%E7%94%A8" target="_blank" rel="noopener">webpack搭建vue教程</a>/)</li>
+<li><a href="http://blog.csdn.net/mad1989/article/details/16885569" target="_blank" rel="noopener">git冲突解决</a></li>
+<li><a href="http://blog.csdn.net/ikscher/article/details/44831539" target="_blank" rel="noopener">angularjs指令的@=&amp;</a></li>
+<li><a href="http://www.youdzone.com/signature.html" target="_blank" rel="noopener">一张图告诉你什么是公钥密钥</a></li>
+<li><a href="http://www.css88.com/archives/6410" target="_blank" rel="noopener">移动短head标签</a></li>
+<li><a href="http://www.cnblogs.com/fishtreeyu/archive/2011/10/06/2200280.html" target="_blank" rel="noopener">cookie的用法</a></li>
+<li><a href="http://www.uml.org.cn/html/201208224.asp" target="_blank" rel="noopener">canvas入门学习</a></li>
+<li><a href="http://www.w3school.com.cn/tags/html_ref_canvas.asp" target="_blank" rel="noopener">canvas参考手册</a></li>
+<li><a href="https://www.html-js.cn/details/Vk7UgWaQg.html" target="_blank" rel="noopener">webstorm中调试NodeJS</a></li>
+<li><a href="https://segmentfault.com/a/1190000012924855" target="_blank" rel="noopener">5分钟把任意网站变成桌面软件</a></li>
+<li><a href="https://imsun.net/posts/gitment-introduction/" target="_blank" rel="noopener">使用GitHub_Issues搭建评论系统</a></li>
+<li><a href="http://www.apjs.net/" target="_blank" rel="noopener">angularJS教程</a></li>
+<li><a href="https://segmentfault.com/a/1190000005013207" target="_blank" rel="noopener">React实践经验</a></li>
+</ul>
+<p>###前端搭建工具</p>
+<ul>
+<li><a href="http://webpack.github.io/" target="_blank" rel="noopener">webpack</a></li>
+<li><a href="https://webpack.js.org/" target="_blank" rel="noopener">webpack3.10.0</a></li>
+<li><a href="https://nodejs.org/en/foundation/" target="_blank" rel="noopener">nodeJS官网</a></li>
+<li><a href="http://nodejs.cn/" target="_blank" rel="noopener">nodeJS中文网</a></li>
+<li><a href="http://www.gruntjs.net/" target="_blank" rel="noopener">grunt</a></li>
+<li><a href="http://www.gulpjs.com.cn/" target="_blank" rel="noopener">gulp教程</a></li>
+<li><a href="https://www.npmjs.com/" target="_blank" rel="noopener">npm</a></li>
+<li><a href="http://www.expressjs.com.cn/" target="_blank" rel="noopener">Express</a></li>
+<li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/" target="_blank" rel="noopener">廖雪峰官方网站</a></li>
+<li><a href="http://webpackdoc.com/plugin.html" target="_blank" rel="noopener">初级webpack配置</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/20367175" target="_blank" rel="noopener">webpack菜鸟配置</a></li>
+<li><a href="http://my.oschina.net/wjj328938669/blog/637433?p=1" target="_blank" rel="noopener">.jshintrc常用配置</a></li>
+<li><a href="http://www.mujiang.info/translation/npmjs/files/package.json.html" target="_blank" rel="noopener">package.json配置中文文档</a></li>
+<li><a href="https://github.com/github/gitignore" target="_blank" rel="noopener">.gitignore文件模板-全</a></li>
+<li><a href="https://bower.io/" target="_blank" rel="noopener">bower</a></li>
+<li><a href="http://www.gulpjs.com.cn/" target="_blank" rel="noopener">Gulp自动化工具</a></li>
+<li><a href="https://developers.google.com/web/tools/workbox/" target="_blank" rel="noopener">Web App静态资源本地存储的解决方案</a></li>
+</ul>
+<p>###前端服务器</p>
+<ul>
+<li><a href="http://httpd.apache.org/" target="_blank" rel="noopener">apache</a></li>
+<li><a href="http://nginx.org/" target="_blank" rel="noopener">nginx</a></li>
+</ul>
+<p>###待学习</p>
+<ul>
+<li><a href="http://www.qdfuns.com/notes/36748/b3aa001495ee19c512d9310dcebad808.html" target="_blank" rel="noopener">光线爆炸特效</a></li>
+<li><a href="http://www.qdfuns.com/notes/30191/971d767d0f6e2baf7bdc14b56906ce69.html" target="_blank" rel="noopener">表单数据正则验证</a></li>
+<li><a href="http://www.qdfuns.com/notes/26253/3f57b0b356841969d9ad2e3415af19d1.html" target="_blank" rel="noopener">h5小游戏-打砖块</a></li>
+<li><a href="http://www.qdfuns.com/notes/40230/1260d5203da2b75d2259921a5e824e71.html" target="_blank" rel="noopener">树镜</a></li>
+<li><a href="http://www.qdfuns.com/notes/34644/a29e0b6f781628a1c38755a0f0da55ed.html" target="_blank" rel="noopener">SVG打造轮盘</a></li>
+<li><a href="http://www.qdfuns.com/notes/23908/70ff1c2514335f486a019a472942233f.html" target="_blank" rel="noopener">CSS3绘制神奇宝贝</a></li>
+<li><a href="http://www.qdfuns.com/notes/16120/b8132b69802787a3a2cf94accc189651.html" target="_blank" rel="noopener">CSS绘制机器人</a></li>
+<li><a href="http://www.qdfuns.com/notes/16120/730dbc6ed2e295ad50f09c5e29480a37.html" target="_blank" rel="noopener">Animation小人动画</a></li>
+</ul>
+<p>###关于工具</p>
+<ul>
+<li><a href="http://docs.mitmproxy.org/en/stable/howmitmproxy.html" target="_blank" rel="noopener">好用的抓包工具</a></li>
+<li><a href="https://piwik.mritd.me/" target="_blank" rel="noopener">Web统计软件PIWIK</a></li>
+<li><a href="http://www.pc6.com/edu/80832.html" target="_blank" rel="noopener">mac数据迁移-迁移助理</a></li>
+<li><a href="https://shadowsocks.com/" target="_blank" rel="noopener">翻墙Shadowsocks</a></li>
+<li><a href="https://longdai.hipchat.com/chat" target="_blank" rel="noopener">HipChat</a></li>
+<li><a href="http://google.yubolun.com/" target="_blank" rel="noopener">Goole本地翻墙</a></li>
+<li><a href="https://www.google.com.hk/" target="_blank" rel="noopener">Goole翻墙网址</a></li>
+<li><a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">hexo搭建博客</a></li>
+<li><a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="noopener">hexo主题皮肤yilia</a></li>
+<li><a href="http://idea.lanyus.com/" target="_blank" rel="noopener">IDEA注册码</a></li>
+<li><a href="http://www.tuicool.com/articles/mAzmq2" target="_blank" rel="noopener">远程调试工具weinre使用教程</a></li>
+<li><a href="http://babeljs.cn/docs/learn-es2015/" target="_blank" rel="noopener">Babel在线编辑</a></li>
+<li><a href="https://www.dnspod.cn/" target="_blank" rel="noopener">DNSPod腾讯云服务</a></li>
+<li><a href="http://www.geetest.com/" target="_blank" rel="noopener">验证码服务</a></li>
+<li><a href="https://developer.qiniu.com/sdk#official-tool" target="_blank" rel="noopener">七牛云-开发者中心</a></li>
+<li><a href="https://open-doc.dingtalk.com/?spm=a219a.7386793.0.0.xu8Ruw" target="_blank" rel="noopener">钉钉-开发者中心</a></li>
+<li><a href="https://www.dropbox.com/" target="_blank" rel="noopener">团队管理Dropbox</a></li>
+<li><a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">编辑器NexT</a></li>
+<li><a href="https://www.processon.com/;jsessionid=E52513A9DF471A582153C8336DB6EF34.jvm1" target="_blank" rel="noopener">免费在线作图-ProcessOn</a></li>
+<li><a href="https://greasyfork.org/zh-CN/scripts" target="_blank" rel="noopener">用户脚本 Greasy Fork</a></li>
+<li><a href="http://www.geetest.com/" target="_blank" rel="noopener">免费图形验证码</a></li>
+<li><a href="http://www.spritecow.com/" target="_blank" rel="noopener">2x图片在线代码生成</a></li>
+<li><a href="https://uiiiuiii.com/photoshop/12121781.html" target="_blank" rel="noopener">PS入门教程</a></li>
+<li><a href="https://pan.gozap.com/login" target="_blank" rel="noopener">GOZAP云盘</a></li>
+<li><a href="https://blog.coderstory.cn/intellij-idea-babel/" target="_blank" rel="noopener">IDEA配置Babel插件</a></li>
+<li><a href="https://www.hipchat.com/sign_up" target="_blank" rel="noopener">HipChat</a></li>
+<li><a href="https://www.juhe.cn/" target="_blank" rel="noopener">聚合数据</a></li>
+</ul>
+<p>###关于mac</p>
+<ul>
+<li><a href="http://brew.sh/index_zh-cn.html" target="_blank" rel="noopener">Homebrew</a></li>
+<li><a href="https://mritd.me/2016/06/14/Linux-%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener">linux命令-漠然</a></li>
+<li><a href="">mac内存清理工具clean my mac</a></li>
+<li><a href="">终端配置 oh my zsh</a></li>
+<li><a href="https://zybuluo.com/mritd/note/535525" target="_blank" rel="noopener">vpn连接</a></li>
+<li><a href="http://mac-osx-for-newbie-book.kejyun.com/hotkey/HotkeyWindows.html" target="_blank" rel="noopener">上手mac</a></li>
+<li><a href="https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md" target="_blank" rel="noopener">命令行艺术</a></li>
+<li><a href="https://www.zhihu.com/question/20873070" target="_blank" rel="noopener">程序猿如何优雅的用mac</a></li>
+<li><a href="http://blog.csdn.net/lisongjia123/article/details/54949364" target="_blank" rel="noopener">快捷键大全</a></li>
+<li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="noopener">git命令</a></li>
+</ul>
+<p>###编辑软件</p>
+<ul>
+<li><a href="http://www.jetbrains.com/webstorm/" target="_blank" rel="noopener">WebStorm</a></li>
+<li><a href="https://pandao.github.io/editor.md/" target="_blank" rel="noopener">markdown在线编辑器.md</a></li>
+<li><a href="https://www.kancloud.cn/digest/sublime-text-complete-guide/61435" target="_blank" rel="noopener">Sublime_Text全程指南</a></li>
+</ul>
+<p>###前后端通道</p>
+<ul>
+<li><a href="http://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html#dialects-the-standard-dialect" target="_blank" rel="noopener">Thymeleaf</a></li>
+<li><a href="http://springcloud.cn/" target="_blank" rel="noopener">Spring Cloud微服务解决方案</a></li>
+<li><a href="https://github.com/socketio/socket.io" target="_blank" rel="noopener">socket.io</a></li>
+<li><a href="http://robotjs.io/" target="_blank" rel="noopener">robotjs</a></li>
+</ul>
+<p>###company</p>
+<ul>
+<li><a href="https://svn.longdai.com/svn/LongDai-Docs/UI%E6%96%87%E6%A1%A3/" target="_blank" rel="noopener">SVN</a></li>
+<li>[NodeBB论坛管理地址]</li>
+<li><a href="http://git.longdai.com/longdai/longdai" target="_blank" rel="noopener">公司后台直通车</a></li>
+<li><a href="http://dohko.bbs.longdai.com/home" target="_blank" rel="noopener">龙贷社区</a></li>
+</ul>
+<p>###微信小程序</p>
+<ul>
+<li><a href="http://www.w2bc.com/article/173135" target="_blank" rel="noopener">微信应用制作</a></li>
+<li><a href="http://gold.xitu.io/entry/57e8fed3816dfa005ef47439" target="_blank" rel="noopener">微信小程序开发入门文档</a></li>
+<li><a href="https://github.com/chemzqm/wept" target="_blank" rel="noopener">浏览器打开小程序</a></li>
+<li><a href="https://github.com/justjavac/awesome-wechat-weapp" target="_blank" rel="noopener">微信小程序文章集锦</a></li>
+<li><a href="http://www.jianshu.com/p/65cfda97a689" target="_blank" rel="noopener">微信小程序——左右滑动切换页面</a></li>
+<li><a href="https://github.com/Tencent/wepy" target="_blank" rel="noopener">WePY</a>he</li>
+<li><a href="https://tencent.github.io/wepy/document.html#/" target="_blank" rel="noopener">WePY官方文档</a></li>
+</ul>
+<p>###兼职orwork</p>
+<ul>
+<li><a href="https://shixian.com/consultants" target="_blank" rel="noopener">实现网</a></li>
+<li><a href="https://www.proginn.com/" target="_blank" rel="noopener">程序员客栈</a></li>
+<li><a href="https://cn.100offer.com/how-it-works" target="_blank" rel="noopener">100offer</a></li>
+</ul>
+<p>###后端步步为营</p>
+<ul>
+<li><a href="http://www.cnblogs.com/wql025/p/5215570.html" target="_blank" rel="noopener">新建maven项目</a></li>
+<li><a href="http://www.w3school.com.cn/sql/" target="_blank" rel="noopener">SQL手册</a></li>
+<li><a href="http://tool.oschina.net/apidocs/apidoc?api=javaEE6" target="_blank" rel="noopener">javaEE在线API</a></li>
+<li><a href="http://blog.csdn.net/williamchew/article/details/51951551" target="_blank" rel="noopener">java JDBC基本知识</a></li>
+<li><a href="http://blog.csdn.net/zhuangm_888/article/details/50476423" target="_blank" rel="noopener">搭建简单学生管理系统</a></li>
+<li><a href="http://www.yiibai.com/jsp/" target="_blank" rel="noopener">JSP教程</a></li>
+<li><a href="http://www.javacoder.cn/?p=195" target="_blank" rel="noopener">Maven正确配置Jstl</a></li>
+<li><a href="http://www.jianshu.com/p/1e1116b1ede6" target="_blank" rel="noopener">MAVEN中央仓库地址大全</a></li>
+<li><a href="http://wandering192.iteye.com/blog/736136" target="_blank" rel="noopener">JSP+Servlet+Ajax实现后台异步检验用户信息实例</a></li>
+<li><a href="https://blog.coderstory.cn/intellij-idea-babel/" target="_blank" rel="noopener">IDEA加插件实现es6转es5</a></li>
+<li><a href="">轻量级数据库sqlite</a></li>
+<li><a href="https://github.com/typicode/lowdb" target="_blank" rel="noopener">lowdb数据库</a></li>
+</ul>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/10/11/webStudent/" class="archive-article-date">
+  	<time datetime="2019-10-11T11:45:14.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-10-11</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端常用网站/">前端常用网站</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-jquerySourceCode1" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/05/jquerySourceCode1/">上古利器jQuery源码剖析(一)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><abbr style="display:block;margin-top: -50px;font-size: 12px;color:#999;text-align: center;border-bottom: 1px dotted #999;">上古利器 虽经沧海变革 宝剑尚锋</abbr></p>
+<p>&emsp;随着数据驱动时代的到来，jQuery不可避免的跌下神坛，但应记得它曾何等辉煌<br>&emsp;我们学习jQuery，不是学习它的用法，而是学习它的架构，它的思想，来深刻理解JS<br>&emsp;优秀的jQuery还未落伍，像当下最火着的axios/fetch等都源自对ajax的吸纳，11年就出现的异步解决方法deferred，在Promise里处处是它的影子<br>&emsp;之前并没有怎么看过别人的源码教程，第一次写源码稍显吃力，给自己加油吧</p>
+<p>&emsp;&emsp;<abbr style="display:block;color: brown;">* 首先，你应该知道</abbr> </p>
+<p>&emsp;$ 只是一个 jQuery的一个别名<br>&emsp;jQuery是一个构造函数,可以理解为就是一个普通的构造函数<br>&emsp;但是我们在调用jQuery的时候,并没有使用new关键字呢.其实这里,jQuery帮我们做了一层语法糖的封装,即调用$()的时候,它自动帮我们创建了jQuery的实例对象<br>&emsp;即$()时就为我们实现了new</p>
+<p>&emsp;&emsp;<abbr style="display:block;color: brown;">* 经典的jQuery框架</abbr> </p>
+<p>&emsp;首先我们创造一个自执行函数,传入this,通过root来接收<br>&emsp;在匿名函数里 我们创建一个叫jQuery的变量,jQuery变量拿到的是一个匿名函数的引用<br>&emsp;这个匿名函数,我们会把它当成构造函数<br>&emsp;因为我们是在全局环境下传入的this,所以这里的this指的就是window对象<br>&emsp;给环境变量root扩展一个叫做jQuery的属性,让它指向jQuery变量,同时再给root扩展一个叫做$的别名<br>&emsp;在随手给jQuery设置一下原型方法<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> jQuery = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;   <span class="comment">// 构造函数</span></span><br><span class="line">    </span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    jQuery.prototype = &#123;</span><br><span class="line">       init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">         </span><br><span class="line">       &#125;  </span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//root.jQuery = jQuery;</span></span><br><span class="line">    root.$ = root.jQuery = jQuery;</span><br><span class="line">&#125;)(<span class="keyword">this</span>);   <span class="comment">// 环境变量this 因为是全局环境 所以这里指的是window</span></span><br></pre></td></tr></table></figure></p>
+<p>&emsp;上面的代码看起来一点都不复杂，甚至还有一点小简单，但是别忘了，我们刚才说过jQuery是一个构造函数，$()时为我们实现了new<br>&emsp;让jQuery返回new jQuery()，就可以完美解决！图样图破森,那样会死循环<br>&emsp;我们再造一个构造函数，让jQuery返回这个构造函数不就好了,这个构造函数就是init</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> jQuery = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;  <span class="comment">// 别忘了 jQuery我们也是当做构造函数的</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> jQuery.prototype.init();  <span class="comment">// 返回构造函数init的实例对象</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    jQuery.prototype = &#123;</span><br><span class="line">        init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;       <span class="comment">// init是一个匿名对象,在这里我们将它当做一个构造函数</span></span><br><span class="line">           </span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    root.$ = root.jQuery = jQuery;</span><br><span class="line">&#125;)(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;<abbr style="display:block;color: brown;">* 共享原型</abbr> </p>
+<p>&emsp;新的问题来了，$()返回了init方法，而init方法的原型对象上什么都没有，如何将方法扩展进来呢？<br>&emsp;如果init的原型对象是jQuery.prototype，那jQuery.prototype的所有方法都会挂载到init的实例中，也就是$()中</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> jQuery = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;  <span class="comment">// 别忘了 jQuery我们也是当做构造函数的</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> jQuery.prototype.init();  <span class="comment">// 返回构造函数init的实例对象</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    jQuery.prototype = &#123;</span><br><span class="line">        init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;       <span class="comment">// init是一个匿名对象,在这里我们将它当做一个构造函数</span></span><br><span class="line">           </span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    jQuery.prototype.init.prototype = jQuery.prototype; <span class="comment">// init的原型对象指向为jQuery的原型原型对象</span></span><br><span class="line">    </span><br><span class="line">    root.$ = root.jQuery = jQuery;</span><br><span class="line">&#125;)(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+<p>&emsp;init是jQuery.prototype的一个方法,init的原型对象又是jQuery.prototype,那么init拥有了jQuery.prototype的所有方法(包括它自己)<br>&emsp;设计的思路是这样的,我们有两个函数jQuery和init,$()就等同于实例化jQuery即new jQuery(),但们无法直接让jQuery函数返回new jQuery,这样会形成死循环,于是我们实例化了另一个构造函数init<br>&emsp;我们将init方法的原型也指向了jQuery的方法原型,实现了原型共享<br>&emsp;因此,jQuery.prototype原型对象里封装的所有属性和方法,jQuery与init都是可以调用的<br>&emsp;最反思维的地方就在于了,init是Query.prototype原型对象的一个方法,可以想想计算机的自举~</p>
+<p>&emsp;<abbr style="display:block;color: brown;">* 工具函数</abbr> </p>
+<p>&emsp;jQuery框架非常重要的一个函数-工具函数,它的作用是将jQuery所有的自身对象或者实例对象的属性和方法,全部都剥离开来,进行分类管理<br>&emsp;jQuery中一共有两个对象,一个是实例对象,一个是jQuery本身的对象<br>&emsp;起手式中我们实现了实例对象,而jQuery除了是一个构造函数,它也是一个函数对象,我们也有很多函数对象是挂载到jQuery本身上的,例如$.ajax/$.each等<br>&emsp;我们给jQuery添加一个静态属性fn,我们让fn等于jQuery的原型对象,这样我们在外部扩展时,至需要扩展jQuery.fn即可<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> jQuery = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> jQuery.prototype.init();</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    jQuery.fn = jQuery.prototype = &#123;    <span class="comment">// jQuery的静态方法等于jQuery的原型对象,原型对象也是对象</span></span><br><span class="line">        init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    jQuery.fn.init.prototype = jQuery.fn;   <span class="comment">// 替换</span></span><br><span class="line"></span><br><span class="line">    root.$ = root.jQuery = jQuery;</span><br><span class="line"></span><br><span class="line">&#125;)(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;外部扩展时,只需要$.fn.新方法名 = function(){} -&gt;插件编写的形式<br>&emsp;通过调用静态属性扩展到jQuery的实例对象上</p>
+<p>&emsp;<abbr style="display:block;color: brown;">* extend</abbr> </p>
+<p>&emsp;extend在jQuery函数内部是作为一个工具函数存在,用它来管理不同对象(jQuery本身以及它的原型对象)的扩展<br>&emsp;extend在外部可以给 ①任意对象扩展/浅拷贝/深拷贝 ②jQuery本身扩展 ③jQuery实例对象扩展</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> jQuery = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> jQuery.prototype.init();</span><br><span class="line">    &#125;;</span><br><span class="line">    jQuery.fn = jQuery.prototype = &#123;</span><br><span class="line">        init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// jQuery与 jQuery.prototype的原型都扩展了一个extend属性</span></span><br><span class="line">    jQuery.extend = jQuery.prototype.extend = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 方法调用时,我们有可能给任何对象/jQuery对象/jQuery原型对象进行扩展</span></span><br><span class="line">        <span class="comment">// 我们通过参数来进行区分</span></span><br><span class="line">        <span class="comment">// 参数1 是我们要扩展的对象 参数2 是我们要变量的对象</span></span><br><span class="line">        <span class="comment">// 分析 有1个参数 可能给jQuery对象/jQuery原型对象扩展 有2个及以上 给任意对象arguments[0]扩展</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> target = <span class="built_in">arguments</span>[<span class="number">0</span>] || &#123;&#125;;   <span class="comment">// 参数处理: 参数为空? 赋值对象不是引用类型?</span></span><br><span class="line">        <span class="keyword">var</span> length = <span class="built_in">arguments</span>.length;  <span class="comment">// 参数个数</span></span><br><span class="line">        <span class="keyword">var</span> i = <span class="number">1</span>;  <span class="comment">// 默认参数个数</span></span><br><span class="line">        <span class="keyword">var</span> option;</span><br><span class="line">        <span class="keyword">var</span> name;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> target !== <span class="string">"object"</span>)&#123;</span><br><span class="line">            target = &#123;&#125;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1个参数</span></span><br><span class="line">        <span class="keyword">if</span>(length == i)&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2个及以上参数</span></span><br><span class="line">        <span class="keyword">for</span>(;i&lt;length;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>((option = <span class="built_in">arguments</span>[i]) !== <span class="literal">null</span>)&#123;</span><br><span class="line">                <span class="keyword">for</span>(name <span class="keyword">in</span> option)&#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    jQuery.fn.init.prototype = jQuery.fn;</span><br><span class="line">    root.$ = root.jQuery = jQuery;</span><br><span class="line"></span><br><span class="line">&#125;)(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
+<p>&emsp;<br>&emsp;<br>&emsp;</p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/09/05/jquerySourceCode1/" class="archive-article-date">
+  	<time datetime="2019-09-05T08:24:55.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-09-05</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jquery/">jquery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jquery源码/">jquery源码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jquery源码教程/">jquery源码教程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-wbpackDepthExplanation4" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -179,7 +747,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/04/wbpackDepthExplanation4/">从0基础到大牛-webpack深入浅出超强完整版(四)</a>
+      <a class="article-title" href="/2019/09/05/wbpackDepthExplanation4/">从0基础到大牛-webpack深入浅出超强完整版(四)</a>
     </h1>
   
 
@@ -188,7 +756,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><abbr style="display:block;margin-top: -50px;font-size: 12px;color:#999;text-align: center;border-bottom: 1px dotted #999;">你可能只需要这一个教程</abbr></p>
-<h2 id="webpack-Plugin"><a href="#webpack-Plugin" class="headerlink" title="webpack - Plugin"></a>webpack - Plugin</h2><p>&emsp;&emsp;loader和plugin都是webpack重要的组成部分，loader主要用于文件内的处理，而plugin主要用于文件间的处理，有时他们需要共同协作<br>&emsp;&emsp;plugin的执行顺序与书写顺序无关，它通常是一个构造函数，挂载到webpack不同的生命周期中，等待执行</p>
+<h2 id="webpack-昆仑山上光明顶"><a href="#webpack-昆仑山上光明顶" class="headerlink" title="webpack - 昆仑山上光明顶"></a>webpack - 昆仑山上光明顶</h2><p>&emsp;&emsp;loader和plugin都是webpack重要的组成部分，loader主要用于文件内的处理，而plugin主要用于文件间的处理，有时他们需要共同协作<br>&emsp;&emsp;plugin的执行顺序与书写顺序无关，它通常是一个构造函数，挂载到webpack不同的生命周期中，等待执行</p>
 <ul>
 <li>html-webpack-plugin</li>
 </ul>
@@ -225,24 +793,26 @@
 <ul>
 <li>TreeShaking</li>
 </ul>
-<p>&emsp;&emsp;有时我们定义了N个方法，但仅有部分方法被调用,不想让所有的方法都被打入，这时候我们就需要shaking一下<br>&emsp;&emsp;将未被使用的 exported member 标记为 unused 同时在将其 re-export 的模块中不再 export<br>&emsp;&emsp;这里必须使用ESmodule的引入方式<br>&emsp;&emsp;webpack.config.js新增配置如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: &#123;&#125;,</span><br><span class="line">    output: &#123;&#125;,</span><br><span class="line">    mode: <span class="string">"development"</span>,</span><br><span class="line">    optimization: &#123;</span><br><span class="line">        usedExports: <span class="literal">true</span>,    <span class="comment">// 开去tree shaking</span></span><br><span class="line">    &#125;,   </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;有时我们定义了N个方法，但仅有部分方法被调用,又不想让所有的方法都被打入，这时候我们就需要shaking一下<br>&emsp;&emsp;将未使用的 exported member 标记为 unused 同时不再导出<br>&emsp;&emsp;这里必须使用ESmodule的引入方式<br>&emsp;&emsp;webpack.config.js新增配置如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: &#123;&#125;,</span><br><span class="line">    output: &#123;&#125;,</span><br><span class="line">    mode: <span class="string">"development"</span>,</span><br><span class="line">    optimization: &#123;</span><br><span class="line">        usedExports: <span class="literal">true</span>,    <span class="comment">// 开去tree shaking</span></span><br><span class="line">    &#125;,   </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 <p>&emsp;&emsp;同时需要在package中新增配置，取消副作用<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"webpack-demo"</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">  <span class="attr">"slideEffects"</span>: <span class="literal">false</span>   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;虽然webpack设置了tree shaking，但是比如包中有一些配置，设定，日志等产生的副作用，会使得包文件依然会被打入<br>&emsp;&emsp;如果你不想，可以设置slideEffects为false，或者通过数组指定<br>&emsp;&emsp;我们在设置副作用时应当明确,这个包没有副作用或者不需要它们的副作用<br>&emsp;&emsp;webpack会在线上shaking掉，我们的配置才会有效，而开发环境我们可以看到它的分析结果</p>
+<p>&emsp;&emsp;虽然webpack设置了tree shaking，但是比如包中有一些修改、设置、日志等产生的副作用，依然会被打入<br>&emsp;&emsp;如果你不需要这些副作用，可以设置slideEffects为false，或者通过数组指定<br>&emsp;&emsp;我们在设置副作用时应当明确,这个包没有副作用或者不需要它的副作用<br>&emsp;&emsp;webpack会在线上shaking掉，开发环境制作包分析</p>
 <ul>
 <li>开发模式 和 生产模式</li>
 </ul>
 <p>&emsp;&emsp;开发模式 development 本地编写代码<br>&emsp;&emsp;生产模式 production 用于打包完成后交给线上服务<br>&emsp;&emsp;区分两种模式，实现不同环境的打包，现我们新建webpack.dev.js做开发配置，并将所有开发环境的配置保留,可参考如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; CleanWebpackPlugin &#125; = <span class="built_in">require</span>(<span class="string">'clean-webpack-plugin'</span>);</span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: &#123; <span class="string">'app'</span> : <span class="string">'./src/app.js'</span> &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: <span class="string">'[name].js'</span>,</span><br><span class="line">        path: path.resolve(__dirname,<span class="string">'../dist'</span>),</span><br><span class="line">    &#125;,</span><br><span class="line">    devtool: <span class="string">'cheap-module-eval-source-map'</span>,</span><br><span class="line">    mode: <span class="string">"development"</span>,</span><br><span class="line">    devServer:&#123;</span><br><span class="line">        contentBase: <span class="string">'./dist'</span>,</span><br><span class="line">        hot: <span class="literal">true</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    optimization:&#123;</span><br><span class="line">        usedExports: <span class="literal">true</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="built_in">module</span>:&#123;&#125;,   <span class="comment">//  此处省略</span></span><br><span class="line">    plugins: [</span><br><span class="line">        <span class="keyword">new</span> HtmlWebpackPlugin(</span><br><span class="line">            &#123;<span class="attr">template</span> : <span class="string">"./src/index.html"</span>&#125;</span><br><span class="line">        ),</span><br><span class="line">        <span class="keyword">new</span> CleanWebpackPlugin(),</span><br><span class="line">        <span class="keyword">new</span> webpack.HotModuleReplacementPlugin()</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 <p>&emsp;&emsp;新建webpack.prod.js，做线上配置，并将所有线上环境的配置保留，可参考如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; CleanWebpackPlugin &#125; = <span class="built_in">require</span>(<span class="string">'clean-webpack-plugin'</span>);</span><br><span class="line">   </span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: &#123;<span class="string">'main'</span> : <span class="string">'./src/main.js'</span>&#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: <span class="string">'[name].js'</span>,</span><br><span class="line">        path: path.resolve(__dirname,<span class="string">'../dist'</span>),</span><br><span class="line">    &#125;,</span><br><span class="line">    devtool: <span class="string">'cheap-eval-source-map'</span>,</span><br><span class="line">    mode: <span class="string">"production"</span>,</span><br><span class="line">    optimization:&#123;</span><br><span class="line">        usedExports: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="built_in">module</span>:&#123;&#125;,                     <span class="comment">//  此处省略</span></span><br><span class="line">    plugins: [</span><br><span class="line">        <span class="keyword">new</span> HtmlWebpackPlugin(</span><br><span class="line">            &#123;<span class="attr">template</span> : <span class="string">"./src/index.html"</span>&#125;</span><br><span class="line">        ),</span><br><span class="line">        <span class="keyword">new</span> CleanWebpackPlugin(),</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;将webpack配置文件都放入根目录下的config文件夹内<br>&emsp;&emsp;配置package.json，通过不同的命令执行不同的打包规则<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   <span class="attr">"name"</span>: <span class="string">"webpack-demo"</span>,</span><br><span class="line">   <span class="attr">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">   <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">      <span class="attr">"dev"</span>: <span class="string">"webpack-dev-server --config config/webpack.dev.js"</span>,</span><br><span class="line">      <span class="attr">"build"</span>: <span class="string">"webpack --config config/webpack.prod.js"</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;通过命令<code>npm run dev</code>与命令<code>npm run build</code>我们实现了不同环境下的打包<br>&emsp;&emsp;虽然我们已经可以区分两种环境了,但是很明显配置文件中包含大量共同部分，现在我们新建webpack.common.js文件，提取公共部分</p>
+<p>&emsp;&emsp;将webpack配置文件都放入根目录下的config文件夹内<br>&emsp;&emsp;配置package.json，通过不同的命令执行不同的打包环境<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   <span class="attr">"name"</span>: <span class="string">"webpack-demo"</span>,</span><br><span class="line">   <span class="attr">"version"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">   <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">      <span class="attr">"dev"</span>: <span class="string">"webpack-dev-server --config config/webpack.dev.js"</span>,</span><br><span class="line">      <span class="attr">"build"</span>: <span class="string">"webpack --config config/webpack.prod.js"</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;通过命令<code>npm run dev</code>与命令<code>npm run build</code>我们实现了不同环境下的打包<br>&emsp;&emsp;我们已经可以区分环境做处理了，下一步我们进行代码优化，避免重复定义<br>&emsp;&emsp;新建webpack.common.js做公共配置文件，并将两种环境下共同部分迁移进来，可参考如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; CleanWebpackPlugin &#125; = <span class="built_in">require</span>(<span class="string">'clean-webpack-plugin'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: &#123; <span class="string">'app'</span> : <span class="string">'./src/app.js'</span> &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: <span class="string">'[name].js'</span>,</span><br><span class="line">        path: path.resolve(__dirname,<span class="string">'../dist'</span>),</span><br><span class="line">    &#125;,</span><br><span class="line">    optimization:&#123;</span><br><span class="line">        usedExports: <span class="literal">true</span>,      </span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="built_in">module</span>:&#123;&#125;,              <span class="comment">//  此处省略  </span></span><br><span class="line">    plugins: [</span><br><span class="line">        <span class="keyword">new</span> HtmlWebpackPlugin(</span><br><span class="line">            &#123;<span class="attr">template</span> : <span class="string">"./src/index.html"</span>&#125;</span><br><span class="line">        ),</span><br><span class="line">        <span class="keyword">new</span> CleanWebpackPlugin(),</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;修改环境配置项，仅保留公共配置不包含的，可参考如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.dev.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    devtool: <span class="string">'cheap-module-eval-source-map'</span>,</span><br><span class="line">    mode: <span class="string">"development"</span>,</span><br><span class="line">    devServer:&#123;</span><br><span class="line">        contentBase: <span class="string">'./dist'</span>,</span><br><span class="line">        hot: <span class="literal">true</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [</span><br><span class="line">        <span class="keyword">new</span> webpack.HotModuleReplacementPlugin()</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// webpack.prod.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    devtool: <span class="string">'cheap-eval-source-map'</span>,</span><br><span class="line">    mode: <span class="string">"production"</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;如何将配置文件合并呢，我们需要<a href="https://www.npmjs.com/package/webpack-merge" target="_blank" rel="noopener">webpack-merge</a>,下载依赖<code>npm install --save--dev webpack-merge</code><br>&emsp;&emsp;通过webpack-merge返回的方法实现合并(类似于Object.assign,实现对象的合并),如下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.dev.js</span></span><br><span class="line">    <span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</span><br><span class="line">    <span class="keyword">const</span> merge = <span class="built_in">require</span>(<span class="string">'webpack-merge'</span>);</span><br><span class="line">    <span class="keyword">const</span> commConfig = <span class="built_in">require</span>(<span class="string">'./webpack.common.js'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> devConfig = &#123;</span><br><span class="line">        devtool: <span class="string">'cheap-module-eval-source-map'</span>,</span><br><span class="line">        mode: <span class="string">"development"</span>,</span><br><span class="line">        devServer:&#123;</span><br><span class="line">            contentBase: <span class="string">'./dist'</span>,</span><br><span class="line">            hot: <span class="literal">true</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">        plugins: [</span><br><span class="line">            <span class="keyword">new</span> webpack.HotModuleReplacementPlugin()</span><br><span class="line">        ]</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="built_in">module</span>.exports = merge(commConfig,devConfig);</span><br><span class="line">    </span><br><span class="line"><span class="comment">// webpack.prod.js</span></span><br><span class="line"></span><br><span class="line"> <span class="keyword">const</span> merge = <span class="built_in">require</span>(<span class="string">'webpack-merge'</span>);</span><br><span class="line"> <span class="keyword">const</span> commConfig = <span class="built_in">require</span>(<span class="string">'./webpack.common.js'</span>);</span><br><span class="line"> </span><br><span class="line"> <span class="keyword">const</span> prodConfig = &#123;</span><br><span class="line">     devtool: <span class="string">'cheap-eval-source-map'</span>,</span><br><span class="line">     mode: <span class="string">"production"</span>,</span><br><span class="line"> &#125; </span><br><span class="line"></span><br><span class="line"> <span class="built_in">module</span>.exports = merge(commConfig,prodConfig);</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
       <div id="remark"></div>
     <div class="article-info article-info-index">
       
-      <a href="/2019/09/04/wbpackDepthExplanation4/" class="archive-article-date">
-  	<time datetime="2019-09-04T12:14:37.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-09-04</time>
+      <a href="/2019/09/05/wbpackDepthExplanation4/" class="archive-article-date">
+  	<time datetime="2019-09-05T07:48:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-09-05</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -333,74 +903,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack-4-0/">webpack 4.0</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack教程/">webpack教程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-jquerySourceCode1" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/02/jquerySourceCode1/">上古利器jQuery源码剖析(一)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><abbr style="display:block;margin-top: -50px;font-size: 12px;color:#999;text-align: center;border-bottom: 1px dotted #999;">上古利器 虽经沧海变革 宝剑尚锋</abbr></p>
-<p>&emsp;随着数据驱动时代的到来，jQuery不可避免的跌下神坛，但应记得它曾何等辉煌<br>&emsp;我们学习jQuery，不是学习它的用法，而是学习它的架构，它的思想，来深刻理解JS<br>&emsp;优秀的jQuery并未落伍，像当下最火着的axios/fetch等都源自对ajax的吸纳，11年就出现的异步解决方法deferred，我们在ES6的Promise里看到了它的影子<br>&emsp;开拔</p>
-<p>&emsp;$ 只是一个 jQuery的一个别名<br>&emsp;jQuery是一个构造函数,现在可以理解为就是一个最普通的构造函数<br>&emsp;但是我们在调用jQuery的时候,并没有使用new关键字呢.其实这里,jQuery帮我们做了一层语法糖的封装,即调用$()的时候,它自动帮我们创建了jQuery的实例对象<br>&emsp;即$() 就是new $()</p>
-<p>&emsp;&emsp;<abbr style="display:block;color: brown;">* 起手式</abbr> </p>
-<p>&emsp;首先我们创造一个自执行函数,传入this,通过root来接收<br>&emsp;在匿名函数里 我们创建一个叫jQuery的变量,jQuery变量拿到的是一个匿名函数的引用<br>&emsp;这个匿名函数,我们会把它当成构造函数<br>&emsp;因为我们是在全局环境下传入的this,所以这里的this指的就是window对象<br>&emsp;给环境变量root扩展一个叫做jQuery的属性,让它指向jQuery变量,同时再给root扩展一个叫做$的别名<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> jQuery = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;   <span class="comment">// 构造函数</span></span><br><span class="line">    </span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">//root.jQuery = jQuery;</span></span><br><span class="line">    root.$ = root.jQuery = jQuery;</span><br><span class="line">&#125;)(<span class="keyword">this</span>);   <span class="comment">// 环境变量this 因为是全局环境 所以这里指的是window</span></span><br></pre></td></tr></table></figure></p>
-<p>&emsp;这个时候我们输出$,得到的会是一个匿名函数,那源码是如何将其这个语法糖封装的?<br>&emsp;我们给jQuery的原型对象封装一个init的方法<br>&emsp;我们会把这个init对象当做一个构造函数<br>&emsp;我们如何把这个init方法当做一个构造函数呢<br>&emsp;在ES5中构造函数本身就是一个函数对象,也就是说,构造函数与我们普通创建的函数是完全一样的(在其他语言中绝非如此,JS中为了得以区分我们都会将构造函数首字母大写)<br>&emsp;一个普通函数,如果我们通过new去创建它的实例,那么我们就把它当做构造函数,并给他指明原型对象<br>&emsp;我们将init方法的原型对象指向为jQuery的原型对象<br>&emsp;init是jQuery.prototype的一个方法,init的原型对象又是jQuery.prototype,那么init拥有了jQuery.prototype的所有方法(包括它自己)<br>&emsp;我们将jQuery返回init的实例new jQuery.prototype.init()<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> jQuery = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;  <span class="comment">// 别忘了 jQuery我们也是当做构造函数的</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> jQuery.prototype.init();  <span class="comment">// 返回构造函数init的实例对象</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    jQuery.prototype = &#123;</span><br><span class="line">        init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;       <span class="comment">// init是一个匿名对象,在这里我们将它当做一个构造函数</span></span><br><span class="line">            <span class="built_in">console</span>.log(<span class="number">111</span>);   <span class="comment">// 测试代码</span></span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    jQuery.prototype.init.prototype = jQuery.prototype; <span class="comment">// init的原型对象指向为jQuery的原型原型对象</span></span><br><span class="line"></span><br><span class="line">    root.$ = root.jQuery = jQuery;</span><br><span class="line">&#125;)(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;设计的思路是这样的,我们有两个函数jQuery和init,$()就等同于实例化jQuery即new jQuery(),但们无法直接让jQuery函数返回new jQuery,这样会形成死循环,于是我们实例化了另一个构造函数init<br>&emsp;我们将init方法的原型也指向了jQuery的方法原型,实现了原型共享<br>&emsp;因此,jQuery.prototype原型对象里封装的所有属性和方法,jQuery与init都是可以调用的<br>&emsp;最反思维的地方就在于了,init是Query.prototype原型对象的一个方法,可以想想计算机的自举~<br>&emsp;此时我们再调用$(),将输入111</p>
-<p>&emsp;<abbr style="display:block;color: brown;">* 工具函数</abbr> </p>
-<p>&emsp;jQuery框架非常重要的一个函数-工具函数,它的作用是将jQuery所有的自身对象或者实例对象的属性和方法,全部都剥离开来,进行分类管理<br>&emsp;jQuery中一共有两个对象,一个是实例对象,一个是jQuery本身的对象<br>&emsp;起手式中我们实现了实例对象,而jQuery除了是一个构造函数,它也是一个函数对象,我们也有很多函数对象是挂载到jQuery本身上的,例如$.ajax/$.each等<br>&emsp;我们给jQuery添加一个静态属性fn,我们让fn等于jQuery的原型对象,这样我们在外部扩展时,至需要扩展jQuery.fn即可<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> jQuery = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> jQuery.prototype.init();</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    jQuery.fn = jQuery.prototype = &#123;    <span class="comment">// jQuery的静态方法等于jQuery的原型对象,原型对象也是对象</span></span><br><span class="line">        init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    jQuery.fn.init.prototype = jQuery.fn;   <span class="comment">// 替换</span></span><br><span class="line"></span><br><span class="line">    root.$ = root.jQuery = jQuery;</span><br><span class="line"></span><br><span class="line">&#125;)(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;外部扩展时,只需要$.fn.新方法名 = function(){} -&gt;插件编写的形式<br>&emsp;通过调用静态属性扩展到jQuery的实例对象上</p>
-<p>&emsp;<abbr style="display:block;color: brown;">* extend</abbr> </p>
-<p>&emsp;extend在jQuery函数内部是作为一个工具函数存在,用它来管理不同对象(jQuery本身以及它的原型对象)的扩展<br>&emsp;extend在外部可以给 ①任意对象扩展/浅拷贝/深拷贝 ②jQuery本身扩展 ③jQuery实例对象扩展<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> jQuery = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> jQuery.prototype.init();</span><br><span class="line">    &#125;;</span><br><span class="line">    jQuery.fn = jQuery.prototype = &#123;</span><br><span class="line">        init: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// jQuery与 jQuery.prototype的原型都扩展了一个extend属性</span></span><br><span class="line">    jQuery.extend = jQuery.prototype.extend = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 方法调用时,我们有可能给任何对象/jQuery对象/jQuery原型对象进行扩展</span></span><br><span class="line">        <span class="comment">// 我们通过参数来进行区分</span></span><br><span class="line">        <span class="comment">// 参数1 是我们要扩展的对象 参数2 是我们要变量的对象</span></span><br><span class="line">        <span class="comment">// 分析 有1个参数 可能给jQuery对象/jQuery原型对象扩展 有2个及以上 给任意对象arguments[0]扩展</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> target = <span class="built_in">arguments</span>[<span class="number">0</span>] || &#123;&#125;;   <span class="comment">// 参数处理: 参数为空? 赋值对象不是引用类型?</span></span><br><span class="line">        <span class="keyword">var</span> length = <span class="built_in">arguments</span>.length;  <span class="comment">// 参数个数</span></span><br><span class="line">        <span class="keyword">var</span> i = <span class="number">1</span>;  <span class="comment">// 默认参数个数</span></span><br><span class="line">        <span class="keyword">var</span> option;</span><br><span class="line">        <span class="keyword">var</span> name;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> target !== <span class="string">"object"</span>)&#123;</span><br><span class="line">            target = &#123;&#125;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1个参数</span></span><br><span class="line">        <span class="keyword">if</span>(length == i)&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2个及以上参数</span></span><br><span class="line">        <span class="keyword">for</span>(;i&lt;length;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>((option = <span class="built_in">arguments</span>[i]) !== <span class="literal">null</span>)&#123;</span><br><span class="line">                <span class="keyword">for</span>(name <span class="keyword">in</span> option)&#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    jQuery.fn.init.prototype = jQuery.fn;</span><br><span class="line">    root.$ = root.jQuery = jQuery;</span><br><span class="line"></span><br><span class="line">&#125;)(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;<br>&emsp;<br>&emsp;</p>
-
-      
-    </div>
-      <div id="remark"></div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2019/09/02/jquerySourceCode1/" class="archive-article-date">
-  	<time datetime="2019-09-02T05:17:50.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-09-02</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jquery/">jquery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jquery源码/">jquery源码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jquery源码教程/">jquery源码教程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
 	</div>
 
       
@@ -971,125 +1473,6 @@
 
 
   
-    <article id="post-applets-rich-text" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/27/applets-rich-text/">小程序之rich-text如何生成渲染DOM</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp; 今天要吐血紧急发一篇关于小程序富文本渲染的<br>&emsp;&emsp; 之所以吐血,是因为小程序wxs语法出错无法打印，无法调试，更无从知道原因<br>&emsp;&emsp; 根据字符串,解析正则,此方法不是万能的，但，完全可以帮你省很大力气,当然它目前仅适用我的项目,稍改动一下即可</p>
-<p>&emsp;&emsp; 以下为 wxs 文件内,module=m1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    function matchEmoticon(content,regStr)&#123;</span><br><span class="line">        var node = [&#123;</span><br><span class="line">              type: &apos;node&apos;,</span><br><span class="line">              name: &apos;span&apos;,</span><br><span class="line">              children: []</span><br><span class="line">          &#125;];</span><br><span class="line"></span><br><span class="line">          if(getRegExp(regStr,&quot;g&quot;).test(content)) &#123;</span><br><span class="line">              var contentCopy =  content;</span><br><span class="line">              while (contentCopy.length &gt; 0 &amp;&amp; getRegExp(regStr,&quot;g&quot;).test(contentCopy))&#123;</span><br><span class="line"></span><br><span class="line">                  var result = getRegExp(regStr).exec(contentCopy);</span><br><span class="line">                  var searchIndex = contentCopy.search(getRegExp(regStr));</span><br><span class="line"></span><br><span class="line">                  if(searchIndex == 0)&#123;</span><br><span class="line">                      node[0].children.push(&#123;</span><br><span class="line">                          type: &quot;node&quot;,</span><br><span class="line">                          name: &apos;img&apos;,</span><br><span class="line">                          attrs : &#123; &quot;src&quot;: &quot;https://www.mifengapp.com/resources/emoticon/&quot; +  result[1]  +&quot;.png&quot;,</span><br><span class="line">                          style : &quot;width: 20px;height:20px;padding: 0 1px&quot; &#125;,</span><br><span class="line">                          children: []</span><br><span class="line">                      &#125;);</span><br><span class="line"></span><br><span class="line">                    contentCopy = contentCopy.slice(result[0].length);</span><br><span class="line"></span><br><span class="line">                  &#125;else&#123;</span><br><span class="line">                     node[0].children.push(&#123;</span><br><span class="line">                          type: &quot;node&quot;,</span><br><span class="line">                          name: &apos;span&apos;,</span><br><span class="line">                          children: [&#123;</span><br><span class="line">                              type: &apos;text&apos;,</span><br><span class="line">                              text: contentCopy.slice(0,searchIndex)</span><br><span class="line">                          &#125;]</span><br><span class="line">                      &#125;);</span><br><span class="line"></span><br><span class="line">                      contentCopy = contentCopy.slice(searchIndex);</span><br><span class="line">                  &#125;</span><br><span class="line">             &#125;</span><br><span class="line"></span><br><span class="line">             if(contentCopy.length &gt; 0)&#123;</span><br><span class="line">                node[0].children.push(&#123;</span><br><span class="line">                    type: &quot;node&quot;,</span><br><span class="line">                    name: &apos;span&apos;,</span><br><span class="line">                    children: [&#123;</span><br><span class="line">                        type: &apos;text&apos;,</span><br><span class="line">                        text: contentCopy</span><br><span class="line">                    &#125;]</span><br><span class="line">                &#125;);</span><br><span class="line">             &#125;</span><br><span class="line"></span><br><span class="line">          &#125;else&#123;</span><br><span class="line">              node[0].children.push(&#123;</span><br><span class="line">                  type: &apos;node&apos;,</span><br><span class="line">                  name: &apos;span&apos;,</span><br><span class="line">                  children: [&#123;</span><br><span class="line">                      type: &apos;text&apos;,</span><br><span class="line">                      text: content</span><br><span class="line">                  &#125;]</span><br><span class="line">              &#125;)</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          return node;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    matchEmoticon: matchEmoticon</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp; 以下为 wxml文件内调用上述方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;rich-text nodes=&quot;&#123;&#123;m1.matchEmoticon(&quot;监督检查吃顿饭呢看到基础酒店吧地方好的宝贝底线很好的716969797979SSS1&quot;,&quot;[\uE000]([\d]+)[\uE001]&quot;)&#125;&#125;&quot;&gt;&lt;/rich-text&gt;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;注：<br>&emsp;&emsp; ① 为什么不用ES6？<br>&emsp;&emsp;&emsp;&emsp;&emsp;wxs内暂不支持ES6<br>&emsp;&emsp; ② 为什么使用getRegExp而不是RegExp或字面量创建？<br>&emsp;&emsp;&emsp;&emsp;&emsp;小程序内正则使用封装的getRegExp,否则会无法解析<br>&emsp;&emsp; ③ 为什么不提取getRegExp(regStr,”g”)做公共变量?<br>&emsp;&emsp;&emsp;&emsp;&emsp;不知道内部如何封装的，提取后会无法解析<br>&emsp;&emsp; ④ 为什么用了exec还要用search?<br>&emsp;&emsp;&emsp;&emsp;&emsp;因为需要获取下标值,虽然exec的返回值result有result[0]和result[1],但是没有result.index<br>&emsp;&emsp; ⑤ 代码异常了会怎样？<br>&emsp;&emsp;&emsp;&emsp;&emsp;内部应该做了捕获处理,会直接返回空</p>
-<p>&emsp;&emsp; 希望这些问题后续能够解决，毕竟不太优雅.</p>
-
-      
-    </div>
-      <div id="remark"></div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2019/05/27/applets-rich-text/" class="archive-article-date">
-  	<time datetime="2019-05-27T03:29:09.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-05-27</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rich-text/">rich-text</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原创/">原创</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/微信小程序/">微信小程序</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-regexp" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/13/regexp/">前端源码里的那些正则</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp; 通读了一遍老姚的<a href="https://zhuanlan.zhihu.com/p/29707385" target="_blank" rel="noopener">《JavaScript 正则表达式迷你书》</a>个人收获极多。<br>&emsp;&emsp; 忽想到之前学源码时，那些晦涩难懂的正则表达式,或者防不胜防的『骚操作』,我遂决定将其摘出，细细品味。</p>
-<h3 id="jQuery"><a href="#jQuery" class="headerlink" title="jQuery"></a>jQuery</h3><pre><code>1. 驼峰命名
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var camelizeRE = /-(\w)/g;</span><br><span class="line">var camelize = cached(function (str) &#123;</span><br><span class="line">  return str.replace(camelizeRE, function (_, c) &#123; return c ? c.toUpperCase() : &apos;&apos;; &#125;)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">/* cached为缓存函数，可忽略，核心代码修改如下 */</span><br><span class="line"></span><br><span class="line">var camelizeRE = /-(\w)/g;</span><br><span class="line">var camelize = function (str) &#123;</span><br><span class="line">  return str.replace(camelizeRE, function (_, c) &#123; return c ? c.toUpperCase() : &apos;&apos;; &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> *  ① camelizeRE正则捕获所有连字符[-]后的首个元素</span><br><span class="line"> *  ② _ 为符合正则的部分,c为正则$1[第一个括号包裹的内容]捕获到的元素，即我们的目标子符</span><br><span class="line"> *  ③ 若该字符存在,则大写</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
-</code></pre>
-      
-    </div>
-      <div id="remark"></div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2019/03/13/regexp/" class="archive-article-date">
-  	<time datetime="2019-03-13T03:20:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-03-13</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/正则/">正则</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/源码/">源码</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1154,7 +1537,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/FHS/" style="font-size: 11.67px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/jquery源码/" style="font-size: 10px;">jquery源码</a> <a href="/tags/jquery源码教程/" style="font-size: 10px;">jquery源码教程</a> <a href="/tags/js原型/" style="font-size: 10px;">js原型</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/rich-text/" style="font-size: 10px;">rich-text</a> <a href="/tags/underscore/" style="font-size: 10px;">underscore</a> <a href="/tags/underscore源码/" style="font-size: 10px;">underscore源码</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/webpack/" style="font-size: 16.67px;">webpack</a> <a href="/tags/webpack-4-0/" style="font-size: 15px;">webpack 4.0</a> <a href="/tags/webpack优化/" style="font-size: 10px;">webpack优化</a> <a href="/tags/webpack教程/" style="font-size: 15px;">webpack教程</a> <a href="/tags/依赖倒置原则/" style="font-size: 11.67px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端打包工具/" style="font-size: 10px;">前端打包工具</a> <a href="/tags/前端设计模式/" style="font-size: 18.33px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 13.33px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/源码/" style="font-size: 11.67px;">源码</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
+    				<a href="/tags/FHS/" style="font-size: 11.67px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/jquery源码/" style="font-size: 10px;">jquery源码</a> <a href="/tags/jquery源码教程/" style="font-size: 10px;">jquery源码教程</a> <a href="/tags/js原型/" style="font-size: 10px;">js原型</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/react-redux/" style="font-size: 10px;">react-redux</a> <a href="/tags/rich-text/" style="font-size: 10px;">rich-text</a> <a href="/tags/underscore/" style="font-size: 10px;">underscore</a> <a href="/tags/underscore源码/" style="font-size: 10px;">underscore源码</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/webpack/" style="font-size: 16.67px;">webpack</a> <a href="/tags/webpack-4-0/" style="font-size: 15px;">webpack 4.0</a> <a href="/tags/webpack优化/" style="font-size: 10px;">webpack优化</a> <a href="/tags/webpack教程/" style="font-size: 15px;">webpack教程</a> <a href="/tags/依赖倒置原则/" style="font-size: 11.67px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端打包工具/" style="font-size: 10px;">前端打包工具</a> <a href="/tags/前端设计模式/" style="font-size: 18.33px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 13.33px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/源码/" style="font-size: 11.67px;">源码</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
     			</div>
     	</section>
     

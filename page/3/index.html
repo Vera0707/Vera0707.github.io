@@ -169,6 +169,253 @@
       <div class="body-wrap">
           
   
+    <article id="post-vim" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/23/vim/">Vim入门基础</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[TOC]</p>
+<p>@(welcome)[前端菜鸟|掘金中]</p>
+<h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>&emsp;&emsp;Vim（Vi[Improved]）编辑器是功能强大的跨平台文本文件编辑工具，继承自Unix系统的Vi编辑器，支持Linux/Mac OS X/Windows系统，利用它可以建立、修改文本文件。进入Vim编辑程序，可以在终端输入下面的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$vim [filename]</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;其中<code>filename</code>是要编辑器的文件的路径名。如果文件不存在，它将为你建立一个新文件。Vim编辑程序有三种操作模式，分别称为 编辑模式、插入模式 和 命令模式，当运行Vim时，首先进入编辑模式。</p>
+<h2 id="2-编辑模式"><a href="#2-编辑模式" class="headerlink" title="2. 编辑模式"></a>2. 编辑模式</h2><p>&emsp;&emsp;Vim编辑方式的主要用途是在被编辑的文件中移动光标的位置。一旦光标移到到所要的位置，就可以进行剪切和粘贴正文块，删除正文和插入新的正文。当完成所有的编辑工作后，需要保存编辑器结果，退出编辑程序回到终端，可以发出<code>ZZ</code>命令，连续按两次大写的<code>Z</code>键。</p>
+<h3 id="2-1-跳转"><a href="#2-1-跳转" class="headerlink" title="2.1 跳转"></a>2.1 跳转</h3><p>&emsp;&emsp;如果键盘上有上、下、左、右箭头的导航键，就由这些键来完成光标的移动。另外，可以用下面的键完成同样的 按字符移动 功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">k               上移；</span><br><span class="line">j               下移；</span><br><span class="line">h               左移；</span><br><span class="line">l               右移。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;上面这４个键将光标位置每次移动一行或一个 字符 。Vim还提供稍大范围移动光标的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ctrl+f      在文件中前移一页（相当于 page down）；</span><br><span class="line">ctrl+b      在文件中后移一页（相当于 page up）；</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;更大范围的移动：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">*         当光标停留在一个单词上，* 键会在文件内搜索该单词，并跳转到下一处；</span><br><span class="line">#         当光标停留在一个单词上，# 在文件内搜索该单词，并跳转到上一处；</span><br><span class="line">(/)       移动到 前/后 句 的开始；</span><br><span class="line">&#123;/&#125;       跳转到 当前/下一个 段落 的开始。</span><br><span class="line">g_        到本行最后一个不是 blank 字符的位置。</span><br><span class="line">fa        到下一个为 a 的字符处，你也可以fs到下一个为s的字符。</span><br><span class="line">t,        到逗号前的第一个字符。逗号可以变成其它字符。</span><br><span class="line">3fa       在当前行查找第三个出现的 a。</span><br><span class="line">F/T       和 f 和 t 一样，只不过是相反方向;</span><br><span class="line">gg        将光标定位到文件第一行起始位置；</span><br><span class="line">G         将光标定位到文件最后一行起始位置；</span><br><span class="line">NG或Ngg   将光标定位到第 N 行的起始位置。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;在屏幕中找到需要的 一页 时，可以用下面的命令快速移动光标：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">H               将光标移到屏幕上的起始行（或最上行）；</span><br><span class="line">M               将光标移到屏幕中间；</span><br><span class="line">L               将光标移到屏幕最后一行。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;同样需要注意字母的大小写。<code>H</code>和 <code>L</code>命令还可以加数字。如<code>2H</code>表示将光标移到屏幕的第２行，<code>3L</code>表示将光标移到屏幕的倒数第3行。</p>
+<p>&emsp;&emsp;当将光标移到所要的行是，行内移动 光标可以用下面的命令来实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">w               右移光标到下一个字的开头；</span><br><span class="line">e               右移光标到一个字的末尾；</span><br><span class="line">b               左移光标到前一个字的开头；</span><br><span class="line">0               数字０，左移光标到本行的开始；</span><br><span class="line">$               右移光标，到本行的末尾；</span><br><span class="line">^               移动光标，到本行的第一个非空字符。</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-搜索匹配"><a href="#2-2-搜索匹配" class="headerlink" title="2.2 搜索匹配"></a>2.2 搜索匹配</h3><p>&emsp;&emsp;和许多先进的编辑器一样，Vim 提供了强大的字符串搜索功能。要查找文件中指定字或短语出现的位置，可以用Vim直接进行搜索，而不必以手工方式进行。搜索方法是：键入字符<code>/</code>，后面跟以要搜索的字符串，然后按回车键。编辑程序执行正向搜索（即朝文件末尾方向），并在找到指定字符串后，将光标停到该字符串的开头；键入<code>n</code>命令可以继续执行搜索，找出这一字符串下次出现的位置。用字符<code>?</code>取代<code>/</code>，可以实现反向搜索（朝文件开头方向）。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/str1               正向搜索字符串 str1；</span><br><span class="line">n                   继续搜索，找出 str1 字符串下次出现的位置；</span><br><span class="line">N                   继续搜索，找出 str1 字符串上一次出现的位置；</span><br><span class="line">?str2               反向搜索字符串 str2 。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;无论搜索方向如何，当到达文件末尾或开头时，搜索工作会循环到文件的另一端并继续执行。<br>Vim中执行搜索匹配最强大的地方是结合 <abbr style="font-weight:bold"> 正则表达式 </abbr> 来搜索，后续将会介绍。</p>
+<h3 id="2-3-替换和删除"><a href="#2-3-替换和删除" class="headerlink" title="2.3 替换和删除"></a>2.3 替换和删除</h3><p>&emsp;&emsp;Vim常规的删除命令是 <code>d</code>、<code>x</code>(前者删除 <code>行</code>，后者删除<code>字符</code> ),结合Vim的其他特性可以实现基础的删除功能。将光标定位于文件内指定位置后，可以用其他字符来替换光标所指向的字符，或从当前光标位置删除一个或多个字符或一行、多行。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">rc                用 c 替换光标所指向的当前字符；</span><br><span class="line">nrc               用 c 替换光标所指向的前 n 个字符；</span><br><span class="line">5rA               用 A 替换光标所指向的前 5 个字符；</span><br><span class="line">x                 删除光标所指向的当前字符；</span><br><span class="line">nx                删除光标所指向的前 n 个字符；</span><br><span class="line">3x                删除光标所指向的前 3 个字符；</span><br><span class="line">dw                删除光标右侧的字；</span><br><span class="line">ndw               删除光标右侧的 n 个字；</span><br><span class="line">3dw               删除光标右侧的 3 个字；</span><br><span class="line">db                删除光标左侧的字；</span><br><span class="line">ndb               删除光标左侧的 n 个字；</span><br><span class="line">5db               删除光标左侧的 5 个字；</span><br><span class="line">dd                删除光标所在行，并去除空隙；</span><br><span class="line">ndd               删除（剪切） n 行内容，并去除空隙；</span><br><span class="line">3dd               删除（剪切） 3 行内容，并去除空隙；</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;其他常用的删除命令有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">d$              从当前光标起删除字符直到行的结束；</span><br><span class="line">d0              从当前光标起删除字符直到行的开始；</span><br><span class="line">J                删除本行的回车符（CR），并和下一行合并。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;Vim常规的替换命令有<code>c</code>和<code>s</code>，结合Vim的其他特性可以实现基础的替换功能，不过替换命令执行以后，通常会由<abbr style="font-weight:bold"> 编辑模式 </abbr>进入<abbr style="font-weight:bold"> 插入模式 </abbr>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">s              用输入的正文替换光标所指向的字符；</span><br><span class="line">S              删除当前行，并进入插入模式；</span><br><span class="line">ns             用输入的正文替换光标右侧 n 个字符；</span><br><span class="line">nS             删除当前行在内的 n 行，并进入插入模式；</span><br><span class="line">cw             用输入的正文替换光标右侧的字；</span><br><span class="line">cW             用输入的正文替换从光标到行尾的所有字符（同 c$ )；</span><br><span class="line">ncw            用输入的正文替换光标右侧的 n 个字；</span><br><span class="line">cb             用输入的正文替换光标左侧的字；</span><br><span class="line">ncb            用输入的正文替换光标左侧的 n 个字；</span><br><span class="line">cd             用输入的正文替换光标的所在行；</span><br><span class="line">ncd            用输入的正文替换光标下面的 n 行；</span><br><span class="line">c$             用输入的正文替换从光标开始到本行末尾的所有字符；</span><br><span class="line">c0             用输入的正文替换从本行开头到光标的所有字符。</span><br></pre></td></tr></table></figure>
+<h3 id="2-4-复制粘贴"><a href="#2-4-复制粘贴" class="headerlink" title="2.4 复制粘贴"></a>2.4 复制粘贴</h3><p>&emsp;&emsp;从正文中删除的内容（如字符、字或行）并没有真正丢失，而是被剪切并复制到了一个内存缓冲区中。用户可将其粘贴到正文中的指定位置。完成这一操作的命令是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p               小写字母 p，将缓冲区的内容粘贴到光标的后面；</span><br><span class="line">P               大写字母 P，将缓冲区的内容粘贴到光标的前面。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;如果缓冲区的内容是字符或字，直接粘贴在光标的前面或后面；如果缓冲区的内容为整行正文，执行上述粘贴命令将会粘贴在当前光标所在行的上一行或下一行。</p>
+<p>&emsp;&emsp;注意上述两个命令中字母的大小写。Vim 编辑器经常以一对大、小写字母（如<code>p</code>和<code>P</code>）来提供一对相似的功能。通常，小写命令在光标的后面进行操作，大写命令在光标的前面进行操作。</p>
+<p>&emsp;&emsp;有时需要复制一段正文到新位置，同时保留原有位置的内容。这种情况下，首先应当把指定内容复制（而不是剪切）到内存缓冲区。完成这一操作的命令是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yy              复制当前行到内存缓冲区；</span><br><span class="line">nyy             复制 n 行内容到内存缓冲区；</span><br><span class="line">5yy             复制 5 行内容到内存缓冲区；</span><br><span class="line">“+y             复制 1 行到操作系统的粘贴板；</span><br><span class="line">“+nyy           复制 n 行到操作系统的粘贴板。</span><br></pre></td></tr></table></figure>
+<h3 id="2-5-撤销和重复"><a href="#2-5-撤销和重复" class="headerlink" title="2.5 撤销和重复"></a>2.5 撤销和重复</h3><p>&emsp;&emsp;在编辑文档的过程中，为消除某个错误的编辑命令造成的后果，可以用撤消命令。另外，如果用户希望在新的光标位置重复前面执行过的编辑命令，可用重复命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">u               撤消前一条命令的结果；</span><br><span class="line">.              重复最后一条修改正文的命令。</span><br></pre></td></tr></table></figure>
+<h2 id="3-插入模式"><a href="#3-插入模式" class="headerlink" title="3. 插入模式"></a>3. 插入模式</h2><h3 id="3-1-进入插入模式"><a href="#3-1-进入插入模式" class="headerlink" title="3.1 进入插入模式"></a>3.1 进入插入模式</h3><p>&emsp;&emsp;在编辑模式下正确定位光标之后，可用以下命令切换到插入模式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">i            在光标左侧插入正文</span><br><span class="line">a            在光标右侧插入正文</span><br><span class="line">o            在光标所在行的下一行增添新行</span><br><span class="line">O            在光标所在行的上一行增添新行</span><br><span class="line">I            在光标所在行的开头插入</span><br><span class="line">A            在光标所在行的末尾插入</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-退出插入模式"><a href="#3-2-退出插入模式" class="headerlink" title="3.2 退出插入模式"></a>3.2 退出插入模式</h3><p>&emsp;&emsp;退出插入模式的方法是，按 <code>ESC</code> 键或组合键 <code>Ctrl+[</code> ，退出插入模式之后，将会进入编辑模式 。</p>
+<h2 id="4-命令模式"><a href="#4-命令模式" class="headerlink" title="4. 命令模式"></a>4. 命令模式</h2><p>&emsp;&emsp;在已经启动的Vim中打开一个文件需要用 <code>:e</code>命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:e path_to_file/filename</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;保存当前编辑的文件需要用 <code>:w</code>命令（单词 <code>write</code> 的缩写）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:w</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;将当前文件另存为 <code>file_temp</code> 则：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:w file_temp</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;在编辑模式下可以用 <code>ZZ</code> 命令退出Vim编辑程序，该命令保存对正文所作的修改，覆盖原始文件。如果只需要退出编辑程序，而不打算保存编辑的内容，可用下面的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">: q             在未作修改的情况下退出；</span><br><span class="line">: q!            放弃所有修改，退出编辑程序。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;保存并退出则可以讲两条命令结合起来使用（注意命令顺序，先保存，后退出）：</p>
+<h3 id="4-2-行号与文件"><a href="#4-2-行号与文件" class="headerlink" title="4.2  行号与文件"></a>4.2  行号与文件</h3><p>&emsp;&emsp;编辑中的每一行正文都有自己的行号，用下列命令可以移动光标到指定行（效果与 编辑模式 下的 <code>ngg</code> 或 <code>nG</code> 相同）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">: n             将光标移到第 n 行</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;命令模式下，可以规定命令操作的行号范围。数值用来指定绝对行号；字符“.”表示光标所在行的行号；字符符“$”表示正文最后一行的行号；简单的表达式，例如“.+5”表示当前行往下的第 5 行。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">:345                  将光标移到第 345 行</span><br><span class="line">:345w file            将第 345 行写入 file 文件</span><br><span class="line">:3,5w file            将第 3 行至第 5 行写入 file 文件</span><br><span class="line">:1,.w file            将第 1 行至当前行写入 file 文件</span><br><span class="line">:.,$w file            将当前行至最后一行写入 file 文件</span><br><span class="line">:.,.+5w file          从当前行开始将 6 行内容写入 file 文件</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;在命令模式下，允许从文件中读取正文，或将正文写入文件。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">:w                 将编辑的内容写入原始文件，用来保存编辑的中间结果</span><br><span class="line">:wq                将编辑的内容写入原始文件并退出编辑程序（相当于 ZZ 命令）</span><br><span class="line">:w file            将编辑的内容写入 file 文件，保持原有文件的内容不变</span><br><span class="line">:a,bw file         将第 a 行至第 b 行的内容写入 file 文件</span><br><span class="line">:r file            读取 file 文件的内容，插入当前光标所在行的后面</span><br><span class="line">:e file            编辑新文件 file 代替原有内容</span><br><span class="line">:f file            将当前文件重命名为 file</span><br><span class="line">:f                 打印当前文件名称和状态，如文件的行数、光标所在的行号等</span><br></pre></td></tr></table></figure>
+<h3 id="4-3-字符串搜索"><a href="#4-3-字符串搜索" class="headerlink" title="4.3  字符串搜索"></a>4.3  字符串搜索</h3><p>&emsp;&emsp;在 <abbr style="font-weight:bold"> 编辑模式  </abbr>讲过字符串的搜索，此处的<abbr style="font-weight:bold"> 命令模式  </abbr>也可以进行字符串搜索，给出一个字符串，可以通过搜索该字符串到达指定行。如果希望进行正向搜索，将待搜索的字符串置于两个<code>/</code>之间；如果希望反向搜索，则将字符串放在两个<code>?</code>之间。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">:/str/                  正向搜索，将光标移到下一个包含字符串 str 的行</span><br><span class="line">:?str?                  反向搜索，将光标移到上一个包含字符串 str 的行</span><br><span class="line">:/str/w file            正向搜索，并将第一个包含字符串 str 的行写入 file 文件</span><br><span class="line">:/str1/,/str2/w file    正向搜索，并将包含字符串 str1 的行至包含字符串 str2 的行写</span><br></pre></td></tr></table></figure>
+<h3 id="4-4-字符串搜索"><a href="#4-4-字符串搜索" class="headerlink" title="4.4  字符串搜索"></a>4.4  字符串搜索</h3><p>&emsp;&emsp;当给Vim指定搜索字符串时，可以包含具有特殊含义的字符。包含这些特殊字符的搜索字符串称为正则表达式（Regular Expressions）。例如，要搜索一行正文，这行正文的开头包含 <code>struct</code> 字。下面的命令做不到这一点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:/struct/</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;因为它只找出在行中任意位置包含<code>struct</code>的第一行，并不一定在行的开始包含<code>struct</code>。解决问题的办法是在搜索字符串前面加上特殊字符^：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:/^struct/</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;<code>^</code>字符比较每行开头的字符串。所以上面的命令表示：找出以字符串<code>struct</code>开头的行。</p>
+<p>&emsp;&emsp;也可以用类似办法在搜索字符串后面加上表示行的末尾的特殊字符 $ 来找出位于行末尾的字：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:/^struct/</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;下表给出大多数特殊字符和它们的含义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">^               放在字符串前面，匹配行首的字；</span><br><span class="line">$               放在字符串后面，匹配行尾的字；</span><br><span class="line">\&lt;              匹配一个字的字头；</span><br><span class="line">\&gt;              匹配一个字的字尾；</span><br><span class="line">.               匹配任何单个正文字符；</span><br><span class="line">[str]           匹配 str 中的任何单个字符；</span><br><span class="line">[^str]          匹配任何不在 str 中的单个字符；</span><br><span class="line">[a-b]           匹配 a 到 b 之间的任一字符；</span><br><span class="line">*               匹配前一个字符的 0 次或多次出现；</span><br><span class="line">\               转义后面的字符。</span><br></pre></td></tr></table></figure>
+<h3 id="4-5-正文替换"><a href="#4-5-正文替换" class="headerlink" title="4.5  正文替换"></a>4.5  正文替换</h3><p>&emsp;&emsp;利用<code>:s</code>命令可以实现字符串的替换。具体的用法包括：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">:%s/str1/str2/      用字符串 str2 替换行中首次出现的字符串 str1</span><br><span class="line">:s/str1/str2/g      用字符串 str2 替换行中所有出现的字符串 str1</span><br><span class="line">:.,$ s/str1/str2/g  用字符串 str2 替换正文当前行到末尾所有出现的字符串 str1</span><br><span class="line">:1,$ s/str1/str2/g  用字符串 str2 替换正文中所有出现的字符串 str1</span><br><span class="line">:g/str1/s//str2/g    功能同上</span><br><span class="line">:m,ns/str1/str2/g    将从m行到n行的str1替换成str2</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;从上述替换命令可以看到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">`g` 放在命令末尾，表示对搜索字符串的每次出现进行替换,不止匹配每行中的第一次出现；不加 `g`，表示只对搜索字符串的首次出现进行替换；`g` 放在命令开头，表示对正文中所有包含搜索字符串的行进行替换操作;</span><br><span class="line">`s` 表示后面跟着一串替换的命令；</span><br><span class="line">`%` 表示替换范围是所有行，即全文。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;另外一个实用的命令，在Vim中统计当前文件中字符串 <code>str1</code> 出现的次数，可用替换命令的变形：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s/str1/&amp;/gn</span><br></pre></td></tr></table></figure>
+<h3 id="4-6-删除正文"><a href="#4-6-删除正文" class="headerlink" title="4.6  删除正文"></a>4.6  删除正文</h3><p>&emsp;&emsp;在命令模式下，同样可以删除正文中的内容。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">:d                              删除光标所在行</span><br><span class="line">:3d                             删除 3 行</span><br><span class="line">:.,$d                           删除当前行至正文的末尾</span><br><span class="line">:/str1/,/str2/d                 删除从字符串 str1 到 str2 的所有行</span><br><span class="line">:g/^\(.*\)$\n\1$/d              删除连续相同的行，保留最后一行</span><br><span class="line">:g/\%(^\1$\n\)\@&lt;=\(.*\)$/d     删除连续相同的行，保留最开始一行</span><br><span class="line">:g/^\s*$\n\s*$/d                删除连续多个空行，只保留一行空行</span><br><span class="line">:5,20s/^#//g                    删除5到20行开头的 # 注释</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;总之，Vim的初级删除命令是用 <code>d</code> ，高级删除命令可以用<abbr style="font-weight:bold"> 正则替换  </abbr></p>
+<h3 id="4-7-恢复文件"><a href="#4-7-恢复文件" class="headerlink" title="4.7  恢复文件"></a>4.7  恢复文件</h3><p>&emsp;&emsp;Vim 在编辑某个文件时，会另外生成一个临时文件，这个文件的名称通常以<code>.</code>开头，并以<code>.swp</code>结尾。Vim 在正常退出时，该文件被删除，若意外退出，而没有保存文件的最新修改内容，则可以使用恢复命令<code>:recover</code>来恢复文件，也可以在启动Vim时用<code>-r</code>选项。</p>
+<h3 id="4-8-选项设置"><a href="#4-8-选项设置" class="headerlink" title="4.8  选项设置"></a>4.8  选项设置</h3><p>&emsp;&emsp;为控制不同的编辑功能，Vim 提供了很多内部选项。利用 :set 命令可以设置选项。基本语法为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:set option         设置选项 option</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;常见的功能选项包括：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">autoindent      设置该选项，则正文自动缩进</span><br><span class="line">ignorecase      设置该选项，则忽略规则表达式中大小写字母的区别</span><br><span class="line">number          设置该选项，则显示正文行号</span><br><span class="line">ruler           设置该选项，则在屏幕底部显示光标所在行、列的位置</span><br><span class="line">tabstop         设置按 Tab 键跳过的空格数。例如 :set tabstop=n，n 默认值为 8</span><br><span class="line">mk              将选项保存在当前目录的 .exrc 文件中</span><br></pre></td></tr></table></figure>
+<h3 id="4-9-Shell切换"><a href="#4-9-Shell切换" class="headerlink" title="4.9  Shell切换"></a>4.9  Shell切换</h3><p>&emsp;&emsp;当处于编辑的对话过程中时，可能需要执行一些Linux命令。如果需要保存当前的结果，退出编辑程序，再执行所需的Linux命令，然后再回头继续编辑过程，就显得十分累赘。如果能在编辑的环境中运行Linux命令就要省事得多。在Vim中，可以用下面的命令来做到这一点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:!shell_command   执行完 shell_command 后回到Vim</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;这称为Shell切换。它允许执行任何可以在标准的Shell提示符下执行的命令。当这条命令执行完毕，控制返回给编辑程序。又可以继续编辑对话过程。</p>
+<h3 id="4-10-分屏与标签页"><a href="#4-10-分屏与标签页" class="headerlink" title="4.10  分屏与标签页"></a>4.10  分屏与标签页</h3><h4 id="分屏"><a href="#分屏" class="headerlink" title="分屏"></a>分屏</h4><p>&emsp;&emsp;普通的Vim模式，打开一个Vim程序只能查看一个文件，如果想同时查看多个文件，就需要用到Vim分屏与标签页功能。</p>
+<p>&emsp;&emsp;Vim的分屏，主要有两种方式：上下分屏（水平分屏）和左右分屏（垂直分屏），在命令模式分别敲入以下命令即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:split（可用缩写 :sp）            上下分屏；</span><br><span class="line">:vsplit（可用缩写 :vsp）          左右分屏。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;另外，也可以在终端里启动vim时就开启分屏操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim -On file1 file2...   打开 file1 和 file2 ，垂直分屏</span><br><span class="line">vim -on file1 file2...   打开 file1 和 file2 ，水平分屏</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;理论上，一个Vim窗口，可以分为多个Vim屏幕，切换屏幕需要用键盘快捷键，命令分别有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Ctrl+w+h            切换到当前分屏的左边一屏；</span><br><span class="line">Ctrl+w+l            切换到当前分屏的右边一屏；</span><br><span class="line">Ctrl+w+j            切换到当前分屏的下方一屏；</span><br><span class="line">Ctrl+w+k            切换到当前分屏的上方一屏。</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;即键盘上的<code>h,j,k,l</code> 四个Vim专用方向键，配合<code>Ctrl</code>键和<code>w</code>键（<code>window</code>的缩写），就能跳转到目标分屏。另外，也可以直接按 <code>Ctrl+w+w</code>来跳转分屏，不过跳转方向则是在当前Vim窗口所有分屏中，按照逆时针方向跳转。<br>&emsp;&emsp;下面是改变尺寸的一些操作，主要是高度，对于宽度你可以使用 <code>[Ctrl+W &lt;]</code> 或是 <code>[Ctrl+W &gt;]</code> ，但这可能需要最新的版本才支持。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Ctrl+W =            让所有的屏都有一样的高度；</span><br><span class="line">Ctrl+W +            增加高度；</span><br><span class="line">Ctrl+W -            减少高度。</span><br></pre></td></tr></table></figure>
+<h4 id="标签页"><a href="#标签页" class="headerlink" title="标签页"></a>标签页</h4><p>&emsp;&emsp;Vim的标签（Tab）页，类似浏览器的标签页，一个标签页打开一个Vim的窗口，一个Vim的窗口可以支持N个分屏。</p>
+<p>&emsp;&emsp;在Vim中新建一个标签的命令是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:tabnew</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;如果要在新建标签页的同时打开一个文件，则可以在命令后面直接附带文件路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:tabnew filename</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;Vim中的每个标签页有一个唯一的数字序号，第一个标签页的序号是<code>0</code>，从左向右依次加一。关于标签页有一系列操作命令，简介如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">:tN[ext]                跳转到上一个匹配的标签</span><br><span class="line">:tabN[ext]              跳到上一个标签页</span><br><span class="line">:tabc[lose]             关闭当前标签页</span><br><span class="line">:tabdo                  为每个标签页执行命令</span><br><span class="line">:tabe[dit]              在新标签页里编辑文件</span><br><span class="line">:tabf[ind]              寻找 &apos;path&apos; 里的文件，在新标签页里编辑之</span><br><span class="line">:tabfir[st]             转到第一个标签页</span><br><span class="line">:tabl[ast]              转到最后一个标签页</span><br><span class="line">:tabm[ove]  N           把标签页移到序号为N位置</span><br><span class="line">:tabnew [filename]      在新标签页里编辑文件</span><br><span class="line">:tabn[ext]              转到下一个标签页</span><br><span class="line">:tabo[nly]              关闭所有除了当前标签页以外的所有标签页</span><br><span class="line">:tabp[revious]          转到前一个标签页</span><br><span class="line">:tabr[ewind]            转到第一个标签页</span><br></pre></td></tr></table></figure>
+<h3 id="4-11-与外部工具集成"><a href="#4-11-与外部工具集成" class="headerlink" title="4.11  与外部工具集成"></a>4.11  与外部工具集成</h3><p>&emsp;&emsp;Vim可以与许多外部程序集成，功能十分强大，比如 diff , ctags , sort , xxd 等等，下面选取几个简单介绍一下。</p>
+<h4 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h4><p>&emsp;&emsp;Linux命令<code>diff</code>用来对比两个文件的内容，不过对比结果显示在终端里，可读性比较差。结合Vim，在终端里可以直接输入命令<code>vimdiff</code>，后面跟两个文件名作为参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vimdiff file1 file2</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;即可在Vim里分屏显示两个文件内容的对比结果，对文件内容差异部分进行高亮标记，还可以同步滚动两个文件内容，更可以实时修改文件内容，方便程度和用户体验大大提高。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vimdiff a.txt b.txt</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;如果直接给 <code>-d</code>选项是一样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim -d a.txt b.txt</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;除了在终端里开启vimdiff 功能，也可以在打开Vim后，在Vim的命令模式输入相关命令来开启 <code>vimdiff</code> 功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:diffsplit abc.txt</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;如果你现在已经开启了一个文件，想Vim帮你区分你的文件跟 <code>abc.txt</code> 有什么区别，可以在Vim中用 <code>diffsplit</code> 的方式打开第二个文件，这个时 候Vim会用 <code>split</code>（分上下两屏）的方式开启第二个文件，并且通过颜色，<code>fold</code> 来显示两个文件的区别<br>&emsp;&emsp;这样Vim就会用颜色帮你区分开2个文件的区别。如果文件比较大（源码）重复的部分会帮你折叠起来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:diffpatch filename</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;通过 <code>:diffpatch</code>你的patch的文件名，就可以以当前文件加上你的patch来显示。vim会split一个新的屏，显示patch后的信息并且用颜色标明区别。<br>&emsp;&emsp;如果不喜欢上下对比，喜欢左右（比较符合视觉）可以在前面加 <code>vert</code> ，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:vert diffsplit abc.txt</span><br><span class="line">:vert diffpatch abc.txt</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;看完diff，用<code>:only</code> 回到原本编辑的文件，觉得diff的讨厌颜色还是在哪里，只要用<code>:diffoff</code> 关闭就好了。<br>&emsp;&emsp;还有个常用的diff中的就是 <code>:diffu</code>,这个是 <code>:diffupdate</code> 的简写，更新的时候用。</p>
+<h4 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h4><p>&emsp;&emsp;Linux命令 <code>sort</code> 可以对文本内容进行按行中的字符比较、排序，但在终端里使用 <code>sort</code> 命令处理文件，并不能实时查看文件内容。具体用法请自查手册。</p>
+<h4 id="xxd"><a href="#xxd" class="headerlink" title="xxd"></a>xxd</h4><p>&emsp;&emsp;<code>vim+xxd</code> 是Linux下最常用的二进制文本编辑工具，<code>xxd</code>其实是Vim外部的一个转换程序，随Vim一起发布，在Vim里调用它来编辑二进制文本非常方便。<br>&emsp;&emsp;首先以二进制模式在终端里打开一个文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim -b filename</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;Vim 的 <code>-b</code> 选项是告诉 Vim 打开的是一个二进制文件，不指定的话，会在后面加上 <code>0x0a</code> ，即一个换行符。<br>&emsp;&emsp;然后在Vim的命令模式下键入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%!xxd</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;即可看到二进制模式显示出来的文本，看起来像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0000000: 1f8b 0808 39d7 173b 0203 7474 002b 4e49  ....9..;..tt.+NI</span><br><span class="line">0000010: 4b2c 8660 eb9c ecac c462 eb94 345e 2e30  K,......b..4^.0</span><br><span class="line">0000020: 373b 2731 0b22 0ca6 c1a2 d669 1035 39d9  7;&apos;1.&quot;.....i.59</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;然后就可以在二进制模式下编辑该文件，编辑后保存，然后用下面命令从二进制模式转换到普通模式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%!xxd -r</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;另外，也可以调整二进制的显示模式，默认是 2 个字节为一组，可以通过 <code>g</code> 参数调整每组字节数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">:%!xxd -g 1         表示每1个字节为1组</span><br><span class="line">:%!xxd -g 2         表示每2个字节为1组(默认)</span><br><span class="line">:%!xxd -g 4         表示每4个字节为1组</span><br></pre></td></tr></table></figure>
+<h2 id="5-Vim配置"><a href="#5-Vim配置" class="headerlink" title="5. Vim配置"></a>5. Vim配置</h2><p>&emsp;&emsp;最初安装的Vim功能、特性支持比较少，用起来比较费劲，想要稍微“好用”一点，需做一些初步的配置。Vim的配置主要分为Vim本身特性的配置和外部插件的配置两部分。<br>&emsp;&emsp;Vim的配置是通常是存放在用户主目录的 <code>.vimrc</code> 的隐藏文件中的。就Vim本身特性来说，基础的配置有编程语言语法高亮、缩进设置、行号显示、搜索高亮、TAB键设置、字体设置、Vim主题设置等等，稍微高级一些的有编程语言缩进、自动补全设置等，具体配置项可以自行查资料，全面详细的配置项介绍可以参考：<br>&emsp;&emsp;<a href="http://vimcdoc.sourceforge.net/doc/options.html#%27completeopt%27" target="_blank" rel="noopener">《Vim Options》</a></p>
+<h2 id="6-Vim插件"><a href="#6-Vim插件" class="headerlink" title="6. Vim插件"></a>6. Vim插件</h2><p>&emsp;&emsp;Vim“编辑器之神”的称号并不是浪得虚名，然而，这个荣誉的背后，或许近半的功劳要归功于强大的插件支持特性，以及社区开发的各种各样功能强大的插件。<br>&emsp;&emsp;平时开发人员常用插件主要是目录（文件）查看和管理、编程语言缩进与自动补全、编程语言Docs支持、函数跳转、项目管理等等，简单配置可以参考下面：<br>&emsp;&emsp;<a href="http://blog.segmentfault.com/xuelang/1190000000630547" target="_blank" rel="noopener">《Vim插件简单介绍》：</a><br>&emsp;&emsp;<a href="http://blog.csdn.net/wooin/article/details/1858917" target="_blank" rel="noopener">《手把手教你把Vim改装成一个IDE编程环境(图文)》</a><br>&emsp;&emsp;<a href="http://www.cnblogs.com/zhangsf/archive/2013/06/13/3134409.html" target="_blank" rel="noopener">《将Vim改造为强大的IDE》</a></p>
+<p>&emsp;&emsp;当然，这些插件都是拜Vim本身的插件支持特性所赐。Vim为了支持丰富的第三方插件，自身定义了一套简单的脚本开发语言，供程序员自行开发自己所需要的插件，插件开发介绍可以参考：</p>
+<p>&emsp;&emsp;(《Writing Vim Plugins》)[<a href="http://stevelosh.com/blog/2011/09/writing-vim-plugins/" target="_blank" rel="noopener">http://stevelosh.com/blog/2011/09/writing-vim-plugins/</a>]</p>
+<h2 id="7-Vim完整文档"><a href="#7-Vim完整文档" class="headerlink" title="7. Vim完整文档"></a>7. Vim完整文档</h2><p>&emsp;&emsp;<a href="http://vimdoc.sourceforge.net/" target="_blank" rel="noopener">Vim官方文档</a><br>&emsp;&emsp;<a href="http://pan.baidu.com/s/1jGzbTBo" target="_blank" rel="noopener">Vim中文用户手册7_3.pdf</a></p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/07/23/vim/" class="archive-article-date">
+  	<time datetime="2018-07-23T12:21:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-23</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux操作/">linux操作</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/">vim</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim命令/">vim命令</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-linuxFilePath" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/17/linuxFilePath/">linux环境变量初始化与对应文件的生效顺序</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;在登录Linux系统并启动一个bash shell时，默认情况下bash会在若干个文件中查找环境变量的设置。这些文件可统称为系统环境变量。bash检查的环境变量文件的情况取决于系统运行shell的方式。</p>
+<p>&emsp;&emsp;系统运行shell的方式一般有三种：</p>
+<p>&emsp;&emsp;一、通过系统用户登录后默认运行的shell</p>
+<p>&emsp;&emsp;二、非登录交互式运行shell</p>
+<p>&emsp;&emsp;三、执行脚本运行非交互式shell</p>
+<p>&emsp;&emsp;当用户登录Linux系统时，shell会作为登录shell启动。此时的登录shell加载环境变量的顺序如下</p>
+<p><img src="https://img-blog.csdn.net/20170724085550953?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMzQ4MTAyNzk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>&emsp;&emsp;用户登录系统后首先会加载/etc/profile全局变量文件，这是Linux系统上默认的shell主环境变量文件。系统上每个用户登录都会加载这个文件。</p>
+<p>&emsp;&emsp;当加载完/etc/profile文件后，才会执行/etc/profile.d目录下的脚本文件。</p>
+<p>&emsp;&emsp;之后开始运行$HOME/.bash_profile（用户环境变量文件），在这个文件中，又会去找$HOME/.bashrc（用户环境变量文件），如果有则执行，如果没有则不执行。在$HOME/.bashrc文件中又会去找/etc/bashrc（全局环境变量文件），如果有则执行，如果没有则不执行。</p>
+<p>&emsp;&emsp;如果用户的shell不是登录时启动的，非登录shell只会加载$HOME/.bashrc（用户环境变量文件），并会去找/etc/bashrc（全局环境变量文件）。如果希望在登录shell下也可以读到设置的环境变量等内容，就需要将变量设定等写入$HOME/.bashrc或者/etc/bashrc，而不是$HOME/.bash_profile或/etc/profile。</p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/07/17/linuxFilePath/" class="archive-article-date">
+  	<time datetime="2018-07-17T11:56:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-17</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FHS/">FHS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux环境变量/">linux环境变量</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-linuxFHS" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -468,429 +715,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/技术发展/">技术发展</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-webStudent" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/02/webStudent/">前端常用学习网站</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>@(welcome)[前端菜鸟|掘金中]</p>
-<p>###技术网站</p>
-<ul>
-<li><a href="http://chuangzaoshi.com/index" target="_blank" rel="noopener">创造狮导航</a></li>
-<li><a href="https://leetcode.com/problemset/all/" target="_blank" rel="noopener">leetcode刷题</a></li>
-<li><a href="http://www.cnblogs.com/" target="_blank" rel="noopener">博客园</a></li>
-<li><a href="https://www.qianduan.net/" target="_blank" rel="noopener">前端观察</a></li>
-<li><a href="http://www.w3cfuns.com/" target="_blank" rel="noopener">前端网</a></li>
-<li><a href="http://www.tuicool.com/" target="_blank" rel="noopener">推酷</a></li>
-<li><a href="http://www.daqianduan.com/" target="_blank" rel="noopener">大前端</a></li>
-<li><a href="http://www.css88.com/" target="_blank" rel="noopener">web前端开发</a></li>
-<li><a href="http://www.webhek.com/" target="_blank" rel="noopener">web骇客</a></li>
-<li><a href="http://gold.xitu.io/explore/frontend" target="_blank" rel="noopener">掘金</a></li>
-<li><a href="http://fex.baidu.com/" target="_blank" rel="noopener">百度FEX</a></li>
-<li><a href="http://taobaofed.org/" target="_blank" rel="noopener">淘宝前端团队</a></li>
-<li><a href="https://segmentfault.com/" target="_blank" rel="noopener">segmentfault</a></li>
-<li><a href="http://www.uisdc.com/" target="_blank" rel="noopener">优设</a></li>
-<li><a href="http://javascript.ruanyifeng.com/" target="_blank" rel="noopener">阮一峰javascript教程</a></li>
-<li><a href="https://mritd.me/" target="_blank" rel="noopener">漠然Github</a></li>
-<li><a href="https://github.com/IORI20091101/" target="_blank" rel="noopener">芝哥Github</a></li>
-<li><a href="http://devdocs.io/" target="_blank" rel="noopener">程序猿宝典</a></li>
-<li><a href="http://qianduan.guru/" target="_blank" rel="noopener">前端外刊评论</a></li>
-<li><a href="http://q.ibeifeng.com/" target="_blank" rel="noopener">北风网</a></li>
-<li><a href="http://www.jqsite.com/main/plug" target="_blank" rel="noopener">前端社区</a></li>
-<li><a href="https://www.v2ex.com/" target="_blank" rel="noopener">v2ex</a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/" target="_blank" rel="noopener">MDN-分享知识</a></li>
-</ul>
-<p>###资源整合</p>
-<ul>
-<li><a href="https://segmentfault.com/a/1190000004978770" target="_blank" rel="noopener">前端资源汇集</a></li>
-<li><a href="http://www.cnblogs.com/sb19871023/p/3894452.html" target="_blank" rel="noopener">前端总结</a></li>
-<li><a href="http://www.w3cfuns.com/notes/18186/714fccfb15f26c9858a163918b39a944.html" target="_blank" rel="noopener">前端知识大全</a></li>
-<li><a href="http://www.daqianduan.com/6281.html" target="_blank" rel="noopener">移动端WEB资源整合</a></li>
-</ul>
-<p>###美工集锦</p>
-<ul>
-<li><a href="http://www.iconfont.cn/collections/" target="_blank" rel="noopener">图标库</a></li>
-<li><a href="http://w3schools.bootcss.com/colors/colors_picker.html" target="_blank" rel="noopener">取色卡</a></li>
-<li><a href="http://www.bootcss.com/p/websafecolors/" target="_blank" rel="noopener">网站安全色</a></li>
-<li><a href="http://sucai.zcool.com.cn/" target="_blank" rel="noopener">站酷</a></li>
-<li><a href="http://www.google.com/webfonts" target="_blank" rel="noopener">简单好用的谷歌字体库</a></li>
-<li><a href="http://fontawesome.dashgame.com/" target="_blank" rel="noopener">font字体库</a></li>
-<li><a href="https://www.ico.la/" target="_blank" rel="noopener">ico图片在线制作</a></li>
-<li><a href="http://www.quanjing.com/" target="_blank" rel="noopener">全景素材图片网</a></li>
-<li><a href="http://www.ui.cn/" target="_blank" rel="noopener">UI中国</a></li>
-<li><a href="http://so.uigreat.com/" target="_blank" rel="noopener">UI设计师导航</a></li>
-<li><a href="http://huaban.com/" target="_blank" rel="noopener">素材集锦-花瓣网</a></li>
-<li><a href="https://www.google.com/doodles" target="_blank" rel="noopener">谷歌每日动画</a></li>
-<li><a href="http://www.sketchcn.com/" target="_blank" rel="noopener">开发APP的设计利器SKETCH</a></li>
-</ul>
-<p>###全栈修炼</p>
-<ul>
-<li><a href="https://github.com/ruanyf/jstraining" target="_blank" rel="noopener">阮一峰全栈修炼营</a></li>
-<li><a href="https://github.com/phodal/ideabook" target="_blank" rel="noopener">一个全栈增长工程师的练手项目集</a></li>
-<li><a href="http://ife.baidu.com/task/all" target="_blank" rel="noopener">百度前端技术学院开发任务</a></li>
-<li><a href="https://www.freecodecamp.cn/map" target="_blank" rel="noopener">FreeCodeCamp中文网</a></li>
-<li><a href="http://www.salttiger.com/" target="_blank" rel="noopener">各种Book</a></li>
-<li><a href="https://ninghao.net/course" target="_blank" rel="noopener">宁皓网</a></li>
-<li><a href="http://www.kancloud.cn/dennis/javascriptmethod/261471" target="_blank" rel="noopener">Web开发实战</a></li>
-<li><a href="http://www.kancloud.cn/dennis/tgjavascript/241800" target="_blank" rel="noopener">JavaScript半知半解</a></li>
-<li><a href="https://electron.org.cn/" target="_blank" rel="noopener">electron搭建跨平台桌面应用</a></li>
-</ul>
-<p>###官方文档</p>
-<ul>
-<li><a href="http://www.css88.com/doc/underscore/" target="_blank" rel="noopener">underscoreJS</a></li>
-<li><a href="http://jquery.cuishifeng.cn/" target="_blank" rel="noopener">jQuery中文文档</a></li>
-<li><a href="http://www.requirejs.cn/" target="_blank" rel="noopener">requireJS中文</a></li>
-<li><a href="http://www.css88.com/doc/backbone/" target="_blank" rel="noopener">backboneJS</a></li>
-<li><a href="http://www.reactjs.cn/" target="_blank" rel="noopener">ReactJS</a></li>
-<li><a href="http://cn.vuejs.org/api/" target="_blank" rel="noopener">VueJS中文</a></li>
-<li><a href="http://www.jslint.com/" target="_blank" rel="noopener">JSLint</a></li>
-<li><a href="http://www.css88.com/doc/zeptojs_api/" target="_blank" rel="noopener">Zepto.js</a></li>
-<li><a href="http://juicer.name/" target="_blank" rel="noopener">juicer-DOM拼接</a></li>
-<li><a href="http://coffee-script.org/" target="_blank" rel="noopener">CoffeeScript-简化编写JS</a></li>
-<li><a href="http://babeljs.cn/docs/setup/" target="_blank" rel="noopener">Babel-支持ES6</a></li>
-<li><a href="http://t4t5.github.io/sweetalert/" target="_blank" rel="noopener">sweetAlert-弹出框</a></li>
-<li><a href="http://echarts.baidu.com/index.html" target="_blank" rel="noopener">ECharts1.0-网页图表</a></li>
-<li><a href="http://echarts.baidu.com/echarts2/index.html" target="_blank" rel="noopener">ECharts2.0-网页图表</a></li>
-<li><a href="http://www.react-cn.com/docs/tutorial.html" target="_blank" rel="noopener">React中文教程</a></li>
-<li><a href="https://threejs.org/" target="_blank" rel="noopener">Three.js官</a></li>
-<li><a href="http://lodashjs.com/" target="_blank" rel="noopener">数据操作lodashJS</a></li>
-<li><a href="http://expressjs.com/" target="_blank" rel="noopener">express</a></li>
-<li><a href="https://mp.weixin.qq.com/debug/wxadoc/dev/api/api-login.html#wxloginobject" target="_blank" rel="noopener">小程序API</a></li>
-<li><a href="https://mp.weixin.qq.com/debug/wxadoc/dev/demo.html?t=20161122" target="_blank" rel="noopener">小程序</a></li>
-<li><a href="http://lodashjs.com/docs/" target="_blank" rel="noopener">Lodash-超越undersore的js库</a></li>
-<li><a href="https://github.com/videojs/video.js" target="_blank" rel="noopener">video.js</a></li>
-<li><a href="http://www.hewebgl.com/" target="_blank" rel="noopener">WebGl中文网</a></li>
-<li><a href="http://json.is/" target="_blank" rel="noopener">package.json配置文件详细介绍</a></li>
-</ul>
-<p>###前端工具</p>
-<ul>
-<li><a href="https://regexper.com/#%2F%5E1%5B34578%5D%5Cd%7B9%7D%24%2F" target="_blank" rel="noopener">正则编辑神器</a></li>
-<li><a href="http://www.tuicool.com/articles/mAzmq2" target="_blank" rel="noopener">weinre远程调试工具</a></li>
-<li><a href="https://shadowsocks.org/en/config/quick-guide.html" target="_blank" rel="noopener">翻墙工具</a></li>
-<li><a href="https://github.com/jsdoc3/jsdoc" target="_blank" rel="noopener">JSDoc-生成js文档</a></li>
-<li><a href="http://jekyll.bootcss.com/" target="_blank" rel="noopener">jekyll-在git上制作个人博客</a></li>
-<li><a href="http://www.xmind.net/" target="_blank" rel="noopener">思维导图</a></li>
-<li><a href="http://rj.baidu.com/soft/detail/25729.html?ald" target="_blank" rel="noopener">远程工作teamviewer下载</a></li>
-<li><a href="http://cubic-bezier.com/#.42,0,.58,1" target="_blank" rel="noopener">css动画cubic-bezier工具</a></li>
-<li><a href="https://translate.google.cn/" target="_blank" rel="noopener">谷歌翻译</a></li>
-<li><a href="https://typekit.com/foundries/adobe/" target="_blank" rel="noopener">Adobe的Typekit字体库</a></li>
-<li><a href="http://www.fontsquirrel.com/fontface/generator" target="_blank" rel="noopener">FontSquirrel字体包转换程序</a></li>
-<li><a href="http://thinkingwithtype.com/" target="_blank" rel="noopener">文字排版</a></li>
-<li><a href="http://westciv.com/xray/" target="_blank" rel="noopener">css样式检查工具–xray</a></li>
-<li><a href="http://www.geetest.com/" target="_blank" rel="noopener">免费图片验证</a></li>
-<li><a href="http://www.cdnjs.net/" target="_blank" rel="noopener">免费CDN</a></li>
-<li><a href="http://www.bootcdn.cn/" target="_blank" rel="noopener">BootCDN</a></li>
-</ul>
-<p>###JS库</p>
-<ul>
-<li><a href="https://d3js.org/" target="_blank" rel="noopener">D3js-扁平化图表</a></li>
-<li><a href="http://www.bootcss.com/p/buttons/" target="_blank" rel="noopener">BUTTONS-详尽的按钮样式</a></li>
-<li><a href="http://g2.alipay.com/" target="_blank" rel="noopener">G2-图表插件</a></li>
-<li><a href="http://www.webhek.com/misc/impress-js/" target="_blank" rel="noopener">网页幻灯片impressJS</a></li>
-<li><a href="http://router.vuejs.org/zh-cn/" target="_blank" rel="noopener">Vue-router中文</a></li>
-<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&amp;mid=2651551200&amp;idx=1&amp;sn=6a13dbb6f661611194a570c819735a45&amp;scene=2&amp;srcid=0905DiSxVOXbeWarFYItkdFg&amp;from=timeline&amp;isappinstalled=0#wechat_redirect" target="_blank" rel="noopener">Vue-组件1</a></li>
-<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxODE2MjM1MA==&amp;mid=2651551218&amp;idx=1&amp;sn=04d735ec778b2e046f1ae7e2f4d20c62&amp;scene=2&amp;srcid=0905RPDNJolYOHATUPgFQMJ7&amp;from=timeline&amp;isappinstalled=0#wechat_redirect" target="_blank" rel="noopener">Vue-组件2</a></li>
-<li><a href="http://www.dowebok.com/demo/118/" target="_blank" rel="noopener">移动端上下划动onepage-scroll.js</a></li>
-<li><a href="http://inorganik.github.io/countUp.js/" target="_blank" rel="noopener">数字滚动动画CountUp.js</a></li>
-<li><a href="https://aframe.io/" target="_blank" rel="noopener">A-Frame框架–实现VR效果</a></li>
-<li><a href="https://prepack.io/" target="_blank" rel="noopener">js语法合并-Prepack</a></li>
-<li><a href="https://zhongsp.gitbooks.io/typescript-handbook/content/index.html" target="_blank" rel="noopener">TypeScript中文文档最全</a></li>
-<li><a href="http://www.jianshu.com/p/5bb86a770e23" target="_blank" rel="noopener">json-server模拟服务器API</a></li>
-</ul>
-<p>###JS规范</p>
-<ul>
-<li><a href="http://www.ruanyifeng.com/blog/2012/10/javascript_module.html" target="_blank" rel="noopener">JavaSript模块规范 AMD规范与CMD规范</a></li>
-<li><a href="http://www.ruanyifeng.com/blog/2015/04/generator.html" target="_blank" rel="noopener">Generator 函数</a></li>
-<li><a href="http://es6.ruanyifeng.com/" target="_blank" rel="noopener">ES6入门</a></li>
-<li><a href="https://zhongsp.gitbooks.io/typescript-handbook/content/doc/handbook/tutorials/ASP.NET%20Core.html" target="_blank" rel="noopener">TypeScript版本大全</a></li>
-<li><a href="https://www.typescriptlang.org/" target="_blank" rel="noopener">TypeScript-基于ES6</a></li>
-<li><a href="http://www.typescriptlang.org/samples/index.html" target="_blank" rel="noopener">TypeScript2.6</a></li>
-<li><a href="https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb" target="_blank" rel="noopener">eslint-config-airbnb</a></li>
-<li><a href="https://github.com/standard/standard" target="_blank" rel="noopener">StandardJS</a></li>
-<li><a href="https://github.com/airbnb/javascript" target="_blank" rel="noopener">Airbnb JavaScript</a></li>
-</ul>
-<p>###jQuery插件及特效</p>
-<ul>
-<li><a href="http://www.htmleaf.com/Demo/2014100223.html" target="_blank" rel="noopener">jQuery-瀑布流布局异步图片加载</a></li>
-<li><a href="http://www.jq22.com/jquery-info7282" target="_blank" rel="noopener">后台管理模板WrapBootstrap</a></li>
-<li><a href="http://lihongxun945.github.io/jquery-weui/" target="_blank" rel="noopener">jQuery WeUI</a></li>
-<li><a href="http://www.jq22.com/jquery-info4216" target="_blank" rel="noopener">jQuery3d幻灯片翻页效果</a></li>
-<li><a href="http://www.bootcss.com/p/unslider/" target="_blank" rel="noopener">jQuery-unslider图片轮播</a></li>
-<li><a href="http://www.jq22.com/" target="_blank" rel="noopener">插件库</a></li>
-<li><a href="http://tympanus.net/Development/ModalWindowEffects/" target="_blank" rel="noopener">各种模态框</a></li>
-<li><a href="">跨浏览器复制jQuery.zlip</a></li>
-<li><a href="http://www.dowebok.com/demo/2014/77/" target="_blank" rel="noopener">jQurty.fullPage-一页滚动演示</a></li>
-<li><a href="http://2016.makemepulse.com/" target="_blank" rel="noopener">炫酷前端动画</a></li>
-</ul>
-<p>###插件库</p>
-<ul>
-<li><a href="http://www.dowebok.com" target="_blank" rel="noopener">效果站</a></li>
-<li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">vue组件库</a></li>
-<li><a href="https://www.npmjs.com/package/vue-drapload" target="_blank" rel="noopener">vue-drapload上拉加载下拉刷新</a></li>
-<li><a href="https://segmentfault.com/a/1190000000357534#articleHeader0" target="_blank" rel="noopener">jade-js的模板</a></li>
-<li><a href="https://react-bootstrap.github.io/" target="_blank" rel="noopener">react-Bootstrap</a></li>
-<li><a href="http://recharts.org/" target="_blank" rel="noopener">React图表组件库-ReCharts</a></li>
-<li><a href="">React框架MobX</a></li>
-<li><a href="">React框架Redux:Flux 的函数式实现</a></li>
-<li><a href="https://clipboardjs.com/" target="_blank" rel="noopener">复制组件clipboard.js</a></li>
-<li><a href="https://www.npmjs.com/package/eslint" target="_blank" rel="noopener">ESLint–静态代码检查工具</a></li>
-<li><a href="">Mocha–目前最常用的测试框架</a></li>
-<li><a href="nightmarejs.org">Nightmare功能测试</a></li>
-<li><a href="https://greensock.com/docs/TweenMax" target="_blank" rel="noopener">动画特效TweenMax</a></li>
-<li><a href="http://validform.rjboy.cn/" target="_blank" rel="noopener">Validform表单验证</a></li>
-<li><a href="http://www.swiper.com.cn/" target="_blank" rel="noopener">swiper触摸轮播图</a></li>
-<li><a href="http://www.dowebok.com/77.html" target="_blank" rel="noopener">全屏滚动fullPage</a></li>
-<li><a href="http://www.layui.com" target="_blank" rel="noopener">layui模块化组件</a></li>
-<li><a href="http://wowslider.com/javascript-slideshow-quiet-rotate-demo.html" target="_blank" rel="noopener">轮播图效果大全</a></li>
-</ul>
-<p>###H5 和 CSS3</p>
-<ul>
-<li><a href="http://www.bootcss.com/" target="_blank" rel="noopener">BootStrap</a></li>
-<li><a href="https://daneden.github.io/animate.css/" target="_blank" rel="noopener">Animate.css</a></li>
-<li><a href="http://www.bootcss.com/p/html5boilerplate/" target="_blank" rel="noopener">HTML5 Boilerplate–快速搭建前端网站</a></li>
-<li><a href="http://www.bootcss.com/p/flat-ui/" target="_blank" rel="noopener">Fla UI-扩充bootstrap的样式组件库</a></li>
-<li><a href="http://necolas.github.io/normalize.css/" target="_blank" rel="noopener">Normalize.css–重置样式</a></li>
-<li><a href="http://www.lesscss.net/" target="_blank" rel="noopener">less</a></li>
-<li><a href="http://sass.bootcss.com/" target="_blank" rel="noopener">sass</a></li>
-<li><a href="http://www.sasschina.com/guide/" target="_blank" rel="noopener">Sass中文网</a></li>
-<li><a href="https://connoratherton.com/loaders" target="_blank" rel="noopener">Loading动画</a></li>
-<li><a href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html?utm_source=tuicool" target="_blank" rel="noopener">flex布局</a></li>
-<li><a href="http://blog.wpjam.com/m/weui/" target="_blank" rel="noopener">WeUI-微信官方网页开发样式库</a></li>
-</ul>
-<p>###代码优化</p>
-<ul>
-<li><a href="http://csslint.net/" target="_blank" rel="noopener">CSS LINK-在线css优化工具</a></li>
-<li><a href="http://jshint.com/" target="_blank" rel="noopener">JSHint-js检测工具</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout" target="_blank" rel="noopener">CSS框布局</a></li>
-<li><a href="http://codepen.io/pen/" target="_blank" rel="noopener">在线代码编辑器–CODEPEN</a></li>
-</ul>
-<p>###快速搭建项目</p>
-<ul>
-<li><a href="http://yeoman.io/" target="_blank" rel="noopener">yeomanl</a></li>
-<li><a href="http://foundation.zurb.com/templates.html" target="_blank" rel="noopener">Function</a></li>
-<li><a href="https://modernizr.com/docs/" target="_blank" rel="noopener">Modernizr–实现优雅降级</a></li>
-<li><a href="http://www.getuikit.net/" target="_blank" rel="noopener">UIkit</a></li>
-<li><a href="https://github.com/ruanyf/jstraining" target="_blank" rel="noopener">阮一峰全栈搭建</a></li>
-<li><a href="https://github.com/gdi2290/angular-starter" target="_blank" rel="noopener">angular Starter</a></li>
-</ul>
-<p>###深度好文</p>
-<ul>
-<li><a href="http://www.cnblogs.com/coco1s/p/5777260.html" target="_blank" rel="noopener">JavaScript防http劫持与XSS</a></li>
-<li><a href="http://blog.csdn.net/wang16510/article/details/8960312" target="_blank" rel="noopener">H5兼容解决方案-polyfill</a></li>
-<li><a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills" target="_blank" rel="noopener">HTML5 Cross Browser Polyfills</a></li>
-<li><a href="http://www.infoq.com/cn/articles/understanding-restful-style/" target="_blank" rel="noopener">REST架构风格</a></li>
-<li><a href="http://www.yyyweb.com/3541.html" target="_blank" rel="noopener">console的特性完全版</a></li>
-<li><a href="http://blog.csdn.net/kongjiea/article/details/46341575" target="_blank" rel="noopener">超棒的面试题</a></li>
-<li><a href="https://segmentfault.com/a/1190000002491282" target="_blank" rel="noopener">gulp与grunt对比</a></li>
-<li><a href="http://www.cnblogs.com/TomXu/archive/2011/12/14/2286225.html" target="_blank" rel="noopener">大型JavaScript应用程序架构模式</a></li>
-<li><a href="http://www.ruanyifeng.com/blog/2014/09/package-management.html" target="_blank" rel="noopener">前端模块管理器介绍-阮一峰</a></li>
-<li><a href="http://www.iwan0.com/#column6" target="_blank" rel="noopener">前端爱玩网仓库</a></li>
-<li><a href="http://www.infoq.com/cn/articles/understanding-restful-style/" target="_blank" rel="noopener">REST架构风格深入理解</a></li>
-<li><a href="http://www.html5cn.org/article-6776-1.html" target="_blank" rel="noopener">什么是web服务器</a></li>
-<li><a href="http://littleblack.cc/2016/05/04/Javascript/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AAAjax/" target="_blank" rel="noopener">手写ajax</a></li>
-<li><a href="http://www.css88.com/archives/6137#more-6137" target="_blank" rel="noopener">前端调试方式</a></li>
-<li><a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html" target="_blank" rel="noopener">jQuery的deferred</a></li>
-<li><a href="http://www.w3cfuns.com/notes/28851/cc4837a17338dc9691ac3653f5da9771.html" target="_blank" rel="noopener">前端职业发展之路</a></li>
-<li><a href="http://blog.51yip.com/jsjquery/1607.html" target="_blank" rel="noopener">angularJS之directive</a></li>
-<li><a href="http://m.blog.csdn.net/article/details?id=51890406" target="_blank" rel="noopener">Vue-router思维导图</a></li>
-<li><a href="http://www.oschina.net/translate/being-a-frontend-developer-for-a-weekend" target="_blank" rel="noopener">我是如何利用一个周末时间成为前端工程师的</a></li>
-<li><a href="http://echarts.baidu.com/demo.html#geo-lines" target="_blank" rel="noopener">Echarts在线案例</a></li>
-<li><a href="http://www.ezlippi.com/blog/2015/03/github-pages-blog.html" target="_blank" rel="noopener">github使用介绍</a></li>
-<li><a href="http://redstarofsleep.iteye.com/blog/1917724" target="_blank" rel="noopener">环状进度球</a></li>
-<li><a href="http://hcysun.me/2016/03/25/%E5%9F%BA%E4%BA%8Ewebpack%E5%92%8Cvue.js%E6%90%AD%E5%BB%BA%E7%9A%84H5%E7%AB%AF%E6%A1%86%E6%9E%B6(%E5%85%B6%E5%AE%9E%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8EHybrid%E5%BC%80%E5%8F%91H5%E7%AB%AF%E6%A1%86%E6%9E%B6%EF%BC%8C%E4%BD%86%E6%98%AF%E4%BE%9D%E7%84%B6%E8%83%BD%E5%A4%9F%E4%BD%9C%E4%B8%BA%E7%BA%AFweb%E7%AB%AF%E4%BD%BF%E7%94%A8" target="_blank" rel="noopener">webpack搭建vue教程</a>/)</li>
-<li><a href="http://blog.csdn.net/mad1989/article/details/16885569" target="_blank" rel="noopener">git冲突解决</a></li>
-<li><a href="http://blog.csdn.net/ikscher/article/details/44831539" target="_blank" rel="noopener">angularjs指令的@=&amp;</a></li>
-<li><a href="http://www.youdzone.com/signature.html" target="_blank" rel="noopener">一张图告诉你什么是公钥密钥</a></li>
-<li><a href="http://www.css88.com/archives/6410" target="_blank" rel="noopener">移动短head标签</a></li>
-<li><a href="http://www.cnblogs.com/fishtreeyu/archive/2011/10/06/2200280.html" target="_blank" rel="noopener">cookie的用法</a></li>
-<li><a href="http://www.uml.org.cn/html/201208224.asp" target="_blank" rel="noopener">canvas入门学习</a></li>
-<li><a href="http://www.w3school.com.cn/tags/html_ref_canvas.asp" target="_blank" rel="noopener">canvas参考手册</a></li>
-<li><a href="https://www.html-js.cn/details/Vk7UgWaQg.html" target="_blank" rel="noopener">webstorm中调试NodeJS</a></li>
-<li><a href="https://segmentfault.com/a/1190000012924855" target="_blank" rel="noopener">5分钟把任意网站变成桌面软件</a></li>
-<li><a href="https://imsun.net/posts/gitment-introduction/" target="_blank" rel="noopener">使用GitHub_Issues搭建评论系统</a></li>
-<li><a href="http://www.apjs.net/" target="_blank" rel="noopener">angularJS教程</a></li>
-<li><a href="https://segmentfault.com/a/1190000005013207" target="_blank" rel="noopener">React实践经验</a></li>
-</ul>
-<p>###前端搭建工具</p>
-<ul>
-<li><a href="http://webpack.github.io/" target="_blank" rel="noopener">webpack</a></li>
-<li><a href="https://webpack.js.org/" target="_blank" rel="noopener">webpack3.10.0</a></li>
-<li><a href="https://nodejs.org/en/foundation/" target="_blank" rel="noopener">nodeJS官网</a></li>
-<li><a href="http://nodejs.cn/" target="_blank" rel="noopener">nodeJS中文网</a></li>
-<li><a href="http://www.gruntjs.net/" target="_blank" rel="noopener">grunt</a></li>
-<li><a href="http://www.gulpjs.com.cn/" target="_blank" rel="noopener">gulp教程</a></li>
-<li><a href="https://www.npmjs.com/" target="_blank" rel="noopener">npm</a></li>
-<li><a href="http://www.expressjs.com.cn/" target="_blank" rel="noopener">Express</a></li>
-<li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/" target="_blank" rel="noopener">廖雪峰官方网站</a></li>
-<li><a href="http://webpackdoc.com/plugin.html" target="_blank" rel="noopener">初级webpack配置</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/20367175" target="_blank" rel="noopener">webpack菜鸟配置</a></li>
-<li><a href="http://my.oschina.net/wjj328938669/blog/637433?p=1" target="_blank" rel="noopener">.jshintrc常用配置</a></li>
-<li><a href="http://www.mujiang.info/translation/npmjs/files/package.json.html" target="_blank" rel="noopener">package.json配置中文文档</a></li>
-<li><a href="https://github.com/github/gitignore" target="_blank" rel="noopener">.gitignore文件模板-全</a></li>
-<li><a href="https://bower.io/" target="_blank" rel="noopener">bower</a></li>
-<li><a href="http://www.gulpjs.com.cn/" target="_blank" rel="noopener">Gulp自动化工具</a></li>
-<li><a href="https://developers.google.com/web/tools/workbox/" target="_blank" rel="noopener">Web App静态资源本地存储的解决方案</a></li>
-</ul>
-<p>###前端服务器</p>
-<ul>
-<li><a href="http://httpd.apache.org/" target="_blank" rel="noopener">apache</a></li>
-<li><a href="http://nginx.org/" target="_blank" rel="noopener">nginx</a></li>
-</ul>
-<p>###待学习</p>
-<ul>
-<li><a href="http://www.qdfuns.com/notes/36748/b3aa001495ee19c512d9310dcebad808.html" target="_blank" rel="noopener">光线爆炸特效</a></li>
-<li><a href="http://www.qdfuns.com/notes/30191/971d767d0f6e2baf7bdc14b56906ce69.html" target="_blank" rel="noopener">表单数据正则验证</a></li>
-<li><a href="http://www.qdfuns.com/notes/26253/3f57b0b356841969d9ad2e3415af19d1.html" target="_blank" rel="noopener">h5小游戏-打砖块</a></li>
-<li><a href="http://www.qdfuns.com/notes/40230/1260d5203da2b75d2259921a5e824e71.html" target="_blank" rel="noopener">树镜</a></li>
-<li><a href="http://www.qdfuns.com/notes/34644/a29e0b6f781628a1c38755a0f0da55ed.html" target="_blank" rel="noopener">SVG打造轮盘</a></li>
-<li><a href="http://www.qdfuns.com/notes/23908/70ff1c2514335f486a019a472942233f.html" target="_blank" rel="noopener">CSS3绘制神奇宝贝</a></li>
-<li><a href="http://www.qdfuns.com/notes/16120/b8132b69802787a3a2cf94accc189651.html" target="_blank" rel="noopener">CSS绘制机器人</a></li>
-<li><a href="http://www.qdfuns.com/notes/16120/730dbc6ed2e295ad50f09c5e29480a37.html" target="_blank" rel="noopener">Animation小人动画</a></li>
-</ul>
-<p>###关于工具</p>
-<ul>
-<li><a href="http://docs.mitmproxy.org/en/stable/howmitmproxy.html" target="_blank" rel="noopener">好用的抓包工具</a></li>
-<li><a href="https://piwik.mritd.me/" target="_blank" rel="noopener">Web统计软件PIWIK</a></li>
-<li><a href="http://www.pc6.com/edu/80832.html" target="_blank" rel="noopener">mac数据迁移-迁移助理</a></li>
-<li><a href="https://shadowsocks.com/" target="_blank" rel="noopener">翻墙Shadowsocks</a></li>
-<li><a href="https://longdai.hipchat.com/chat" target="_blank" rel="noopener">HipChat</a></li>
-<li><a href="http://google.yubolun.com/" target="_blank" rel="noopener">Goole本地翻墙</a></li>
-<li><a href="https://www.google.com.hk/" target="_blank" rel="noopener">Goole翻墙网址</a></li>
-<li><a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">hexo搭建博客</a></li>
-<li><a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="noopener">hexo主题皮肤yilia</a></li>
-<li><a href="http://idea.lanyus.com/" target="_blank" rel="noopener">IDEA注册码</a></li>
-<li><a href="http://www.tuicool.com/articles/mAzmq2" target="_blank" rel="noopener">远程调试工具weinre使用教程</a></li>
-<li><a href="http://babeljs.cn/docs/learn-es2015/" target="_blank" rel="noopener">Babel在线编辑</a></li>
-<li><a href="https://www.dnspod.cn/" target="_blank" rel="noopener">DNSPod腾讯云服务</a></li>
-<li><a href="http://www.geetest.com/" target="_blank" rel="noopener">验证码服务</a></li>
-<li><a href="https://developer.qiniu.com/sdk#official-tool" target="_blank" rel="noopener">七牛云-开发者中心</a></li>
-<li><a href="https://open-doc.dingtalk.com/?spm=a219a.7386793.0.0.xu8Ruw" target="_blank" rel="noopener">钉钉-开发者中心</a></li>
-<li><a href="https://www.dropbox.com/" target="_blank" rel="noopener">团队管理Dropbox</a></li>
-<li><a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">编辑器NexT</a></li>
-<li><a href="https://www.processon.com/;jsessionid=E52513A9DF471A582153C8336DB6EF34.jvm1" target="_blank" rel="noopener">免费在线作图-ProcessOn</a></li>
-<li><a href="https://greasyfork.org/zh-CN/scripts" target="_blank" rel="noopener">用户脚本 Greasy Fork</a></li>
-<li><a href="http://www.geetest.com/" target="_blank" rel="noopener">免费图形验证码</a></li>
-<li><a href="http://www.spritecow.com/" target="_blank" rel="noopener">2x图片在线代码生成</a></li>
-<li><a href="https://uiiiuiii.com/photoshop/12121781.html" target="_blank" rel="noopener">PS入门教程</a></li>
-<li><a href="https://pan.gozap.com/login" target="_blank" rel="noopener">GOZAP云盘</a></li>
-<li><a href="https://blog.coderstory.cn/intellij-idea-babel/" target="_blank" rel="noopener">IDEA配置Babel插件</a></li>
-<li><a href="https://www.hipchat.com/sign_up" target="_blank" rel="noopener">HipChat</a></li>
-<li><a href="https://www.juhe.cn/" target="_blank" rel="noopener">聚合数据</a></li>
-</ul>
-<p>###关于mac</p>
-<ul>
-<li><a href="http://brew.sh/index_zh-cn.html" target="_blank" rel="noopener">Homebrew</a></li>
-<li><a href="https://mritd.me/2016/06/14/Linux-%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener">linux命令-漠然</a></li>
-<li><a href="">mac内存清理工具clean my mac</a></li>
-<li><a href="">终端配置 oh my zsh</a></li>
-<li><a href="https://zybuluo.com/mritd/note/535525" target="_blank" rel="noopener">vpn连接</a></li>
-<li><a href="http://mac-osx-for-newbie-book.kejyun.com/hotkey/HotkeyWindows.html" target="_blank" rel="noopener">上手mac</a></li>
-<li><a href="https://github.com/jlevy/the-art-of-command-line/blob/master/README-zh.md" target="_blank" rel="noopener">命令行艺术</a></li>
-<li><a href="https://www.zhihu.com/question/20873070" target="_blank" rel="noopener">程序猿如何优雅的用mac</a></li>
-<li><a href="http://blog.csdn.net/lisongjia123/article/details/54949364" target="_blank" rel="noopener">快捷键大全</a></li>
-<li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="noopener">git命令</a></li>
-</ul>
-<p>###编辑软件</p>
-<ul>
-<li><a href="http://www.jetbrains.com/webstorm/" target="_blank" rel="noopener">WebStorm</a></li>
-<li><a href="https://pandao.github.io/editor.md/" target="_blank" rel="noopener">markdown在线编辑器.md</a></li>
-<li><a href="https://www.kancloud.cn/digest/sublime-text-complete-guide/61435" target="_blank" rel="noopener">Sublime_Text全程指南</a></li>
-</ul>
-<p>###前后端通道</p>
-<ul>
-<li><a href="http://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html#dialects-the-standard-dialect" target="_blank" rel="noopener">Thymeleaf</a></li>
-<li><a href="http://springcloud.cn/" target="_blank" rel="noopener">Spring Cloud微服务解决方案</a></li>
-<li><a href="https://github.com/socketio/socket.io" target="_blank" rel="noopener">socket.io</a></li>
-<li><a href="http://robotjs.io/" target="_blank" rel="noopener">robotjs</a></li>
-</ul>
-<p>###company</p>
-<ul>
-<li><a href="https://svn.longdai.com/svn/LongDai-Docs/UI%E6%96%87%E6%A1%A3/" target="_blank" rel="noopener">SVN</a></li>
-<li>[NodeBB论坛管理地址]</li>
-<li><a href="http://git.longdai.com/longdai/longdai" target="_blank" rel="noopener">公司后台直通车</a></li>
-<li><a href="http://dohko.bbs.longdai.com/home" target="_blank" rel="noopener">龙贷社区</a></li>
-</ul>
-<p>###微信小程序</p>
-<ul>
-<li><a href="http://www.w2bc.com/article/173135" target="_blank" rel="noopener">微信应用制作</a></li>
-<li><a href="http://gold.xitu.io/entry/57e8fed3816dfa005ef47439" target="_blank" rel="noopener">微信小程序开发入门文档</a></li>
-<li><a href="https://github.com/chemzqm/wept" target="_blank" rel="noopener">浏览器打开小程序</a></li>
-<li><a href="https://github.com/justjavac/awesome-wechat-weapp" target="_blank" rel="noopener">微信小程序文章集锦</a></li>
-<li><a href="http://www.jianshu.com/p/65cfda97a689" target="_blank" rel="noopener">微信小程序——左右滑动切换页面</a></li>
-<li><a href="https://github.com/Tencent/wepy" target="_blank" rel="noopener">WePY</a>he</li>
-<li><a href="https://tencent.github.io/wepy/document.html#/" target="_blank" rel="noopener">WePY官方文档</a></li>
-</ul>
-<p>###兼职orwork</p>
-<ul>
-<li><a href="https://shixian.com/consultants" target="_blank" rel="noopener">实现网</a></li>
-<li><a href="https://www.proginn.com/" target="_blank" rel="noopener">程序员客栈</a></li>
-<li><a href="https://cn.100offer.com/how-it-works" target="_blank" rel="noopener">100offer</a></li>
-</ul>
-<p>###后端步步为营</p>
-<ul>
-<li><a href="http://www.cnblogs.com/wql025/p/5215570.html" target="_blank" rel="noopener">新建maven项目</a></li>
-<li><a href="http://www.w3school.com.cn/sql/" target="_blank" rel="noopener">SQL手册</a></li>
-<li><a href="http://tool.oschina.net/apidocs/apidoc?api=javaEE6" target="_blank" rel="noopener">javaEE在线API</a></li>
-<li><a href="http://blog.csdn.net/williamchew/article/details/51951551" target="_blank" rel="noopener">java JDBC基本知识</a></li>
-<li><a href="http://blog.csdn.net/zhuangm_888/article/details/50476423" target="_blank" rel="noopener">搭建简单学生管理系统</a></li>
-<li><a href="http://www.yiibai.com/jsp/" target="_blank" rel="noopener">JSP教程</a></li>
-<li><a href="http://www.javacoder.cn/?p=195" target="_blank" rel="noopener">Maven正确配置Jstl</a></li>
-<li><a href="http://www.jianshu.com/p/1e1116b1ede6" target="_blank" rel="noopener">MAVEN中央仓库地址大全</a></li>
-<li><a href="http://wandering192.iteye.com/blog/736136" target="_blank" rel="noopener">JSP+Servlet+Ajax实现后台异步检验用户信息实例</a></li>
-<li><a href="https://blog.coderstory.cn/intellij-idea-babel/" target="_blank" rel="noopener">IDEA加插件实现es6转es5</a></li>
-<li><a href="">轻量级数据库sqlite</a></li>
-<li><a href="https://github.com/typicode/lowdb" target="_blank" rel="noopener">lowdb数据库</a></li>
-</ul>
-
-      
-    </div>
-      <div id="remark"></div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/02/02/webStudent/" class="archive-article-date">
-  	<time datetime="2018-02-02T06:47:11.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-02-02</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端常用网站/">前端常用网站</a></li></ul>
 	</div>
 
       
@@ -1317,69 +1141,6 @@
 
 
   
-    <article id="post-informationScroll" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/08/informationScroll/">滚动信息条的两种展示方法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>无间歇 直接滚动</li>
-<li>间歇式滚动</li>
-</ul>
-<p><strong>HTML</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"recoder_con"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"recoder_ul1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"recoder_ul2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>CSS </strong><br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.recoder-con</span>&#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    width: 584px;     //指定宽度</span><br><span class="line">    height: 280px;    //指定高度</span><br><span class="line">    <span class="selector-tag">overflow</span>: <span class="selector-tag">scroll</span>;</span><br><span class="line">    <span class="selector-tag">overflow-x</span>: <span class="selector-tag">hidden</span>;</span><br><span class="line">    <span class="selector-tag">overflow-y</span>: <span class="selector-tag">hidden</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>无间歇JS </strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>  <span class="title">prizeScroll</span>(<span class="params">listNum</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> speed = <span class="number">65</span>,</span><br><span class="line">                wap = <span class="built_in">document</span>.getElementById(<span class="string">"recoder_con"</span>),</span><br><span class="line">                ul1 = <span class="built_in">document</span>.getElementById(<span class="string">"recoder_ul1"</span>),</span><br><span class="line">                ul2 = <span class="built_in">document</span>.getElementById(<span class="string">"recoder_ul2"</span>);</span><br><span class="line"></span><br><span class="line">        ul2.innerHTML = ul1.innerHTML;</span><br><span class="line">        <span class="keyword">var</span> leftHeight;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (listNum &gt; <span class="number">4</span>) &#123;</span><br><span class="line">            leftHeight = <span class="number">0</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (listNum == <span class="number">4</span>) &#123;</span><br><span class="line">            leftHeight = <span class="number">33</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">Marquee2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (ul2.offsetTop - wap.scrollTop &lt;= leftHeight) &#123;</span><br><span class="line">                wap.scrollTop -= ul1.offsetHeight;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                wap.scrollTop++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">var</span> MyMar2 = setInterval(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            Marquee2();</span><br><span class="line">        &#125;, speed);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    prizeScroll(<span class="number">4</span>)</span><br></pre></td></tr></table></figure></p>
-<p><strong>有间歇JS</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> wap = $(<span class="string">'#recoder_con'</span>),</span><br><span class="line">            ul1Html = $(<span class="string">'#recoder_ul1'</span>).html(),</span><br><span class="line">            ul2 = $(<span class="string">'#recoder_ul2'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> speed = <span class="number">50</span>,</span><br><span class="line">            listNum = <span class="number">4</span>,</span><br><span class="line">            delay = <span class="number">1000</span>,</span><br><span class="line">            liHeight = <span class="number">21</span>,</span><br><span class="line">            time,</span><br><span class="line">            scrollTop = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">            ul2.html(ul1Html);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">startScroll</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        time = setInterval(<span class="string">"scrollUp()"</span>, speed);</span><br><span class="line">        wap.scrollTop(scrollTop++);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">scrollUp</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(scrollTop % liHeight == <span class="number">0</span>)&#123;</span><br><span class="line">            clearInterval(time);</span><br><span class="line">            setTimeout(startScroll,delay);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            wap.scrollTop(scrollTop++);</span><br><span class="line">            <span class="keyword">if</span>(scrollTop &gt;= (listNum <span class="number">-1</span>) * liHeight)&#123;</span><br><span class="line">                scrollTop = <span class="number">0</span>;</span><br><span class="line">                wap.scrollTop(scrollTop);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    setTimeout(<span class="string">'startScroll()'</span>,delay);</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-      <div id="remark"></div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/02/08/informationScroll/" class="archive-article-date">
-  	<time datetime="2017-02-08T03:46:45.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-02-08</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/滚动信息条间歇性滚动/">滚动信息条间歇性滚动</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -1444,7 +1205,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/FHS/" style="font-size: 11.67px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/jquery源码/" style="font-size: 10px;">jquery源码</a> <a href="/tags/jquery源码教程/" style="font-size: 10px;">jquery源码教程</a> <a href="/tags/js原型/" style="font-size: 10px;">js原型</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/rich-text/" style="font-size: 10px;">rich-text</a> <a href="/tags/underscore/" style="font-size: 10px;">underscore</a> <a href="/tags/underscore源码/" style="font-size: 10px;">underscore源码</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/webpack/" style="font-size: 16.67px;">webpack</a> <a href="/tags/webpack-4-0/" style="font-size: 15px;">webpack 4.0</a> <a href="/tags/webpack优化/" style="font-size: 10px;">webpack优化</a> <a href="/tags/webpack教程/" style="font-size: 15px;">webpack教程</a> <a href="/tags/依赖倒置原则/" style="font-size: 11.67px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端打包工具/" style="font-size: 10px;">前端打包工具</a> <a href="/tags/前端设计模式/" style="font-size: 18.33px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 13.33px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/源码/" style="font-size: 11.67px;">源码</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
+    				<a href="/tags/FHS/" style="font-size: 11.67px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/jquery源码/" style="font-size: 10px;">jquery源码</a> <a href="/tags/jquery源码教程/" style="font-size: 10px;">jquery源码教程</a> <a href="/tags/js原型/" style="font-size: 10px;">js原型</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/react-redux/" style="font-size: 10px;">react-redux</a> <a href="/tags/rich-text/" style="font-size: 10px;">rich-text</a> <a href="/tags/underscore/" style="font-size: 10px;">underscore</a> <a href="/tags/underscore源码/" style="font-size: 10px;">underscore源码</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/webpack/" style="font-size: 16.67px;">webpack</a> <a href="/tags/webpack-4-0/" style="font-size: 15px;">webpack 4.0</a> <a href="/tags/webpack优化/" style="font-size: 10px;">webpack优化</a> <a href="/tags/webpack教程/" style="font-size: 15px;">webpack教程</a> <a href="/tags/依赖倒置原则/" style="font-size: 11.67px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端打包工具/" style="font-size: 10px;">前端打包工具</a> <a href="/tags/前端设计模式/" style="font-size: 18.33px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 13.33px;">原创</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/源码/" style="font-size: 11.67px;">源码</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
     			</div>
     	</section>
     
