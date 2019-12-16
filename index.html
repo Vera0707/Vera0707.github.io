@@ -189,11 +189,11 @@
       
         <p>** 很多都是自己的理解，”谨”供参考，如果错误，烦请指正</p>
 <h4 id="单向数据流"><a href="#单向数据流" class="headerlink" title="单向数据流"></a>单向数据流</h4><p>&emsp;React是单向数据流,首先我们讲讲单向数据流<br>&emsp;何为单向数据流，顾名思义，就是数据像河流一样只能从一端流向另一端,而且是地势较高的一端(顶级/父级)-向地势低的一端(子级)流动<br>&emsp;这种数据传输特点保证了数据的纯净性，当我们想”追根溯源”，可以轻易检测到问题症结<br>&emsp;当然，React或Vue都可以通过$emit，使子组件通知父组件变更数据，但它依然不会破坏数据的单一流动</p>
-<h4 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h4><p>&emsp;基于单向数据流的处理方式，使我们想要从顶层将数据传给底层子组件，需要中间跨越层层组件<br>&emsp;假使我们嵌套了N层，意味着我们的数据需要经过N层组件，中间组件N-2个组件都是毫无意义的数据传声筒<br>&emsp;而这样的情况有很多，像我们的用户数据，公共配置,主题…等等<br>&emsp;Content就是帮我们做全局数据处理的，我们常用的React-redux/React-router都是基于Content<br>&emsp;还记得redux是怎么”劝”我们的嘛？</p>
+<h4 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h4><p>&emsp;基于单向数据流的处理方式，使我们想要从顶层将数据传给底层子组件，需要中间跨越层层组件<br>&emsp;假使我们嵌套了N层，意味着我们的数据需要经过N层组件，中间N-2个组件都是毫无意义的数据传声筒<br>&emsp;而这样的情况有很多，像我们的用户数据，公共配置,主题…等等<br>&emsp;Content就是帮我们做全局数据处理的，我们常用的React-redux/React-router都是基于Content<br>&emsp;还记得redux是怎么”劝”我们的嘛？</p>
 <p>&emsp;&emsp;&emsp; - “如果你不知道是否需要 Redux，那就是不需要它。”<br>&emsp;&emsp;&emsp; - “只有遇到 React 实在解决不了的问题，你才需要 Redux 。”</p>
 <p>&emsp;redux解决了我们的公共数据问题，但redux只是工具，没有redux我们一样可以实现功能<br>&emsp;是的没错，就是自己使用Context实现</p>
 <p>&emsp;我们先来明确React不同数据对象的职责：<br>&emsp;&emsp;&emsp; - state: 维护组件内部”产生数据”的信息(即本组件内所用的数据)<br>&emsp;&emsp;&emsp; - props: 维护组件外部”传入数据的信息”(即来自父组件的数据)<br>&emsp;&emsp;&emsp; - content: 维护跨域组件信息的传递(即全局数据)</p>
-<p>&emsp;我们先来看语法</p>
+<p>&emsp;关于Redux语法</p>
 <ul>
 <li>Content创造者：  <ul>
 <li>在产生参数的最顶级组件中，使用<code>childContextTypes</code>静态属性来定义需要放入全局参数的类型。</li>
@@ -232,7 +232,7 @@
     <div class="article-info article-info-index">
       
       <a href="/2019/12/16/react-my-dedux/" class="archive-article-date">
-  	<time datetime="2019-12-16T12:45:35.514Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-16</time>
+  	<time datetime="2019-12-16T12:48:40.860Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-16</time>
 </a>
       
 	<div class="article-tag tagcloud">
