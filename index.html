@@ -179,7 +179,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/19/myhandVmodel/">手写v-model之简造</a>
+      <a class="article-title" href="/2020/01/03/myhandVmodel/">手写v-model之简造</a>
     </h1>
   
 
@@ -188,17 +188,23 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>** 很多都是自己的理解，”谨”供参考，如果错误，烦请指正</p>
-<h4 id="什么是双向绑定"><a href="#什么是双向绑定" class="headerlink" title="什么是双向绑定"></a>什么是双向绑定</h4><p>&emsp;双向绑定的概念最早是从Angularjs1.0版出现，这也是当年Angularjs能称为顶级框架的原因之一。<br>&emsp;所谓的双向绑定，实际是为了实现数据与视图的”联动”<br>&emsp;它的一端连着数据仓库，另一端连着视图，而它站在中间帮你完成所有的同步(绑定)工作<br>&emsp;你要做的，就是向上帝管理河流一样，保证你数据格式正确、清晰它的来源和去向、以及保证每种数据变化的合理<br>&emsp;当然，这不代表你应该过分控制你的河流</p>
+<h4 id="什么是双向绑定"><a href="#什么是双向绑定" class="headerlink" title="什么是双向绑定"></a>什么是双向绑定</h4><p>&emsp;双向绑定的概念最早是从Angularjs1.0版出现，这也是当年Angularjs能称为顶级框架的原因之一<br>&emsp;所谓的双向绑定，实际是为了实现数据与视图的”联动”<br>&emsp;它的一端连着数据仓库，另一端连着视图，而它站在中间帮你完成所有的同步(绑定)工作<br>&emsp;你要做的，就是向上帝管理河流一样，保证你数据格式正确、清晰它的来源和去向、以及保证每种数据变化的合理<br>&emsp;当然，这不代表你应该过分控制你的河流</p>
 <p>&emsp;想要将数据仓库与试图同步起来，你要做2件事，这就是双向绑定的核心任务<br>&emsp;&emsp;&emsp;   ① 数据变动，通知视图变化<br>&emsp;&emsp;&emsp;   ② 视图变化，修改数据仓库</p>
 <p>&emsp;第2件事是我们最擅长的，监听视图即事件监听，修改相应的仓库数据<br>&emsp;而第1件事，想要监听数据变动，我们就需要借助相应的API<br>&emsp;下一步，我们了解一下可以监听数据的两个API：ES5的<code>Object.defineProperty</code> 与ES6的<code>Proxy</code></p>
-<h4 id="Object-defineProperty"><a href="#Object-defineProperty" class="headerlink" title="Object.defineProperty"></a>Object.defineProperty</h4>
+<h4 id="Object-defineProperty"><a href="#Object-defineProperty" class="headerlink" title="Object.defineProperty"></a>Object.defineProperty</h4><p>&emsp;Object.defineProperty(obj, prop, descriptor)<br>&emsp;&emsp;&emsp;obj:要在其上定义属性的对象<br>&emsp;&emsp;&emsp;prop:要定义或修改的属性的名称<br>&emsp;&emsp;&emsp;descriptor:将被定义或修改的属性描述符<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;① configurable: 该属性描述符是否可通过delete删除,默认false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;② enumerable: 是否可枚举,默认false(不可枚举属性无法通过for…in遍历)<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;③ value: 属性值,默认undefined<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;④ writable: 是否可被赋值运算符改变,默认false<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;⑤ get: 方法名,属性被获取时调用,默认undefined<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;⑥ set: 方法名,属性被改变时调用,默认undefined</p>
+<p>&emsp;使用方式如下:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 监听对象 obj 监听属性 name</span></span><br><span class="line"><span class="keyword">const</span>  obj = &#123;&#125;;</span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj,<span class="string">'name'</span>,&#123;</span><br><span class="line">    get: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'此处获取对象属性值'</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._name;</span><br><span class="line">    &#125;,</span><br><span class="line">    set: <span class="function"><span class="keyword">function</span> (<span class="params">newValue</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>._name = <span class="string">'皮一下 '</span> + newValue;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">obj.name = <span class="string">'张三'</span><span class="string">';</span></span><br><span class="line"><span class="string">console.log(obj.name);</span></span><br></pre></td></tr></table></figure></p>
+<p>&emsp;defineProperty可以劫持数据,但只能监听对象中的某个属性<br>&emsp;IE8以下不支持该属性<br>&emsp;Vue底层通过defineProperty实现双向绑定</p>
+<h4 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h4><p>&emsp;new Proxy(target, handler);<br>&emsp;&emsp;&emsp;① target: 监听对象<br>&emsp;&emsp;&emsp;② handler: 操作对象<br>&emsp;&emsp;&emsp;③ 返回该对象<br>&emsp; ES6吸收了强类型语言的精华,为JavaScript新增了代理Proxy与反射Reflect<br>&emsp; Proxy可以监听整个对象的变化</p>
+<p>&emsp; 用法如下:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = <span class="keyword">new</span> <span class="built_in">Proxy</span>(&#123;&#125;,&#123;</span><br><span class="line">    get (target,propKey,receiver)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'获取属性'</span>+propKey + <span class="string">'的值'</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Reflect</span>.get(target,propKey,receiver);</span><br><span class="line">    &#125;,</span><br><span class="line">    set(target,propKey,value,receiver)&#123;</span><br><span class="line">        <span class="comment">// target: 监听对象</span></span><br><span class="line">        <span class="comment">// target下的改变的属性名</span></span><br><span class="line">        <span class="comment">// 新赋值</span></span><br><span class="line">        <span class="comment">// Proxy对象</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Reflect</span>.set(target,propKey,<span class="string">'皮一下 '</span>+value,receiver);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注: obj是Proxy对象</span></span><br><span class="line"></span><br><span class="line">obj.name = <span class="string">'张三'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(obj.name);</span><br></pre></td></tr></table></figure>
+
       
     </div>
       <div id="remark"></div>
     <div class="article-info article-info-index">
       
-      <a href="/2019/12/19/myhandVmodel/" class="archive-article-date">
-  	<time datetime="2019-12-19T03:09:34.103Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-19</time>
+      <a href="/2020/01/03/myhandVmodel/" class="archive-article-date">
+  	<time datetime="2020-01-03T08:54:28.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-01-03</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -291,7 +297,7 @@
     <div class="article-info article-info-index">
       
       <a href="/2019/12/19/myhandRedux/" class="archive-article-date">
-  	<time datetime="2019-12-19T02:41:35.531Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-19</time>
+  	<time datetime="2019-12-19T02:41:34.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-19</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -790,7 +796,7 @@
     <div class="article-info article-info-index">
       
       <a href="/2019/09/05/jquerySourceCode1/" class="archive-article-date">
-  	<time datetime="2019-09-05T08:24:55.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-09-05</time>
+  	<time datetime="2019-09-05T08:24:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-09-05</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -895,7 +901,7 @@
     <div class="article-info article-info-index">
       
       <a href="/2019/09/05/wbpackDepthExplanation4/" class="archive-article-date">
-  	<time datetime="2019-09-05T07:48:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-09-05</time>
+  	<time datetime="2019-09-05T07:48:32.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-09-05</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -1067,7 +1073,7 @@
     <div class="article-info article-info-index">
       
       <a href="/2019/08/28/wbpackDepthExplanation2/" class="archive-article-date">
-  	<time datetime="2019-08-28T10:14:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-08-28</time>
+  	<time datetime="2019-08-28T10:14:42.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-08-28</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -1183,7 +1189,7 @@
     <div class="article-info article-info-index">
       
       <a href="/2019/08/15/wbpackDepthExplanation1/" class="archive-article-date">
-  	<time datetime="2019-08-15T07:20:27.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-08-15</time>
+  	<time datetime="2019-08-15T07:20:26.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-08-15</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -1494,7 +1500,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 谢雨轩
+    		&copy; 2020 谢雨轩
     	</div>
       	<div class="footer-right">虽然生的丑 毕竟想的美</div>
     </div>
