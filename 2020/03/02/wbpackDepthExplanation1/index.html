@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="dns-prefetch" href="http://xieyuxuan.cc">
+  <title>从0基础到大牛-webpack深入浅出超强完整版(一) | 谢雨轩的博客 | Vera Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="你可能只需要这一个教程 webpack介绍1.webpack发展历程发布时间  webpack &amp;emsp; v1.x &amp;emsp; 2014.02 webpack &amp;emsp; v2.x &amp;emsp; 2017.01 webpack &amp;emsp; v3.x &amp;emsp; 2017.06  webpack &amp;emsp; v4.0 &amp;emsp; 2018.05  &amp;emsp; 稳定版4.32.2 w">
+<meta name="keywords" content="前端,webpack,webpack 4.0,webpack教程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从0基础到大牛-webpack深入浅出超强完整版(一)">
+<meta property="og:url" content="http://xieyuxuan.cc/2020/03/02/wbpackDepthExplanation1/index.html">
+<meta property="og:site_name" content="谢雨轩的博客 | Vera Blog">
+<meta property="og:description" content="你可能只需要这一个教程 webpack介绍1.webpack发展历程发布时间  webpack &amp;emsp; v1.x &amp;emsp; 2014.02 webpack &amp;emsp; v2.x &amp;emsp; 2017.01 webpack &amp;emsp; v3.x &amp;emsp; 2017.06  webpack &amp;emsp; v4.0 &amp;emsp; 2018.05  &amp;emsp; 稳定版4.32.2 w">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-03-02T15:00:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从0基础到大牛-webpack深入浅出超强完整版(一)">
+<meta name="twitter:description" content="你可能只需要这一个教程 webpack介绍1.webpack发展历程发布时间  webpack &amp;emsp; v1.x &amp;emsp; 2014.02 webpack &amp;emsp; v2.x &amp;emsp; 2017.01 webpack &amp;emsp; v3.x &amp;emsp; 2017.06  webpack &amp;emsp; v4.0 &amp;emsp; 2018.05  &amp;emsp; 稳定版4.32.2 w">
+  
+    <link rel="alternative" href="/atom.xml" title="谢雨轩的博客 | Vera Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+
+
+  <!-- Piwik -->
+  <script type="text/javascript">
+    var _paq = _paq || [];
+    // tracker methods like "setCustomDimension" should be called before "trackPageView"
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//piwik.mritd.me/";
+      _paq.push(['setTrackerUrl', u+'piwik.php']);
+      _paq.push(['setSiteId', '3']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Piwik Code -->
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/images/userimg.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">谢雨轩</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Web前端技术宅升级打倒小怪兽</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/types/webpack.html">webpack教程</a></li>
+	        
+				<li><a href="/types/origincode.html">源码剖析</a></li>
+	        
+				<li><a href="/types/css.html">你不知道的CSS</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">我的项目</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/Vera0707/huanhuashuixie" title="github">github</a>
+		        
+					<a class="mail" target="_blank" href="/lishuxia@gozap.com" title="mail">mail</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">谢雨轩</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/images/userimg.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">谢雨轩</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Web前端技术宅升级打倒小怪兽</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/types/webpack.html">webpack教程</a></li>
+		        
+					<li><a href="/types/origincode.html">源码剖析</a></li>
+		        
+					<li><a href="/types/css.html">你不知道的CSS</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/Vera0707/huanhuashuixie" title="github">github</a>
+			        
+						<a class="mail" target="_blank" href="/lishuxia@gozap.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <canvas id="body-wrap"> </canvas>
+      <div class="body-wrap">
+          <article id="post-wbpackDepthExplanation1" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      从0基础到大牛-webpack深入浅出超强完整版(一)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><abbr style="display:block;margin-top: -50px;font-size: 12px;color:#999;text-align: center;border-bottom: 1px dotted #999;">你可能只需要这一个教程</abbr></p>
+<h2 id="webpack介绍"><a href="#webpack介绍" class="headerlink" title="webpack介绍"></a>webpack介绍</h2><h6 id="1-webpack发展历程"><a href="#1-webpack发展历程" class="headerlink" title="1.webpack发展历程"></a>1.webpack发展历程</h6><p><abbr style="display:block;color: brown;">发布时间</abbr></p>
+<ul>
+<li>webpack &emsp; v1.x &emsp; 2014.02</li>
+<li>webpack &emsp; v2.x &emsp; 2017.01</li>
+<li>webpack &emsp; v3.x &emsp; 2017.06 </li>
+<li>webpack &emsp; v4.0 &emsp; 2018.05  &emsp; 稳定版4.32.2</li>
+<li>webpack &emsp; v5.x &emsp; 2019.xx  &emsp; 目前不是稳定的版本</li>
+</ul>
+<p><abbr style="display:block;color: brown;">模块化历程</abbr><br>&emsp;单页面应用(Vue React)都在用模块化</p>
+<p><abbr style="font-size: 13px;color: burlywood;font-weight:bold;">命名空间</abbr> </p>
+<p>&emsp;蛮荒时代的模块化<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;&#125;;</span><br><span class="line">obj.type = obj.type || &#123;&#125;;</span><br><span class="line">obj.type.method = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">obj.type.add = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">obj.type.sub = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">   </span><br><span class="line">obj.addin = obj.addin || &#123;&#125;;</span><br><span class="line">obj.addin.remove = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">obj.addin.append = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;AMD与CMD的中原逐鹿</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// AMD 异步加载 依赖前置 先加载后使用</span></span><br><span class="line"><span class="comment">// 需要库文件 - require.js</span></span><br><span class="line"><span class="comment">// 定义AMD模块  文件名amd</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line"><span class="meta">    'use strict'</span>;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        add: <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">          <span class="keyword">return</span> a + b;</span><br><span class="line">        &#125;,</span><br><span class="line">        sub: <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">          <span class="keyword">return</span> a - b;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 加载AMD模块</span></span><br><span class="line"><span class="built_in">require</span>([<span class="string">'moduleA'</span>,<span class="string">'moduleB'</span>,<span class="string">'amd'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">a,b,amd</span>) </span>&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(a);  <span class="comment">// a模块</span></span><br><span class="line">   <span class="built_in">console</span>.log(b);  <span class="comment">// b模块</span></span><br><span class="line">   </span><br><span class="line">   amd.add(<span class="number">1</span>,<span class="number">2</span>);   <span class="comment">// 调用amd</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CMD 同步加载 依赖后置 使用时引入 </span></span><br><span class="line"><span class="comment">// 需要库文件 - sea.js</span></span><br><span class="line"><span class="comment">// 定义CMD模块  文件名cmd</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params">require,exports,module</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> moduleA = <span class="built_in">require</span>(<span class="string">'moduleA'</span>);   <span class="comment">// 需要时引入</span></span><br><span class="line">    </span><br><span class="line">    exports = &#123;</span><br><span class="line">        add: <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">          <span class="keyword">return</span> a+b;</span><br><span class="line">        &#125;,</span><br><span class="line">        sub: <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">          <span class="keyword">return</span> a - b;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 加载CMD模块</span></span><br><span class="line">seajs.use([<span class="string">'cmd'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">cmd</span>) </span>&#123;</span><br><span class="line">    cmd.add(<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line">    cmd.sub(<span class="number">2</span>,<span class="number">3</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>&emsp;commonJS -  Node.js主要践行者<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一个文件就是一个模块 文件名common</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">20</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 导出方式 一</span></span><br><span class="line">modules.export = &#123;</span><br><span class="line">    a : a,</span><br><span class="line">    b : b,</span><br><span class="line">    fun : b</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 导出方式 二</span></span><br><span class="line"><span class="comment">// export.add = function()&#123;&#125;; ...</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过关键字require引入文件【相对路径/绝对路径引入】</span></span><br><span class="line"><span class="keyword">var</span> common = <span class="built_in">require</span>(<span class="string">'common'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(common.a);  <span class="comment">// 10</span></span><br></pre></td></tr></table></figure></p>
+<p>&emsp;官方科普最硬核 - ES Module(ES6的模块化)<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用方式 一</span></span><br><span class="line"><span class="comment">// 导出 文件名es1</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 引入</span></span><br><span class="line"><span class="keyword">import</span> &#123; a,add &#125; <span class="keyword">from</span> <span class="string">'es1'</span>;</span><br><span class="line">add(<span class="number">3</span>,<span class="number">5</span>);   <span class="comment">// 调用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用方式 二</span></span><br><span class="line"> <span class="comment">// 导出 文件名es2</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">const</span> b = &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">20</span>;  </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 引入</span></span><br><span class="line"><span class="keyword">import</span> b <span class="keyword">from</span> <span class="string">'es2'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(b);</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;<abbr style="color: red;font-weight: bold;">*</abbr>CSS模块化</p>
+<ul>
+<li>OOCSS(面向对象)</li>
+<li>AMCSS(属性模块)</li>
+</ul>
+<p><abbr style="display:block;color: brown;">webpack 4.32.2核心组成</abbr></p>
+<ul>
+<li>entry : 命令行中写入口，配置文件中 </li>
+<li>output</li>
+<li>module</li>
+<li>plugins</li>
+</ul>
+<p>&emsp;准备工作<br>&emsp;&emsp;卸载旧的webpack版本 <code>npm uninstall webpack -g</code><br>&emsp;&emsp;下载最新的版本 <code>npm install webpack -g</code><br>&emsp;&emsp;检查当前webpack版本 <code>webpack --version</code><br>&emsp;&emsp;需要在本地文件内下载webpack,初始化package.json文件 <code>npm init -y</code><br>&emsp;&emsp;去下载 webpack 和 webpack-cli,3.x 的版本是不需要 webpack-cli,webpack 中集成了 webpack-cli, 4.X以后没有集成<br>&emsp;&emsp;webpack4.x 以下的使用 webpack app.js 是可以的，4.x以后因为增加了一个多入口命令打包，需要指定出口文: <code>webpack app.js -o bundle.js</code><br>&emsp;&emsp;如果不加 –mode development 参数，默认是生产环境，会自动压缩代码<br>&emsp;&emsp;当前可下载的webpack版本 <code>npm info webpack</code> webpack-5.x-bate(公测的版本)</p>
+<p>&emsp;起手式<br>&emsp;&emsp;根目录下新建配置文件,默认配置文件为 webpack.config.js<br>&emsp;&emsp;你的第一个配置文件<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="comment">// 入口 相对文件地址</span></span><br><span class="line">    entry: <span class="string">'./app.js'</span>,</span><br><span class="line">    <span class="comment">// 出口</span></span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: <span class="string">'bundle.js'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    mode: <span class="string">"development"</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;执行命令webpack后会生成 /dist/bundle.js 文件<br>&emsp;&emsp;使用自定义名称的配置文件my-webpack-setting.js打包，请执行 <code>webpack --config my-webpack-setting.js</code></p>
+<ul>
+<li><p>多入口打包</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">   entry: [<span class="string">'app.js'</span>,<span class="string">'app1.js'</span>,<span class="string">'app2.js'</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自定义出口文件名打包</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: &#123;</span><br><span class="line">        main: <span class="string">'./app1.js'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: <span class="string">'[name].js'</span>,</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&emsp;&emsp;将生成 /dist/main.js 文件</p>
+<ul>
+<li>多入口多出口文件打包<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: &#123;</span><br><span class="line">        main: <span class="string">'./app.js'</span>,</span><br><span class="line">        select: <span class="string">'./my_select.js'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: <span class="string">'[name].js'</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&emsp;&emsp;将在dist文件夹下生成main.js与select.js<br>&emsp;&emsp;注：多入口对应多出口,多入口对应单一出口配置时将会报错</p>
+<ul>
+<li>ES6 module 打包<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  导出文件 es6.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 导入文件 app.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; add &#125; <span class="keyword">from</span> <span class="string">'./es6.js'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="number">4</span>,<span class="number">7</span>));   <span class="comment">// 11</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// webpack配置文件</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: &#123;</span><br><span class="line">        app: <span class="string">'./app.js'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: <span class="string">'[name].js'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    mode: <span class="string">"development"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&emsp;&emsp;结果生成 /dist/app.js 文件, 文件内包含 es6.js 与 app.js 代码</p>
+<ul>
+<li>CommonJS 打包<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 导出 common.js</span></span><br><span class="line"><span class="built_in">module</span>.exports =  &#123;</span><br><span class="line">  add : <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">  &#125;,</span><br><span class="line">  sub: <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">     <span class="keyword">return</span> a - b;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 导入 app.js</span></span><br><span class="line"><span class="keyword">const</span>  method = <span class="built_in">require</span>(<span class="string">'./common,js'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(method.add(<span class="number">4</span>,<span class="number">7</span>));   <span class="comment">// 11</span></span><br><span class="line"><span class="built_in">console</span>.log(method.sub(<span class="number">8</span>,<span class="number">3</span>));  <span class="comment">// 5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// webpack配置文件 同上</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>&emsp;&emsp;结果生成 /dist/app.js 文件, 文件内包含 common.js 与 app.js 代码</p>
+<ul>
+<li>amd模块 打包</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 导出 amd.js</span></span><br><span class="line">define(<span class="function"><span class="keyword">function</span>(<span class="params">require,factory</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">      mul: <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a * b;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 导入</span></span><br><span class="line"><span class="built_in">require</span>([<span class="string">'./amd.js'</span>],<span class="function"><span class="keyword">function</span>(<span class="params">method</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(method.mul(<span class="number">10</span>,<span class="number">4</span>));   <span class="comment">// 40</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"> <span class="comment">// webpack配置文件 同上</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;dist文件夹下将生成 app.js与 0.js<br>&emsp;&emsp;0.js异步加载的内容(amd.js内容)</p>
+
+      
+    </div>
+      <div id="remark"></div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2020/03/02/wbpackDepthExplanation1/" class="archive-article-date">
+  	<time datetime="2020-03-02T15:00:52.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-03-02</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack-4-0/">webpack 4.0</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack教程/">webpack教程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/个人博客/">个人博客</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2020/03/02/wbpackDepthExplanation2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          从0基础到大牛-webpack深入浅出超强完整版(二)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/02/01/thinkDifferentlyJs/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">从设计层思考JavaScript</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2020 谢雨轩
+    	</div>
+      	<div class="footer-right">虽然生的丑 毕竟想的美</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: true,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/FHS/" style="font-size: 11.67px;">FHS</a> <a href="/tags/css-hack/" style="font-size: 10px;">css hack</a> <a href="/tags/excel表格导出/" style="font-size: 10px;">excel表格导出</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/jquery源码/" style="font-size: 10px;">jquery源码</a> <a href="/tags/jquery源码教程/" style="font-size: 10px;">jquery源码教程</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/js原型/" style="font-size: 10px;">js原型</a> <a href="/tags/license/" style="font-size: 10px;">license</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/linux操作/" style="font-size: 10px;">linux操作</a> <a href="/tags/linux文件/" style="font-size: 10px;">linux文件</a> <a href="/tags/linux环境变量/" style="font-size: 10px;">linux环境变量</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/react-redux/" style="font-size: 10px;">react-redux</a> <a href="/tags/redux/" style="font-size: 10px;">redux</a> <a href="/tags/rich-text/" style="font-size: 10px;">rich-text</a> <a href="/tags/underscore/" style="font-size: 10px;">underscore</a> <a href="/tags/underscore源码/" style="font-size: 10px;">underscore源码</a> <a href="/tags/v-model/" style="font-size: 10px;">v-model</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vim命令/" style="font-size: 10px;">vim命令</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/webpack/" style="font-size: 16.67px;">webpack</a> <a href="/tags/webpack-4-0/" style="font-size: 15px;">webpack 4.0</a> <a href="/tags/webpack优化/" style="font-size: 10px;">webpack优化</a> <a href="/tags/webpack教程/" style="font-size: 15px;">webpack教程</a> <a href="/tags/依赖倒置原则/" style="font-size: 11.67px;">依赖倒置原则</a> <a href="/tags/全栈/" style="font-size: 10px;">全栈</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/前端学习/" style="font-size: 10px;">前端学习</a> <a href="/tags/前端工程师/" style="font-size: 10px;">前端工程师</a> <a href="/tags/前端常用网站/" style="font-size: 10px;">前端常用网站</a> <a href="/tags/前端打包工具/" style="font-size: 10px;">前端打包工具</a> <a href="/tags/前端设计模式/" style="font-size: 18.33px;">前端设计模式</a> <a href="/tags/单一职责原则/" style="font-size: 10px;">单一职责原则</a> <a href="/tags/原创/" style="font-size: 13.33px;">原创</a> <a href="/tags/原型链/" style="font-size: 10px;">原型链</a> <a href="/tags/双向绑定/" style="font-size: 10px;">双向绑定</a> <a href="/tags/图片加载/" style="font-size: 10px;">图片加载</a> <a href="/tags/图片加载完成事件/" style="font-size: 10px;">图片加载完成事件</a> <a href="/tags/开闭原则/" style="font-size: 10px;">开闭原则</a> <a href="/tags/微信小程序/" style="font-size: 10px;">微信小程序</a> <a href="/tags/技术发展/" style="font-size: 10px;">技术发展</a> <a href="/tags/接口隔离原则/" style="font-size: 10px;">接口隔离原则</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/源码/" style="font-size: 11.67px;">源码</a> <a href="/tags/滚动信息条间歇性滚动/" style="font-size: 10px;">滚动信息条间歇性滚动</a> <a href="/tags/理解https/" style="font-size: 10px;">理解https</a> <a href="/tags/迪米特法则/" style="font-size: 10px;">迪米特法则</a> <a href="/tags/里氏替换原则/" style="font-size: 10px;">里氏替换原则</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/Vera0707/huanhuashuixie/tree/master/framework">流行框架练习</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">一枚深水前端&lt;br/&gt;&lt;br/&gt;大神带带我&lt;br/&gt;小白我要升级打倒小怪兽</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+  <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+  <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+  <!--<script>-->
+      <!--var WIDTH = window.innerWidth, HEIGHT = window.innerHeight, POINT = 35;-->
+
+      <!--var canvas = document.getElementById('body-wrap');-->
+      <!--canvas.width = WIDTH,-->
+          <!--canvas.height = HEIGHT;-->
+      <!--var context = canvas.getContext('2d');-->
+      <!--context.strokeStyle = 'rgba(0,0,0,0.2)',-->
+          <!--context.strokeWidth = 1,-->
+          <!--context.fillStyle = 'rgba(0,0,0,0.1)';-->
+      <!--var circleArr = [];-->
+
+      <!--//线条：开始xy坐标，结束xy坐标，线条透明度-->
+      <!--function Line (x, y, _x, _y, o) {-->
+          <!--this.beginX = x,-->
+              <!--this.beginY = y,-->
+              <!--this.closeX = _x,-->
+              <!--this.closeY = _y,-->
+              <!--this.o = o;-->
+      <!--}-->
+      <!--//点：圆心xy坐标，半径，每帧移动xy的距离-->
+      <!--function Circle (x, y, r, moveX, moveY) {-->
+          <!--this.x = x,-->
+              <!--this.y = y,-->
+              <!--this.r = r,-->
+              <!--this.moveX = moveX,-->
+              <!--this.moveY = moveY;-->
+      <!--}-->
+      <!--//生成max和min之间的随机数-->
+      <!--function num (max, _min) {-->
+          <!--var min = arguments[1] || 0;-->
+          <!--return Math.floor(Math.random()*(max-min+1)+min);-->
+      <!--}-->
+      <!--// 绘制原点-->
+      <!--function drawCricle (cxt, x, y, r, moveX, moveY) {-->
+          <!--var circle = new Circle(x, y, r, moveX, moveY)-->
+          <!--cxt.beginPath()-->
+          <!--cxt.arc(circle.x, circle.y, circle.r, 0, 2*Math.PI)-->
+          <!--cxt.closePath()-->
+          <!--cxt.fill();-->
+          <!--return circle;-->
+      <!--}-->
+      <!--//绘制线条-->
+      <!--function drawLine (cxt, x, y, _x, _y, o) {-->
+          <!--var line = new Line(x, y, _x, _y, o)-->
+          <!--cxt.beginPath()-->
+          <!--cxt.strokeStyle = 'rgba(0,0,0,'+ o +')'-->
+          <!--cxt.moveTo(line.beginX, line.beginY)-->
+          <!--cxt.lineTo(line.closeX, line.closeY)-->
+          <!--cxt.closePath()-->
+          <!--cxt.stroke();-->
+
+      <!--}-->
+      <!--//每帧绘制-->
+      <!--function draw () {-->
+          <!--context.clearRect(0,0,canvas.width, canvas.height);-->
+          <!--for (var i = 0; i < POINT; i++) {-->
+              <!--drawCricle(context, circleArr[i].x, circleArr[i].y, circleArr[i].r);-->
+          <!--}-->
+          <!--for (var i = 0; i < POINT; i++) {-->
+              <!--for (var j = 0; j < POINT; j++) {-->
+                  <!--if (i + j < POINT) {-->
+                      <!--var A = Math.abs(circleArr[i+j].x - circleArr[i].x),-->
+                          <!--B = Math.abs(circleArr[i+j].y - circleArr[i].y);-->
+                      <!--var lineLength = Math.sqrt(A*A + B*B);-->
+                      <!--var C = 1/lineLength*7-0.009;-->
+                      <!--var lineOpacity = C > 0.03 ? 0.03 : C;-->
+                      <!--if (lineOpacity > 0) {-->
+                          <!--drawLine(context, circleArr[i].x, circleArr[i].y, circleArr[i+j].x, circleArr[i+j].y, lineOpacity);-->
+                      <!--}-->
+                  <!--}-->
+              <!--}-->
+          <!--}-->
+      <!--}-->
+      <!--//初始化生成原点-->
+      <!--function init () {-->
+          <!--circleArr = [];-->
+          <!--for (var i = 0; i < POINT; i++) {-->
+              <!--circleArr.push(drawCricle(context, num(WIDTH), num(HEIGHT), num(15, 2), num(10, -10)/40, num(10, -10)/40));-->
+          <!--}-->
+          <!--draw();-->
+      <!--}-->
+      <!--//调用执行-->
+      <!--window.onload = function () {-->
+          <!--init();-->
+          <!--setInterval(function () {-->
+              <!--for (var i = 0; i < POINT; i++) {-->
+                  <!--var cir = circleArr[i];-->
+                  <!--cir.x += cir.moveX;-->
+                  <!--cir.y += cir.moveY;-->
+                  <!--if (cir.x > WIDTH) cir.x = 0;-->
+                  <!--else if (cir.x < 0) cir.x = WIDTH;-->
+                  <!--if (cir.y > HEIGHT) cir.y = 0;-->
+                  <!--else if (cir.y < 0) cir.y = HEIGHT;-->
+              <!--}-->
+              <!--draw();-->
+          <!--}, 10);-->
+      <!--}-->
+  <!--</script>-->
+  <!--<script>-->
+      <!--var gitment = new Gitment({-->
+          <!--id: '', // 可选。默认为 location.href-->
+          <!--owner: 'vera0707',-->
+          <!--repo: 'https://github.com/vera0707/vera0707.github.io',-->
+          <!--labels: "gitment-introduction",-->
+          <!--oauth: {-->
+              <!--client_id: '412dc716eeeb8fa2983f',-->
+              <!--client_secret: 'e350354961bdca67937a21eed747e23ba1e6f86e'-->
+          <!--}-->
+      <!--})-->
+      <!--gitment.render('remark')-->
+  <!--</script>-->
+</body>
+</html>
